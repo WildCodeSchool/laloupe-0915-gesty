@@ -10,4 +10,7 @@
 /vendor/
 /web/bundles/
 /.idea
+<<<<<<< HEAD:.gitignore
 
+=======
+>>>>>>> ef2f169b9bd418ac7c86cc58c2e45e641b0cd204:.gitignore
