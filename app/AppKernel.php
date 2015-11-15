@@ -31,7 +31,7 @@ class AppKernel extends Kernel
             // OR
             // the bundle will NOT extend ``FOSUserBundle``
             new Application\Sonata\UserBundle\ApplicationSonataUserBundle(),
-            new GestyBundle\GestyBundle(),
+            new Gesty\GestyBundle\GestyGestyBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

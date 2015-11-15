@@ -1,5 +1,5 @@
-gesty:
-    resource: "@GestyBundle/Resources/config/routing.yml"
+gesty_gesty:
+    resource: "@GestyGestyBundle/Resources/config/routing.yml"
     prefix:   /
 
 app:

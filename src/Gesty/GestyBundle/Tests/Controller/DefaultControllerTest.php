@@ -1,6 +1,6 @@
 <?php
 
-namespace GestyBundle\Tests\Controller;
+namespace Gesty\GestyBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

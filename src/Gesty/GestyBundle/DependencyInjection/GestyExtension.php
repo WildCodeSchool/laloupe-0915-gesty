@@ -1,6 +1,6 @@
 <?php
 
-namespace GestyBundle\DependencyInjection;
+namespace Gesty\GestyBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
