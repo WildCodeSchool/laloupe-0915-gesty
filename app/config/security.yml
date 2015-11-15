@@ -24,6 +24,7 @@ security:
                 failure_path:   null
             logout:
                 path:           /admin/logout
+                target:         /admin
             anonymous:          true
 
         # -> end custom configuration
@@ -41,8 +42,12 @@ security:
                 use_forward:    false
                 check_path:     /login_check
                 failure_path:   null
-            logout:             true
-            anonymous:          true
+            logout:
+                path:       /logout
+                target:     /login
+            anonymous:      true
+            remember_me:
+                key:        %secret% # %secret% est un paramètre de parameters.yml
 
 
     encoders:
