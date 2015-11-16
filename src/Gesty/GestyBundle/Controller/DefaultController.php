@@ -6,14 +6,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
 {
-    public function indexAction($name)
+    public function indexAction()
     {
         return $this->render('GestyGestyBundle:Default:index.html.twig');
     }
 
     public function registerAction()
     {
-        return $this->render('GestyGestyBundle:Default:register.html.twig');
+        return $this->render('GestyGestyBundle:Registration:register.html.twig');
 
     }
 

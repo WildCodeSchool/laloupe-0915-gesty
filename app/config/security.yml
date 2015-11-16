@@ -43,10 +43,8 @@ security:
                 use_forward:    false
                 check_path:     /login_check
                 failure_path:   null
-            logout:
-                path:       /logout
-                target:     /login
-            anonymous:      true
+            logout:             true
+            anonymous:          true
             remember_me:
                 key:        %secret% # %secret% est un paramètre de parameters.yml
 

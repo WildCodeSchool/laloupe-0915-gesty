@@ -9,18 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\UserBundle\Admin\Model;
+namespace Application\Sonata\UserBundle\Admin\Model;
 
-use Sonata\AdminBundle\Admin\Admin;
+
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\UserBundle\Model\UserInterface;
-
 use FOS\UserBundle\Model\UserManagerInterface;
 
-class UserAdmin extends Admin
+class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
 {
 
     /**
@@ -80,9 +78,10 @@ class UserAdmin extends Admin
         $filterMapper
             ->add('id')
             ->add('username')
-            ->add('locked')
+            ->add('name')
             ->add('email')
-            ->add('groups')
+
+
         ;
     }
 
@@ -103,20 +102,8 @@ class UserAdmin extends Admin
                 ->add('dateOfBirth')
                 ->add('firstname')
                 ->add('lastname')
-                ->add('website')
-                ->add('biography')
                 ->add('gender')
-                ->add('locale')
-                ->add('timezone')
                 ->add('phone')
-            ->end()
-            ->with('Social')
-                ->add('facebookUid')
-                ->add('facebookName')
-                ->add('twitterUid')
-                ->add('twitterName')
-                ->add('gplusUid')
-                ->add('gplusName')
             ->end()
             ->with('Security')
                 ->add('token')
@@ -149,23 +136,11 @@ class UserAdmin extends Admin
                 ->add('dateOfBirth', 'birthday', array('required' => false))
                 ->add('firstname', null, array('required' => false))
                 ->add('lastname', null, array('required' => false))
-                ->add('website', 'url', array('required' => false))
-                ->add('biography', 'text', array('required' => false))
                 ->add('gender', 'sonata_user_gender', array(
                     'required' => true,
                     'translation_domain' => $this->getTranslationDomain()
                 ))
-                ->add('locale', 'locale', array('required' => false))
-                ->add('timezone', 'timezone', array('required' => false))
                 ->add('phone', null, array('required' => false))
-            ->end()
-            ->with('Social')
-                ->add('facebookUid', null, array('required' => false))
-                ->add('facebookName', null, array('required' => false))
-                ->add('twitterUid', null, array('required' => false))
-                ->add('twitterName', null, array('required' => false))
-                ->add('gplusUid', null, array('required' => false))
-                ->add('gplusName', null, array('required' => false))
             ->end()
         ;
 

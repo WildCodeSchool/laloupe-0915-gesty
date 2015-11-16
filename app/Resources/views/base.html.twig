@@ -2,19 +2,15 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>{% block title %}Bienvenue{% endblock %}</title>
+    <title>{% block title %}plop{% endblock %}</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     {% block stylesheets %}<link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     {% endblock %}
 </head>
 <body>
-<header>
-    <ul class="nav nav-justified navbar-primary">
-</header>
-        {% block body %}
 
-
-        {% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+    {% block body %}
+    {% endblock %}
+    {% block javascripts %}{% endblock %}
+</body>
 </html>

@@ -3,7 +3,7 @@ gesty_gesty_homepage:
     defaults: { _controller: GestyGestyBundle:Default:index }
 
 gesty_gesty_register:
-    path:      /register
+    path:      /login
     defaults:   {_controller: GestyGestyBundle:Default:register}
 
 

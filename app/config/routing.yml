@@ -2,6 +2,11 @@ gesty_gesty:
     resource: "@GestyGestyBundle/Resources/config/routing.yml"
     prefix:   /
 
+admin:
+    resource: "@SonataAdminBundle/Resources/config/routing/sonata_admin.xml"
+    prefix: /admin
+
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
@@ -11,9 +16,6 @@ _sonata_admin:
   type: sonata_admin
   prefix: /admin
 
-admin_area:
-    resource: "@SonataAdminBundle/Resources/config/routing/sonata_admin.xml"
-    prefix: /admin
 
 sonata_user_security:
     resource: "@SonataUserBundle/Resources/config/routing/sonata_security_1.xml"
@@ -37,3 +39,7 @@ sonata_user_change_password:
 sonata_user:
     resource: '@SonataUserBundle/Resources/config/routing/admin_security.xml'
     prefix: /admin
+
+gesty_user_profile:
+    resource: "@SonataUserBundle/Resources/config/routing/sonata_profile_1.xml"
+    prefix: /profile

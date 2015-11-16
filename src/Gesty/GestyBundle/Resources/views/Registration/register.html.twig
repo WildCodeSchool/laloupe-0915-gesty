@@ -1,9 +1,7 @@
 {% extends "::base.html.twig" %}
 {% block title%}Profile{% endblock %}
 
-{% block pageTitle %}{{ 'Collectify'|upper }}{% endblock %}
-
-
+{% block pageTitle %}{% endblock %}
 
 {% block body %}
     {{ render(controller('FOSUserBundle:Security:login')) }}
