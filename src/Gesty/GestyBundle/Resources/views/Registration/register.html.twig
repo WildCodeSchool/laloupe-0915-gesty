@@ -3,8 +3,14 @@
 
 {% block pageTitle %}{% endblock %}
 
+{% block header %}
+    {% include "GestyGestyBundle:Includes:indexheader.html.twig" %}
+{% endblock %}
+
 {% block body %}
-    {{ render(controller('FOSUserBundle:Security:login')) }}
+    <div class="container-fluid">
+        {{ render(controller('FOSUserBundle:Security:login')) }}
+    </div>
 {% endblock %}
 
 {% block footer %}

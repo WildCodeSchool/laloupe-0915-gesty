@@ -13,6 +13,14 @@ class DefaultController extends Controller
 
     public function registerAction()
     {
+        $sendMessage = \Swift_Message::newInstance()
+            ->setSubject('Je vous ai envoyé un message !!!')
+            ->setFrom('cryptyo@gmail.com')
+            ->setTo('carpediemeuh@hotmail.com')
+            ->setBody('coucou');
+
+        $this->get('mailer')->send($sendMessage);
+
         return $this->render('GestyGestyBundle:Registration:register.html.twig');
 
     }
