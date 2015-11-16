@@ -46,3 +46,8 @@ assetic:
 
 #swiftmailer:
 #    delivery_address: me@example.com
+
+swiftmailer:
+    transport: gmail
+    username: cryptyo@gmail.com
+    password: wcs.project
