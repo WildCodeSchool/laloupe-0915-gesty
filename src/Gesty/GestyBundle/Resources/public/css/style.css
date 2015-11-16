@@ -1,0 +1,16 @@
+.barre__footer
+{
+    color: #FFBB74;
+    text-align: center;
+    font-size: 1.2em;
+    margin: 10px;
+}
+
+.navbar-default .navbar-brand
+{
+    color: #FFBB74;
+    font-weight: bold;
+    font-size: 2em;
+    text-shadow: 2px 2px white;
+    margin: 5px;
+}
