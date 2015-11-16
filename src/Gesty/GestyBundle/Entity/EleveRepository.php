@@ -1,6 +1,6 @@
 <?php
 
-namespace Gesty\GestyBundle\Entity\Entity;
+namespace Gesty\GestyBundle\Entity;
 
 /**
  * EleveRepository

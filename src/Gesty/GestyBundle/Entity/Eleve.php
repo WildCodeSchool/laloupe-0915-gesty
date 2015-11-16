@@ -1,6 +1,6 @@
 <?php
 
-namespace Gesty\GestyBundle\Entity\Entity;
+namespace Gesty\GestyBundle\Entity;
 
 /**
  * Eleve
@@ -28,19 +28,14 @@ class Eleve
     private $dateDeNaissance;
 
     /**
-     * @var string
+     * @var integer
      */
-    private $ecole;
+    private $idFoyer;
 
     /**
-     * @var string
+     * @var integer
      */
-    private $classe;
-
-    /**
-     * @var string
-     */
-    private $instituteur;
+    private $idEtablissement;
 
 
     /**
@@ -126,75 +121,51 @@ class Eleve
     }
 
     /**
-     * Set ecole
+     * Set idFoyer
      *
-     * @param string $ecole
+     * @param integer $idFoyer
      *
      * @return Eleve
      */
-    public function setEcole($ecole)
+    public function setIdFoyer($idFoyer)
     {
-        $this->ecole = $ecole;
+        $this->idFoyer = $idFoyer;
 
         return $this;
     }
 
     /**
-     * Get ecole
+     * Get idFoyer
      *
-     * @return string
+     * @return integer
      */
-    public function getEcole()
+    public function getIdFoyer()
     {
-        return $this->ecole;
+        return $this->idFoyer;
     }
 
     /**
-     * Set classe
+     * Set idEtablissement
      *
-     * @param string $classe
+     * @param integer $idEtablissement
      *
      * @return Eleve
      */
-    public function setClasse($classe)
+    public function setIdEtablissement($idEtablissement)
     {
-        $this->classe = $classe;
+        $this->idEtablissement = $idEtablissement;
 
         return $this;
     }
 
     /**
-     * Get classe
+     * Get idEtablissement
      *
-     * @return string
+     * @return integer
      */
-    public function getClasse()
+    public function getIdEtablissement()
     {
-        return $this->classe;
-    }
-
-    /**
-     * Set instituteur
-     *
-     * @param string $instituteur
-     *
-     * @return Eleve
-     */
-    public function setInstituteur($instituteur)
-    {
-        $this->instituteur = $instituteur;
-
-        return $this;
-    }
-
-    /**
-     * Get instituteur
-     *
-     * @return string
-     */
-    public function getInstituteur()
-    {
-        return $this->instituteur;
+        return $this->idEtablissement;
     }
 }
 

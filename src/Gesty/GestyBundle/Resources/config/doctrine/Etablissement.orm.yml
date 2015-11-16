@@ -1,7 +1,7 @@
-Gesty\GestyBundle\Entity\Entity\Eleve:
+Gesty\GestyBundle\Entity\Etablissement:
     type: entity
     table: null
-    repositoryClass: Gesty\GestyBundle\Entity\Entity\EleveRepository
+    repositoryClass: Gesty\GestyBundle\Entity\EtablissementRepository
     id:
         id:
             type: integer
@@ -10,15 +10,6 @@ Gesty\GestyBundle\Entity\Entity\Eleve:
                 strategy: AUTO
     fields:
         nom:
-            type: string
-            length: 255
-        prenom:
-            type: string
-            length: 255
-        dateDeNaissance:
-            type: datetime
-            column: date_de_naissance
-        ecole:
             type: string
             length: 255
         classe:

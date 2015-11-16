@@ -1,0 +1,33 @@
+Gesty\GestyBundle\Entity\Foyer:
+    type: entity
+    table: null
+    repositoryClass: Gesty\GestyBundle\Entity\FoyerRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        nom:
+            type: string
+            length: 255
+        prenom:
+            type: string
+            length: 255
+        adresse:
+            type: string
+            length: 255
+        codePostal:
+            type: integer
+            column: code_postal
+        ville:
+            type: string
+            length: 255
+        numeroDeTelephone:
+            type: integer
+            column: numero_de_telephone
+        email:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }
