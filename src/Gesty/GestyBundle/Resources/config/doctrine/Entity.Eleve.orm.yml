@@ -1,0 +1,30 @@
+Gesty\GestyBundle\Entity\Entity\Eleve:
+    type: entity
+    table: null
+    repositoryClass: Gesty\GestyBundle\Entity\Entity\EleveRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        nom:
+            type: string
+            length: 255
+        prenom:
+            type: string
+            length: 255
+        dateDeNaissance:
+            type: datetime
+            column: date_de_naissance
+        ecole:
+            type: string
+            length: 255
+        classe:
+            type: string
+            length: 255
+        instituteur:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }
