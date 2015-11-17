@@ -1,5 +1,5 @@
 gesty_gesty_homepage:
-    path:     /hello/{name}
+    path:     /
     defaults: { _controller: GestyGestyBundle:Default:index }
 
 gesty_gesty_register:
