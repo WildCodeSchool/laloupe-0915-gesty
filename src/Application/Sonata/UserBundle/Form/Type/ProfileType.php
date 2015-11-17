@@ -10,15 +10,13 @@
  *
  */
 
-namespace Sonata\UserBundle\Form\Type;
+namespace Application\Sonata\UserBundle\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Sonata\UserBundle\Model\UserInterface;
 
-class ProfileType extends AbstractType
+class ProfileType extends \Sonata\UserBundle\Form\Type\ProfileType
 {
     private $class;
 
@@ -72,6 +70,6 @@ class ProfileType extends AbstractType
      */
     public function getName()
     {
-        return 'sonata_user_profile';
+        return 'application_sonata_user_profile';
     }
 }
