@@ -1,5 +1,5 @@
 <?php
-//Gesty/GestyBundle/Admin/ElevesAdmin.php
+//Gesty/GestyBundle/Admin/EleveAdmin.php
 namespace Gesty\GestyBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
@@ -7,7 +7,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class ElevesAdmin extends Admin
+class EleveAdmin extends Admin
 {
     protected $datagridValues = array(
         '_sort_order' => 'ASC',
