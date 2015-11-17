@@ -4,7 +4,9 @@
 {% block pageTitle %}{% endblock %}
 
 
-{% block header %}{% include "GestyGestyBundle:Includes:indexheader.html.twig" %}{% endblock %}
+{% block header %}
+    {% include "GestyGestyBundle:Includes:indexheader.html.twig" %}
+{% endblock %}
 
 {% block body %}
     {{ render(controller('FOSUserBundle:Security:login')) }}

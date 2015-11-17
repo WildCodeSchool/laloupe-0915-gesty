@@ -96,7 +96,6 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
             ->with('Profile')
                 ->add('dateOfBirth')
                 ->add('lastname')
-                ->add('firstname')
                 ->add('gender')
                 ->add('phone')
             ->end()
@@ -120,11 +119,10 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                     'required' => (!$this->getSubject() || is_null($this->getSubject()->getId()))
                 ))
             ->end()
-
             ->with('Profile')
                 ->add('dateOfBirth', 'birthday', array('required' => false))
-                ->add('lastname', null, array('required' => false))
                 ->add('firstname', null, array('required' => false))
+                ->add('lastname', null, array('required' => false))
                 ->add('gender', 'sonata_user_gender', array(
                     'required' => true,
                     'translation_domain' => $this->getTranslationDomain()
@@ -142,7 +140,9 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                         'multiple' => true,
                         'required' => false
                     ))
-
+                    ->add('locked', null, array('required' => false))
+                    ->add('expired', null, array('required' => false))
+                    ->add('enabled', null, array('required' => false))
                     ->add('credentialsExpired', null, array('required' => false))
                 ->end()
             ;

@@ -17,10 +17,8 @@ class FoyerAdmin extends Admin
             ->add('nom','text')
             ->add('prenom', 'text')
             ->add('adresse','text')
-            ->add('codePostal','text')
-            ->add('ville','text')
-            ->add('numeroDeTelephone','text')
             ->add('email','text')
+
         ;
     }
 
@@ -30,7 +28,7 @@ class FoyerAdmin extends Admin
         $datagridMapper
             ->add('nom')
             ->add('prenom')
-            ->add('email')
+
 
         ;
     }
@@ -40,13 +38,13 @@ class FoyerAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('nom','text')
+            ->add('nom', 'text')
             ->add('prenom', 'text')
-            ->add('adresse','text')
-            ->add('codePostal','text')
-            ->add('ville','text')
-            ->add('numeroDeTelephone','text')
-            ->add('email','text')
+            ->add('adresse', 'text')
+            ->add('codePostal', 'integer')
+            ->add('ville', 'text')
+            ->add('numeroDeTelephone', 'integer')
+            ->add('email', 'text')
             ->add('_action', 'actions', array('actions' => array(
                 'show' => array(),
                 'edit' => array(),
