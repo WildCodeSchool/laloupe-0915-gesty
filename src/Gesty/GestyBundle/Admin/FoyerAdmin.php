@@ -10,54 +10,48 @@ use Sonata\AdminBundle\Form\FormMapper;
 
 class FoyerAdmin extends Admin
 {
-    protected $datagridValues = array(
-        '_sort_order' => 'ASC',
-        '_sort_by' => 'ordre'
-    );
-
-    protected $maxPerPage = 5;
-
-//Fields to be shown on create/edit forms
+    // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('titre', 'text', array('label' => 'Titre'))
-            ->add('auteur')
-            ->add('contenu') //if no type is specified, SonataAdminBundle tries to guess it
-#->add('categories')
-            ->add('categories', 'sonata_type_model',array('expanded' => true, 'compound' => true, 'multiple' => true))
-            ->setHelps(array(
-                'titre' => $this->trans('help_post_title')
-            ))
-
+            ->add('nom','text')
+            ->add('prenom', 'text')
+            ->add('adresse','text')
+            ->add('codePostal','text')
+            ->add('ville','text')
+            ->add('numeroDeTelephone','text')
+            ->add('email','text')
         ;
     }
 
-//Fields to be shown on filter forms
+    // Fields to be shown on filter forms
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('titre')
-            ->add('slug')
-            ->add('auteur')
+            ->add('nom')
+            ->add('prenom')
+            ->add('email')
+
         ;
     }
 
-//Fields to be shown on lists
+    // Fields to be shown on lists
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('titre')
-            ->add('slug')
-            ->add('auteur')
-            ->add('categories')
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'view' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->addIdentifier('id')
+            ->add('nom','text')
+            ->add('prenom', 'text')
+            ->add('adresse','text')
+            ->add('codePostal','text')
+            ->add('ville','text')
+            ->add('numeroDeTelephone','text')
+            ->add('email','text')
+            ->add('_action', 'actions', array('actions' => array(
+                'show' => array(),
+                'edit' => array(),
+                'delete' => array(),
+            )))
         ;
     }
 }

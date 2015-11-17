@@ -9,34 +9,40 @@ use Sonata\AdminBundle\Form\FormMapper;
 
 class EleveAdmin extends Admin
 {
-    protected $datagridValues = array(
-        '_sort_order' => 'ASC',
-        '_sort_by' => 'intitule'
-    );
-
-//Fields to be shown on create/edit forms
+    // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('intitule', 'text', array('label' => 'Catégorie'))
+            ->add('nom','text')
+            ->add('prenom', 'text')
+            ->add('dateDeNaissance','datetime')
         ;
     }
 
-//Fields to be shown on filter forms
+    // Fields to be shown on filter forms
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('intitule')
+            ->add('nom')
+            ->add('prenom')
+            ->add('dateDeNaissance')
+
         ;
     }
 
-//Fields to be shown on lists
+    // Fields to be shown on lists
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
             ->addIdentifier('id')
-            ->addIdentifier('intitule')
-
+            ->add('nom', 'text')
+            ->add('prenom', 'text')
+            ->add('dateDeNaissance', 'datetime')
+            ->add('_action', 'actions', array('actions' => array(
+                'show' => array(),
+                'edit' => array(),
+                'delete' => array(),
+            )))
         ;
     }
 }
