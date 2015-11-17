@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: @GestyGestyBundle/Resources/config/admin.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -132,5 +133,18 @@ fos_user:
         user_manager: sonata.user.orm.user_manager # If you're using doctrine orm (use sonata.user.mongodb.group_manager for mongodb)
 
 sonata_admin:
-    templates:
-        dashboard: SonataAdminBundle:Core:dashboard.html.twig
+    title: Gesty Admin  #à personnaliser
+    #title_logo: /bundles/acmedemo/fancy_acme_logo.png #à personnaliser
+
+    dashboard:
+        blocks:
+            -
+                position: left
+                type: sonata.admin.block.admin_list
+            -
+                position: top
+                type: sonata.block.service.text
+                settings:
+                    content: >
+                        <h2>Bienvenue dans la page d'administration de Gesty</h2>
+

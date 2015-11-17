@@ -1,0 +1,13 @@
+# Gesty/GestyBundle/Resources/config/admin.yml
+services:
+  sonata.admin.eleves:
+      class: Gesty\GestyBundle\Admin\ElevesAdmin
+      tags:
+          - { name: sonata.admin, manager_type: orm, group: "Eleves", label: "Eleves" }
+      arguments: [null, Gesty\GestyBundle\Entity\Eleves, GestyGestyBundle:ElevesAdmin]
+
+  sonata.admin.foyer:
+      class: Gesty\GestyBundle\Admin\FoyerAdmin
+      tags:
+          - { name: sonata.admin, manager_type: orm, group: "Foyer", label: "Foyer" }
+      arguments: [null, Gesty\GestyBundle\Entity\Foyer, GestyGestyBundle:FoyerAdmin]
