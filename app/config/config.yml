@@ -121,13 +121,12 @@ fos_user:
         group_class:   Application\Sonata\UserBundle\Entity\Group
         group_manager: sonata.user.orm.group_manager
 
-    profile:
-            # Authentication Form
+    profile:  # Authentication Form
         form:
-            type:       application_sonata_user_profile
-            handler:            sonata.user.profile.form.handler.default
-            name:               sonata_user_profile_form
-            validation_groups:  [Profile] # Please note : this is not the default value
+            type:               fos_user_profile
+            handler:            fos_user.profile.form.handler.default
+            name:               fos_user_profile_form
+            validation_groups:  [Authentication] # Please note : this is not the default value
 
     service:
         user_manager: sonata.user.orm.user_manager # If you're using doctrine orm (use sonata.user.mongodb.group_manager for mongodb)

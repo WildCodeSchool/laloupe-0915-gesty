@@ -57,7 +57,6 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
         $listMapper
             ->addIdentifier('username')
             ->add('email')
-            ->add('groups')
             ->add('enabled', null, array('editable' => true))
             ->add('locked', null, array('editable' => true))
             ->add('createdAt')
@@ -78,7 +77,6 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
         $filterMapper
             ->add('id')
             ->add('username')
-            ->add('name')
             ->add('email')
 
 
@@ -95,13 +93,10 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                 ->add('username')
                 ->add('email')
             ->end()
-            ->with('Groups')
-                ->add('groups')
-            ->end()
             ->with('Profile')
                 ->add('dateOfBirth')
-                ->add('firstname')
                 ->add('lastname')
+                ->add('firstname')
                 ->add('gender')
                 ->add('phone')
             ->end()
@@ -125,17 +120,11 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                     'required' => (!$this->getSubject() || is_null($this->getSubject()->getId()))
                 ))
             ->end()
-            ->with('Groups')
-                ->add('groups', 'sonata_type_model', array(
-                    'required' => false,
-                    'expanded' => true,
-                    'multiple' => true
-                ))
-            ->end()
+
             ->with('Profile')
                 ->add('dateOfBirth', 'birthday', array('required' => false))
-                ->add('firstname', null, array('required' => false))
                 ->add('lastname', null, array('required' => false))
+                ->add('firstname', null, array('required' => false))
                 ->add('gender', 'sonata_user_gender', array(
                     'required' => true,
                     'translation_domain' => $this->getTranslationDomain()
@@ -153,9 +142,7 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                         'multiple' => true,
                         'required' => false
                     ))
-                    ->add('locked', null, array('required' => false))
-                    ->add('expired', null, array('required' => false))
-                    ->add('enabled', null, array('required' => false))
+
                     ->add('credentialsExpired', null, array('required' => false))
                 ->end()
             ;
