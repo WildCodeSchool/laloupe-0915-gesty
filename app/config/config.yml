@@ -148,3 +148,9 @@ sonata_admin:
                     content: >
                         <h2>Bienvenue dans la page d'administration de Gesty</h2>
 
+        groups:
+            app.admin.group.content:
+                label: Foyer
+                items:
+                    - sonata.user.admin.user
+
