@@ -1,3 +1,7 @@
+gesty_gesty_eleve:
+    resource: "@GestyGestyBundle/Resources/config/routing/eleve.yml"
+    prefix:   /eleve
+
 gesty_gesty_homepage:
     path:     /login
     defaults: { _controller: GestyGestyBundle:Default:register}

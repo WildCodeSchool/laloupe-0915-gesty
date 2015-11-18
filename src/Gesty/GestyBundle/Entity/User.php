@@ -20,7 +20,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @author Thibault Duplessis <thibault.duplessis@gmail.com>
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class User implements UserInterface, GroupableInterface
+class User implements UserInterface
 {
     protected $id;
 
@@ -87,10 +87,6 @@ class User implements UserInterface, GroupableInterface
      */
     protected $passwordRequestedAt;
 
-    /**
-     * @var Collection
-     */
-    protected $groups;
 
     /**
      * @var boolean
@@ -538,48 +534,9 @@ class User implements UserInterface, GroupableInterface
         return $this;
     }
 
-    /**
-     * Gets the groups granted to the user.
-     *
-     * @return Collection
-     */
-    public function getGroups()
-    {
-        return $this->groups ?: $this->groups = new ArrayCollection();
-    }
 
-    public function getGroupNames()
-    {
-        $names = array();
-        foreach ($this->getGroups() as $group) {
-            $names[] = $group->getName();
-        }
 
-        return $names;
-    }
 
-    public function hasGroup($name)
-    {
-        return in_array($name, $this->getGroupNames());
-    }
-
-    public function addGroup(GroupInterface $group)
-    {
-        if (!$this->getGroups()->contains($group)) {
-            $this->getGroups()->add($group);
-        }
-
-        return $this;
-    }
-
-    public function removeGroup(GroupInterface $group)
-    {
-        if ($this->getGroups()->contains($group)) {
-            $this->getGroups()->removeElement($group);
-        }
-
-        return $this;
-    }
 
     public function __toString()
     {

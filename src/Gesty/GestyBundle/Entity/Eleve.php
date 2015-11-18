@@ -8,6 +8,16 @@ namespace Gesty\GestyBundle\Entity;
 class Eleve
 {
     /**
+     * @return string
+     */
+
+    public function __toString()
+    {
+        return $this->nom;
+    }
+    // GENERATE CODE
+
+    /**
      * @var integer
      */
     private $id;
