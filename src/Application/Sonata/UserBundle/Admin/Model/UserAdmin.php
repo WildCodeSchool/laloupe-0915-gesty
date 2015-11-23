@@ -55,18 +55,10 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('username')
-            ->add('email')
-            ->add('enabled', null, array('editable' => true))
-            ->add('locked', null, array('editable' => true))
+            ->add('lastname')
+            ->addIdentifier('email')
             ->add('createdAt')
         ;
-
-        if ($this->isGranted('ROLE_ALLOWED_TO_SWITCH')) {
-            $listMapper
-                ->add('impersonating', 'string', array('template' => 'SonataUserBundle:Admin:Field/impersonating.html.twig'))
-            ;
-        }
     }
 
     /**
@@ -75,8 +67,7 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
     protected function configureDatagridFilters(DatagridMapper $filterMapper)
     {
         $filterMapper
-            ->add('id')
-            ->add('username')
+            ->add('lastname')
             ->add('email')
 
 
@@ -120,7 +111,6 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                 ))
             ->end()
             ->with('Profile')
-                ->add('dateOfBirth', 'birthday', array('required' => false))
                 ->add('firstname', null, array('required' => false))
                 ->add('lastname', null, array('required' => false))
                 ->add('gender', 'sonata_user_gender', array(
@@ -131,7 +121,7 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
             ->end()
         ;
 
-        if ($this->getSubject() && !$this->getSubject()->hasRole('ROLE_SUPER_ADMIN')) {
+        /*if ($this->getSubject() && !$this->getSubject()->hasRole('ROLE_SUPER_ADMIN')) {
             $formMapper
                 ->with('Management')
                     ->add('realRoles', 'sonata_security_roles', array(
@@ -146,14 +136,14 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                     ->add('credentialsExpired', null, array('required' => false))
                 ->end()
             ;
-        }
+        }*/
 
-        $formMapper
+        /*$formMapper
             ->with('Security')
                 ->add('token', null, array('required' => false))
                 ->add('twoStepVerificationCode', null, array('required' => false))
             ->end()
-        ;
+        ;*/
     }
 
     /**
