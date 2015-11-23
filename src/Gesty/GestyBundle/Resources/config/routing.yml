@@ -6,6 +6,7 @@ gesty_gesty_homepage:
     path:     /login
     defaults: { _controller: GestyGestyBundle:Default:register}
 
-
-
+gesty_page_foyer:
+    path:   /foyer
+    defaults: { _controller: GestyGestyBundle:Default:foyer}
 

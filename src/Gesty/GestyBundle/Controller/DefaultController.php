@@ -8,11 +8,6 @@ use Gesty\GestyBundle\Form\Type\MessageType;
 
 class DefaultController extends Controller
 {
-    public function indexAction()
-    {
-        return $this->render('GestyGestyBundle:Default:index.html.twig');
-    }
-
     public function registerAction()
     {
 
@@ -28,5 +23,11 @@ class DefaultController extends Controller
 
 
         return $this->render('GestyGestyBundle:Registration:register.html.twig');
+    }
+
+    public function foyerAction()
+    {
+
+        return $this->render('GestyGestyBundle:Profile:foyer.html.twig');
     }
 }

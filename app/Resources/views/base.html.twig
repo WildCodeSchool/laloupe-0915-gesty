@@ -5,7 +5,9 @@
     <title>{% block title %}plop{% endblock %}</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
     {% block stylesheets %}
+        <link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Carter+One|Open+Sans:400,800" />
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="stylesheet" href="{{ asset('bundles/gestygesty/css/application.css') }}"/>
         <link rel="stylesheet" href="{{ asset('bundles/gestygesty/css/style.css') }}" type="text/css" />
     {% endblock %}
 </head>
