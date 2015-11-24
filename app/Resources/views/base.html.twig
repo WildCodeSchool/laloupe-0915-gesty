@@ -2,9 +2,12 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>{% block title %}plop{% endblock %}</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <title>{% block title %}Gesty{% endblock %}</title>
+
+
     {% block stylesheets %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+        <link href='https://fonts.googleapis.com/css?family=Carter+One' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Carter+One|Open+Sans:400,800" />
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         <link rel="stylesheet" href="{{ asset('bundles/gestygesty/css/application.css') }}"/>
@@ -16,8 +19,15 @@
     {% include "GestyGestyBundle:Includes:indexheader.html.twig" %}
 {% endblock %}
 
+<div class="container">
+    <div class="row">
+
 {% block body %}
+
+
 {% endblock %}
+    </div>
+</div>
 
 {% block footer %}
     {% include "GestyGestyBundle:Includes:indexfooter.html.twig" %}

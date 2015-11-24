@@ -1,16 +1,118 @@
 .barre__footer
 {
-    color: #FFBB74;
+    color: black;
     text-align: center;
     font-size: 1.2em;
-    margin: 10px;
+    border-top: 1px solid #C5BDB5;
+    margin-top: 70px;
+    padding: 30px 0 10px;
+
+}
+.navbar-default{
+    background-color: #F5871F;
+    border-bottom: solid 4px #FF8438;
 }
 
 .navbar-default .navbar-brand
 {
-    color: #FFBB74;
+    color: white;
     font-weight: bold;
     font-size: 2em;
-    text-shadow: 2px 2px white;
-    margin: 5px;
+    margin: 20px;
 }
+
+.panel-heading {
+    color:#5CAB18;
+    font-family: 'Carter One', cursive;
+    background-color: inherit;
+    margin-bottom: -10px !important;
+
+}
+.panel  {
+    border: transparent;
+    margin-bottom: 150px;
+    height: 400px;
+
+
+}
+.panel-info>.panel-heading,
+.panel-success>.panel-heading{
+    background-color: transparent;
+    border: none;
+}
+.panel-title{
+    color: #5CAB18;
+    font-size:22px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.panel-body{
+    height: 700px;
+    text-align: center;
+    margin-left: 30px;
+    display: block;
+    padding: 25px
+}
+label {
+    font-family: 'Open Sans';
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 1.42857143;
+    color: #333333;
+}
+.btn {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    touch-action: manipulation;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    font-size: 14px;
+}
+.btn-primary{
+    color: #fff;
+    background-color: #5CAB18;
+    border-color: #509515;
+    -webkit-appearance: textfield;
+    padding: 10px;
+    margin-top: 20px;
+
+}
+.btn-primary:hover {
+   background-color:  #335f0d;
+
+}
+.btn-success{
+    padding:10px;
+    margin-top: 55px !important;
+    background-color: #5CAB18;
+}
+.btn-success:hover{
+    background-color:  #335f0d;
+}
+p{
+   diplay:block;
+    text-align: left;
+}
+.container {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-bottom: 10px;
+    width: 1170px;
+}
+.welcome {
+    font-family: 'Carter One';
+    margin: 42px auto;
+    text-align: center;
+    color: #7A2903;
+}
+
+

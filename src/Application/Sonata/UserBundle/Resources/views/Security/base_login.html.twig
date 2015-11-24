@@ -13,12 +13,15 @@ file that was distributed with this source code.
 
 {% block fos_user_content %}
     <div class="row">
+        <h2 class="welcome">Simpifiez vous l'accès aux services locaux</h2>
+        <img class="img-responsive center-block img-thumbnail enfants" src="" alt="Enfants acc3de4ae4ecbebeffe0db0445dabe8fdb44b3d08157932ebe8ee20663d8dd91">
         <div class="col-md-6">
             <div class="panel panel-info">
 
                 <div class="panel-heading">
-                    <h2 class="panel-title">{{ 'title_user_authentication'|trans({}, 'SonataUserBundle') }}</h2>
+                    <h2 class="panel-title">J'ai déjà mon compte</h2>
                 </div>
+
 
                 <div class="panel-body">
 
@@ -31,10 +34,10 @@ file that was distributed with this source code.
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
 
                         <div class="form-group">
-                            <label for="username"
-                                   class="col-lg-3 col-sm-3 control-label">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
+                            <label for="email"
+                                   class="col-lg-5 col-sm-5 control-label">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
 
-                            <div class="col-lg-9 col-sm-9"><input type="text" class="form-control" id="username"
+                            <div class="col-lg-7 col-sm-7"><input type="text" class="form-control" id="username"
                                                                   name="_username" value="{{ last_username }}"
                                                                   required="required"/></div>
                         </div>
@@ -42,9 +45,9 @@ file that was distributed with this source code.
 
                         <div class="form-group control-group">
                             <label for="password"
-                                   class="col-lg-3 col-sm-3 control-label">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
+                                   class="col-lg-5 col-sm-5 control-label">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
 
-                            <div class="col-lg-9 col-sm-9"><input type="password" class="form-control" id="password"
+                            <div class="col-lg-7 col-sm-7"><input type="password" class="form-control" id="password"
                                                                   name="_password" required="required"/></div>
                         </div>
 

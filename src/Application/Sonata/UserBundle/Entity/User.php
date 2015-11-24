@@ -38,24 +38,24 @@ class User extends BaseUser
 
     protected function getUploadRootDir()
     {
-        return __DIR__.'/../../../../../app/'.$this->getUploadDir();
+        return __DIR__ . '/../../../../../app/' . $this->getUploadDir();
     }
 
     public function getWebPath()
     {
-        return null === $this->justificatif ? null : $this->getUploadDir().'/'.$this->justificatif;
+        return null === $this->justificatif ? null : $this->getUploadDir() . '/' . $this->justificatif;
     }
 
     public function getAbsolutePath()
     {
-        return null === $this->justificatif ? null : $this->getUploadRootDir().'/'.$this->justificatif;
+        return null === $this->justificatif ? null : $this->getUploadRootDir() . '/' . $this->justificatif;
     }
 
     public function preUpload()
     {
         if (null !== $this->file) {
             // do whatever you want to generate a unique name
-            $this->justificatif = uniqid().'.'.$this->file->guessExtension();
+            $this->justificatif = uniqid() . '.' . $this->file->guessExtension();
         }
     }
 
@@ -81,23 +81,9 @@ class User extends BaseUser
     }
 
 
+    /** Generate code */
 
-   /** Generate code */
 
-    /**
-     * @var integer $id
-     */
-    protected $id;
-
-    /**
-     * Get id
-     *
-     * @return integer $id
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
     /**
      * @var string
      */
@@ -137,6 +123,11 @@ class User extends BaseUser
      * @var boolean
      */
     private $mandatActif;
+
+    /**
+     * @var string
+     */
+    private $justificatif;
 
 
     /**
@@ -330,11 +321,6 @@ class User extends BaseUser
     {
         return $this->mandatActif;
     }
-    /**
-     * @var string
-     */
-    private $justificatif;
-
 
     /**
      * Set justificatif
