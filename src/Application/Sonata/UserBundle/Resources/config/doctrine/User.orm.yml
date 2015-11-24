@@ -1,7 +1,5 @@
-Gesty\GestyBundle\Entity\Formulaire:
+Application\Sonata\UserBundle\Entity\User:
     type: entity
-    table: null
-    repositoryClass: Gesty\GestyBundle\Entity\FormulaireRepository
     id:
         id:
             type: integer
@@ -9,39 +7,46 @@ Gesty\GestyBundle\Entity\Formulaire:
             generator:
                 strategy: AUTO
     fields:
-        civilite:
-            type: integer
-        nom:
-            type: string
-            length: 255
-        prenom:
-            type: string
-            length: 255
         adresse:
             type: string
             length: 255
+            nullable: true
         codePostal:
             type: integer
             column: code_postal
+            nullable: true
         commune:
             type: string
             length: 255
-        telephone:
-            type: integer
+            nullable: true
         telephoneSecondaire:
             type: integer
             column: telephone_secondaire
+            nullable: true
         caf:
             type: string
             length: 255
+            nullable: true
         modeDePaiement:
             type: integer
             column: mode_de_paiement
+            nullable: true
         numeroIban:
             type: string
             length: 255
             column: numero_iban
+            nullable: true
         mandatActif:
             type: boolean
             column: mandat_actif
-    lifecycleCallbacks: {  }
+            nullable: true
+        justificatif:
+            type: string
+            length: 255
+            nullable: true
+    lifecycleCallbacks:
+        prePersist: [ preUpload ]
+        preUpdate: [ preUpload ]
+        postPersist: [ upload ]
+        postUpdate: [ upload ]
+        postRemove: [ removeUpload ]

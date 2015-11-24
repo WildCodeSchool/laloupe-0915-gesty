@@ -18,14 +18,13 @@ use Sonata\UserBundle\Model\UserInterface;
 
 class ProfileType extends \Sonata\UserBundle\Form\Type\ProfileType
 {
-    private $class;
 
     /**
      * @param string $class The User class name
      */
-    public function __construct($class)
+    public function __construct()
     {
-        $this->class = $class;
+       parent::__construct('Application\Sonata\UserBundle\Entity\User');
     }
 
     /**
@@ -51,18 +50,19 @@ class ProfileType extends \Sonata\UserBundle\Form\Type\ProfileType
                 'label'    => 'form.label_lastname',
                 'required' => false
             ))
-
+            ->add('adresse', 'text')
+            ->add('codePostal', 'text')
+            ->add('commune', 'text')
+            ->add('phone', 'text')
+            ->add('telephoneSecondaire', 'text')
+            ->add('caf', 'text')
+            ->add('modeDePaiement', 'choice',array(
+                'choices'   => array('0' => 'Chèque', '1' => 'Especes', '2' => 'Prélèvements')))
+            ->add('numeroIban', 'text')
+            ->add('mandatActif', 'checkbox')
+            ->add('file', 'file', array('label' => 'Company logo', 'required' => false))
+            ->add('envoyer', 'submit')
         ;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => $this->class
-        ));
     }
 
     /**

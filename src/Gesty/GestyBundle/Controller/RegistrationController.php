@@ -2,38 +2,18 @@
 
 namespace Gesty\GestyBundle\Controller;
 
+use Application\Sonata\UserBundle\Document\User;
+use Application\Sonata\UserBundle\Form\Type\ProfileType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Gesty\GestyBundle\Entity\User;
 use Gesty\GestyBundle\Form\Type\MessageType;
 use Symfony\Component\HttpFoundation\Request;
-use Gesty\GestyBundle\Entity\Formulaire;
 
 class RegistrationController extends Controller
 {
     public function registerAction(Request $request)
     {
-        $task = new Formulaire();
-        // $task->setformulaire('Write a blog post'); // nom du formulaire
-
-
-        $form = $this->createFormBuilder($task)
-            ->setMethod("POST")
-            ->add('civilite','choice',array(
-                'choices'   => array('0' => 'M.', '1' => 'Mme')))
-            ->add('nom', 'text')
-            ->add('prenom', 'text')
-            ->add('adresse', 'text')
-            ->add('codePostal', 'text')
-            ->add('commune', 'text')
-            ->add('telephone', 'text')
-            ->add('telephoneSecondaire', 'text')
-            ->add('caf', 'text')
-            ->add('modeDePaiement', 'choice',array(
-                'choices'   => array('0' => 'Chèque', '1' => 'Especes', '2' => 'Prélèvements')))
-            ->add('numeroIban', 'text')
-            ->add('mandatActif', 'checkbox')
-            ->add('envoyer', 'submit')
-            ->getForm();
+        $entity = $this->getUser();
+        $form    = $this->createForm(new ProfileType(), $entity);
 
         $form->handleRequest($request);
 
@@ -52,7 +32,8 @@ class RegistrationController extends Controller
 
             // On enregistre le message crypté dans la base de données
             $em = $this->getDoctrine()->getManager();
-            $em->persist($task);
+
+            $em->persist($entity);
             $em->flush();
 
             return $this->redirect($this->generateUrl('gesty_page_foyer'));

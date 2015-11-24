@@ -30,16 +30,16 @@ file that was distributed with this source code.
         <div class="col-md-offset-1 col-md-4">
             <div class="form-group">
                 <label for="home_gender">Civilité</label>
-                {{ form_widget(form.civilite) }}
+                {{ form_widget(form.gender) }}
             </div>
             <div class="form-group">
                 <label for="home_lastname">Nom *</label>
-                {{ form_widget(form.nom) }} <br/>
+                {{ form_widget(form.lastname) }} <br/>
                 <!--<input class="form-control" type="text" value="Wcs" name="home[lastname]" id="home_lastname" /> -->
             </div>
             <div class="form-group">
                 <label for="home_firstname">Prénom *</label>
-                {{ form_widget(form.prenom) }} <br/>
+                {{ form_widget(form.firstname) }} <br/>
             </div>
             <div class="form-group">
                 <label for="home_address_street">Adresse</label>
@@ -55,7 +55,7 @@ file that was distributed with this source code.
             </div>
             <div class="form-group">
                 <label for="home_phone">Téléphone *</label>
-                {{ form_widget(form.telephone) }}<br/>
+                {{ form_widget(form.phone) }}<br/>
             </div>
             <div class="form-group">
                 <label for="home_phone_2">Téléphone secondaire (optionnel)</label>
@@ -116,7 +116,7 @@ file that was distributed with this source code.
 
                 <input type="file" name="home[salary_evidence_5]" id="home_salary_evidence_5" /><br>
 
-                <input type="file" name="home[salary_evidence_6]" id="home_salary_evidence_6" /><br>
+                {{ form_widget(form.file) }}
                 <blockquote>Joindre l'attestation des employeurs ou les 3 derniers bulletins de salaire des parents ou du parent isolé.</blockquote>
             </div>
         </div>

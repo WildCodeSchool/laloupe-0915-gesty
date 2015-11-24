@@ -12,15 +12,6 @@ services:
                - ~
                - Gesty\GestyBundle\Entity\Eleve
                - ~
-
-      sonata.admin.foyer:
-           class: Gesty\GestyBundle\Admin\FoyerAdmin
-           tags:
-               - { name: sonata.admin, manager_type: orm, group: "Foyer", label: "Foyer" }
-           arguments:
-               - ~
-               - Gesty\GestyBundle\Entity\Foyer
-               - ~
       sonata.user.profile.form.type:
             class: Application\Sonata\UserBundle\Form\Type\ProfileType
             arguments: [ "Application\Sonata\UserBundle\Entity\User" ]
