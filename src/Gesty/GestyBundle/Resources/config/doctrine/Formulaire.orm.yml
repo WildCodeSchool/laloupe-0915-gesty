@@ -1,0 +1,47 @@
+Gesty\GestyBundle\Entity\Formulaire:
+    type: entity
+    table: null
+    repositoryClass: Gesty\GestyBundle\Entity\FormulaireRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        civilite:
+            type: integer
+        nom:
+            type: string
+            length: 255
+        prenom:
+            type: string
+            length: 255
+        adresse:
+            type: string
+            length: 255
+        codePostal:
+            type: integer
+            column: code_postal
+        commune:
+            type: string
+            length: 255
+        telephone:
+            type: integer
+        telephoneSecondaire:
+            type: integer
+            column: telephone_secondaire
+        caf:
+            type: string
+            length: 255
+        modeDePaiement:
+            type: integer
+            column: mode_de_paiement
+        numeroIban:
+            type: string
+            length: 255
+            column: numero_iban
+        mandatActif:
+            type: boolean
+            column: mandat_actif
+    lifecycleCallbacks: {  }

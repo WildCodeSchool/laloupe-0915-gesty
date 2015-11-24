@@ -55,6 +55,7 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
+
             ->addIdentifier('username')
             ->add('email')
             ->add('createdAt')
@@ -69,6 +70,7 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
     protected function configureDatagridFilters(DatagridMapper $filterMapper)
     {
         $filterMapper
+
             ->add('username')
             ->add('email')
 
@@ -121,9 +123,6 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                 ->add('phone', null, array('required' => false))
             ->end()
         ;
-
-
-
 
     }
 

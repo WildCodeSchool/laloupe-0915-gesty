@@ -1,0 +1,44 @@
+h1, h3 {
+    font-family: 'Carter One';
+    color: #7A2903; /*marron*/
+}
+h3 {
+    color: #5CAB18; /* green */
+}
+h2 {
+    margin-bottom: 20px;
+}
+blockquote {
+    color: #696969;
+}
+div.container div.datepicker-days > table > tbody > td.disabled {
+    display: none;
+}
+.glyphicon:before {
+    margin-right: 5px;
+}
+.navbar-inverse .navbar-brand {
+    font-family: 'Carter One';
+    color: #fff;
+}
+.navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+    text-align: center;
+}
+.navbar-fixed-top {
+    border-width: 0 0 5px;
+}
+.nabar-nav > li > a {
+    color: #fff;
+}
+nav, nav a.navbar-brand {
+    font-size: 120%;
+}
+
+h2 .label {
+    margin-left: 10px;
+    font-family: 'Open Sans';
+    font-weight: 800;
+}
+
+
