@@ -1,0 +1,8 @@
+services:
+    application.sonata.user.registration.form.type:
+        class: Application\Sonata\UserBundle\Form\Type\RegistrationFormType
+        tags:
+           - { name: form.type, alias: application_sonata_user_registration }
+        arguments:
+           - %fos_user.model.user.class%
+           - %sonata.user.registration.form.options%

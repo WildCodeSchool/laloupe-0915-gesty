@@ -101,15 +101,14 @@ sonata_user:
         user:         Application\Sonata\UserBundle\Entity\User
         group:        Application\Sonata\UserBundle\Entity\Group
 
-    profile:  # Profile Form (firstname, lastname, etc ...)
-        form:
-            type:               application_sonata_user_profile
-            handler:            sonata.user.profile.form.handler.default
-            name:               sonata_user_profile_form
-            validation_groups:  [Profile]
     admin:
         user:
             class:      Application\Sonata\UserBundle\Admin\Model\UserAdmin
+
+    profile:
+        register:
+            form:
+                type: application_sonata_user_registration
 
 
 fos_user:
@@ -122,18 +121,15 @@ fos_user:
         group_class:   Application\Sonata\UserBundle\Entity\Group
         group_manager: sonata.user.orm.group_manager
 
-    profile:  # Authentication Form
-        form:
-            type:               fos_user_profile
-            handler:            fos_user.profile.form.handler.default
-            name:               fos_user_profile_form
-            validation_groups:  [Authentication] # Please note : this is not the default value
-
     service:
         user_manager: sonata.user.orm.user_manager # If you're using doctrine orm (use sonata.user.mongodb.group_manager for mongodb)
 
+    registration:
+        form:
+            type: application_sonata_user_registration
+
 sonata_admin:
-    title: Gesty Admin  #à personnaliser
+    title: WCS Admin  #à personnaliser
     #title_logo: /bundles/acmedemo/fancy_acme_logo.png #à personnaliser
 
     dashboard:

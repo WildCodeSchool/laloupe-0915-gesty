@@ -5,12 +5,12 @@ parameters:
 
 services:
       sonata.admin.eleve:
-           class: Gesty\GestyBundle\Admin\EleveAdmin
+           class: WCS\CantineBundle\Admin\EleveAdmin
            tags:
                - { name: sonata.admin, manager_type: orm, group: "Eleve", label: "Eleve" }
            arguments:
                - ~
-               - Gesty\GestyBundle\Entity\Eleve
+               - WCS\GestyBundle\Entity\Eleve
                - ~
       sonata.user.profile.form.type:
             class: Application\Sonata\UserBundle\Form\Type\ProfileType

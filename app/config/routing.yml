@@ -1,15 +1,15 @@
-gesty_gesty:
-    resource: "@GestyGestyBundle/Resources/config/routing.yml"
+wcs_gesty:
+    resource: "@WCSGestyBundle/Resources/config/routing.yml"
+    prefix:   /
+
+wcs_cantine:
+    resource: "@WCSCantineBundle/Resources/config/routing.yml"
     prefix:   /
 
 admin:
     resource: "@SonataAdminBundle/Resources/config/routing/sonata_admin.xml"
     prefix: /admin
 
-
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
 
 _sonata_admin:
   resource: .
@@ -24,9 +24,9 @@ sonata_user_resetting:
     resource: "@SonataUserBundle/Resources/config/routing/sonata_resetting_1.xml"
     prefix: /resetting
 
-sonata_user_profile_show:
-    path:     /registration
-    defaults: { _controller: GestyGestyBundle:Registration:register}
+sonata_user_profile:
+    resource: "@ApplicationSonataUserBundle/Resources/config/routing/sonata_profile_1.xml"
+    prefix: /profile
 
 sonata_user_register:
     resource: "@SonataUserBundle/Resources/config/routing/sonata_registration_1.xml"

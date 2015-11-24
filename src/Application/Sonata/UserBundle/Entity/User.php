@@ -80,6 +80,13 @@ class User extends BaseUser
         }
     }
 
+    public function setEmail($email){
+        parent::setEmail($email);
+        parent::setUsername($email);
+    }
+
+
+
 
     /** Generate code */
 

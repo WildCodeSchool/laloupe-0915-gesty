@@ -16,7 +16,6 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new AppBundle\AppBundle(),
             // These are the other bundles the SonataAdminBundle relies on
             new Sonata\CoreBundle\SonataCoreBundle(),
             new Sonata\BlockBundle\SonataBlockBundle(),
@@ -31,7 +30,8 @@ class AppKernel extends Kernel
             // OR
             // the bundle will NOT extend ``FOSUserBundle``
             new Application\Sonata\UserBundle\ApplicationSonataUserBundle(),
-            new Gesty\GestyBundle\GestyGestyBundle(),
+            new WCS\CantineBundle\WCSCantineBundle(),
+            new WCS\GestyBundle\WCSGestyBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

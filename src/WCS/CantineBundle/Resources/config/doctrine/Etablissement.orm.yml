@@ -1,0 +1,19 @@
+WCS\CantineBundle\Entity\Etablissement:
+    type: entity
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        nom:
+            type: string
+            length: 255
+        classe:
+            type: string
+            length: 255
+        instituteur:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }

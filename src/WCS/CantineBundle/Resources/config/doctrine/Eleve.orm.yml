@@ -1,0 +1,25 @@
+WCS\CantineBundle\Entity\Eleve:
+    type: entity
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        nom:
+            type: string
+            length: 255
+        prenom:
+            type: string
+            length: 255
+        dateDeNaissance:
+            type: datetime
+            column: date_de_naissance
+        idFoyer:
+            type: integer
+            column: id_foyer
+        idEtablissement:
+            type: integer
+            column: id_etablissement
+    lifecycleCallbacks: {  }

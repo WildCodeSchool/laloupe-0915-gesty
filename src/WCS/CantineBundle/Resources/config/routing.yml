@@ -1,0 +1,5 @@
+gesty_cantine_eleve:
+    resource: "@WCSCantineBundle/Resources/config/routing/eleve.yml"
+    prefix:   /eleve
+
+

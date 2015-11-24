@@ -1,0 +1,4 @@
+services:
+#    wcs_gesty.example:
+#        class: WCS\GestyBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
