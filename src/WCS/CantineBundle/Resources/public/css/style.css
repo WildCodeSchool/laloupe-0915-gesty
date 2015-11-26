@@ -9,16 +9,19 @@
 
 }
 .navbar-default{
-    background-color: #F5871F;
-    border-bottom: solid 4px #FF8438;
+    background-color: #F6773D;
+    border-bottom: solid 4px #f4550c;
+   
 }
 
 .navbar-default .navbar-brand
 {
-    color: white;
+    color: #FFFFFF;
     font-weight: bold;
     font-size: 2em;
     margin: 20px;
+    margin-left: 30px;
+    font-family: 'Carter One', cursive;
 }
 
 .panel-heading {
@@ -27,11 +30,15 @@
     background-color: inherit;
     margin-bottom: -10px !important;
 
+
 }
 .panel  {
     border: transparent;
     margin-bottom: 150px;
     height: 400px;
+    box-shadow: none!important;
+
+
 
 
 }
@@ -39,6 +46,8 @@
 .panel-success>.panel-heading{
     background-color: transparent;
     border: none;
+
+
 }
 .panel-title{
     color: #5CAB18;
@@ -52,6 +61,8 @@
     margin-left: 30px;
     display: block;
     padding: 25px
+
+
 }
 label {
     font-family: 'Open Sans';
