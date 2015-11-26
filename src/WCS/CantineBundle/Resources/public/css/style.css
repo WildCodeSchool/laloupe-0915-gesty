@@ -13,6 +13,10 @@
     border-bottom: solid 4px #f4550c;
 
 }
+.navbar-fixed-top{
+    position:fixed;
+    right: 0;
+}
 
 .navbar-default .navbar-brand
 {
@@ -121,7 +125,7 @@ p{
 }
 .welcome {
     font-family: 'Carter One';
-    margin: 42px auto;
+    margin: 150px auto;
     text-align: center;
     color: #7A2903;
 }
