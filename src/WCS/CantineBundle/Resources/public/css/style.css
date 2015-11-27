@@ -17,14 +17,14 @@
     position:fixed;
     right: 0;
 }
+.navbar-header a{
+    margin-left: 100px;
+}
 
 .navbar-default .navbar-brand
 {
     color: #FFFFFF;
     font-weight: bold;
-    font-size: 2em;
-    margin: 20px;
-    margin-left: 30px;
     font-family: 'Carter One', cursive;
 }
 
@@ -126,7 +126,7 @@ p{
 }
 .welcome {
     font-family: 'Carter One';
-    margin: 150px auto;
+    margin: 90px auto;
     text-align: center;
     color: #7A2903;
 }
