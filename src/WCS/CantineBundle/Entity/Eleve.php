@@ -38,6 +38,16 @@ class Eleve
     private $dateDeNaissance;
 
     /**
+     * @var boolean
+     */
+    private $RegimeSansPorc;
+
+    /**
+     * @var string
+     */
+    private $allergie;
+
+    /**
      * @var integer
      */
     private $idFoyer;
@@ -176,5 +186,53 @@ class Eleve
     public function getIdEtablissement()
     {
         return $this->idEtablissement;
+    }
+
+    /**
+     * Set regimeSansPorc
+     *
+     * @param boolean $regimeSansPorc
+     *
+     * @return Eleve
+     */
+    public function setRegimeSansPorc($regimeSansPorc)
+    {
+        $this->RegimeSansPorc = $regimeSansPorc;
+
+        return $this;
+    }
+
+    /**
+     * Get regimeSansPorc
+     *
+     * @return boolean
+     */
+    public function getRegimeSansPorc()
+    {
+        return $this->RegimeSansPorc;
+    }
+
+    /**
+     * Set allergie
+     *
+     * @param string $allergie
+     *
+     * @return Eleve
+     */
+    public function setAllergie($allergie)
+    {
+        $this->allergie = $allergie;
+
+        return $this;
+    }
+
+    /**
+     * Get allergie
+     *
+     * @return string
+     */
+    public function getAllergie()
+    {
+        return $this->allergie;
     }
 }

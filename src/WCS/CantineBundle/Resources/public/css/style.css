@@ -130,5 +130,9 @@ p{
     text-align: center;
     color: #7A2903;
 }
+.center-block {
+    max-height: 200px;
+    margin-bottom: 20px;
+}
 
 

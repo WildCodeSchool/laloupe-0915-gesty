@@ -5,8 +5,8 @@ namespace WCS\CantineBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use Gesty\GestyBundle\Entity\Eleve;
-use Gesty\GestyBundle\Form\EleveType;
+use WCS\CantineBundle\Entity\Eleve;
+use WCS\CantineBundle\Form\Type\EleveType;
 
 /**
  * Eleve controller.
@@ -23,7 +23,7 @@ class EleveController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('GestyGestyBundle:Eleve')->findAll();
+        $entities = $em->getRepository('WCSCantineBundle:Eleve')->findAll();
 
         return $this->render('WCSCantineBundle:Eleve:index.html.twig', array(
             'entities' => $entities,
@@ -95,7 +95,7 @@ class EleveController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('GestyGestyBundle:Eleve')->find($id);
+        $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Eleve entity.');
@@ -117,7 +117,7 @@ class EleveController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('GestyGestyBundle:Eleve')->find($id);
+        $entity = $em->getRepository('WcsCantineBundle:Eleve')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Eleve entity.');
@@ -159,7 +159,7 @@ class EleveController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('GestyGestyBundle:Eleve')->find($id);
+        $entity = $em->getRepository('WcsCantineBundle:Eleve')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Eleve entity.');
@@ -192,7 +192,7 @@ class EleveController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('GestyGestyBundle:Eleve')->find($id);
+            $entity = $em->getRepository('WcsCantineBundle:Eleve')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Eleve entity.');

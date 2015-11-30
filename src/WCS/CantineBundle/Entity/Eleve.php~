@@ -1,6 +1,6 @@
 <?php
 
-namespace Gesty\GestyBundle\Entity;
+namespace WCS\CantineBundle\Entity;
 
 /**
  * Eleve
@@ -36,6 +36,16 @@ class Eleve
      * @var \DateTime
      */
     private $dateDeNaissance;
+
+    /**
+     * @var boolean
+     */
+    private $RegimeSansPorc;
+
+    /**
+     * @var string
+     */
+    private $allergie;
 
     /**
      * @var integer
@@ -178,4 +188,3 @@ class Eleve
         return $this->idEtablissement;
     }
 }
-

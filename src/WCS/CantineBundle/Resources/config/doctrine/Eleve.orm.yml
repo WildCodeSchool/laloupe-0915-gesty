@@ -14,8 +14,14 @@ WCS\CantineBundle\Entity\Eleve:
             type: string
             length: 255
         dateDeNaissance:
-            type: datetime
+            type: date
             column: date_de_naissance
+        RegimeSansPorc:
+            type: boolean
+            column: Regime_Sans_Porc
+        allergie:
+            type: string
+            column: allergie
         idFoyer:
             type: integer
             column: id_foyer
