@@ -22,10 +22,22 @@ WCS\CantineBundle\Entity\Eleve:
         allergie:
             type: string
             column: allergie
+            nullable: true
         idFoyer:
             type: integer
             column: id_foyer
+            nullable: true
         idEtablissement:
             type: integer
             column: id_etablissement
+        atteste :
+            type: boolean
+            column: atteste
+        autorise:
+            type: boolean
+            column: autorise
+        certifie:
+            type: boolean
+            column: certifie
+
     lifecycleCallbacks: {  }

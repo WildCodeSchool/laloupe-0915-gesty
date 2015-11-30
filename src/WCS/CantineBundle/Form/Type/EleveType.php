@@ -40,9 +40,10 @@ class EleveType extends AbstractType
                     '18' => 'Mme DESSEAUX Aurélie/m MARECAUX François - Ecole "Roland-Garros" - CM2',
                 )))
             ->add('RegimeSansPorc', 'checkbox', array('required'=>false))
-            ->add('allergie', 'text')
-
-
+            ->add('allergie', 'text', array('label' =>'allergie', 'required'=>false))
+            ->add('atteste','checkbox', array('required'=>true))
+            ->add('autorise','checkbox', array('required'=>true))
+            ->add('certifie','checkbox', array('required'=>true))
 
         ;
     }

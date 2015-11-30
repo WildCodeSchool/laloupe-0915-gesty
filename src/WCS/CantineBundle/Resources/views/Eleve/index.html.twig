@@ -21,7 +21,7 @@
                 <td><a href="{{ path('eleve_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.nom }}</td>
                 <td>{{ entity.prenom }}</td>
-                <td>{% if entity.dateDeNaissance %}{{ entity.dateDeNaissance|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.dateDeNaissance %}{{ entity.dateDeNaissance|date('Y-m-d') }}{% endif %}</td>
                 <td>{{ entity.idFoyer }}</td>
                 <td>{{ entity.idEtablissement }}</td>
                 <td>
