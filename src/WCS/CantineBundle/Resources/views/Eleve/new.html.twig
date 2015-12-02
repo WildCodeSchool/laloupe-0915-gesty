@@ -36,11 +36,11 @@
                     {{ form_widget(form.idEtablissement) }} <br/>
                 </div>
             </div>
-            <div class="col-md-12">
 
-                <!-- Calendar -->
+            <div class="col-md-12"><!-- Calendar -->
+                
+                    <h3>Mon Calendrier</h3>
 
-                {{ dump(calendrier) }}
                 <div>
                     {% for key,value in calendrier %}
                         {{ key }}
@@ -136,7 +136,7 @@
                             $('#WCS_cantinebundle_eleve_dates').html(dates);
                             this.submit();
                         });
-                        var current = 1;
+                        var current = 9;
                         $('.months a').click(function(){
                             var month = $(this).attr('id').replace('linkMonth', '');
                             if (month != current){
