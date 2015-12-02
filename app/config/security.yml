@@ -18,7 +18,6 @@ security:
             pattern:            /admin(.*)
             context:            user
             form_login:
-                username_parameter: _email
                 provider:       fos_userbundle
                 login_path:     /admin/login
                 use_forward:    false
