@@ -36,6 +36,97 @@
                     {{ form_widget(form.idEtablissement) }} <br/>
                 </div>
         </div>
+        <div class="col-md-12"> <!-- Calendar -->
+
+            {{ dump(calendrier) }}
+        <div>
+            {% for key,value in calendrier %}
+               {{ key }}
+            {% endfor %}
+        </div>
+
+            <div>
+
+            {% for key,value in calendrier %}
+                {% for mois,jour in value %}
+                    {% if mois == 1 %}
+                        Jan
+                    {% endif %}
+                    {% if mois == 2 %}
+                        Fév
+                    {% endif %}
+                    {% if mois == 3 %}
+                        Mar
+                    {% endif %}
+                    {% if mois == 4 %}
+                        Avr
+                    {% endif %}
+                    {% if mois == 5 %}
+                        Mai
+                    {% endif %}
+                    {% if mois == 6 %}
+                        Jui
+                    {% endif %}
+                    {% if mois == 7 %}
+                        Jui
+                    {% endif %}
+                    {% if mois == 8 %}
+                        Aoû
+                    {% endif %}
+                    {% if mois == 9 %}
+                        Sep
+                    {% endif %}
+                    {% if mois == 10 %}
+                        Oct
+                    {% endif %}
+                    {% if mois == 11 %}
+                        Nov
+                    {% endif %}
+                    {% if mois == 12 %}
+                        Dec
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            </div>
+
+            {% for mois,jour in calendrier %}
+                {% for moi,da in jour %}
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            {% for days in jours %}
+                                <th>{{ days }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {% for pif,hercule in da %}
+                                <td>{{ pif }}</td>
+                                {% if (hercule == 7) %}
+                                    </tr><tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% endfor %}
+            {% endfor %}
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
         <div class="col-md-offset-1 col-md-9">
             <div class="form-group">
                 <h3>Menus Specifiques</h3>
@@ -46,7 +137,7 @@
                 <label for="regime_sans_porc"> Régime Sans Porc</label>
             </div>
             <div class="form-group">
-                <label for="allergie">Allergie alimentaire</label><br/>
+                <label for="allergie">Allergie(s) alimentaire(s)</label><br/>
                 {{ form_widget(form.allergie) }} <br/>
                 <!--<input class="form-control" type="text" value="Wcs" name="home[lastname]" id="home_lastname" /> -->
             </div>

@@ -12,6 +12,7 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         <link rel="stylesheet" href="{{ asset('bundles/wcscantine/css/application.css') }}"/>
         <link rel="stylesheet" href="{{ asset('bundles/wcscantine/css/style.css') }}" type="text/css" />
+        <link rel="stylesheet" href="{{ asset('bundles/wcscantine/css/style_calendrier.css') }}" type="text/css" />
     {% endblock %}
 </head>
 <body>
@@ -27,11 +28,14 @@
 
 {% endblock %}
     </div>
-</div>
+
 
 {% block footer %}
     {% include "WCSCantineBundle:Includes:indexfooter.html.twig" %}
 {% endblock %}
-{% block javascripts %}{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('bundles/wcscantine/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('bundles/wcscantine/js/calendrier.js') }}"></script>
+{% endblock %}
 </body>
 </html>
