@@ -1,27 +1,25 @@
 {% extends '::base.html.twig' %}
 
-{% block body -%}
-    <h1>Eleve list</h1>
+{% block body %}
+    <h1>Liste des élèves</h1>
 
     <table class="records_list">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Nom</th>
                 <th>Prenom</th>
-                <th>Datedenaissance</th>
-                <th>Idfoyer</th>
-                <th>Idetablissement</th>
+                <th>Date de naissance</th>
+                <th>Etablissement</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('eleve_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+
                 <td>{{ entity.nom }}</td>
                 <td>{{ entity.prenom }}</td>
-                <td>{% if entity.dateDeNaissance %}{{ entity.dateDeNaissance|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if entity.dateDeNaissance %}{{ entity.dateDeNaissance|date('d-m-Y') }}{% endif %}</td>
                 <td>{{ entity.idFoyer }}</td>
                 <td>{{ entity.idEtablissement }}</td>
                 <td>
@@ -42,7 +40,7 @@
         <ul>
         <li>
             <a href="{{ path('eleve_new') }}">
-                Create a new entry
+                Créer un nouvel élève
             </a>
         </li>
     </ul>

@@ -117,7 +117,7 @@ class EleveController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('WcsCantineBundle:Eleve')->find($id);
+        $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Eleve entity.');
@@ -159,7 +159,7 @@ class EleveController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('WcsCantineBundle:Eleve')->find($id);
+        $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Eleve entity.');
@@ -192,7 +192,7 @@ class EleveController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('WcsCantineBundle:Eleve')->find($id);
+            $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Eleve entity.');
