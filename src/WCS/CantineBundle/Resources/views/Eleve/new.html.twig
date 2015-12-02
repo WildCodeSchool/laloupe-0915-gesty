@@ -3,20 +3,20 @@
 
 
 {% block body %}
-<div class='container' role='main'>
-    <center><h1>Inscription de mon enfant</h1></center>
-    <center>
+    <div class='container' role='main'>
+        <center><h1>Inscription de mon enfant</h1></center>
+        <center>
             <h4>
                 au Restaurant Scolaire de La Loupe
             </h4>
-    </center>
-    <hr>
+        </center>
+        <hr>
 
-    {{ form_start(form) }}
+        {{ form_start(form) }}
 
-    <div class="row">
-        <!--<form class="edit_home" id="edit_home_181" enctype="multipart/form-data" action="/homes/181" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" /><input type="hidden" name="authenticity_token" value="aQFRfA7WoIAqNrHnChqwC0c9ZItQKix1Hp7z05hpFf/dg/CfHidnJIsw63yeElcDN8/qlTkN1yAypVsN+hVqbA==" /> -->
-        <div class="col-md-offset-1 col-md-4">
+        <div class="row">
+            <!--<form class="edit_home" id="edit_home_181" enctype="multipart/form-data" action="/homes/181" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" /><input type="hidden" name="authenticity_token" value="aQFRfA7WoIAqNrHnChqwC0c9ZItQKix1Hp7z05hpFf/dg/CfHidnJIsw63yeElcDN8/qlTkN1yAypVsN+hVqbA==" /> -->
+            <div class="col-md-offset-1 col-md-4">
                 <div class="form-group">
                     <label for="nom">Nom *</label>
                     {{ form_widget(form.nom) }} <br/>
@@ -25,8 +25,8 @@
                     <label for="date_de_naissance">Date de naissance *</label>
                     {{ form_widget(form.dateDeNaissance) }} <br/>
                 </div>
-        </div>
-        <div class="col-md-offset-1 col-md-5">
+            </div>
+            <div class="col-md-offset-1 col-md-5">
                 <div class="form-group">
                     <label for="prenom">Prénom *</label>
                     {{ form_widget(form.prenom) }} <br/>
@@ -35,148 +35,171 @@
                     <label for="etablissement">Classe en septembre 2015</label>
                     {{ form_widget(form.idEtablissement) }} <br/>
                 </div>
-        </div>
-        <div class="col-md-12"> <!-- Calendar -->
+            </div>
+            <div class="col-md-12">
 
-            {{ dump(calendrier) }}
-        <div>
-            {% for key,value in calendrier %}
-               {{ key }}
-            {% endfor %}
-        </div>
+                <!-- Calendar -->
 
-            <div>
+                {{ dump(calendrier) }}
+                <div>
+                    {% for key,value in calendrier %}
+                        {{ key }}
+                    {% endfor %}
+                </div>
 
-            {% for key,value in calendrier %}
-                {% for mois,jour in value %}
-                    {% if mois == 1 %}
-                        Jan
-                    {% endif %}
-                    {% if mois == 2 %}
-                        Fév
-                    {% endif %}
-                    {% if mois == 3 %}
-                        Mar
-                    {% endif %}
-                    {% if mois == 4 %}
-                        Avr
-                    {% endif %}
-                    {% if mois == 5 %}
-                        Mai
-                    {% endif %}
-                    {% if mois == 6 %}
-                        Jui
-                    {% endif %}
-                    {% if mois == 7 %}
-                        Jui
-                    {% endif %}
-                    {% if mois == 8 %}
-                        Aoû
-                    {% endif %}
-                    {% if mois == 9 %}
-                        Sep
-                    {% endif %}
-                    {% if mois == 10 %}
-                        Oct
-                    {% endif %}
-                    {% if mois == 11 %}
-                        Nov
-                    {% endif %}
-                    {% if mois == 12 %}
-                        Dec
-                    {% endif %}
+                <div>
+
+                    {% for key,value in calendrier %}
+                        {% for mois,jour in value %}
+                            {% if mois == 1 %}
+                                Jan
+                            {% endif %}
+                            {% if mois == 2 %}
+                                Fév
+                            {% endif %}
+                            {% if mois == 3 %}
+                                Mar
+                            {% endif %}
+                            {% if mois == 4 %}
+                                Avr
+                            {% endif %}
+                            {% if mois == 5 %}
+                                Mai
+                            {% endif %}
+                            {% if mois == 6 %}
+                                Jui
+                            {% endif %}
+                            {% if mois == 7 %}
+                                Jui
+                            {% endif %}
+                            {% if mois == 8 %}
+                                Aoû
+                            {% endif %}
+                            {% if mois == 9 %}
+                                Sep
+                            {% endif %}
+                            {% if mois == 10 %}
+                                Oct
+                            {% endif %}
+                            {% if mois == 11 %}
+                                Nov
+                            {% endif %}
+                            {% if mois == 12 %}
+                                Dec
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+
+                {% for year, months in calendrier %}
+                    {% for month, days in months %}
+                        <div>
+                            <table>
+                                <thead>
+                                <tr>
+                                    {% for days in jours %}
+                                        <th>{{ days }}</th>
+                                    {% endfor %}
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    {% for day,day_week in days %}
+                                        {% if day == 1 %}
+                                            {% if day_week != 1 %}
+                                                <td colspan="{{ day_week - 1 }}"></td>
+                                            {% endif %}
+                                        {% endif %}
+                                        <td><input class="calendar-checkbox" type="checkbox" value="{{ year }}-{{ month }}-{{ day }}">{{ day }}</td>
+                                        {% if (day_week == 7) %}
+                                            </tr><tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
+
+
+                <script>
+                    window.onload = function () {
+                        $('form[name="WCS_cantinebundle_eleve"]').submit(function(e){
+                            e.preventDefault();
+                            var dates = '';
+                            $('.calendar-checkbox:checked').each(function(){
+                                dates += this.value + ';';
+                            });
+                            $('#WCS_cantinebundle_eleve_dates').html(dates);
+                            this.submit();
+                        })
+                    }
+                </script>
+
+
+
+
+
             </div>
 
-            {% for mois,jour in calendrier %}
-                {% for moi,da in jour %}
-            <div>
-                <table>
-                    <thead>
-                        <tr>
-                            {% for days in jours %}
-                                <th>{{ days }}</th>
-                            {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            {% for pif,hercule in da %}
-                                <td>{{ pif }}</td>
-                                {% if (hercule == 7) %}
-                                    </tr><tr>
-                                {% endif %}
-                            {% endfor %}
-                        </tr>
-                    </tbody>
-                </table>
+
+
+
+
+
+
+            <div class="col-md-offset-1 col-md-9">
+                <div class="form-group">
+                    <h3>Menus Specifiques</h3>
+                </div>
+                <div class="form-group">
+                    <!--<input name="home[active_transfer]" type="hidden" value="0" /><input type="checkbox" value="1" checked="checked" name="home[active_transfer]" id="home_active_transfer" /> -->
+                    {{ form_widget(form.regimeSansPorc) }}
+                    <label for="regime_sans_porc"> Régime Sans Porc</label>
+                </div>
+                <div class="form-group">
+                    <label for="allergie">Allergie(s) alimentaire(s)</label><br/>
+                    {{ form_widget(form.allergie) }} <br/>
+                    <!--<input class="form-control" type="text" value="Wcs" name="home[lastname]" id="home_lastname" /> -->
+                </div>
+                <blockquote>Toute allergie alimentaire doit obligatoirement être signalée. L'inscription au restaurant scolaire ne pourra se faire qu'après avis médical et mise en place d'un P.A.I (Plan d'Accueil Individualisé).</blockquote>
+                <h3>Signatures</h3>
+                <div class="form-group">
+                    {{ form_widget(form.atteste) }}
+                    <label for="signatures"> J’atteste avoir pris connaissance du règlement intérieur du Restaurant Scolaire de La Loupe, et je m'engage à le respecter et à le faire respecter par mon enfant *</label><br/>
+
+                    <blockquote>
+                        <ul>
+                            <li>Télécharger le règlement intérieur</li>
+                            <li>Télécharger les 10 règles d'or de la cantine</li>
+                        </ul>
+                    </blockquote>
+                </div>
+                <div class="form-group">
+                    {{ form_widget(form.autorise) }}
+                    <label for="autorise">J'autorise le responsable du restaurant scolaire ou son représentant à prendre toutes mesures d'urgence nécessaires en cas d'accident survenant à mon enfant *</label>
+                    <blockquote>
+                        A savoir :
+                        <ul>
+                            <li>appel du S.A.M.U</li>
+                            <li>transfert à l'hôpital (ou à la clinique) le (la) plus proche</li>
+                        </ul>
+                    </blockquote>
+                </div>
+                <div class="form-group">
+                    {{ form_widget(form.certifie) }}
+                    <label for="atteste">Je certifie sur l’honneur l’exactitude de tous les renseignements saisis sur cette application concernant mon enfant ainsi que mon foyer *</label>
+                </div>
+
+                <div class="col-md-6 col-md-offset-3">
+                    <h6 id="champs">* champs obligatoire</h6><br>
+                    <input type="submit" name="commit" value="Inscrire mon enfant" class="btn btn-primary btn-lg btn-block">
+                </div>
             </div>
-            {% endfor %}
-            {% endfor %}
 
-
-
-
-
+            {{ form_end(form) }}
         </div>
-
-
-
-
-
-
-
-        <div class="col-md-offset-1 col-md-9">
-            <div class="form-group">
-                <h3>Menus Specifiques</h3>
-            </div>
-            <div class="form-group">
-                <!--<input name="home[active_transfer]" type="hidden" value="0" /><input type="checkbox" value="1" checked="checked" name="home[active_transfer]" id="home_active_transfer" /> -->
-                {{ form_widget(form.RegimeSansPorc) }}
-                <label for="regime_sans_porc"> Régime Sans Porc</label>
-            </div>
-            <div class="form-group">
-                <label for="allergie">Allergie(s) alimentaire(s)</label><br/>
-                {{ form_widget(form.allergie) }} <br/>
-                <!--<input class="form-control" type="text" value="Wcs" name="home[lastname]" id="home_lastname" /> -->
-            </div>
-            <blockquote>Toute allergie alimentaire doit obligatoirement être signalée. L'inscription au restaurant scolaire ne pourra se faire qu'après avis médical et mise en place d'un P.A.I (Plan d'Accueil Individualisé).</blockquote>
-             <h3>Signatures</h3>
-            <div class="form-group">
-                {{ form_widget(form.atteste) }}
-                <label for="signatures"> J’atteste avoir pris connaissance du règlement intérieur du Restaurant Scolaire de La Loupe, et je m'engage à le respecter et à le faire respecter par mon enfant *</label><br/>
-
-                <blockquote>
-                    <ul>
-                        <li>Télécharger le règlement intérieur</li>
-                        <li>Télécharger les 10 règles d'or de la cantine</li>
-                    </ul>
-                </blockquote>
-            </div>
-            <div class="form-group">
-                {{ form_widget(form.autorise) }}
-                <label for="autorise">J'autorise le responsable du restaurant scolaire ou son représentant à prendre toutes mesures d'urgence nécessaires en cas d'accident survenant à mon enfant *</label>
-                <blockquote>
-                    A savoir :
-                    <ul>
-                        <li>appel du S.A.M.U</li>
-                        <li>transfert à l'hôpital (ou à la clinique) le (la) plus proche</li>
-                    </ul>
-                </blockquote>
-            </div>
-            <div class="form-group">
-                {{ form_widget(form.certifie) }}
-                <label for="atteste">Je certifie sur l’honneur l’exactitude de tous les renseignements saisis sur cette application concernant mon enfant ainsi que mon foyer *</label>
-            </div>
-
-            <div class="col-md-6 col-md-offset-3">
-                <h6 id="champs">* champs obligatoire</h6><br>
-                <input type="submit" name="commit" value="Inscrire mon enfant" class="btn btn-primary btn-lg btn-block">
-            </div>
-        </div>
-
-        {{ form_end(form) }}
     </div>
-</div>
 {% endblock %}
+
