@@ -47,7 +47,7 @@ class EleveController extends Controller
             return $this->redirect($this->generateUrl('eleve_show', array('id' => $entity->getId())));
         }
         // Lancement de la fonction calendrier
-        $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-04'));
+        $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
 
         $jours = array('Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim');
 

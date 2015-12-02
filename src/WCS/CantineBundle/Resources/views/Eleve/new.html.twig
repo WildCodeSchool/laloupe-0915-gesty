@@ -47,45 +47,44 @@
                     {% endfor %}
                 </div>
 
-                <div>
-
+                <div class="months col-md-12 text-center">
                     {% for key,value in calendrier %}
                         {% for mois,jour in value %}
                             {% if mois == 1 %}
-                                Jan
+                                <a href="#" id="linkMonth{{ mois }}">Jan</a>
                             {% endif %}
                             {% if mois == 2 %}
-                                Fév
+                                <a href="#" id="linkMonth{{ mois }}">Fév</a>
                             {% endif %}
                             {% if mois == 3 %}
-                                Mar
+                                <a href="#" id="linkMonth{{ mois }}">Mar</a>
                             {% endif %}
                             {% if mois == 4 %}
-                                Avr
+                                <a href="#" id="linkMonth{{ mois }}">Avr</a>
                             {% endif %}
                             {% if mois == 5 %}
-                                Mai
+                                <a href="#" id="linkMonth{{ mois }}">Mai</a>
                             {% endif %}
                             {% if mois == 6 %}
-                                Jui
+                                <a href="#" id="linkMonth{{ mois }}">Jui</a>
                             {% endif %}
                             {% if mois == 7 %}
-                                Jui
+                                <a href="#" id="linkMonth{{ mois }}">Jui</a>
                             {% endif %}
                             {% if mois == 8 %}
-                                Aoû
+                                <a href="#" id="linkMonth{{ mois }}">Aoû</a>
                             {% endif %}
                             {% if mois == 9 %}
-                                Sep
+                                <a href="#" id="linkMonth{{ mois }}">Sep</a>
                             {% endif %}
                             {% if mois == 10 %}
-                                Oct
+                                <a href="#" id="linkMonth{{ mois }}">Oct</a>
                             {% endif %}
                             {% if mois == 11 %}
-                                Nov
+                                <a href="#" id="linkMonth{{ mois }}">Nov</a>
                             {% endif %}
                             {% if mois == 12 %}
-                                Dec
+                                <a href="#" id="linkMonth{{ mois }}">Déc</a>
                             {% endif %}
                         {% endfor %}
                     {% endfor %}
@@ -93,7 +92,7 @@
 
                 {% for year, months in calendrier %}
                     {% for month, days in months %}
-                        <div>
+                        <div class="month" id="month{{ month }}">
                             <table>
                                 <thead>
                                 <tr>
@@ -125,6 +124,9 @@
 
                 <script>
                     window.onload = function () {
+                        $('.month').hide();
+                        $('.month:first').show();
+                        $('.months a:first').addClass('active');
                         $('form[name="WCS_cantinebundle_eleve"]').submit(function(e){
                             e.preventDefault();
                             var dates = '';
@@ -133,21 +135,22 @@
                             });
                             $('#WCS_cantinebundle_eleve_dates').html(dates);
                             this.submit();
-                        })
+                        });
+                        var current = 1;
+                        $('.months a').click(function(){
+                            var month = $(this).attr('id').replace('linkMonth', '');
+                            if (month != current){
+                                $('#month'+current).slideUp();
+                                $('#month'+month).slideDown();
+                                $('.months a').removeClass('active');
+                                $('.months a#linkMonth' + month).addClass('active');
+                                current = month;
+                            }
+                            return false;
+                        });
                     }
                 </script>
-
-
-
-
-
             </div>
-
-
-
-
-
-
 
             <div class="col-md-offset-1 col-md-9">
                 <div class="form-group">
