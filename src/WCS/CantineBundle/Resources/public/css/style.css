@@ -9,16 +9,23 @@
 
 }
 .navbar-default{
-    background-color: #F5871F;
-    border-bottom: solid 4px #FF8438;
+    background-color: #F6773D;
+    border-bottom: solid 4px #f4550c;
+
+}
+.navbar-fixed-top{
+    position:fixed;
+    right: 0;
+}
+.navbar-header a{
+    margin-left: 100px;
 }
 
 .navbar-default .navbar-brand
 {
-    color: white;
+    color: #FFFFFF;
     font-weight: bold;
-    font-size: 2em;
-    margin: 20px;
+    font-family: 'Carter One', cursive;
 }
 
 .panel-heading {
@@ -27,11 +34,15 @@
     background-color: inherit;
     margin-bottom: -10px !important;
 
+
 }
 .panel  {
     border: transparent;
     margin-bottom: 150px;
     height: 400px;
+    box-shadow: none!important;
+
+
 
 
 }
@@ -39,6 +50,8 @@
 .panel-success>.panel-heading{
     background-color: transparent;
     border: none;
+
+
 }
 .panel-title{
     color: #5CAB18;
@@ -52,6 +65,8 @@
     margin-left: 30px;
     display: block;
     padding: 25px
+
+
 }
 label {
     font-family: 'Open Sans';
@@ -107,12 +122,17 @@ p{
     padding-right: 15px;
     margin-bottom: 10px;
     width: 1170px;
+    margin: 80px auto;
 }
 .welcome {
     font-family: 'Carter One';
-    margin: 42px auto;
+    margin: 90px auto;
     text-align: center;
     color: #7A2903;
+}
+.center-block {
+    max-height: 200px;
+    margin-bottom: 20px;
 }
 
 

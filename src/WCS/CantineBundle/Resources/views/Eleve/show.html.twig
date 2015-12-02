@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 
-{% block body -%}
-    <h1>Eleve</h1>
+{% block body %}
+    <h1>Mon foyer</h1>
 
     <table class="record_properties">
         <tbody>
@@ -19,7 +19,7 @@
             </tr>
             <tr>
                 <th>Datedenaissance</th>
-                <td>{{ entity.dateDeNaissance|date('Y-m-d H:i:s') }}</td>
+                <td>{{ entity.dateDeNaissance|date('Y-m-d') }}</td>
             </tr>
             <tr>
                 <th>Idfoyer</th>

@@ -38,6 +38,16 @@ class Eleve
     private $dateDeNaissance;
 
     /**
+     * @var boolean
+     */
+    private $RegimeSansPorc;
+
+    /**
+     * @var string
+     */
+    private $allergie;
+
+    /**
      * @var integer
      */
     private $idFoyer;
@@ -46,6 +56,23 @@ class Eleve
      * @var integer
      */
     private $idEtablissement;
+
+    /**
+     * @var boolean
+     */
+    private $atteste;
+
+    /**
+     * @var boolean
+     */
+
+    private $autorise;
+
+    /**
+     * @var
+     */
+
+    private $certifie;
 
 
     /**
@@ -176,5 +203,125 @@ class Eleve
     public function getIdEtablissement()
     {
         return $this->idEtablissement;
+    }
+
+    /**
+     * Set regimeSansPorc
+     *
+     * @param boolean $regimeSansPorc
+     *
+     * @return Eleve
+     */
+    public function setRegimeSansPorc($regimeSansPorc)
+    {
+        $this->RegimeSansPorc = $regimeSansPorc;
+
+        return $this;
+    }
+
+    /**
+     * Get regimeSansPorc
+     *
+     * @return boolean
+     */
+    public function getRegimeSansPorc()
+    {
+        return $this->RegimeSansPorc;
+    }
+
+    /**
+     * Set allergie
+     *
+     * @param string $allergie
+     *
+     * @return Eleve
+     */
+    public function setAllergie($allergie)
+    {
+        $this->allergie = $allergie;
+
+        return $this;
+    }
+
+    /**
+     * Get allergie
+     *
+     * @return string
+     */
+    public function getAllergie()
+    {
+        return $this->allergie;
+    }
+
+    /**
+     * Set atteste
+     *
+     * @param boolean $atteste
+     *
+     * @return Eleve
+     */
+    public function setAtteste($atteste)
+    {
+        $this->atteste = $atteste;
+
+        return $this;
+    }
+
+    /**
+     * Get atteste
+     *
+     * @return boolean
+     */
+    public function getAtteste()
+    {
+        return $this->atteste;
+    }
+
+    /**
+     * Set autorise
+     *
+     * @param boolean $autorise
+     *
+     * @return Eleve
+     */
+    public function setAutorise($autorise)
+    {
+        $this->autorise = $autorise;
+
+        return $this;
+    }
+
+    /**
+     * Get autorise
+     *
+     * @return boolean
+     */
+    public function getAutorise()
+    {
+        return $this->autorise;
+    }
+
+    /**
+     * Set certifie
+     *
+     * @param boolean $certifie
+     *
+     * @return Eleve
+     */
+    public function setCertifie($certifie)
+    {
+        $this->certifie = $certifie;
+
+        return $this;
+    }
+
+    /**
+     * Get certifie
+     *
+     * @return boolean
+     */
+    public function getCertifie()
+    {
+        return $this->certifie;
     }
 }

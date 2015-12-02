@@ -2,9 +2,6 @@ eleve:
     path:     /
     defaults: { _controller: "WCSCantineBundle:Eleve:index" }
 
-eleve_show:
-    path:     /{id}/show
-    defaults: { _controller: "WCSCantineBundle:Eleve:show" }
 
 eleve_new:
     path:     /new
@@ -13,7 +10,7 @@ eleve_new:
 eleve_create:
     path:     /create
     defaults: { _controller: "WCSCantineBundle:Eleve:create" }
-    methods:  POST
+
 
 eleve_edit:
     path:     /{id}/edit
@@ -28,3 +25,7 @@ eleve_delete:
     path:     /{id}/delete
     defaults: { _controller: "WCSCantineBundle:Eleve:delete" }
     methods:  [POST, DELETE]
+
+eleve_show:
+    path:     /{id}/show
+    defaults: { _controller: "WCSCantineBundle:Eleve:show" }

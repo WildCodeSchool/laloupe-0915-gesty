@@ -2,3 +2,4 @@ properties:
         # ...
         file:
             - Image: ~
+

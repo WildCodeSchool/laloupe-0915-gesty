@@ -12,9 +12,12 @@ file that was distributed with this source code.
 {% extends "ApplicationSonataUserBundle::layout.html.twig" %}
 
 {% block fos_user_content %}
-    <div class="row">
+
+
         <h2 class="welcome">Simpifiez vous l'accès aux services locaux</h2>
-        <img class="img-responsive center-block img-thumbnail" src="{{ asset('bundles/wcscantine/images/enfants.jpg') }}" alt="Dessin d'enfants">
+
+        <img class="img-responsive center-block img-thumbnail enfants" src="{{ asset('bundles/wcscantine/images/enfants.jpg') }}" alt="Dessin d'enfants">
+
         <div class="col-md-6">
             <div class="panel panel-info">
 
@@ -82,5 +85,5 @@ file that was distributed with this source code.
         <div class="col-md-6">
             {% render controller("SonataUserBundle:RegistrationFOSUser1:register") %}
         </div>
-    </div>
+
 {% endblock fos_user_content %}
