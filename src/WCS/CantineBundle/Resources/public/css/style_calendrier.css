@@ -25,7 +25,7 @@
 }
 
 .active {
-	color:  #335f0d;
+	color:  #335f0d!important;
 }
 
 ul {
@@ -84,14 +84,14 @@ thead {
 	margin-bottom: 30px;
 }
 
-.months :hover{
-	color: #5CAB18;
-	text-decoration: none;
+.months a:hover{
+	color: #5CAB18!important;
+	text-decoration: none!important;
 }
 
-.months :focus {
-	color: #335f0d;
-	text-decoration: none;
+.months a:focus{
+	color: #5CAB18!important;
+	text-decoration: none!important;
 }
 
 .jourecole {

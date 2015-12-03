@@ -44,7 +44,7 @@
 
             <div class="col-md-12"><!-- Calendar -->
 
-                    <h3 class="titre">Mon Calendrier</h3>
+                <h3 class="titre">Mon Calendrier</h3>
 
                 <div class="anneescolaire">
                     {% for key,value in calendrier %}
@@ -109,24 +109,24 @@
                                 <tbody>
                                 <tr>
                                     {% for day,day_week in days %}
-                                        {% if day == 1 %}
-                                            {% if day_week != 1 %}
-                                                <td colspan="{{ day_week - 1 }}"></td>
-                                            {% endif %}
+                                    {% if day == 1 %}
+                                        {% if day_week != 1 %}
+                                            <td colspan="{{ day_week - 1 }}"></td>
                                         {% endif %}
-                                    {% if day_week == 3 or day_week == 6 or day_week == 7 %}
-                                        <td class="inactif">
-                                            {% else %}
-                                            <td>
                                     {% endif %}
+                                    {% if day_week == 3 or day_week == 6 or day_week == 7 %}
+                                    <td class="inactif">
+                                        {% else %}
+                                    <td>
+                                        {% endif %}
                                         {% if day_week != 3 and day_week != 6 and day_week != 7 %}
-                                        <input class="calendar-checkbox" type="checkbox" value="{{ year }}-{{ month }}-{{ day }}">
+                                            <input class="calendar-checkbox" type="checkbox" value="{{ year }}-{{ month }}-{{ day }}">
                                         {% endif %}
                                         {{ day }}
 
                                         {% if (day_week == 7) %}
-                                            </tr><tr>
-                                        {% endif %}
+                                </tr><tr>
+                                    {% endif %}
 
                                     {% endfor %}
                                 </tr>
