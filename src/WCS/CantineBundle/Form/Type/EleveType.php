@@ -6,7 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class EleveType extends AbstractType
 {
@@ -19,7 +18,9 @@ class EleveType extends AbstractType
         $builder
             ->add('nom', 'text')
             ->add('prenom', 'text')
-            ->add('dateDeNaissance', 'date')
+            ->add('dateDeNaissance', 'date', array(
+            'format' => 'dd-MMMM-yyyy',
+            'years' =>  range(\date("Y") - 2, \date("Y") - 11),))
             ->add('idEtablissement', 'choice', array (
                 'choices'   => array('0' => 'Mme WITKIEWICZ Marie-Agnès - Ecole Notre Dame des Fleurs - PS/MS',
                     '1' => 'Mme BOUCHER Anne-lise - Ecole Notre Dame des Fleurs - MS/GS',
