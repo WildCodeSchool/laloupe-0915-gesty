@@ -149,4 +149,3 @@ sonata_admin:
                 label: Foyer
                 items:
                     - sonata.user.admin.user
-
