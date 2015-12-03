@@ -16,9 +16,8 @@ WCS\CantineBundle\Entity\Eleve:
         dateDeNaissance:
             type: date
             column: date_de_naissance
-        RegimeSansPorc:
+        regimeSansPorc:
             type: boolean
-            column: Regime_Sans_Porc
         allergie:
             type: string
             column: allergie
@@ -39,5 +38,8 @@ WCS\CantineBundle\Entity\Eleve:
         certifie:
             type: boolean
             column: certifie
+        dates:
+            type: text
+            nullable: true
 
     lifecycleCallbacks: {  }

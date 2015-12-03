@@ -1,6 +1,6 @@
 <?php
 
-namespace Gesty\GestyBundle\Entity;
+namespace WCS\CantineBundle\Entity;
 
 /**
  * Etablissement
@@ -110,4 +110,3 @@ class Etablissement
         return $this->instituteur;
     }
 }
-

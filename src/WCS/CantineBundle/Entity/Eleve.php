@@ -17,6 +17,7 @@ class Eleve
     }
     // GENERATE CODE
 
+    
     /**
      * @var integer
      */
@@ -40,7 +41,7 @@ class Eleve
     /**
      * @var boolean
      */
-    private $RegimeSansPorc;
+    private $regimeSansPorc;
 
     /**
      * @var string
@@ -65,14 +66,17 @@ class Eleve
     /**
      * @var boolean
      */
-
     private $autorise;
 
     /**
-     * @var
+     * @var boolean
      */
-
     private $certifie;
+
+    /**
+     * @var string
+     */
+    private $dates;
 
 
     /**
@@ -158,6 +162,54 @@ class Eleve
     }
 
     /**
+     * Set regimeSansPorc
+     *
+     * @param boolean $regimeSansPorc
+     *
+     * @return Eleve
+     */
+    public function setRegimeSansPorc($regimeSansPorc)
+    {
+        $this->regimeSansPorc = $regimeSansPorc;
+
+        return $this;
+    }
+
+    /**
+     * Get regimeSansPorc
+     *
+     * @return boolean
+     */
+    public function getRegimeSansPorc()
+    {
+        return $this->regimeSansPorc;
+    }
+
+    /**
+     * Set allergie
+     *
+     * @param string $allergie
+     *
+     * @return Eleve
+     */
+    public function setAllergie($allergie)
+    {
+        $this->allergie = $allergie;
+
+        return $this;
+    }
+
+    /**
+     * Get allergie
+     *
+     * @return string
+     */
+    public function getAllergie()
+    {
+        return $this->allergie;
+    }
+
+    /**
      * Set idFoyer
      *
      * @param integer $idFoyer
@@ -203,54 +255,6 @@ class Eleve
     public function getIdEtablissement()
     {
         return $this->idEtablissement;
-    }
-
-    /**
-     * Set regimeSansPorc
-     *
-     * @param boolean $regimeSansPorc
-     *
-     * @return Eleve
-     */
-    public function setRegimeSansPorc($regimeSansPorc)
-    {
-        $this->RegimeSansPorc = $regimeSansPorc;
-
-        return $this;
-    }
-
-    /**
-     * Get regimeSansPorc
-     *
-     * @return boolean
-     */
-    public function getRegimeSansPorc()
-    {
-        return $this->RegimeSansPorc;
-    }
-
-    /**
-     * Set allergie
-     *
-     * @param string $allergie
-     *
-     * @return Eleve
-     */
-    public function setAllergie($allergie)
-    {
-        $this->allergie = $allergie;
-
-        return $this;
-    }
-
-    /**
-     * Get allergie
-     *
-     * @return string
-     */
-    public function getAllergie()
-    {
-        return $this->allergie;
     }
 
     /**
@@ -323,5 +327,29 @@ class Eleve
     public function getCertifie()
     {
         return $this->certifie;
+    }
+
+    /**
+     * Set dates
+     *
+     * @param string $dates
+     *
+     * @return Eleve
+     */
+    public function setDates($dates)
+    {
+        $this->dates = $dates;
+
+        return $this;
+    }
+
+    /**
+     * Get dates
+     *
+     * @return string
+     */
+    public function getDates()
+    {
+        return $this->dates;
     }
 }

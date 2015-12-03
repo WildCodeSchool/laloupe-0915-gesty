@@ -1,0 +1,74 @@
+@font-face {
+	font-family: 'Open Sans', sans-serif;
+}
+
+@font-face {
+	font-family: 'Carter One', cursive;
+
+}
+
+.annee {
+	color:  #7A2903;
+	font-family: 'Carter One', cursive;
+	font-size: 1.6em;
+}
+
+.active {
+	color:  #335f0d;
+}
+
+ul {
+	text-align: center;
+}
+
+li {
+	list-style-type: none;
+	display: inline;
+	margin: 10px;
+}
+
+a {
+	font-family: 'Carter One', cursive;
+	font-size: 1.4em;
+	text-decoration: none;
+	color: #333;
+}
+
+table {
+	border-collapse: collapse;
+	margin: auto;
+}
+
+td {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 1em;
+	border: 1px solid #7A2903;
+	width: 80px;
+	text-align: right;
+	padding-right: 20px;
+	padding-left: 20px;
+}
+
+thead {
+	font-family: 'Carter One', cursive;
+	font-size: 1.2em;
+	text-align: center;
+	color: #333;
+}
+
+.calendar-checkbox {
+	display: inline;
+	float: left;
+}
+
+.inactif{
+	background-color: #C5BDB5;
+}
+
+.months a {
+	margin: 10px;
+}
+
+.months {
+	margin-bottom: 30px;
+}

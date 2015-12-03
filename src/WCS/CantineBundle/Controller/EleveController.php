@@ -46,10 +46,16 @@ class EleveController extends Controller
 
             return $this->redirect($this->generateUrl('eleve_show', array('id' => $entity->getId())));
         }
+        // Lancement de la fonction calendrier
+        $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
+
+        $jours = array('Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim');
 
         return $this->render('WCSCantineBundle:Eleve:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'calendrier' => $calendrier,
+            'jours' => $jours,
         ));
     }
 
@@ -220,5 +226,25 @@ class EleveController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+
+    /**
+     * Generate calendar
+     */
+    private function generateCalendar(\DateTime $start, \DateTime $end)
+    {
+        $return = array();
+        $calendrier = $start;
+
+            while ($calendrier <= $end) {
+                $y = date_format($calendrier, ('Y'));
+                $n = date_format($calendrier, ('n'));
+                $j = date_format($calendrier, ('j'));
+                $w = str_replace('0', '7', date_format($calendrier, ('w')));
+                $return[$y][$n][$j] = $w;
+                $calendrier->add(new \DateInterval('P1D'));
+            }
+
+        return $return;
     }
 }
