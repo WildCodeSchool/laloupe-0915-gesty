@@ -56,26 +56,25 @@
                 </div>
 
                 <div class="semaine">
-                    <div class="choix"><input type="checkbox" value="0" name="lundi" id="tousleslundis" /> Tous les lundis</div>
+                    <div class="choix">
+                        <input type="checkbox" name="lundi" id="weeklyday-1" />
+                        <label for="weeklyday-1">Tous les lundis</label>
+                    </div>
 
-                    <div class="choix"><input type="checkbox" value="0" name="mardi" id="touslesmardis" /> Tous les mardis</div>
+                    <div class="choix">
+                        <input type="checkbox" name="mardi" id="weeklyday-2" />
+                        <label for="weeklyday-2">Tous les mardis</label>
+                    </div>
 
-                    <div class="choix"><input type="checkbox" value="0" name="jeudi" id="touslesjeudis" /> Tous les jeudis</div>
+                    <div class="choix">
+                        <input type="checkbox" name="jeudi" id="weeklyday-4" />
+                        <label for="weeklyday-4">Tous les jeudis</label>
+                    </div>
 
-                    <div class="choix"><input type="checkbox" value="0" name="vendredi" id="touslesvendredis" /> Tous les vendredis</div>
-
-                    <script>
-                        // Auto seclect of checkboxes
-                        window.onload = function () {
-                            $('#tousleslundis').change(function(){
-                                alert('salut');
-                                if (this.attr('id')=="tousleslundis"){
-                                    $('td:first input.calendar-checkbox').val(this.val());
-                                }
-                            })
-                        }
-                    </script>
-
+                    <div class="choix">
+                        <input type="checkbox" name="vendredi" id="weeklyday-5" />
+                        <label for="weeklyday-5">Tous les vendredis</label>
+                    </div>
                 </div>
 
                 <div class="months col-md-12 text-center">
@@ -189,6 +188,12 @@
                             }
                             return false;
                         });
+
+                        // Auto select of week checkboxes
+                        $('.choix input').on('change', function(){
+                            var child = $(this).attr('id').split('-')[1];
+                            $('div.month td:nth-child('+child+') input.calendar-checkbox').prop('checked', $(this).prop('checked'));
+                        })
                     }
                 </script>
             </div>
