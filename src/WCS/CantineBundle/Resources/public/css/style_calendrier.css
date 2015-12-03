@@ -12,8 +12,10 @@
 
 .anneescolaire {
 	font-family: 'Carter One', cursive;
-	
+	text-align: center;
+	font-size: 1.4em;
 	color: #333;
+	padding: 10px 0px 25px 0px;
 }
 
 .annee {
@@ -36,7 +38,7 @@ li {
 	margin: 10px;
 }
 
-a {
+.moisecole {
 	font-family: 'Carter One', cursive;
 	font-size: 1.4em;
 	text-decoration: none;
@@ -85,4 +87,13 @@ thead {
 .months :hover{
 	color: #5CAB18;
 	text-decoration: none;
+}
+
+.months :focus {
+	color: #335f0d;
+	text-decoration: none;
+}
+
+.jourecole {
+	text-align: center;
 }
