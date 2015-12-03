@@ -49,13 +49,16 @@ class EleveController extends Controller
         // Lancement de la fonction calendrier
         $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
 
-        $jours = array('Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim');
+        $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
+
+
 
         return $this->render('WCSCantineBundle:Eleve:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
             'calendrier' => $calendrier,
             'jours' => $jours,
+
         ));
     }
 
@@ -244,7 +247,6 @@ class EleveController extends Controller
                 $return[$y][$n][$j] = $w;
                 $calendrier->add(new \DateInterval('P1D'));
             }
-
         return $return;
     }
 }
