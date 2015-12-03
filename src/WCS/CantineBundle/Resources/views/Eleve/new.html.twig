@@ -35,10 +35,13 @@
                     <label for="etablissement">Classe en septembre 2015</label>
                     {{ form_widget(form.idEtablissement) }} <br/>
                 </div>
+                <div class="hidden">
+                    {{ form_widget(form.dates) }}
+                </div>
             </div>
 
             <div class="col-md-12"><!-- Calendar -->
-                
+
                     <h3>Mon Calendrier</h3>
 
                 <div>
