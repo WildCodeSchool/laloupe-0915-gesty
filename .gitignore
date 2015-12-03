@@ -9,4 +9,4 @@
 /vendor/
 /web/bundles/
 /app/uploads/*
-.idea/
+composer.phar
