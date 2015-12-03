@@ -63,6 +63,19 @@
                     <div class="choix"><input type="checkbox" value="0" name="jeudi" id="touslesjeudis" /> Tous les jeudis</div>
 
                     <div class="choix"><input type="checkbox" value="0" name="vendredi" id="touslesvendredis" /> Tous les vendredis</div>
+
+                    <script>
+                        // Auto seclect of checkboxes
+                        window.onload = function () {
+                            $('#tousleslundis').change(function(){
+                                alert('salut');
+                                if (this.attr('id')=="tousleslundis"){
+                                    $('td:first input.calendar-checkbox').val(this.val());
+                                }
+                            })
+                        }
+                    </script>
+
                 </div>
 
                 <div class="months col-md-12 text-center">
