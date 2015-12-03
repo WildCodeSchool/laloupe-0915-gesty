@@ -65,3 +65,10 @@ thead {
 	background-color: #C5BDB5;
 }
 
+.months a {
+	margin: 10px;
+}
+
+.months {
+	margin-bottom: 30px;
+}
