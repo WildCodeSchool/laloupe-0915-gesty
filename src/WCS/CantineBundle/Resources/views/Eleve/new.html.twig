@@ -114,14 +114,21 @@
                                             <td colspan="{{ day_week - 1 }}"></td>
                                         {% endif %}
                                     {% endif %}
-                                    {% if day_week == 3 or day_week == 6 or day_week == 7 %}
+                                    {% if day_week == 3 or day_week == 6 or day_week == 7 or date(year ~ '-' ~ month ~ '-' ~ day).timestamp < dateLimit %}
                                     <td class="inactif">
                                         {% else %}
                                     <td>
                                         {% endif %}
-                                        {% if day_week != 3 and day_week != 6 and day_week != 7 %}
+
+
+                                        {% if day_week != 3 and day_week != 6 and day_week != 7 and date(year ~ '-' ~ month ~ '-' ~ day).timestamp > dateLimit %}
+
                                             <input class="calendar-checkbox" type="checkbox" value="{{ year }}-{{ month }}-{{ day }}">
                                         {% endif %}
+
+
+
+
                                         {{ day }}
 
                                         {% if (day_week == 7) %}
@@ -139,6 +146,7 @@
 
                 <script>
                     window.onload = function () {
+                        // Show the current month and hide the others
                         $('.month').hide();
                         $('.month:first').show();
                         $('.months a:first').addClass('active');
@@ -151,6 +159,7 @@
                             $('#WCS_cantinebundle_eleve_dates').html(dates);
                             this.submit();
                         });
+                        // Onclick the month selected appear and the other is hidden
                         var current = 9;
                         $('.months a').click(function(){
                             var month = $(this).attr('id').replace('linkMonth', '');
