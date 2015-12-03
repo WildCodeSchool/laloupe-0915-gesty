@@ -3,7 +3,7 @@
 
 
 {% block body %}
-    <div class='container' role='main'>
+    <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
         <center><h1>Inscription de mon enfant</h1></center>
         <center>
             <h4>
@@ -46,10 +46,23 @@
 
                 <h3 class="titre">Mon Calendrier</h3>
 
+                <blockquote class="information">Mon enfant déjeunera de manière régulière au restaurant scolaire les : -Veuillez sélectionner les dates-</br>
+                Ces choix sont valables toute l’année. Ils serviront de base à la facturation mensuelle.</blockquote>
+
                 <div class="anneescolaire">
                     {% for key,value in calendrier %}
                         {{ key }}
                     {% endfor %}
+                </div>
+
+                <div class="semaine">
+                    <div class="choix"><input type="checkbox" value="0" name="lundi" id="tousleslundis" /> Tous les lundis</div>
+
+                    <div class="choix"><input type="checkbox" value="0" name="mardi" id="touslesmardis" /> Tous les mardis</div>
+
+                    <div class="choix"><input type="checkbox" value="0" name="jeudi" id="touslesjeudis" /> Tous les jeudis</div>
+
+                    <div class="choix"><input type="checkbox" value="0" name="vendredi" id="touslesvendredis" /> Tous les vendredis</div>
                 </div>
 
                 <div class="months col-md-12 text-center">
