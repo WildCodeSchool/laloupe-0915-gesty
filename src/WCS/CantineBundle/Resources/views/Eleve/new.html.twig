@@ -56,40 +56,40 @@
                     {% for key,value in calendrier %}
                         {% for mois,jour in value %}
                             {% if mois == 1 %}
-                                <a href="#" id="linkMonth{{ mois }}">Jan</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Jan</a>
                             {% endif %}
                             {% if mois == 2 %}
-                                <a href="#" id="linkMonth{{ mois }}">Fév</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Fév</a>
                             {% endif %}
                             {% if mois == 3 %}
-                                <a href="#" id="linkMonth{{ mois }}">Mar</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Mar</a>
                             {% endif %}
                             {% if mois == 4 %}
-                                <a href="#" id="linkMonth{{ mois }}">Avr</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Avr</a>
                             {% endif %}
                             {% if mois == 5 %}
-                                <a href="#" id="linkMonth{{ mois }}">Mai</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Mai</a>
                             {% endif %}
                             {% if mois == 6 %}
-                                <a href="#" id="linkMonth{{ mois }}">Jui</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Jui</a>
                             {% endif %}
                             {% if mois == 7 %}
-                                <a href="#" id="linkMonth{{ mois }}">Jui</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Jui</a>
                             {% endif %}
                             {% if mois == 8 %}
-                                <a href="#" id="linkMonth{{ mois }}">Aoû</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Aoû</a>
                             {% endif %}
                             {% if mois == 9 %}
-                                <a href="#" id="linkMonth{{ mois }}">Sep</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Sep</a>
                             {% endif %}
                             {% if mois == 10 %}
-                                <a href="#" id="linkMonth{{ mois }}">Oct</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Oct</a>
                             {% endif %}
                             {% if mois == 11 %}
-                                <a href="#" id="linkMonth{{ mois }}">Nov</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Nov</a>
                             {% endif %}
                             {% if mois == 12 %}
-                                <a href="#" id="linkMonth{{ mois }}">Déc</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Déc</a>
                             {% endif %}
                         {% endfor %}
                     {% endfor %}
@@ -102,7 +102,7 @@
                                 <thead>
                                 <tr>
                                     {% for days in jours %}
-                                        <th>{{ days }}</th>
+                                        <th class="jourecole">{{ days }}</th>
                                     {% endfor %}
                                 </tr>
                                 </thead>
@@ -114,10 +114,20 @@
                                                 <td colspan="{{ day_week - 1 }}"></td>
                                             {% endif %}
                                         {% endif %}
-                                        <td><input class="calendar-checkbox" type="checkbox" value="{{ year }}-{{ month }}-{{ day }}">{{ day }}</td>
+                                    {% if day_week == 3 or day_week == 6 or day_week == 7 %}
+                                        <td class="inactif">
+                                            {% else %}
+                                            <td>
+                                    {% endif %}
+                                        {% if day_week != 3 and day_week != 6 and day_week != 7 %}
+                                        <input class="calendar-checkbox" type="checkbox" value="{{ year }}-{{ month }}-{{ day }}">
+                                        {% endif %}
+                                        {{ day }}
+
                                         {% if (day_week == 7) %}
                                             </tr><tr>
                                         {% endif %}
+
                                     {% endfor %}
                                 </tr>
                                 </tbody>
