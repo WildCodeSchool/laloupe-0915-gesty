@@ -4,7 +4,10 @@
 
 @font-face {
 	font-family: 'Carter One', cursive;
+}
 
+.titre {
+	margin-left: 96px;
 }
 
 .annee {
@@ -71,4 +74,9 @@ thead {
 
 .months {
 	margin-bottom: 30px;
+}
+
+.months :hover{
+	color: #5CAB18;
+	text-decoration: none;
 }
