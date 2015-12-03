@@ -18,7 +18,9 @@ class EleveType extends AbstractType
         $builder
             ->add('nom', 'text')
             ->add('prenom', 'text')
-            ->add('dateDeNaissance', 'date')
+            ->add('dateDeNaissance', EleveType::class, array(
+                'input'  => 'datetime',
+                'widget' => 'choice',))
             ->add('idEtablissement', 'choice', array (
                 'choices'   => array('0' => 'Mme WITKIEWICZ Marie-Agnès - Ecole Notre Dame des Fleurs - PS/MS',
                     '1' => 'Mme BOUCHER Anne-lise - Ecole Notre Dame des Fleurs - MS/GS',
