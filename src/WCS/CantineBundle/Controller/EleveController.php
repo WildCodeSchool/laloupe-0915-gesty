@@ -47,9 +47,17 @@ class EleveController extends Controller
             return $this->redirect($this->generateUrl('eleve_show', array('id' => $entity->getId())));
         }
 
+        $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
+        $mois = array('Jan','Fév','Mar','Avr','Mai','Jui','Jui','Aoû','Sep','Oct','Nov','Déc');
+        $calendrier = $this->generateCalendar();
+
+
         return $this->render('WCSCantineBundle:Eleve:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'calendrier' => $calendrier,
+            'jours'=> $jours,
+            'mois'=> $mois,
         ));
     }
 
@@ -220,5 +228,25 @@ class EleveController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+
+    /**
+     * @return array
+     */
+    public function generateCalendar()
+    {
+        $return = array();
+        $calendrier = new \DateTime('2015-01-01');
+        $year = new \DateTime();
+
+            while($calendrier <= $year){
+                $y = date_format($calendrier,('Y'));
+                $m = date_format($calendrier,('n'));
+                $d = date_format($calendrier,('j'));
+                $w = str_replace('0','7',date_format($calendrier,('w')));
+                $return [$y][$m][$d] = $w;
+                $calendrier->add(new \DateInterval('P1D'));
+            }
+        return $return;
     }
 }

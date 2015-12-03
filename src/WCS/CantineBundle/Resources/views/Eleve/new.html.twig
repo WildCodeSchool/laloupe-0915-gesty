@@ -36,6 +36,39 @@
                     {{ form_widget(form.idEtablissement) }} <br/>
                 </div>
         </div>
+
+        <div class="col-md-12">
+            {{ dump(calendrier) }}
+        </div>
+
+        {% for year in calendrier %}
+
+        <div class="col-md-12">
+            {% for mois,eee in year %}
+                <ul>
+                   {{ mois }}
+                </ul>
+            {% endfor %}
+        </div>
+
+        {% for jours in mois %}
+
+
+        {% endfor %}
+
+
+
+        {% endfor %}
+
+
+
+
+
+
+
+
+
+
         <div class="col-md-offset-1 col-md-9">
             <div class="form-group">
                 <h3>Menus Specifiques</h3>
