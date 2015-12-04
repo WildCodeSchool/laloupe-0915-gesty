@@ -9,4 +9,5 @@
 /vendor/
 /web/bundles/
 /app/uploads/*
-composer.phar
+.idea/*
+/bash

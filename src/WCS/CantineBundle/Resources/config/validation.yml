@@ -1,4 +1,4 @@
-gesty\CantineBundle\Entity\Formulaire:
+WCS\CantineBundle\Entity\User:
     properties:
         nom:
             - NotBlank: ~
