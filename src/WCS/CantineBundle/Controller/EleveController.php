@@ -49,7 +49,12 @@ class EleveController extends Controller
         // Lancement de la fonction calendrier
         $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
         $limit = new \DateTime();
+        $vacancesEte = new \DateTime('2016-07-06');
+
+        $vacancesHiver = $this->getHolidays('2016-02-02', '2016-02-21');
+
         $date = date_timestamp_get($limit) + 168*60*60;
+        $finAnnee = date_timestamp_get($vacancesEte);
 
         $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
 
@@ -61,6 +66,8 @@ class EleveController extends Controller
             'calendrier' => $calendrier,
             'jours' => $jours,
             'dateLimit' => $date,
+            'finAnnee' => $finAnnee,
+            'vacancesHiver' => $vacancesHiver,
 
         ));
     }
@@ -145,12 +152,12 @@ class EleveController extends Controller
     }
 
     /**
-    * Creates a form to edit a Eleve entity.
-    *
-    * @param Eleve $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
+     * Creates a form to edit a Eleve entity.
+     *
+     * @param Eleve $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
     private function createEditForm(Eleve $entity)
     {
         $form = $this->createForm(new EleveType(), $entity, array(
@@ -230,7 +237,7 @@ class EleveController extends Controller
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
-        ;
+            ;
     }
 
     /**
@@ -241,14 +248,36 @@ class EleveController extends Controller
         $return = array();
         $calendrier = $start;
 
-            while ($calendrier <= $end) {
-                $y = date_format($calendrier, ('Y'));
-                $n = date_format($calendrier, ('n'));
-                $j = date_format($calendrier, ('j'));
-                $w = str_replace('0', '7', date_format($calendrier, ('w')));
-                $return[$y][$n][$j] = $w;
-                $calendrier->add(new \DateInterval('P1D'));
-            }
+        while ($calendrier <= $end) {
+            $y = date_format($calendrier, ('Y'));
+            $n = date_format($calendrier, ('n'));
+            $j = date_format($calendrier, ('j'));
+            $w = str_replace('0', '7', date_format($calendrier, ('w')));
+            $return[$y][$n][$j] = $w;
+            $calendrier->add(new \DateInterval('P1D'));
+        }
         return $return;
+    }
+
+    /**
+     * Generate range date
+     */
+    private function getHolidays($start, $end) {
+        $interval = new \DateInterval('P1D');
+
+        $realEnd = new \DateTime($end);
+        $realEnd->add($interval);
+
+        $period = new \DatePeriod(
+            new \DateTime($start),
+            $interval,
+            $realEnd
+        );
+
+        foreach($period as $date) {
+            $array[] = date_format($date, ('Y-n-j'));
+        }
+
+        return $array;
     }
 }

@@ -131,28 +131,29 @@
                                     {% endfor %}
                                 </tr>
                                 </thead>
+
                                 <tbody>
                                 <tr>
+
                                     {% for day,day_week in days %}
                                     {% if day == 1 %}
                                         {% if day_week != 1 %}
                                             <td colspan="{{ day_week - 1 }}"></td>
                                         {% endif %}
                                     {% endif %}
-                                    {% if day_week == 3 or day_week == 6 or day_week == 7 or date(year ~ '-' ~ month ~ '-' ~ day).timestamp < dateLimit %}
+
+                                    {% if day_week == 3 or day_week == 6 or day_week == 7 or date(year ~ '-' ~ month ~ '-' ~ day).timestamp < dateLimit or date(year ~ '-' ~ month ~ '-' ~ day).timestamp > finAnnee %}
                                     <td class="inactif">
                                         {% else %}
                                     <td>
                                         {% endif %}
 
 
-                                        {% if day_week != 3 and day_week != 6 and day_week != 7 and date(year ~ '-' ~ month ~ '-' ~ day).timestamp > dateLimit %}
+                                        {% if day_week != 3 and day_week != 6 and day_week != 7 and date(year ~ '-' ~ month ~ '-' ~ day).timestamp > dateLimit and date(year ~ '-' ~ month ~ '-' ~ day).timestamp < finAnnee %}
 
                                             <input class="calendar-checkbox {{ 'day' ~ day_week }}" type="checkbox" value="{{ year }}-{{ month }}-{{ day }}">
+
                                         {% endif %}
-
-
-
 
                                         {{ day }}
 
@@ -161,6 +162,8 @@
                                     {% endif %}
 
                                     {% endfor %}
+
+
                                 </tr>
                                 </tbody>
                             </table>
