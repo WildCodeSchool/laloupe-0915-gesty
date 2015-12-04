@@ -1,0 +1,41 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
+        <h1>Mon Foyer</h1>
+            {{ app.user }}
+
+
+            <tr>
+                <th>adresse</th>
+                <th>Code Postal</th>
+                <th>Commune</th>
+                <th>Téléphone</th>
+            </tr>
+
+            {% for entity in entities %}
+                <tr>
+
+                    <td>{{ entity.adresse }}</td>
+                    <td>{{ entity.codePostal }}</td>
+                    <td>{{ entity.commune }}</td>
+                    <td>{{ entity.telephoneSecondaire }}</td>
+
+                </tr>
+            {% endfor %}
+
+
+
+            <h3>Mes justificatifs</h3>
+
+            <h3>Mes enfants</h3>
+
+
+            <blockquote>
+                <ul>
+                    <li>Télécharger le règlement intérieur</li>
+                    <li>Télécharger les 10 règles d'or de la cantine</li>
+                </ul>
+            </blockquote>
+    </div>
+{% endblock %}
