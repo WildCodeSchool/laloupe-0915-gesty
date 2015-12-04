@@ -48,6 +48,8 @@ class EleveController extends Controller
         }
         // Lancement de la fonction calendrier
         $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
+        $limit = new \DateTime();
+        $date = date_timestamp_get($limit) + 168*60*60;
 
         $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
 
@@ -58,6 +60,7 @@ class EleveController extends Controller
             'form'   => $form->createView(),
             'calendrier' => $calendrier,
             'jours' => $jours,
+            'dateLimit' => $date,
 
         ));
     }

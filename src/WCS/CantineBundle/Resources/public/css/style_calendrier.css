@@ -10,12 +10,28 @@
 	margin-left: 96px;
 }
 
+.information {
+	margin-left: 90px;
+}
+
 .anneescolaire {
 	font-family: 'Carter One', cursive;
 	text-align: center;
 	font-size: 1.4em;
 	color: #333;
 	padding: 10px 0px 25px 0px;
+}
+
+.semaine {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: bold;
+	font-size: 1.2em;
+	margin: 10px 200px 30px 200px;
+}
+
+.choix {
+	display: inline;
+	padding: 20px 10px 20px 10px;
 }
 
 .annee {

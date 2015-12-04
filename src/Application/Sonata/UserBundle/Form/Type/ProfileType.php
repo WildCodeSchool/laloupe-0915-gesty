@@ -54,12 +54,12 @@ class ProfileType extends \Sonata\UserBundle\Form\Type\ProfileType
             ->add('codePostal', 'text')
             ->add('commune', 'text')
             ->add('phone', 'text')
-            ->add('telephoneSecondaire', 'text')
-            ->add('caf', 'text')
+            ->add('telephoneSecondaire', 'text', array( 'required' => true))
+            ->add('caf', 'text', array( 'required' => true))
             ->add('modeDePaiement', 'choice',array(
                 'choices'   => array('0' => 'Chèque', '1' => 'Especes', '2' => 'Prélèvements')))
             ->add('numeroIban', 'text')
-            ->add('mandatActif', 'checkbox')
+            ->add('mandatActif', 'checkbox', array( 'required' => true))
             ->add('file', 'file', array('label' => 'Company logo', 'required' => false))
             ->add('envoyer', 'submit')
         ;

@@ -3,7 +3,7 @@
 
 
 {% block body %}
-    <div class='container' role='main'>
+    <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
         <center><h1>Inscription de mon enfant</h1></center>
         <center>
             <h4>
@@ -46,10 +46,35 @@
 
                 <h3 class="titre">Mon Calendrier</h3>
 
+                <blockquote class="information">Mon enfant déjeunera de manière régulière au restaurant scolaire les : -Veuillez sélectionner les dates-</br>
+                Ces choix sont valables toute l’année. Ils serviront de base à la facturation mensuelle.</blockquote>
+
                 <div class="anneescolaire">
                     {% for key,value in calendrier %}
                         {{ key }}
                     {% endfor %}
+                </div>
+
+                <div class="semaine">
+                    <div class="choix">
+                        <input type="checkbox" name="lundi" id="weeklyday-1" />
+                        <label for="weeklyday-1">Tous les lundis</label>
+                    </div>
+
+                    <div class="choix">
+                        <input type="checkbox" name="mardi" id="weeklyday-2" />
+                        <label for="weeklyday-2">Tous les mardis</label>
+                    </div>
+
+                    <div class="choix">
+                        <input type="checkbox" name="jeudi" id="weeklyday-4" />
+                        <label for="weeklyday-4">Tous les jeudis</label>
+                    </div>
+
+                    <div class="choix">
+                        <input type="checkbox" name="vendredi" id="weeklyday-5" />
+                        <label for="weeklyday-5">Tous les vendredis</label>
+                    </div>
                 </div>
 
                 <div class="months col-md-12 text-center">
@@ -114,14 +139,21 @@
                                             <td colspan="{{ day_week - 1 }}"></td>
                                         {% endif %}
                                     {% endif %}
-                                    {% if day_week == 3 or day_week == 6 or day_week == 7 %}
+                                    {% if day_week == 3 or day_week == 6 or day_week == 7 or date(year ~ '-' ~ month ~ '-' ~ day).timestamp < dateLimit %}
                                     <td class="inactif">
                                         {% else %}
                                     <td>
                                         {% endif %}
-                                        {% if day_week != 3 and day_week != 6 and day_week != 7 %}
+
+
+                                        {% if day_week != 3 and day_week != 6 and day_week != 7 and date(year ~ '-' ~ month ~ '-' ~ day).timestamp > dateLimit %}
+
                                             <input class="calendar-checkbox" type="checkbox" value="{{ year }}-{{ month }}-{{ day }}">
                                         {% endif %}
+
+
+
+
                                         {{ day }}
 
                                         {% if (day_week == 7) %}
@@ -139,6 +171,7 @@
 
                 <script>
                     window.onload = function () {
+                        // Show the current month and hide the others
                         $('.month').hide();
                         $('.month:first').show();
                         $('.months a:first').addClass('active');
@@ -151,6 +184,7 @@
                             $('#WCS_cantinebundle_eleve_dates').html(dates);
                             this.submit();
                         });
+                        // Onclick the month selected appear and the other is hidden
                         var current = 9;
                         $('.months a').click(function(){
                             var month = $(this).attr('id').replace('linkMonth', '');
@@ -163,6 +197,12 @@
                             }
                             return false;
                         });
+
+                        // Auto select of week checkboxes
+                        $('.choix input').on('change', function(){
+                            var child = $(this).attr('id').split('-')[1];
+                            $('div.month td:nth-child('+child+') input.calendar-checkbox').prop('checked', $(this).prop('checked'));
+                        })
                     }
                 </script>
             </div>
