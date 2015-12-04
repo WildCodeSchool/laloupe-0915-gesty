@@ -148,7 +148,7 @@
 
                                         {% if day_week != 3 and day_week != 6 and day_week != 7 and date(year ~ '-' ~ month ~ '-' ~ day).timestamp > dateLimit %}
 
-                                            <input class="calendar-checkbox" type="checkbox" value="{{ year }}-{{ month }}-{{ day }}">
+                                            <input class="calendar-checkbox {{ 'day' ~ day_week }}" type="checkbox" value="{{ year }}-{{ month }}-{{ day }}">
                                         {% endif %}
 
 
@@ -200,8 +200,8 @@
 
                         // Auto select of week checkboxes
                         $('.choix input').on('change', function(){
-                            var child = $(this).attr('id').split('-')[1];
-                            $('div.month td:nth-child('+child+') input.calendar-checkbox').prop('checked', $(this).prop('checked'));
+                            var daySelected = $(this).attr('id').split('-')[1];
+                            $('div.month td input.day' + daySelected).prop('checked', $(this).prop('checked'));
                         })
                     }
                 </script>
