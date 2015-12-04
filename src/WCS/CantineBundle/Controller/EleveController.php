@@ -106,15 +106,14 @@ class EleveController extends Controller
 
         $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
 
+
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Eleve entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('WCSCantineBundle:Eleve:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
+            'entity' => $entity,
         ));
     }
 

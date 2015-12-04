@@ -2,13 +2,10 @@
 
 {% block body %}
     <h1>Mon foyer</h1>
+    {{ app.user }}
 
     <table class="record_properties">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
             <tr>
                 <th>Nom</th>
                 <td>{{ entity.nom }}</td>
@@ -22,27 +19,23 @@
                 <td>{{ entity.dateDeNaissance|date('Y-m-d') }}</td>
             </tr>
             <tr>
-                <th>Idfoyer</th>
-                <td>{{ entity.idFoyer }}</td>
-            </tr>
-            <tr>
                 <th>Idetablissement</th>
                 <td>{{ entity.idEtablissement }}</td>
             </tr>
+            <tr>
+                <th>Regime sans porc</th>
+                <td>{{ entity.regimeSansPorc }}</td>
+            </tr>
+
         </tbody>
     </table>
 
         <ul class="record_actions">
     <li>
-        <a href="{{ path('eleve') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
         <a href="{{ path('eleve_edit', { 'id': entity.id }) }}">
             Edit
         </a>
     </li>
-    <li>{{ form(delete_form) }}</li>
+
 </ul>
 {% endblock %}
