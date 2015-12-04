@@ -26,12 +26,17 @@
 	font-family: 'Open Sans', sans-serif;
 	font-weight: bold;
 	font-size: 1.2em;
-	margin: 10px 200px 30px 200px;
+	margin: 30px 160px 30px 160px;
 }
 
 .choix {
 	display: inline;
 	padding: 20px 10px 20px 10px;
+}
+
+.wd {
+	color:#333;
+	text-align: center;
 }
 
 .annee {
