@@ -62,7 +62,7 @@ WCS\CantineBundle\Entity\User:
         caf:
             - Length:
                 min: 7
-                min: 7
+                max: 7
             - Regex:
                 pattern: '/\d/'
                 match:   true

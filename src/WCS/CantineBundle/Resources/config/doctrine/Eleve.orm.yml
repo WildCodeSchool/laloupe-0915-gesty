@@ -1,6 +1,5 @@
 WCS\CantineBundle\Entity\Eleve:
     type: entity
-    table: null
 
     id:
         id:

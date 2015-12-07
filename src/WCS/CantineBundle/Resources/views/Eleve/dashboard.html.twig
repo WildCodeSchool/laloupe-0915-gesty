@@ -5,21 +5,11 @@
         <h1>Mon Foyer</h1>
             {{ app.user }}
 
-
-            <tr>
-                <th>adresse</th>
-                <th>Code Postal</th>
-                <th>Commune</th>
-                <th>Téléphone</th>
-            </tr>
-
-
                 <tr>
 
-                    <td>{{ user.adresse }}</td>
                     <td>{{ user.codePostal }}</td>
                     <td>{{ user.commune }}</td>
-                    <td>{{ user.telephoneSecondaire }}</td>
+                    <td>{{ user.phone }}</td>
 
                 </tr>
 
@@ -27,15 +17,12 @@
 
 
             <h3>Mes justificatifs</h3>
+            <tbody>
+                <h3>Mes enfants</h3>
 
-            <h3>Mes enfants</h3>
-
-
-
-        {% for child in children %}
+                {% for child in children %}
 
                     <tr>
-
                         <td>{{ child.nom }}</td>
                         <td>{{ child.prenom }}</td>
                         <td>{{ child.allergie }}</td>
@@ -43,7 +30,8 @@
 
                     </tr>
 
-            {% endfor %}
+                {% endfor %}
+            </tbody>
 
 
             <blockquote>
