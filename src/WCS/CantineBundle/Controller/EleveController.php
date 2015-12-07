@@ -2,6 +2,7 @@
 
 namespace WCS\CantineBundle\Controller;
 
+use Application\Sonata\UserBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -29,6 +30,7 @@ class EleveController extends Controller
             'entities' => $entities,
         ));
     }
+
     /**
      * Creates a new Eleve entity.
      *
@@ -49,15 +51,14 @@ class EleveController extends Controller
         // Lancement de la fonction calendrier
         $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
         $limit = new \DateTime();
-        $date = date_timestamp_get($limit) + 168*60*60;
+        $date = date_timestamp_get($limit) + 168 * 60 * 60;
 
-        $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
-
+        $jours = array('Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim');
 
 
         return $this->render('WCSCantineBundle:Eleve:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
             'calendrier' => $calendrier,
             'jours' => $jours,
             'dateLimit' => $date,
@@ -80,7 +81,6 @@ class EleveController extends Controller
         ));
 
 
-
         return $form;
     }
 
@@ -91,11 +91,11 @@ class EleveController extends Controller
     public function newAction()
     {
         $entity = new Eleve();
-        $form   = $this->createCreateForm($entity);
+        $form = $this->createCreateForm($entity);
 
         return $this->render('WCSCantineBundle:Eleve:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         ));
     }
 
@@ -138,19 +138,19 @@ class EleveController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('WCSCantineBundle:Eleve:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
-    * Creates a form to edit a Eleve entity.
-    *
-    * @param Eleve $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
+     * Creates a form to edit a Eleve entity.
+     *
+     * @param Eleve $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
     private function createEditForm(Eleve $entity)
     {
         $form = $this->createForm(new EleveType(), $entity, array(
@@ -162,6 +162,7 @@ class EleveController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing Eleve entity.
      *
@@ -187,11 +188,12 @@ class EleveController extends Controller
         }
 
         return $this->render('WCSCantineBundle:Eleve:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
+
     /**
      * Deletes a Eleve entity.
      *
@@ -229,8 +231,7 @@ class EleveController extends Controller
             ->setAction($this->generateUrl('eleve_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
+            ->getForm();
     }
 
     /**
@@ -241,14 +242,34 @@ class EleveController extends Controller
         $return = array();
         $calendrier = $start;
 
-            while ($calendrier <= $end) {
-                $y = date_format($calendrier, ('Y'));
-                $n = date_format($calendrier, ('n'));
-                $j = date_format($calendrier, ('j'));
-                $w = str_replace('0', '7', date_format($calendrier, ('w')));
-                $return[$y][$n][$j] = $w;
-                $calendrier->add(new \DateInterval('P1D'));
-            }
+        while ($calendrier <= $end) {
+            $y = date_format($calendrier, ('Y'));
+            $n = date_format($calendrier, ('n'));
+            $j = date_format($calendrier, ('j'));
+            $w = str_replace('0', '7', date_format($calendrier, ('w')));
+            $return[$y][$n][$j] = $w;
+            $calendrier->add(new \DateInterval('P1D'));
+        }
         return $return;
+    }
+
+    public function dashboardAction()
+    {
+        $user = $this->getUser();
+        $children = $user->getEleves();
+
+        if (!$user) {
+            throw $this->createNotFoundException('Aucun User trouvé pour cet id:');
+        }
+        if (!$children) {
+            throw $this->createNotFoundException('Aucun Child trouvé pour cet id:');
+        }
+
+        return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(
+            'user' => $user,
+            'children' => $children,
+
+        ));
+
     }
 }

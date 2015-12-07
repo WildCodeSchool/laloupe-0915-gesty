@@ -13,22 +13,37 @@
                 <th>Téléphone</th>
             </tr>
 
-            {% for entity in entities %}
+
                 <tr>
 
-                    <td>{{ entity.adresse }}</td>
-                    <td>{{ entity.codePostal }}</td>
-                    <td>{{ entity.commune }}</td>
-                    <td>{{ entity.telephoneSecondaire }}</td>
+                    <td>{{ user.adresse }}</td>
+                    <td>{{ user.codePostal }}</td>
+                    <td>{{ user.commune }}</td>
+                    <td>{{ user.telephoneSecondaire }}</td>
 
                 </tr>
-            {% endfor %}
+
 
 
 
             <h3>Mes justificatifs</h3>
 
             <h3>Mes enfants</h3>
+
+
+
+        {% for child in children %}
+
+                    <tr>
+
+                        <td>{{ child.nom }}</td>
+                        <td>{{ child.prenom }}</td>
+                        <td>{{ child.allergie }}</td>
+                        <td>{{ child.regimeSansPorc }}</td>
+
+                    </tr>
+
+            {% endfor %}
 
 
             <blockquote>

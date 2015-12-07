@@ -8,6 +8,7 @@ class DashboardController extends Controller
 {
     public function indexAction()
     {
+
         $user = $this->getUser();
         if (!$user)
         {
@@ -16,18 +17,4 @@ class DashboardController extends Controller
         return $this->render('WCSGestyBundle:Dashboard:index.html.twig');
     }
 
-
-    public function dashboardAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('ApplicationSonataUserBundle:User')->findAll();
-
-
-
-        return $this->render('WCSGestyBundle:Dashboard:dashboard.html.twig', array(
-            'entities' => $entities, 
-        ));
-
-
-    }
 }

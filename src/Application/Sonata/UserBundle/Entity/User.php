@@ -91,6 +91,7 @@ class User extends BaseUser
     /** Generate code */
 
 
+
     /**
      * @var string
      */
@@ -135,6 +136,11 @@ class User extends BaseUser
      * @var string
      */
     private $justificatif;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $eleves;
 
 
     /**
@@ -351,5 +357,39 @@ class User extends BaseUser
     public function getJustificatif()
     {
         return $this->justificatif;
+    }
+
+    /**
+     * Add elefe
+     *
+     * @param \WCS\CantineBundle\Entity\Eleve $elefe
+     *
+     * @return User
+     */
+    public function addElefe(\WCS\CantineBundle\Entity\Eleve $elefe)
+    {
+        $this->eleves[] = $elefe;
+
+        return $this;
+    }
+
+    /**
+     * Remove elefe
+     *
+     * @param \WCS\CantineBundle\Entity\Eleve $elefe
+     */
+    public function removeElefe(\WCS\CantineBundle\Entity\Eleve $elefe)
+    {
+        $this->eleves->removeElement($elefe);
+    }
+
+    /**
+     * Get eleves
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEleves()
+    {
+        return $this->eleves;
     }
 }

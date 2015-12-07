@@ -2,6 +2,3 @@ wcs_gesty_homepage:
     path:     /
     defaults: { _controller: WCSGestyBundle:Dashboard:index }
 
-wcs_gesty_dashboard:
-    path: /dashboard
-    defaults: { _controller: WCSGestyBundle:Dashboard:dashboard }

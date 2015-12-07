@@ -1,6 +1,7 @@
 Application\Sonata\UserBundle\Entity\User:
     type: entity
     table: fos_user_user
+
     id:
         id:
             type: integer
@@ -45,6 +46,14 @@ Application\Sonata\UserBundle\Entity\User:
             type: string
             length: 255
             nullable: true
+
+
+    oneToMany:
+        eleves:
+            targetEntity: WCS\CantineBundle\Entity\Eleve
+            mappedBy: user
+
+
     lifecycleCallbacks:
         prePersist: [ preUpload ]
         preUpdate: [ preUpload ]
