@@ -134,5 +134,11 @@ p{
     max-height: 200px;
     margin-bottom: 20px;
 }
-
+#logout{
+    float:right;
+    font-size: 1.8em;
+    margin-right: 20px;
+    margin-top: 5px;
+    color: white;
+}
 

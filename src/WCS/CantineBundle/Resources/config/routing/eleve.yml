@@ -2,7 +2,6 @@ eleve:
     path:     /
     defaults: { _controller: "WCSCantineBundle:Eleve:index" }
 
-
 eleve_new:
     path:     /new
     defaults: { _controller: "WCSCantineBundle:Eleve:new" }
@@ -10,7 +9,6 @@ eleve_new:
 eleve_create:
     path:     /create
     defaults: { _controller: "WCSCantineBundle:Eleve:create" }
-
 
 eleve_edit:
     path:     /{id}/edit

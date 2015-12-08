@@ -27,6 +27,7 @@ sonata_user_resetting:
 sonata_user_profile:
     resource: "@ApplicationSonataUserBundle/Resources/config/routing/sonata_profile_1.xml"
     prefix: /profile
+    methods: [GET, POST]
 
 
 sonata_user_register:
@@ -40,3 +41,11 @@ sonata_user_change_password:
 sonata_user:
     resource: '@SonataUserBundle/Resources/config/routing/admin_security.xml'
     prefix: /admin
+
+eleve_list:
+    path:     /list
+    defaults: { _controller: "WCSCantineBundle:ListInscrits:show" }
+
+user_logout:
+    path: /logout
+    defaults: { _controller: "SonataUserBundle:SecurityFOSUser1:logout" }

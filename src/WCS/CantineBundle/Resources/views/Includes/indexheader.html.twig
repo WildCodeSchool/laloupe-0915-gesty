@@ -6,6 +6,11 @@
                     Gesty
                 </a>
             </div>
+            {% if app.user %}
+                <a href="{{ path('user_logout') }}" id="logout">
+                    <i class="fa fa-power-off"></i>
+                </a>
+            {% endif %}
         </div>
     </nav>
 </header>

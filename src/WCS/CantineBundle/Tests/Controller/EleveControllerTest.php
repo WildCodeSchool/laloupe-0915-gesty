@@ -32,11 +32,13 @@ class EleveControllerTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/login');
 
-        //$this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
-        //test les identifiants
+
+        //Create a new entry in the database
+        $crawler = $client->request('GET', '/eleve/');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /eleve/");
+        $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
 
         $this->assertTrue($crawler->filter('form input[name="_username"]')->count() == 1);
-        $this->assertTrue($crawler->filter('form input[name="_password"]')->count() == 1);
 
         //test la connexion quand j'ai déjà un compte
 
