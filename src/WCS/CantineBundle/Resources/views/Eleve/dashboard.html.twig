@@ -8,21 +8,20 @@
 
                 <tr>
 
-
-                    <td>{{ user.phone }}</td><br/>
+                    <td><i class="fa fa-phone"></i>{{ user.phone }}</td><br/>
                     <blockquote>
                         <td>{{ user.commune }}</td><br/>
                     </blockquote>
-                    {% if modeDePaiement == 1 %}
+                    {% if modeDePaiement == 0 %}
                         <td>Paiement par chèque</td>
-                    {% elseif modeDePaiement == 2 %}
+                    {% elseif modeDePaiement == 1 %}
                         <td>Paiement par espèces</td>
                     {% else  %}
                         <td>Paiement par prélèvement</td>
                     {% endif %}
-
-
-                </tr>
+                </tr><br/>
+        <a href="{{ path('sonata_user_profile_show') }}"><input type="button" value="Modifier mes informations"class="btn btn-primary" ></a>
+        <a href="{{ path('eleve_create') }}"><input type="button" value="Inscrire mon enfant"class="btn btn-primary"></a>
 
 
 
@@ -37,9 +36,19 @@
 
                     <tr>
                         <td>{{ child.nom }}</td>
-                        <td>{{ child.prenom }}</td>
-                        <td>{{ child.allergie }}</td>
-                        <td>{{ child.regimeSansPorc }}</td>
+                        <td>{{ child.prenom }}</td><br/>
+                        {% if child.allergie %}
+                            <td>Allergie: {{ child.allergie }}</td>
+                        {% else %}
+                            <td>Aucune allergie alimentaire renseignée</td>
+                        {% endif %}<br/>
+                        {% if child.regimeSansPorc %}
+                            <td>Regime sans porc </td>
+                        {% else %}
+
+                        {% endif %}<br/>
+
+                        <a href="{{ path('eleve_edit',{ 'id': child.id } )}}"><input type="button" value="Modifier"class="btn btn-primary"></a>
                         <td>{{ child.dates }}</td>
 
                     </tr>
