@@ -17,7 +17,7 @@ class EleveControllerTest extends WebTestCase
 
         //test si page inscription enfant s'affiche
 
-        $crawler = $client->request('GET', '/eleve/create');
+        $crawler = $client->request('GET', '/create');
         $this->assertEquals('WCS\CantineBundle\Controller\EleveController::createAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertTrue(200 === $client->getResponse()->getStatusCode());
 
@@ -28,37 +28,33 @@ class EleveControllerTest extends WebTestCase
 
 
     public function testConnexion()
-    {
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/login');
+     {
+         $client = static::createClient();
+         $crawler = $client->request('GET', '/login');
 
-
-        //Create a new entry in the database
-        $crawler = $client->request('GET', '/eleve/');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /eleve/");
-        $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
-
-        $this->assertTrue($crawler->filter('form input[name="_username"]')->count() == 1);
+         $this->assertTrue($crawler->filter('form input[name="_username"]')->count() == 1);
+         $this->assertTrue($crawler->filter('form input[name="_password"]')->count() == 1);
 
         //test la connexion quand j'ai déjà un compte
 
 
-        $form = $crawler->selectButton('Connexion')->form();
-        $form['_username'] = 'aaa';
-        $form['_password'] = 'aaa';
+         $form = $crawler->selectButton('Connexion')->form();
+         $form['_username'] = 'aaa';
+         $form['_password'] = 'aaa';
 
-        $crawler = $client->submit($form);
+         $crawler = $client->submit($form);
 
 
-        //suivre la redirection
+         //suivre la redirection
 
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $crawler = $client->followRedirect();
-        $this->assertEquals('Sonata\UserBundle\Controller\SecurityFOSUser1Controller::loginAction', $client->getRequest()->attributes->get('_controller'));
+         $this->assertEquals(302, $client->getResponse()->getStatusCode());
+         $crawler = $client->followRedirect();
+         $this->assertEquals('Sonata\UserBundle\Controller\SecurityFOSUser1Controller::loginAction', $client->getRequest()->attributes->get('_controller'));
 
     }
 
-    //test connexion quand je créée un compte
+  //test connexion quand je créée un compte
+
     public function testRegister()
     {
         $client = static::createClient();
@@ -77,7 +73,6 @@ class EleveControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('Sonata\UserBundle\Controller\SecurityFOSUser1Controller::loginAction', $client->getRequest()->attributes->get('_controller'));
-
 
     }
 }
