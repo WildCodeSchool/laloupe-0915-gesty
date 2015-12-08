@@ -294,10 +294,10 @@ class EleveController extends Controller
         $children = $user->getEleves();
 
         if (!$user) {
-            throw $this->createNotFoundException('Aucun User trouvé pour cet id:');
+            throw $this->createNotFoundException('Aucun utilisateur trouvé pour cet id:');
         }
         if (!$children) {
-            throw $this->createNotFoundException('Aucun Child trouvé pour cet id:');
+            throw $this->createNotFoundException('Aucun enfant trouvé pour cet id:');
         }
 
         return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(

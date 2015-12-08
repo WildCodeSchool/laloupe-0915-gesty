@@ -33,7 +33,7 @@ class EleveControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/login');
 
 
-        /Create a new entry in the database
+        //Create a new entry in the database
         $crawler = $client->request('GET', '/eleve/');
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /eleve/");
         $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
