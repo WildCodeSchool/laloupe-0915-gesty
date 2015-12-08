@@ -240,12 +240,9 @@ class EleveController extends Controller
             ->setAction($this->generateUrl('eleve_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
-<<<<<<< HEAD
-            ->getForm()
-            ;
-=======
+
             ->getForm();
->>>>>>> 690fad65b9c3b95e66a9fba37b88becbb2e54d33
+
     }
 
     /**
@@ -267,11 +264,12 @@ class EleveController extends Controller
         return $return;
     }
 
-<<<<<<< HEAD
+
     /**
      * Generate range date
      */
-    private function getHolidays($start, $end) {
+    private function getHolidays($start, $end)
+    {
         $interval = new \DateInterval('P1D');
 
         $realEnd = new \DateTime($end);
@@ -283,12 +281,13 @@ class EleveController extends Controller
             $realEnd
         );
 
-        foreach($period as $date) {
+        foreach ($period as $date) {
             $array[] = date_format($date, ('Y-n-j'));
         }
 
         return $array;
-=======
+    }
+
     public function dashboardAction()
     {
         $user = $this->getUser();
@@ -307,6 +306,6 @@ class EleveController extends Controller
 
         ));
 
->>>>>>> 690fad65b9c3b95e66a9fba37b88becbb2e54d33
+
     }
 }
