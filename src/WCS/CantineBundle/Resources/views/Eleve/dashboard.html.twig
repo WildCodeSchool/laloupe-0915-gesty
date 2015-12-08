@@ -4,14 +4,23 @@
     <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
         <p>Bonjour {{ user.nom }}</p>
         <h1>Mon Foyer</h1>
-            {{ app.user }}
+            <p> {{ app.user }} </p><br/>
 
                 <tr>
 
-                    <td>{{ user.codePostal }}</td>
-                    <td>{{ user.commune }}</td>
-                    <td>{{ user.phone }}</td>
-                    <td>{{ user.modeDePaiement }}</td>
+
+                    <td>{{ user.phone }}</td><br/>
+                    <blockquote>
+                        <td>{{ user.commune }}</td><br/>
+                    </blockquote>
+                    {% if modeDePaiement == 1 %}
+                        <td>Paiement par chèque</td>
+                    {% elseif modeDePaiement == 2 %}
+                        <td>Paiement par espèces</td>
+                    {% else  %}
+                        <td>Paiement par prélèvement</td>
+                    {% endif %}
+
 
                 </tr>
 

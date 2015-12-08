@@ -257,6 +257,7 @@ class EleveController extends Controller
     public function dashboardAction()
     {
         $user = $this->getUser();
+        $moyendepaiement = $user->getmodeDePaiement();
         $children = $user->getEleves();
 
         if (!$user) {
@@ -269,6 +270,7 @@ class EleveController extends Controller
         return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(
             'user' => $user,
             'children' => $children,
+            'modeDePaiement' =>$moyendepaiement,
 
         ));
 
