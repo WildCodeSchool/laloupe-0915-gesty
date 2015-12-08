@@ -2,6 +2,7 @@
 
 namespace WCS\CantineBundle\Controller;
 
+use Application\Sonata\UserBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -29,6 +30,7 @@ class EleveController extends Controller
             'entities' => $entities,
         ));
     }
+
     /**
      * Creates a new Eleve entity.
      *
@@ -41,14 +43,16 @@ class EleveController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $entity->setUser($this->getUser());
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('eleve_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('wcs_cantine_dashboard'));
         }
         // Lancement de la fonction calendrier
         $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
         $limit = new \DateTime();
+
         $vacancesEte = new \DateTime('2016-07-06');
 
         $vacancesHiver = $this->getHolidays('2016-02-02', '2016-02-21');
@@ -59,10 +63,9 @@ class EleveController extends Controller
         $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
 
 
-
         return $this->render('WCSCantineBundle:Eleve:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
             'calendrier' => $calendrier,
             'jours' => $jours,
             'dateLimit' => $date,
@@ -87,7 +90,6 @@ class EleveController extends Controller
         ));
 
 
-
         return $form;
     }
 
@@ -98,11 +100,11 @@ class EleveController extends Controller
     public function newAction()
     {
         $entity = new Eleve();
-        $form   = $this->createCreateForm($entity);
+        $form = $this->createCreateForm($entity);
 
         return $this->render('WCSCantineBundle:Eleve:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         ));
     }
 
@@ -145,8 +147,8 @@ class EleveController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('WCSCantineBundle:Eleve:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -169,6 +171,7 @@ class EleveController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing Eleve entity.
      *
@@ -194,11 +197,12 @@ class EleveController extends Controller
         }
 
         return $this->render('WCSCantineBundle:Eleve:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
+
     /**
      * Deletes a Eleve entity.
      *
@@ -236,8 +240,12 @@ class EleveController extends Controller
             ->setAction($this->generateUrl('eleve_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
+<<<<<<< HEAD
             ->getForm()
             ;
+=======
+            ->getForm();
+>>>>>>> 690fad65b9c3b95e66a9fba37b88becbb2e54d33
     }
 
     /**
@@ -259,6 +267,7 @@ class EleveController extends Controller
         return $return;
     }
 
+<<<<<<< HEAD
     /**
      * Generate range date
      */
@@ -279,5 +288,25 @@ class EleveController extends Controller
         }
 
         return $array;
+=======
+    public function dashboardAction()
+    {
+        $user = $this->getUser();
+        $children = $user->getEleves();
+
+        if (!$user) {
+            throw $this->createNotFoundException('Aucun User trouvé pour cet id:');
+        }
+        if (!$children) {
+            throw $this->createNotFoundException('Aucun Child trouvé pour cet id:');
+        }
+
+        return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(
+            'user' => $user,
+            'children' => $children,
+
+        ));
+
+>>>>>>> 690fad65b9c3b95e66a9fba37b88becbb2e54d33
     }
 }

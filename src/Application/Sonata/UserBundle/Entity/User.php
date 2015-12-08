@@ -94,6 +94,16 @@ class User extends BaseUser
     /**
      * @var string
      */
+    private $nom;
+
+    /**
+     * @var string
+     */
+    private $prenom;
+
+    /**
+     * @var string
+     */
     private $adresse;
 
     /**
@@ -136,6 +146,59 @@ class User extends BaseUser
      */
     private $justificatif;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $eleves;
+
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     *
+     * @return User
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Set prenom
+     *
+     * @param string $prenom
+     *
+     * @return User
+     */
+    public function setPrenom($prenom)
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    /**
+     * Get prenom
+     *
+     * @return string
+     */
+    public function getPrenom()
+    {
+        return $this->prenom;
+    }
 
     /**
      * Set adresse
@@ -351,5 +414,39 @@ class User extends BaseUser
     public function getJustificatif()
     {
         return $this->justificatif;
+    }
+
+    /**
+     * Add elefe
+     *
+     * @param \WCS\CantineBundle\Entity\Eleve $elefe
+     *
+     * @return User
+     */
+    public function addElefe(\WCS\CantineBundle\Entity\Eleve $elefe)
+    {
+        $this->eleves[] = $elefe;
+
+        return $this;
+    }
+
+    /**
+     * Remove elefe
+     *
+     * @param \WCS\CantineBundle\Entity\Eleve $elefe
+     */
+    public function removeElefe(\WCS\CantineBundle\Entity\Eleve $elefe)
+    {
+        $this->eleves->removeElement($elefe);
+    }
+
+    /**
+     * Get eleves
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEleves()
+    {
+        return $this->eleves;
     }
 }

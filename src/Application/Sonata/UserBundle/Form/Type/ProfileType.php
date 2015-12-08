@@ -44,22 +44,22 @@ class ProfileType extends \Sonata\UserBundle\Form\Type\ProfileType
             ))
             ->add('firstname', null, array(
                 'label'    => 'form.label_firstname',
-                'required' => false
+                'required' => true
             ))
             ->add('lastname', null, array(
                 'label'    => 'form.label_lastname',
-                'required' => false
+                'required' => true
             ))
-            ->add('adresse', 'text')
-            ->add('codePostal', 'text')
-            ->add('commune', 'text')
-            ->add('phone', 'text')
-            ->add('telephoneSecondaire', 'text', array( 'required' => true))
-            ->add('caf', 'text', array( 'required' => true))
+            ->add('adresse', 'text', array( 'required' => true))
+            ->add('codePostal', 'text', array( 'required' => true))
+            ->add('commune', 'text', array( 'required' => true))
+            ->add('phone', 'text', array( 'required' => true))
+            ->add('telephoneSecondaire', 'text', array( 'required' => false))
+            ->add('caf', 'text', array( 'required' => false))
             ->add('modeDePaiement', 'choice',array(
                 'choices'   => array('0' => 'Chèque', '1' => 'Especes', '2' => 'Prélèvements')))
-            ->add('numeroIban', 'text')
-            ->add('mandatActif', 'checkbox', array( 'required' => true))
+            ->add('numeroIban', 'text', array( 'required' => false))
+            ->add('mandatActif', 'checkbox', array( 'required' => false))
             ->add('file', 'file', array('label' => 'Company logo', 'required' => false))
             ->add('envoyer', 'submit')
         ;

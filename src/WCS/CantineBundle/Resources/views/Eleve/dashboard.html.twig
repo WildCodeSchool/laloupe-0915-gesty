@@ -1,0 +1,44 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
+        <h1>Mon Foyer</h1>
+            {{ app.user }}
+
+                <tr>
+
+                    <td>{{ user.codePostal }}</td>
+                    <td>{{ user.commune }}</td>
+                    <td>{{ user.phone }}</td>
+
+                </tr>
+
+
+
+
+            <h3>Mes justificatifs</h3>
+            <tbody>
+                <h3>Mes enfants</h3>
+
+                {% for child in children %}
+
+                    <tr>
+                        <td>{{ child.nom }}</td>
+                        <td>{{ child.prenom }}</td>
+                        <td>{{ child.allergie }}</td>
+                        <td>{{ child.regimeSansPorc }}</td>
+
+                    </tr>
+
+                {% endfor %}
+            </tbody>
+
+
+            <blockquote>
+                <ul>
+                    <li>Télécharger le règlement intérieur</li>
+                    <li>Télécharger les 10 règles d'or de la cantine</li>
+                </ul>
+            </blockquote>
+    </div>
+{% endblock %}

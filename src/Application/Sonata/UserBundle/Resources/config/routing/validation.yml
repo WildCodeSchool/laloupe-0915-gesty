@@ -1,28 +1,27 @@
-gesty\CantineBundle\Entity\Formulaire:
+Application\Sonata\Userbundle\Entity\User:
     properties:
         nom:
             - NotBlank: ~
             - Regex:
                 pattern: '/"#{}<>=+|~&()`_^@°%$£ø*µ§!?,:;.²/'
-                match: true
+                match: false
 
         prenom:
             - NotBlank: ~
             - Regex:
                 pattern: '/"#{}<>=+|~&()`_^@°%$£ø*µ§!?,:;.²/'
-                match: true
+                match: false
 
         adresse:
             - NotBlank: ~
             - Regex:
                 pattern: '/"#{}<>=+|~&()`_^@°%$£ø*µ§!?,:;.²/'
-                match: true
+                match: false
 
         codePostal:
             - Length:
                 min: 5
                 max: 5
-                exactMessage: "Code invalide"
             - Regex:
                 pattern: '/\d/'
                 match: true
@@ -31,7 +30,7 @@ gesty\CantineBundle\Entity\Formulaire:
             - NotBlank: ~
             - Regex:
                 pattern: '/"#{}<>=+|~&()`_^@°%$£ø*µ§!?,:;.²/'
-                match: true
+                match: false
 
         telephone:
             - Length:
@@ -57,12 +56,12 @@ gesty\CantineBundle\Entity\Formulaire:
                 max: 27
             - Regex:
                 pattern: '/"#{}<>=+|~&()`_^@°%$£ø*µ§!?,:;.²/'
-                match: true
+                match: false
 
         caf:
             - Length:
                 min: 7
-                min: 7
+                max: 7
             - Regex:
                 pattern: '/\d/'
                 match:   true
