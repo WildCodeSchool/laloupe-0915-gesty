@@ -2,6 +2,7 @@
 
 {% block body %}
     <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
+        <p>Bonjour {{ user.nom }}</p>
         <h1>Mon Foyer</h1>
             {{ app.user }}
 
@@ -10,6 +11,7 @@
                     <td>{{ user.codePostal }}</td>
                     <td>{{ user.commune }}</td>
                     <td>{{ user.phone }}</td>
+                    <td>{{ user.modeDePaiement }}</td>
 
                 </tr>
 
@@ -17,6 +19,8 @@
 
 
             <h3>Mes justificatifs</h3>
+                <td>{{ user.justificatif }}</td>
+
             <tbody>
                 <h3>Mes enfants</h3>
 
@@ -27,6 +31,7 @@
                         <td>{{ child.prenom }}</td>
                         <td>{{ child.allergie }}</td>
                         <td>{{ child.regimeSansPorc }}</td>
+                        <td>{{ child.dates }}</td>
 
                     </tr>
 
