@@ -22,7 +22,7 @@ class ListInscritsController extends Pupils
      */
     public function listAction()
     {
-        $interval = new \DateInterval('P5D');
+        $interval = new \DateInterval(strtotime('next Monday'));
 
         $date = new \DateTime('now');
         $date->add($interval);

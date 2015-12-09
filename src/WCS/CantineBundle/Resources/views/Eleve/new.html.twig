@@ -120,6 +120,8 @@
                     {% endfor %}
                 </div>
 
+                {{ dump(vacancesHiver) }}
+
                 {% for year, months in calendrier %}
                     {% for month, days in months %}
                         <div class="month" id="month{{ month }}">
@@ -143,7 +145,9 @@
                                     {% endif %}
 
                                     {% if day_week == 3 or day_week == 6 or day_week == 7 or date(year ~ '-' ~ month ~ '-' ~ day).timestamp < dateLimit or date(year ~ '-' ~ month ~ '-' ~ day).timestamp > finAnnee %}
+
                                     <td class="inactif">
+
                                         {% else %}
                                     <td>
                                         {% endif %}
@@ -162,7 +166,6 @@
                                     {% endif %}
 
                                     {% endfor %}
-
 
                                 </tr>
                                 </tbody>
