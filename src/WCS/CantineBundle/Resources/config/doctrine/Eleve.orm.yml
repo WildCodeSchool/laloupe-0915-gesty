@@ -1,6 +1,6 @@
 WCS\CantineBundle\Entity\Eleve:
     type: entity
-
+    repositoryClass: WCS\CantineBundle\Entity\EleveRepository
     id:
         id:
             type: integer

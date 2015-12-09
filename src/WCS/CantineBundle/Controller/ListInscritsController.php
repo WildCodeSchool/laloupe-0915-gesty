@@ -23,9 +23,7 @@ class ListInscritsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('WCSCantineBundle:Eleve')->findBy(array(
-            'dates' => preg_match('/[0-9]{4}-[0-9]{1}-[0-9]{1};/','#2015-9-8;#')
-        ));
+        $entities = $em->getRepository('WCSCantineBundle:Eleve')->findByDay(new \DateTime('2016-02-04'));
 
         return $this->render('WCSCantineBundle:Eleve:list.html.twig', array(
             'entities' => $entities,
