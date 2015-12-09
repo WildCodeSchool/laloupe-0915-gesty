@@ -41,9 +41,6 @@ class EleveController extends Controller
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
-
-
-
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity->setUser($this->getUser());
@@ -75,9 +72,6 @@ class EleveController extends Controller
             'dateLimit' => $date,
             'finAnnee' => $finAnnee,
             'vacancesHiver' => $vacancesHiver,
-
-
-
         ));
     }
 
@@ -310,8 +304,6 @@ class EleveController extends Controller
         //$em = $this->getDoctrine()->getManager();
        // $jour = $em->getRepository('WCSCantineBundle:Eleve')->findByDate($children);
 
-
-
         if (!$user) {
             throw $this->createNotFoundException('Aucun utilisateur trouvé pour cet id:');
         }
@@ -324,8 +316,6 @@ class EleveController extends Controller
             'children' => $children,
             'modeDePaiement' =>$moyendepaiement,
             //'jour'=> $jour,
-
-
 
         ));
 
