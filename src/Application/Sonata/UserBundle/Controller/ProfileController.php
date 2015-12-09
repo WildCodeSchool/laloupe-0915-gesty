@@ -35,7 +35,7 @@ class ProfileController extends BaseController
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('eleve_create'));
+            return $this->redirect($this->generateUrl('wcs_cantine_dashboard'));
         }
 
 
