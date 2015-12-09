@@ -17,7 +17,7 @@ class EleveControllerTest extends WebTestCase
 
         //test si page inscription enfant s'affiche
 
-        $crawler = $client->request('GET', '/eleve/create');
+        $crawler = $client->request('GET', '/create');
         $this->assertEquals('WCS\CantineBundle\Controller\EleveController::createAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertTrue(200 === $client->getResponse()->getStatusCode());
 

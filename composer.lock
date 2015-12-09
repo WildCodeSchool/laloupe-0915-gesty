@@ -1636,17 +1636,17 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "2.11.0",
+            "version": "2.11.1",
             "target-dir": "Nelmio/ApiDocBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "49238f44aa73f545c0a927b00251c89a0acf3005"
+                "reference": "19d4e37365edd5104e31662a2d3b510d92a7e78a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/49238f44aa73f545c0a927b00251c89a0acf3005",
-                "reference": "49238f44aa73f545c0a927b00251c89a0acf3005",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/19d4e37365edd5104e31662a2d3b510d92a7e78a",
+                "reference": "19d4e37365edd5104e31662a2d3b510d92a7e78a",
                 "shasum": ""
             },
             "require": {
@@ -1716,7 +1716,7 @@
                 "documentation",
                 "rest"
             ],
-            "time": "2015-12-04 08:15:49"
+            "time": "2015-12-08 13:19:42"
         },
         {
             "name": "phpcollection/phpcollection",

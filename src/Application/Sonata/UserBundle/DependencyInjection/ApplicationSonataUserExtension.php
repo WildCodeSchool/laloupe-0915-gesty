@@ -26,3 +26,4 @@ class ApplicationSonataUserExtension extends Extension
         $loader->load('services.yml');
     }
 }
+
