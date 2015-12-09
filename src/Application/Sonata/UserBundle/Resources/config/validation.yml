@@ -1,0 +1,57 @@
+Application\Sonata\UserBundle\Entity\User:      # le lien pour la doc, http://symfony.com/doc/current/reference/constraints.html
+    properties:
+        lastname:
+           - Length:
+                min: 2
+                max: 20
+           - Regex:
+                pattern: '/\d/'
+                match: false
+
+        firstname:
+            - Length:
+                min: 2
+                max: 20
+            - Regex:
+                pattern: '/\d/'
+                match: false
+
+        adresse:
+            - Length:
+                min: 1
+                max: 40
+
+        codePostal:
+            - Length:
+                min: 5
+                max: 5
+
+        phone:
+            - Length:
+                min: 10
+                max: 10
+            - Regex:
+                pattern: '/\d/'
+                match: true
+
+        telephoneSecondaire:
+            - Length:
+                min: 10
+                max: 10
+            - Regex:
+                pattern: '/\d/'
+                match: true
+
+        numeroIban:
+            - Length:
+                min: 27
+                max: 27
+
+        caf:
+            - Length:
+                min: 7
+                max: 7
+            - Regex:
+                pattern: '/\d/'
+                match: true
+
