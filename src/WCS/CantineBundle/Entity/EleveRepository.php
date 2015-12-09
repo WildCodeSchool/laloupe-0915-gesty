@@ -26,4 +26,18 @@ class EleveRepository extends EntityRepository
             ->setParameter(':day', "%".$day."%")
             ->getResult();
     }
+
+    public function findByDate($children)
+    {
+
+
+        // Request pupils to the database from a certain date
+        // lien : http://symfony.com/doc/current/book/doctrine.html (src/AppBundle/Entity/ProductRepository.php)
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT e FROM WCSCantineBundle:Eleve e WHERE e. LIKE :eleve AND e.'
+            )
+            ->setParameter(':eleve', "%".$children."%")
+            ->getResult();
+    }
 }

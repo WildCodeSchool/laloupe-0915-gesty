@@ -307,7 +307,8 @@ class EleveController extends Controller
         $user = $this->getUser();
         $moyendepaiement = $user->getmodeDePaiement();
         $children = $user->getEleves();
-
+        //$em = $this->getDoctrine()->getManager();
+       // $jour = $em->getRepository('WCSCantineBundle:Eleve')->findByDate($children);
 
 
 
@@ -322,6 +323,7 @@ class EleveController extends Controller
             'user' => $user,
             'children' => $children,
             'modeDePaiement' =>$moyendepaiement,
+            //'jour'=> $jour,
 
 
 
