@@ -6,30 +6,33 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use WCS\CantineBundle\Entity\Eleve;
+use WCS\CantineBundle\Controller\EleveController as Pupils;
 
 
 /**
  * List controller.
  *
  */
-class ListInscritsController extends Controller
+class ListInscritsController extends Pupils
 {
 
     /**
      * Lists all Eleve entities.
      *
      */
-    public function showAction()
+    public function listAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        $interval = new \DateInterval('P5D');
 
-        $entities = $em->getRepository('WCSCantineBundle:Eleve')->findBy(array(
-            'dates' => preg_match('/[0-9]{4}-[0-9]{1}-[0-9]{1};/','#2015-9-8;#')
-        ));
+        $date = new \DateTime('now');
+        $date->add($interval);
+        $em = $this->getDoctrine()->getManager();
+        $aujourdhui = $em->getRepository('WCSCantineBundle:Eleve')->findByDay($date);
 
         return $this->render('WCSCantineBundle:Eleve:list.html.twig', array(
-            'entities' => $entities,
+            'aujourdhui' => $aujourdhui,
         ));
+
     }
 
 }

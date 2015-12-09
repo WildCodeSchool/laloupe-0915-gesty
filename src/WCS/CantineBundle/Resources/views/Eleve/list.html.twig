@@ -1,8 +1,18 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-    {% for entity in entities %}
-{{ entity.nom }}
-{% endfor %}
+
+    <table>
+
+        <tr>
+            <td>Enfants inscrits</td>
+        </tr>
+            {% for eleve in aujourdhui %}
+        <tr>
+            {{ eleve.prenom }} {{ eleve.nom }}<br />
+        </tr>
+            {% endfor %}
+    </table>
+
 
 {% endblock %}
