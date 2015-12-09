@@ -249,7 +249,7 @@ class EleveController extends Controller
     /**
      * Generate calendar
      */
-    private function generateCalendar(\DateTime $start, \DateTime $end)
+    public function generateCalendar(\DateTime $start, \DateTime $end)
     {
         $return = array();
         $calendrier = $start;

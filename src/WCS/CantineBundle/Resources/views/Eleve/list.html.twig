@@ -2,10 +2,17 @@
 
 {% block body %}
 
-    {% for pupils in entities %}
-{{ pupils.nom }}
-        {{ pupils.prenom }}
-{% endfor %}
+    <table>
+
+        <tr>
+            <td>Enfants inscrits</td>
+        </tr>
+            {% for eleve in aujourdhui %}
+        <tr>
+            {{ eleve.prenom }} {{ eleve.nom }}<br />
+        </tr>
+            {% endfor %}
+    </table>
 
 
 {% endblock %}

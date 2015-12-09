@@ -44,7 +44,7 @@ sonata_user:
 
 eleve_list:
     path:     /list
-    defaults: { _controller: "WCSCantineBundle:ListInscrits:show" }
+    defaults: { _controller: "WCSCantineBundle:ListInscrits:list" }
 
 user_logout:
     path: /logout
