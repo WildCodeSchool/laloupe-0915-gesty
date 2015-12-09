@@ -2,7 +2,6 @@ eleve:
     path:     /
     defaults: { _controller: "WCSCantineBundle:Eleve:index" }
 
-
 eleve_new:
     path:     /new
     defaults: { _controller: "WCSCantineBundle:Eleve:new" }

@@ -23,7 +23,8 @@
         "sonata-project/easy-extends-bundle": "^2.1",
         "sonata-project/user-bundle": "2.2.*@dev",
         "knplabs/knp-menu-bundle": "~1.1",
-        "friendsofsymfony/user-bundle": "~1.3"
+        "friendsofsymfony/user-bundle": "~1.3",
+        "phpunit/phpunit": "5.0.*"
 
     },
     "require-dev": {

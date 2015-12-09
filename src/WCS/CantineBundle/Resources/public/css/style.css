@@ -112,7 +112,7 @@ label {
     background-color:  #335f0d;
 }
 p{
-   diplay:block;
+    diplay:block;
     text-align: left;
 }
 .container {
@@ -123,6 +123,7 @@ p{
     margin-bottom: 10px;
     width: 1170px;
     margin: 80px auto;
+    font-size: 18px;
 }
 .welcome {
     font-family: 'Carter One';
@@ -134,5 +135,16 @@ p{
     max-height: 200px;
     margin-bottom: 20px;
 }
-
-
+#logout{
+    float:right;
+    font-size: 1.8em;
+    margin-right: 20px;
+    margin-top: 5px;
+    color: white;
+}
+.fa-phone{
+    margin-right: 5px;
+}
+.body{
+    font-size: 16px;
+}

@@ -2,36 +2,108 @@
 
 {% block body %}
     <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
-        <h1>Mon Foyer</h1>
-            {{ app.user }}
+        <p>Bonjour {{ user.nom }}</p>
+        <h1>Mon Foyer</h1><br/>
+            <p> {{ app.user }} </p><br/>
 
                 <tr>
 
-                    <td>{{ user.codePostal }}</td>
-                    <td>{{ user.commune }}</td>
-                    <td>{{ user.phone }}</td>
+                    <td><i class="fa fa-phone"></i>{{ user.phone }}</td><br/>
+                    <blockquote>
+                        <td>{{ user.commune }}</td><br/>
+                    </blockquote>
+                    {% if modeDePaiement == 0 %}
+                        <td>Paiement par chèque</td>
+                    {% elseif modeDePaiement == 1 %}
+                        <td>Paiement par espèces</td>
+                    {% else  %}
+                        <td>Paiement par prélèvement</td>
+                    {% endif %}
+                </tr><br/>
+
+
+
+        <div class="row">
+            <div class="col-md-offset-1 col-md-5">
+                <h3>Mes justificatifs</h3>
+                    <td>{{ user.justificatif }}</td>
+            </div>
+        </div>
+        <a href="{{ path('sonata_user_profile_show') }}"><input type="button" value="Modifier mes informations"class="btn btn-primary" ></a>
+        <a href="{{ path('eleve_create') }}"><input type="button" value="Inscrire mon enfant"class="btn btn-primary"></a>
+
+        <h3>Mes enfants</h3>
+
+
+                {% for child in children %}
+                <tr>
+                     <div class="child panel panel-default">
+
+                        <td>{{ child.nom }}</td>
+                        <td>{{ child.prenom }}</td><br/>
+                        {% if child.idEtablissement == 0 %}
+                            <td><strong>Classe:</strong> Mme WITKIEWICZ Marie-Agnès - Ecole Notre Dame des Fleurs - PS/MS</td>
+                        {% elseif child.idEtablissement == 1 %}
+                            <td><strong>Classe :</strong>  Mme BOUCHER Anne-lise - Ecole Notre Dame des Fleurs - MS/GS</td>
+                        {% elseif child.idEtablissement == 2 %}
+                            <td><strong>Classe :</strong> Mme LEMOUE Laurence - Ecole Notre Dame des Fleurs - CP/CE1</td>
+                        {% elseif child.idEtablissement == 3 %}
+                            <td><strong>Classe :</strong>Mme LABBEY Hélène - Ecole Notre Dame des Fleurs - CE1/CE2</td>
+                        {% elseif child.idEtablissement == 4 %}
+                            <td><strong>Classe :</strong> Mme CATTEEU Anne-Sophie - Ecole Notre Dame des Fleurs - CE2/CM1</td>
+                        {% elseif child.idEtablissement == 5 %}
+                            <td><strong>Classe :</strong> Mme BRAULT Agnès - Ecole Notre Dame des Fleurs - CM1/CM2</td>
+                        {% elseif child.idEtablissement == 6 %}
+                            <td><strong>Classe :</strong> Mme AVARE Frédérique - Ecole "Les Ecureuils" - TPS</td>
+                        {% elseif child.idEtablissement == 7 %}
+                            <td><strong>Classe :</strong> Mme GRISON Nadia - Ecole "Les Ecureuils" - PS/MS</td>
+                        {% elseif child.idEtablissement == 8 %}
+                            <td><strong>Classe :</strong> Mme PICHODO Marie-Pierre - Ecole "Les Ecureuils" - GS</td>
+                        {% elseif child.idEtablissement == 9 %}
+                            <td><strong>Classe :</strong> M PATARIN David - Ecole "Les Ecureuils" - MS/GS</td>
+                        {% elseif child.idEtablissement == 10 %}
+                            <td><strong>Classe :</strong> Mme LABUSSIERE Elodie - Ecole "Les Ecureuils" - PS</td>
+                        {% elseif child.idEtablissement == 11 %}
+                            <td><strong>Classe :</strong> Mmes TRICOT Corinne/DESSAUX Aurélie - Ecole "Roland-Garros" - CP</td>
+                        {% elseif child.idEtablissement == 12 %}
+                            <td><strong>Classe :</strong> Mle NOUAILLE-DEGORCE Valérie - Ecole "Roland-Garros" - CE1</td>
+                        {% elseif child.idEtablissement == 13 %}
+                            <td><strong>Classe :</strong> Mme LUCIEN Nathalie - Ecole "Roland-Garros" - CE2</td>
+                        {% elseif child.idEtablissement == 14 %}
+                            <td><strong>Classe :</strong> Mle BENOIT/Mme BISSIERE - Ecole "Roland-Garros" - CLIS</td>
+                        {% elseif child.idEtablissement == 15 %}
+                            <td><strong>Classe :</strong> Mme SAUVAGET - Ecole "Roland-Garros" - CM1/CM2</td>
+                        {% elseif child.idEtablissement == 16 %}
+                            <td><strong>Classe :</strong> Mme MOURAND-PERINO Mélanie - Ecole "Roland-Garros" - CP/CE1</td>
+                        {% elseif child.idEtablissement == 17 %}
+                            <td><strong>Classe :</strong> Mme POMMIER Emilie - Ecole "Roland-Garros" - CE2/CM1</td>
+                        {% else %}
+                            <td><strong>Classe :</strong> Mme DESSEAUX Aurélie/m MARECAUX François - Ecole "Roland-Garros" - CM2</td>
+
+                        {% endif %}<br/>
+
+
+                        {% if child.allergie %}
+                            <td>Allergie: {{ child.allergie }}</td>
+                        {% else %}
+                            <td>Aucune allergie alimentaire renseignée</td>
+                        {% endif %}<br/>
+                        {% if child.regimeSansPorc %}
+                            <td>Regime sans porc </td>
+                        {% else %}
+
+                        {% endif %}<br/>
+
+
+                        <p>Mange habituellement le :</p><br/>
+                        <td>{{ child.dates }}</td><br/>
+                        <a href="{{ path('eleve_edit', { 'id': child.id })}}"><input type="button" value="Modifier"class="btn btn-primary"></a><br/>
+                     </div>
 
                 </tr>
 
-
-
-
-            <h3>Mes justificatifs</h3>
-            <tbody>
-                <h3>Mes enfants</h3>
-
-                {% for child in children %}
-
-                    <tr>
-                        <td>{{ child.nom }}</td>
-                        <td>{{ child.prenom }}</td>
-                        <td>{{ child.allergie }}</td>
-                        <td>{{ child.regimeSansPorc }}</td>
-
-                    </tr>
-
                 {% endfor %}
-            </tbody>
+
 
 
             <blockquote>

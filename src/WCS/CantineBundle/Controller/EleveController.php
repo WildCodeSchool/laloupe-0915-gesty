@@ -41,9 +41,13 @@ class EleveController extends Controller
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
+
+
+
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity->setUser($this->getUser());
+
             $em->persist($entity);
             $em->flush();
 
@@ -52,9 +56,15 @@ class EleveController extends Controller
         // Lancement de la fonction calendrier
         $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
         $limit = new \DateTime();
-        $date = date_timestamp_get($limit) + 168 * 60 * 60;
 
-        $jours = array('Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim');
+        $vacancesEte = new \DateTime('2016-07-06');
+
+        $vacancesHiver = $this->getHolidays('2016-02-02', '2016-02-21');
+
+        $date = date_timestamp_get($limit) + 168*60*60;
+        $finAnnee = date_timestamp_get($vacancesEte);
+
+        $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
 
 
         return $this->render('WCSCantineBundle:Eleve:new.html.twig', array(
@@ -63,6 +73,10 @@ class EleveController extends Controller
             'calendrier' => $calendrier,
             'jours' => $jours,
             'dateLimit' => $date,
+            'finAnnee' => $finAnnee,
+            'vacancesHiver' => $vacancesHiver,
+
+
 
         ));
     }
@@ -136,12 +150,13 @@ class EleveController extends Controller
         }
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
+
+
 
         return $this->render('WCSCantineBundle:Eleve:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+
         ));
     }
 
@@ -159,7 +174,7 @@ class EleveController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+
 
         return $form;
     }
@@ -172,6 +187,7 @@ class EleveController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+
         $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
 
         if (!$entity) {
@@ -182,16 +198,22 @@ class EleveController extends Controller
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
+
+
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('eleve_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('wcs_cantine_dashboard', array('id' => $id)));
         }
+
 
         return $this->render('WCSCantineBundle:Eleve:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+
+
+
         ));
     }
 
@@ -232,13 +254,15 @@ class EleveController extends Controller
             ->setAction($this->generateUrl('eleve_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
+
             ->getForm();
+
     }
 
     /**
      * Generate calendar
      */
-    private function generateCalendar(\DateTime $start, \DateTime $end)
+    public function generateCalendar(\DateTime $start, \DateTime $end)
     {
         $return = array();
         $calendrier = $start;
@@ -254,23 +278,55 @@ class EleveController extends Controller
         return $return;
     }
 
+
+    /**
+     * Generate range date
+     */
+    private function getHolidays($start, $end)
+    {
+        $interval = new \DateInterval('P1D');
+
+        $realEnd = new \DateTime($end);
+        $realEnd->add($interval);
+
+        $period = new \DatePeriod(
+            new \DateTime($start),
+            $interval,
+            $realEnd
+        );
+
+        foreach ($period as $date) {
+            $array[] = date_format($date, ('Y-n-j'));
+        }
+
+        return $array;
+    }
+
     public function dashboardAction()
     {
         $user = $this->getUser();
+        $moyendepaiement = $user->getmodeDePaiement();
         $children = $user->getEleves();
 
+
+
+
         if (!$user) {
-            throw $this->createNotFoundException('Aucun User trouvé pour cet id:');
+            throw $this->createNotFoundException('Aucun utilisateur trouvé pour cet id:');
         }
         if (!$children) {
-            throw $this->createNotFoundException('Aucun Child trouvé pour cet id:');
+            throw $this->createNotFoundException('Aucun enfant trouvé pour cet id:');
         }
 
         return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(
             'user' => $user,
             'children' => $children,
+            'modeDePaiement' =>$moyendepaiement,
+
+
 
         ));
+
 
     }
 }
