@@ -148,3 +148,73 @@ p{
 .body{
     font-size: 16px;
 }
+.ecureuil button
+{
+    border-style: ridge;
+    background:#99ffcc;
+    border-radius: 20px;
+    padding:10px;
+    margin:0;
+    width:auto;
+    height:auto;
+    overflow:visible;
+    text-align:center;
+    white-space:nowrap;
+    height:90px;
+    margin-bottom: 20px;
+}
+.fleur button
+{
+    border: ridge;
+    background:#ff99cc;
+    border-radius: 20px;
+    padding:20px;
+    margin:0;
+    width:auto;
+    overflow:visible;
+    text-align:center;
+    white-space:nowrap;
+    height:90px;
+    margin-bottom: 20px;
+    padding-top: 2px;
+
+}
+.roland button
+{
+    border: ridge ;
+    background:#ecb3ff;
+    border-radius: 20px;
+    padding:0;
+    margin:0;
+    width:auto;
+    height:auto;
+    overflow:visible;
+    text-align:center;
+    white-space:nowrap;
+    height:90px;
+
+}
+
+button span, button em
+{
+    display:inline-block;
+    height:90px;
+    line-height:20px;
+    margin:5px;
+    color:black;
+    font-size: 16px;
+    font-family: 'Carter One', cursive;
+    text-shadow: 5px 5px 5px white;
+}
+button span
+{
+    padding-left:20px;
+    background:url() no-repeat 0 0;
+}
+
+button em
+{
+    font-style:normal;
+    padding-right:20px;
+    background:url() no-repeat 100% 0;
+}
