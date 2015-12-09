@@ -11,4 +11,4 @@
 /app/uploads/*
 .idea/*
 /bash
-
+composer.lock

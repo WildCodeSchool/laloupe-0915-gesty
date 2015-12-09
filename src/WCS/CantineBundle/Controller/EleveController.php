@@ -301,7 +301,8 @@ class EleveController extends Controller
         $user = $this->getUser();
         $moyendepaiement = $user->getmodeDePaiement();
         $children = $user->getEleves();
-
+        //$em = $this->getDoctrine()->getManager();
+       // $jour = $em->getRepository('WCSCantineBundle:Eleve')->findByDate($children);
 
         if (!$user) {
             throw $this->createNotFoundException('Aucun utilisateur trouvé pour cet id:');
@@ -314,6 +315,7 @@ class EleveController extends Controller
             'user' => $user,
             'children' => $children,
             'modeDePaiement' =>$moyendepaiement,
+            //'jour'=> $jour,
 
         ));
 
