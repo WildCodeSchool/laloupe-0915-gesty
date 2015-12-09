@@ -1,0 +1,14 @@
+WCS\CantineBundle\Entity\Eleve:
+    properties:
+        nom:
+            - NotBlank: ~
+            - Regex:
+                pattern: '/"#{}<>=+|~&()`_^@°%$£ø*µ§!?,:;.²/'
+                match: false
+
+        prenom:
+            - NotBlank: ~
+            - Regex:
+                pattern: '/"#{}<>=+|~&()`_^@°%$£ø*µ§!?,:;.²/'
+                match: false
+

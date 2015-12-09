@@ -10,6 +10,7 @@ eleve_create:
     path:     /create
     defaults: { _controller: "WCSCantineBundle:Eleve:create" }
 
+
 eleve_edit:
     path:     /{id}/edit
     defaults: { _controller: "WCSCantineBundle:Eleve:edit" }

@@ -42,9 +42,12 @@ class EleveController extends Controller
         $form->handleRequest($request);
 
 
+
+
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity->setUser($this->getUser());
+
             $em->persist($entity);
             $em->flush();
 
@@ -72,6 +75,8 @@ class EleveController extends Controller
             'dateLimit' => $date,
             'finAnnee' => $finAnnee,
             'vacancesHiver' => $vacancesHiver,
+
+
 
         ));
     }
@@ -145,12 +150,13 @@ class EleveController extends Controller
         }
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
+
+
 
         return $this->render('WCSCantineBundle:Eleve:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+
         ));
     }
 
@@ -168,7 +174,7 @@ class EleveController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+
 
         return $form;
     }
@@ -181,6 +187,7 @@ class EleveController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+
         $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
 
         if (!$entity) {
@@ -191,16 +198,22 @@ class EleveController extends Controller
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
+
+
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('eleve_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('wcs_cantine_dashboard', array('id' => $id)));
         }
+
 
         return $this->render('WCSCantineBundle:Eleve:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+
+
+
         ));
     }
 
@@ -295,6 +308,9 @@ class EleveController extends Controller
         $moyendepaiement = $user->getmodeDePaiement();
         $children = $user->getEleves();
 
+
+
+
         if (!$user) {
             throw $this->createNotFoundException('Aucun utilisateur trouvé pour cet id:');
         }
@@ -306,6 +322,8 @@ class EleveController extends Controller
             'user' => $user,
             'children' => $children,
             'modeDePaiement' =>$moyendepaiement,
+
+
 
         ));
 

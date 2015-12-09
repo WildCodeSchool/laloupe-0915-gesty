@@ -17,3 +17,9 @@ services:
             arguments: [ "Application\Sonata\UserBundle\Entity\User" ]
             tags:
                 - { name: "form.type", alias: "application_sonata_user_profile"}
+
+      wcs.eleve.profile.form.type:
+            class: WCS\CantineBundle\Form\Type\EleveType
+            arguments: [ "WCS\CantineBundle\Entity\Eleve"]
+            tags:
+                - {name: "form.type", alias: "WCS_cantinebundle_eleve"}
