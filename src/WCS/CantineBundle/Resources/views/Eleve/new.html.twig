@@ -47,7 +47,7 @@
                 <h3 class="titre">Mon Calendrier</h3>
 
                 <blockquote class="information">Mon enfant déjeunera de manière régulière au restaurant scolaire les : -Veuillez sélectionner les dates-</br>
-                Ces choix sont valables toute l’année. Ils serviront de base à la facturation mensuelle.</blockquote>
+                    Ces choix sont valables toute l’année. Ils serviront de base à la facturation mensuelle.</blockquote>
 
                 <div class="anneescolaire">
                     {% for key,value in calendrier %}
@@ -119,8 +119,6 @@
                         {% endfor %}
                     {% endfor %}
                 </div>
-
-                {{ dump(vacancesHiver) }}
 
                 {% for year, months in calendrier %}
                     {% for month, days in months %}
