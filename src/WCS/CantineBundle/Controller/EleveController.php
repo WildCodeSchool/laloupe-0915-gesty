@@ -301,6 +301,29 @@ class EleveController extends Controller
         $user = $this->getUser();
         $moyendepaiement = $user->getmodeDePaiement();
         $children = $user->getEleves();
+
+        $em = $this->getDoctrine()->getManager();
+        $eleves = $em->getRepository('WCSCantineBundle:Eleve')->findByUser($user);
+
+        $datesArray = [];
+        $lundis = [];
+        $mardis = [];
+        $lundi = false;
+        $mardi = false;
+        foreach($eleves as $eleve)
+        {
+            $dates = explode(';',$eleve->getDates());
+
+            foreach($dates as $date)
+            {
+                $jours = new \DateTime($date);
+
+                $datesArray[] = $jours->format('D');
+
+                $plop = array_count_values($datesArray);
+            }
+        }
+
         //$em = $this->getDoctrine()->getManager();
        // $jour = $em->getRepository('WCSCantineBundle:Eleve')->findByDate($children);
 
@@ -315,6 +338,10 @@ class EleveController extends Controller
             'user' => $user,
             'children' => $children,
             'modeDePaiement' =>$moyendepaiement,
+            'dates' => $datesArray,
+            'lundi' => $lundi,
+            'mardi' => $mardi,
+
             //'jour'=> $jour,
 
         ));

@@ -120,7 +120,7 @@
                     {% endfor %}
                 </div>
 
-                {{ dump(vacancesHiver) }}
+
 
                 {% for year, months in calendrier %}
                     {% for month, days in months %}
@@ -235,8 +235,8 @@
 
                     <blockquote>
                         <ul>
-                            <li>Télécharger le règlement intérieur</li>
-                            <li>Télécharger les 10 règles d'or de la cantine</li>
+                            <li><a target="_blank" href="{{ asset('bundles/wcscantine/règlement/Reglement_interieur_cantine.pdf') }}">Télécharger le règlement intérieur</a></li>
+                            <li><a target="_blank"href="{{ asset('bundles/wcscantine/règlement/Les_10_regles_d_or_de_la_cantine.pdf') }}">Télécharger les 10 règles d'or de la cantine</a></li>
                         </ul>
                     </blockquote>
                 </div>

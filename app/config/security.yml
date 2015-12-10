@@ -73,6 +73,10 @@ security:
             - { path: ^/admin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
             - { path: ^/admin/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
 
+            - { path: ^/create, role: [IS_AUTHENTICATED, ROLE_USER] }
+            - { path: ^/profile/, role: [IS_AUTHENTICATED, ROLE_USER] }
+            - { path: ^/dashboard, role: [IS_AUTHENTICATED, ROLE_USER] }
+            - { path: ^/ecoles, role: [ ROLE_ADMIN] }
             # Secured part of the site
             # This config requires being logged for the whole site and having the admin role for the admin part.
             # Change these rules to adapt them to your needs

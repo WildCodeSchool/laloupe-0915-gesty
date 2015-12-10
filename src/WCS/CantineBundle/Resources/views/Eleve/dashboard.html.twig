@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
-        <p>Bonjour</p>
+        <p>Bonjour {{ app.user.username }}</p>
         <h1>Mon Foyer</h1><br/>
             <p> {{ app.user }} </p><br/>
 
@@ -29,7 +29,7 @@
                     <td>{{ user.justificatif }}</td>
             </div>
         </div>
-        <a href="{{ path('sonata_user_profile_show') }}"><input type="button" value="Modifier mes informations"class="btn btn-primary" ></a>
+        <a href="{{ path('sonata_user_profile_show') }}"><input type="button" value="Modifier mes informations"class="btn btn-primary"></a>
         <a href="{{ path('eleve_create') }}"><input type="button" value="Inscrire mon enfant"class="btn btn-primary"></a>
 
         <h3>Mes enfants</h3>
@@ -96,7 +96,13 @@
 
 
                         <p>Mange habituellement le :</p><br/>
-                        <td>{{ child.dates }}</td><br/>
+
+                        <td>
+                            {% if lundi == true %}
+                                Tous les lundis
+                            {% endif %}
+                        </td><br/>
+
                         <a href="{{ path('eleve_edit', { 'id': child.id })}}"><input type="button" value="Modifier"class="btn btn-primary"></a><br/>
                      </div>
 
@@ -107,8 +113,8 @@
 
             <blockquote>
                 <ul>
-                    <li>Télécharger le règlement intérieur</li>
-                    <li>Télécharger les 10 règles d'or de la cantine</li>
+                    <li><a target="_blank" href="{{ asset('bundles/wcscantine/règlement/Reglement_interieur_cantine.pdf') }}">Télécharger le règlement intérieur</a></li>
+                    <li><a target="_blank"href="{{ asset('bundles/wcscantine/règlement/Les_10_regles_d_or_de_la_cantine.pdf') }}">Télécharger les 10 règles d'or de la cantine</a></li>
                 </ul>
             </blockquote>
     </div>
