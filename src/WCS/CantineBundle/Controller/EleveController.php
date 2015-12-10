@@ -54,10 +54,9 @@ class EleveController extends Controller
         $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
         $limit = new \DateTime();
 
-        $vacancesEte = new \DateTime('2016-07-06');
-
         $vacancesHiver = $this->getHolidays('2016-02-02', '2016-02-21');
 
+        $vacancesEte = new \DateTime('2016-07-06');
         $date = date_timestamp_get($limit) + 168*60*60;
         $finAnnee = date_timestamp_get($vacancesEte);
 

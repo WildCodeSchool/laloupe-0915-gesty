@@ -129,7 +129,7 @@ fos_user:
             type: application_sonata_user_registration
 
 sonata_admin:
-    title: WCS Admin  #à personnaliser
+    title: Gesty Admin  #à personnaliser
     #title_logo: /bundles/acmedemo/fancy_acme_logo.png #à personnaliser
 
     dashboard:
