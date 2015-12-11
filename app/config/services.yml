@@ -7,7 +7,7 @@ services:
       sonata.admin.eleve:
            class: WCS\CantineBundle\Admin\EleveAdmin
            tags:
-               - { name: sonata.admin, manager_type: orm, group: "Eleve", label: "Eleve" }
+               - { name: sonata.admin, manager_type: orm, group: "wcs.group.eleve", label: "Eleve" }
            arguments:
                - ~
                - WCS\CantineBundle\Entity\Eleve

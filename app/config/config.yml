@@ -132,6 +132,7 @@ sonata_admin:
     title: Gesty Admin  #à personnaliser
     #title_logo: /bundles/acmedemo/fancy_acme_logo.png #à personnaliser
 
+
     dashboard:
         blocks:
             -
@@ -140,6 +141,7 @@ sonata_admin:
             -
                 position: top
                 type: sonata.block.service.text
+                class: col-md-12
                 settings:
                     content: >
                         <h2>Bienvenue dans la page d'administration de Gesty</h2>
@@ -149,4 +151,8 @@ sonata_admin:
                 label: Foyer
                 items:
                     - sonata.user.admin.user
+            wcs.group.eleve:
+                label: Eleves
+
+
 
