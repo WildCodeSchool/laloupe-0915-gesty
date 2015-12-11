@@ -6,29 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class EleveControllerTest extends WebTestCase
 {
-<<<<<<< HEAD
-    public function testPageInscription()
-    {
-        //création client fictif
 
-        $client = static::createClient(array(), array(
-            'PHP_AUTH_USER' => 'aaa',
-            'PHP_AUTH_PW' => 'aaa',
-        ));
-
-        //test si page inscription enfant s'affiche
-
-        $crawler = $client->request('GET', '/create');
-        $this->assertEquals('WCS\CantineBundle\Controller\EleveController::createAction', $client->getRequest()->attributes->get('_controller'));
-        $this->assertTrue(200 === $client->getResponse()->getStatusCode());
-
-        //test bouton inscrire mon enfant quand on est connecté (formulaire)
-
-
-    }
-
-=======
->>>>>>> 040e8ba94cdabcfc3fb7fe148153313b3fe3a29d
 
     public function testConnexion()
     {
