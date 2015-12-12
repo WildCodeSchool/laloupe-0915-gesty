@@ -48,6 +48,7 @@ security:
             anonymous:          true
             remember_me:
                 key:        %secret% # %secret% est un paramètre de parameters.yml
+            http_basic: ~
 
 
     encoders:
