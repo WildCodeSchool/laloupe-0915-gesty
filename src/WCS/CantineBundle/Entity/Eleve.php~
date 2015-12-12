@@ -56,7 +56,7 @@ class Eleve
     /**
      * @var integer
      */
-    private $idEtablissement;
+    private $Etablissement;
 
     /**
      * @var boolean

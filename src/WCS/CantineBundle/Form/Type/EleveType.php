@@ -23,7 +23,7 @@ class EleveType extends AbstractType
             ->add('dateDeNaissance', 'date', array(
             'format' => 'dd-MMMM-yyyy',
             'years' =>  range(\date("Y") - 11, \date("Y") - 2),))
-            ->add('idEtablissement', 'choice', array (
+            ->add('Etablissement', 'choice', array (
                 'choices'   => array('0' => 'Mme WITKIEWICZ Marie-Agnès - Ecole Notre Dame des Fleurs - PS/MS',
                     '1' => 'Mme BOUCHER Anne-lise - Ecole Notre Dame des Fleurs - MS/GS',
                     '2' => 'Mme LEMOUE Laurence - Ecole Notre Dame des Fleurs - CP/CE1',

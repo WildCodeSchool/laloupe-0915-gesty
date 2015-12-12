@@ -27,9 +27,9 @@ WCS\CantineBundle\Entity\Eleve:
             type: integer
             column: id_foyer
             nullable: true
-        idEtablissement:
+        Etablissement:
             type: integer
-            column: id_etablissement
+            column: etablissement
         atteste :
             type: boolean
             column: atteste

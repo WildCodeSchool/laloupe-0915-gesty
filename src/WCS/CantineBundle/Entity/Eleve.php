@@ -56,7 +56,7 @@ class Eleve
     /**
      * @var integer
      */
-    private $idEtablissement;
+    private $Etablissement;
 
     /**
      * @var boolean
@@ -240,9 +240,9 @@ class Eleve
      *
      * @return Eleve
      */
-    public function setIdEtablissement($idEtablissement)
+    public function setEtablissement($Etablissement)
     {
-        $this->idEtablissement = $idEtablissement;
+        $this->Etablissement = $Etablissement;
 
         return $this;
     }
@@ -252,9 +252,9 @@ class Eleve
      *
      * @return integer
      */
-    public function getIdEtablissement()
+    public function getEtablissement()
     {
-        return $this->idEtablissement;
+        return $this->Etablissement;
     }
 
     /**
@@ -381,4 +381,10 @@ class Eleve
     {
         return $this->user;
     }
+    /**
+     * @var integer
+     */
+    private $idEtablissement;
+
+
 }

@@ -89,7 +89,7 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                 ->add('email')
             ->end()
             ->with('Profile')
-                ->add('dateOfBirth')
+                ->add('dateOfBirth','date', array('format' => 'd/m/Y',))
                 ->add('lastname')
                 ->add('gender')
                 ->add('phone')
@@ -120,9 +120,32 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                     'required' => true,
                     'translation_domain' => $this->getTranslationDomain()
                 ))
-                ->add('phone', null, array('required' => false))
+            ->end()
+            ->With('Contact')
+                ->add('codePostal','text', array(
+                    'label' => 'Code postal',
+                    'required' => true))
+                ->add('commune', 'text', array('label'=>'Commune' ))
+                ->add('phone', null, array('required' => true))
             ->end()
         ;
+
+        if ($this->getSubject() && !$this->getSubject()->hasRole('ROLE_SUPER_ADMIN')) {
+            $formMapper
+                ->with('Management')
+                ->add('realRoles', 'sonata_security_roles', array(
+                    'label'    => 'form.label_roles',
+                    'expanded' => true,
+                    'multiple' => true,
+                    'required' => false
+                ))
+
+                ->add('enabled', null, array('required' => false))
+                ->end()
+            ;
+        }
+
+
 
     }
 
