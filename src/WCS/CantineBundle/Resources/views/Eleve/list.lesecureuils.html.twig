@@ -21,7 +21,7 @@
 
             {% for eleve in aujourdhui %}
                 <tr>
-                    <td><input type="checkbox" name="vehicle" value="{{ eleve.nom }}'-'{{ eleve.prenom }}'-'{{ eleve.dates }}" /></td>
+                    <td><input type="checkbox" name="eleve" value="{{ eleve.nom }}'-'{{ eleve.prenom }}'-'{{ eleve.dates }}" /></td>
                     <td>{{ eleve.nom }}</td>
                     <td>{{ eleve.prenom }}</td>
                     <td>{{ eleve.allergie }}</td>
@@ -32,6 +32,18 @@
         </table>
     </div>
 
+    <p class="test"></p>
 
+
+    <script>
+        var totalEleves = $('input:checkbox').length;
+        window.onload = function () {
+            $('.test p').value = 'ahah';
+        }
+    </script>
 
 {% endblock %}
+
+
+
+
