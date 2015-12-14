@@ -87,10 +87,7 @@ class EleveControllerTest extends WebTestCase
 
     public function testBienvenu()
     {
-        $client = static::createClient(array(), array(
-            'PHP_AUTH_USER' => 'mistert@mistert.fr',
-            'PHP_AUTH_PW' => 'mistert',
-        ));
+        $client = static::createClient();
         $crawler = $client->request('GET', '/');
 
         //test affichage page bienvenue
@@ -100,14 +97,15 @@ class EleveControllerTest extends WebTestCase
         $client->followRedirect();
         $this->assertEquals('Sonata\UserBundle\Controller\SecurityFOSUser1Controller::loginAction', $client->getRequest()->attributes->get('_controller'));
 
-        /*//test bouton 'voir les détails'
+        //test bouton 'voir les détails'
+
         $client = static::createClient(array(), array(
-            'PHP_AUTH_USER' => 'mistert@mistert.fr',
-            'PHP_AUTH_PW' => 'mistert',
+            'PHP_AUTH_USER' => 'aaa@email.com',
+            'PHP_AUTH_PW' => 'aaa',
         ));
         $crawler = $client->request('GET', '/');
         $link = $crawler
-            ->filter('a:contains("Voir les details")')
+            ->filter('a:contains("Voir les détails")')
             ->eq(0)
             ->link();
         $crawler = $client->click($link);
@@ -117,7 +115,7 @@ class EleveControllerTest extends WebTestCase
         $this->assertEquals('WCS\CantineBundle\Controller\EleveController::dashboardAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertTrue(200 === $client->getResponse()->getStatusCode());
 
-       */
+
     }
 
     public function testDashboard()
@@ -140,9 +138,6 @@ class EleveControllerTest extends WebTestCase
 
         $this->assertEquals('Sonata\UserBundle\Controller\SecurityFOSUser1Controller::logoutAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-
-
-
 
     }
 }
