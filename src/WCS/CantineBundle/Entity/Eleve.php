@@ -47,7 +47,6 @@ class Eleve
 
 
     // GENERATE CODE
-
     /**
      * @var integer
      */

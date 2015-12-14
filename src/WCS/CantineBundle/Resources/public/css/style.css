@@ -39,11 +39,8 @@
 .panel  {
     border: transparent;
     margin-bottom: 150px;
-    height: 400px;
+    height: 200px;
     box-shadow: none!important;
-
-
-
 
 }
 .panel-info>.panel-heading,
@@ -58,13 +55,29 @@
     font-size:22px;
     text-align: center;
     margin-bottom: 30px;
+
 }
 .panel-body{
     height: 700px;
     text-align: center;
     margin-left: 30px;
     display: block;
-    padding: 25px
+    padding: 25px;
+
+
+
+
+}
+.panel-default{
+    border-color: #ddd;
+   
+}
+.panel-body-1{
+    box-sizing: inherit;
+    text-align:left;
+    padding:15px;
+    margin-top: 20px;
+
 
 
 }
