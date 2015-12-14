@@ -22,10 +22,8 @@ class ListInscritsController extends Pupils
      */
     public function listAction()
     {
-        $interval = new \DateInterval(strtotime('next Monday'));
 
         $date = new \DateTime('now');
-        $date->add($interval);
         $em = $this->getDoctrine()->getManager();
         $aujourdhui = $em->getRepository('WCSCantineBundle:Eleve')->findByDay($date);
 

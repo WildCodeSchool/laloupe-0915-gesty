@@ -46,6 +46,3 @@ eleve_list:
     path:     /list
     defaults: { _controller: "WCSCantineBundle:ListInscrits:list" }
 
-user_logout:
-    path: /logout
-    defaults: { _controller: "SonataUserBundle:SecurityFOSUser1:logout" }

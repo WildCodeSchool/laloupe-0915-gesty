@@ -138,6 +138,7 @@ sonata_admin:
             -
                 position: left
                 type: sonata.admin.block.admin_list
+                class: col-md-12
             -
                 position: top
                 type: sonata.block.service.text
@@ -145,6 +146,8 @@ sonata_admin:
                 settings:
                     content: >
                         <h2>Bienvenue dans la page d'administration de Gesty</h2>
+
+
 
         groups:
             app.admin.group.content:

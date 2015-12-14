@@ -31,11 +31,13 @@
     </div>
 
 
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/wcscantine/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('bundles/wcscantine/js/bootstrap.min.js') }}"></script>
+{% endblock %}
+</body>
 {% block footer %}
     {% include "WCSCantineBundle:Includes:indexfooter.html.twig" %}
 {% endblock %}
-{% block javascripts %}
-    <script src="{{ asset('bundles/wcscantine/js/jquery.min.js') }}"></script>
-{% endblock %}
-</body>
 </html>

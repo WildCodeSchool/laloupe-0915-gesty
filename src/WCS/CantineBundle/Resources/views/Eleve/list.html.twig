@@ -2,17 +2,35 @@
 
 {% block body %}
 
-    <table>
+
+    <div class="table-responsive">
+        <table class="table">
 
         <tr>
-            <td>Enfants inscrits</td>
+            <td colspan="5">Enfants inscrits</td>
         </tr>
-            {% for eleve in aujourdhui %}
+
         <tr>
-            {{ eleve.prenom }} {{ eleve.nom }}<br />
+            <td>Présence</td>
+            <td>Nom</td>
+            <td>Prénom</td>
+            <td>Allergie(s)</td>
+            <td>Régime sans porc</td>
         </tr>
-            {% endfor %}
+
+        {% for eleve in aujourdhui %}
+            <tr>
+                <td><input type="checkbox" name="vehicle" value="{{ eleve.nom }}'-'{{ eleve.prenom }}'-'{{ eleve.dates }}" /></td>
+                <td>{{ eleve.nom }}</td>
+                <td>{{ eleve.prenom }}</td>
+                <td>{{ eleve.allergie }}</td>
+                <td>{{ eleve.regimeSansPorc }}</td>
+            </tr>
+        {% endfor %}
+
     </table>
+    </div>
+
 
 
 {% endblock %}
