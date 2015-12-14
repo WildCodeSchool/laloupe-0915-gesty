@@ -32,7 +32,8 @@ WCS\CantineBundle\Entity\Eleve:
             column: id_foyer
             nullable: true
         Etablissement:
-            type: integer
+            type: string
+            length: 255
             column: etablissement
             nullable: true
         atteste :

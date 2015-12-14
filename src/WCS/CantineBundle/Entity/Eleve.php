@@ -30,15 +30,16 @@ class Eleve
             '_friday' => 'vendredi',
         );
     }
+
     public static function getHabitDaysLabels()
     {
         $result = array();
-        foreach(Eleve::getHabitDays() as $key=>$day)
-        {
-            $result[$key] = 'Tous les '.$day.'s';
+        foreach (Eleve::getHabitDays() as $key => $day) {
+            $result[$key] = 'Tous les ' . $day . 's';
         }
         return $result;
     }
+
     public static function getHabitDaysValues()
     {
         return array_keys(self::getHabitDays());
@@ -47,8 +48,6 @@ class Eleve
 
     // GENERATE CODE
 
-
-    
     /**
      * @var integer
      */
@@ -85,7 +84,7 @@ class Eleve
     private $idFoyer;
 
     /**
-     * @var integer
+     * @var string
      */
     private $Etablissement;
 
@@ -277,7 +276,7 @@ class Eleve
     /**
      * Set etablissement
      *
-     * @param integer $etablissement
+     * @param string $etablissement
      *
      * @return Eleve
      */
@@ -291,7 +290,7 @@ class Eleve
     /**
      * Get etablissement
      *
-     * @return integer
+     * @return string
      */
     public function getEtablissement()
     {
