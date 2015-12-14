@@ -17,7 +17,9 @@ class Eleve
     }
     // GENERATE CODE
 
-    
+ 
+
+
     /**
      * @var integer
      */
@@ -54,7 +56,7 @@ class Eleve
     private $idFoyer;
 
     /**
-     * @var integer
+     * @var string
      */
     private $Etablissement;
 
@@ -77,6 +79,11 @@ class Eleve
      * @var string
      */
     private $dates;
+
+    /**
+     * @var \Application\Sonata\UserBundle\Entity\User
+     */
+    private $user;
 
 
     /**
@@ -234,23 +241,23 @@ class Eleve
     }
 
     /**
-     * Set idEtablissement
+     * Set etablissement
      *
-     * @param integer $idEtablissement
+     * @param string $etablissement
      *
      * @return Eleve
      */
-    public function setEtablissement($Etablissement)
+    public function setEtablissement($etablissement)
     {
-        $this->Etablissement = $Etablissement;
+        $this->Etablissement = $etablissement;
 
         return $this;
     }
 
     /**
-     * Get idEtablissement
+     * Get etablissement
      *
-     * @return integer
+     * @return string
      */
     public function getEtablissement()
     {
@@ -352,11 +359,6 @@ class Eleve
     {
         return $this->dates;
     }
-    /**
-     * @var \Application\Sonata\UserBundle\Entity\User
-     */
-    private $user;
-
 
     /**
      * Set user
@@ -381,10 +383,4 @@ class Eleve
     {
         return $this->user;
     }
-    /**
-     * @var integer
-     */
-    private $idEtablissement;
-
-
 }

@@ -42,7 +42,14 @@ sonata_user:
     resource: '@SonataUserBundle/Resources/config/routing/admin_security.xml'
     prefix: /admin
 
-eleve_list:
-    path:     /list
-    defaults: { _controller: "WCSCantineBundle:ListInscrits:list" }
+eleve_list_les_ecureuils:
+    path:     /list_les_ecureuils
+    defaults: { _controller: "WCSCantineBundle:ListInscrits:listLesEcureuils" }
 
+eleve_list_roland_garros:
+    path:     /list_roland_garros
+    defaults: { _controller: "WCSCantineBundle:ListInscrits:listRolandGarros" }
+
+eleve_list_notre_dame:
+    path:     /list_notre_dame_des_fleurs
+    defaults: { _controller: "WCSCantineBundle:ListInscrits:listNotreDame" }
