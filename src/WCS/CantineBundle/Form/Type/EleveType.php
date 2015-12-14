@@ -5,6 +5,7 @@ namespace WCS\CantineBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use WCS\CantineBundle\Entity\Eleve;
 
 
 class EleveType extends AbstractType
@@ -50,6 +51,13 @@ class EleveType extends AbstractType
             ->add('autorise','checkbox', array('required'=>true))
             ->add('certifie','checkbox', array('required'=>true))
             ->add('dates')
+            ->add('habits', null, array('required'=>false))
+            ->add('habits', 'choice', array(
+                'choices'   => Eleve::getHabitDaysLabels(),
+                'expanded' => true,
+                'multiple' => true,
+                'required'  => false
+            ))
         ;
     }
     

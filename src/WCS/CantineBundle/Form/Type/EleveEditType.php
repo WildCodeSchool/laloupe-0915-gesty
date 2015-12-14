@@ -1,30 +1,30 @@
 <?php
-//WCS/CantineBundle/Admin/EleveAdmin.php
-namespace WCS\CantineBundle\Admin;
 
-use Sonata\AdminBundle\Admin\Admin;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
+namespace WCS\CantineBundle\Form\Type;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use WCS\CantineBundle\Entity\Eleve;
 
 
-class EleveAdmin extends Admin
+class EleveEditType extends AbstractType
 {
 
 
-
-
-    // Fields to be shown on create/edit forms
-    protected function configureFormFields(FormMapper $formMapper)
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $formMapper
-            ->add('nom','text')
+        $builder
+            ->add('nom', 'text')
             ->add('prenom', 'text')
-            ->add('dateDeNaissance','date')
-            ->add('regimeSansPorc')
-            ->add('allergie')
-            ->add('Etablissement', 'choice', array ('label'=>'Classe',
+            ->add('dateDeNaissance', 'date', array(
+            'format' => 'dd-MMMM-yyyy',
+            'years' =>  range(\date("Y") - 11, \date("Y") - 2),))
+            ->add('Etablissement', 'choice', array (
                 'choices'   => array('0' => 'Mme WITKIEWICZ Marie-Agnès - Ecole Notre Dame des Fleurs - PS/MS',
                     '1' => 'Mme BOUCHER Anne-lise - Ecole Notre Dame des Fleurs - MS/GS',
                     '2' => 'Mme LEMOUE Laurence - Ecole Notre Dame des Fleurs - CP/CE1',
@@ -45,38 +45,34 @@ class EleveAdmin extends Admin
                     '17' => 'Mme POMMIER Emilie - Ecole "Roland-Garros" - CE2/CM1',
                     '18' => 'Mme DESSEAUX Aurélie/m MARECAUX François - Ecole "Roland-Garros" - CM2',
                 )))
+            ->add('regimeSansPorc', 'checkbox', array('required'=>false))
+            ->add('allergie', 'text', array('label' =>'allergie', 'required'=>false))
+            ->add('dates')
+            ->add('habits', null, array('required'=>false))
+            ->add('habits', 'choice', array(
+                'choices'   => Eleve::getHabitDaysLabels(),
+                'expanded' => true,
+                'multiple' => true,
+                'required'  => false
+            ))
         ;
     }
-
-    // Fields to be shown on filter forms
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    
+    /**
+     * @param OptionsResolverInterface $resolver
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $datagridMapper
-            ->add('nom')
-            ->add('prenom')
-            ->add('dateDeNaissance')
-
-
-        ;
+        $resolver->setDefaults(array(
+            'data_class' => 'WCS\CantineBundle\Entity\Eleve'
+        ));
     }
 
-    // Fields to be shown on lists
-    protected function configureListFields(ListMapper $listMapper)
+    /**
+     * @return string
+     */
+    public function getName()
     {
-        $listMapper
-            ->addIdentifier('id')
-            ->add('nom', 'text')
-            ->add('prenom', 'text')
-            ->add('dateDeNaissance', 'date', array('format' => 'd/m/Y',))
-            ->add('Etablissement','choice', array('label'=>'classe'))
-            ->add ('regimeSansPorc')
-            ->add('allergie')
-            ->add('_action', 'actions', array('actions' => array(
-                'edit' => array(),
-                'delete' => array(),
-            )))
-        ;
+        return 'WCS_cantinebundle_eleve';
     }
-
-
 }

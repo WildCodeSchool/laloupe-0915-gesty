@@ -58,7 +58,7 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
 
             ->addIdentifier('username')
             ->add('email')
-            ->add('createdAt')
+            ->add('createdAt','date', array('format'=>'d/m/Y',))
         ;
 
 
