@@ -43,6 +43,9 @@ WCS\CantineBundle\Entity\Eleve:
         dates:
             type: text
             nullable: true
+        habits:
+            type: array
+
 
     manyToOne:
         user:

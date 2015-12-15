@@ -131,6 +131,7 @@ fos_user:
 sonata_admin:
     title: Gesty Admin  #à personnaliser
     #title_logo: /bundles/acmedemo/fancy_acme_logo.png #à personnaliser
+    
 
 
     dashboard:

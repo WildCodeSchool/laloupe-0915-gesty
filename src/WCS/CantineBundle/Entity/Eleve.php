@@ -15,11 +15,38 @@ class Eleve
     {
         return $this->nom;
     }
+
+    public function __construct()
+    {
+        $this->habits = array();
+    }
+
+    public static function getHabitDays()
+    {
+        return array(
+            '_monday' => 'lundi',
+            '_tuesday' => 'mardi',
+            '_thursday' => 'jeudi',
+            '_friday' => 'vendredi',
+        );
+    }
+
+    public static function getHabitDaysLabels()
+    {
+        $result = array();
+        foreach (Eleve::getHabitDays() as $key => $day) {
+            $result[$key] = 'Tous les ' . $day . 's';
+        }
+        return $result;
+    }
+
+    public static function getHabitDaysValues()
+    {
+        return array_keys(self::getHabitDays());
+    }
+
+
     // GENERATE CODE
-
- 
-
-
     /**
      * @var integer
      */
@@ -79,6 +106,11 @@ class Eleve
      * @var string
      */
     private $dates;
+
+    /**
+     * @var array
+     */
+    private $habits;
 
     /**
      * @var \Application\Sonata\UserBundle\Entity\User
@@ -358,6 +390,30 @@ class Eleve
     public function getDates()
     {
         return $this->dates;
+    }
+
+    /**
+     * Set habits
+     *
+     * @param array $habits
+     *
+     * @return Eleve
+     */
+    public function setHabits($habits)
+    {
+        $this->habits = $habits;
+
+        return $this;
+    }
+
+    /**
+     * Get habits
+     *
+     * @return array
+     */
+    public function getHabits()
+    {
+        return $this->habits;
     }
 
     /**

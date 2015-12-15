@@ -40,55 +40,196 @@
         </div>
 
 
-        <div class="col-md-offset-1 col-md-9">
+        <div class="col-md-12">
             <div class="form-group">
                 <h3>Menus Specifiques</h3>
             </div>
-                <div class="form-group">
-                    {{ form_errors(edit_form.regimeSansPorc) }}
-                    {{ form_widget(edit_form.regimeSansPorc) }}
-                    <label for="regime_sans_porc"> Régime Sans Porc</label>
-                </div>
-                <div class="form-group">
-                    {{ form_errors(edit_form.allergie) }}
-                    <label for="allergie">Allergie(s) alimentaire(s)</label><br/>
-                    {{ form_widget(edit_form.allergie) }}
-                </div>
+            <div class="form-group">
+                {{ form_errors(edit_form.regimeSansPorc) }}
+                {{ form_widget(edit_form.regimeSansPorc) }}
+                <label for="regime_sans_porc"> Régime Sans Porc</label>
+            </div>
+            <div class="form-group">
+                {{ form_errors(edit_form.allergie) }}
+                <label for="allergie">Allergie(s) alimentaire(s)</label><br/>
+                {{ form_widget(edit_form.allergie) }}
+            </div>
             <blockquote>Toute allergie alimentaire doit obligatoirement être signalée. L'inscription au restaurant scolaire ne pourra se faire qu'après avis médical et mise en place d'un P.A.I (Plan d'Accueil Individualisé).</blockquote>
-            <h3>Signatures</h3>
-            <div class="form-group">
-                {{ form_errors(edit_form.atteste) }}
-                {{ form_widget(edit_form.atteste) }}
-                <label for="signatures"> J’atteste avoir pris connaissance du règlement intérieur du Restaurant Scolaire de La Loupe, et je m'engage à le respecter et à le faire respecter par mon enfant *</label><br/>
-            <div class="form-group">
-                {{ form_errors(edit_form.autorise) }}
-                {{ form_widget(edit_form.autorise) }}
-                <label for="autorise">J'autorise le responsable du restaurant scolaire ou son représentant à prendre toutes mesures d'urgence nécessaires en cas d'accident survenant à mon enfant *</label>
-                <blockquote>
-                    A savoir :
-                    <ul>
-                        <li>appel du S.A.M.U</li>
-                        <li>transfert à l'hôpital (ou à la clinique) le (la) plus proche</li>
-                    </ul>
-                </blockquote>
+
+            <div class="form-group calendar">
+                <div class="anneescolaire">
+                    {% for key,value in calendrier %}
+                        {{ key }}
+                    {% endfor %}
+                </div>
+
+                <div class="semaine">
+                    {% for day in edit_form.habits %}
+                        <div class="choix">
+                            {{ form_widget(day) }}
+                            {{ form_label(day) }}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="months col-md-12 text-center">
+                    {% for key,value in calendrier %}
+                        {% for mois,jour in value %}
+                            {% if mois == 1 %}
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Jan</a>
+                            {% endif %}
+                            {% if mois == 2 %}
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Fév</a>
+                            {% endif %}
+                            {% if mois == 3 %}
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Mar</a>
+                            {% endif %}
+                            {% if mois == 4 %}
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Avr</a>
+                            {% endif %}
+                            {% if mois == 5 %}
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Mai</a>
+                            {% endif %}
+                            {% if mois == 6 %}
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Jui</a>
+                            {% endif %}
+                            {% if mois == 7 %}
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Jui</a>
+                            {% endif %}
+                            {% if mois == 8 %}
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Aoû</a>
+                            {% endif %}
+                            {% if mois == 9 %}
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Sep</a>
+                            {% endif %}
+                            {% if mois == 10 %}
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Oct</a>
+                            {% endif %}
+                            {% if mois == 11 %}
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Nov</a>
+                            {% endif %}
+                            {% if mois == 12 %}
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Déc</a>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+
+
+                {% for year, months in calendrier %}
+                    {% for month, days in months %}
+                        <div class="month" id="month{{ month }}">
+                            <table>
+                                <thead>
+                                <tr>
+                                    {% for days in jours %}
+                                        <th class="jourecole">{{ days }}</th>
+                                    {% endfor %}
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr>
+
+                                    {% for day,day_week in days %}
+                                    {% if day == 1 %}
+                                        {% if day_week != 1 %}
+                                            <td colspan="{{ day_week - 1 }}"></td>
+                                        {% endif %}
+                                    {% endif %}
+
+                                    {% if day_week == 3 or day_week == 6 or day_week == 7 or date(year ~ '-' ~ month ~ '-' ~ day).timestamp < dateLimit or date(year ~ '-' ~ month ~ '-' ~ day).timestamp > finAnnee %}
+
+                                    <td class="inactif">
+
+                                        {% else %}
+                                    <td>
+                                        {% endif %}
+
+
+                                        {% if day_week != 3 and day_week != 6 and day_week != 7 and date(year ~ '-' ~ month ~ '-' ~ day).timestamp > dateLimit and date(year ~ '-' ~ month ~ '-' ~ day).timestamp < finAnnee %}
+
+                                            <input class="calendar-checkbox {{ 'day' ~ day_week }}" type="checkbox" value="{{ year }}-{{ month }}-{{ day }}">
+
+                                        {% endif %}
+
+                                        {{ day }}
+
+                                        {% if (day_week == 7) %}
+                                </tr><tr>
+                                    {% endif %}
+
+                                    {% endfor %}
+
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+
+
+                <script>
+                    window.onload = function () {
+                        // Show the current month and hide the others
+                        $('.month').hide();
+                        $('.month:first').show();
+                        $('.months a:first').addClass('active');
+
+                        // Convert date checkboxes into text on submit
+                        $('form[name="WCS_cantinebundle_eleve"]').submit(function(e){
+                            e.preventDefault();
+                            var dates = '';
+                            $('.calendar-checkbox:checked').each(function(){
+                                dates += this.value + ';';
+                            });
+                            $('#WCS_cantinebundle_eleve_dates').html(dates);
+                            this.submit();
+                        });
+
+                        // Onclick the month selected appear and the other is hidden
+                        var current = 9;
+                        $('.months a').click(function(){
+                            var month = $(this).attr('id').replace('linkMonth', '');
+                            if (month != current){
+                                $('#month'+current).slideUp();
+                                $('#month'+month).slideDown();
+                                $('.months a').removeClass('active');
+                                $('.months a#linkMonth' + month).addClass('active');
+                                current = month;
+                            }
+                            return false;
+                        });
+
+                        // Auto select of week checkboxes
+                        $('.choix input').on('change', function(){
+                            var daySelected = parseInt($(this).attr('id').split('_')[4])+1;
+                            if (daySelected >= 3) daySelected++;
+                            $('div.month td input.day' + daySelected).prop('checked', $(this).prop('checked'));//http://stackoverflow.com/questions/426258/checking-a-checkbox-with-jquery
+                        });
+
+                        // Convert date string into checkboxes
+                        var dates = $('#WCS_cantinebundle_eleve_dates').html().split(';');
+                        dates.forEach(function(date){
+                            $('input[value="'+date+'"]').prop('checked', true);
+                        });
+                    }
+                </script>
             </div>
-            <div class="form-group">
-                {{ form_errors(edit_form.certifie) }}
-                {{ form_widget(edit_form.certifie) }}
-                <label for="atteste">Je certifie sur l’honneur l’exactitude de tous les renseignements saisis sur cette application concernant mon enfant ainsi que mon foyer *</label>
-            </div>
+
             <div class="col-md-6 col-md-offset-3">
                 <h6 id="champs">* champs obligatoire</h6><br>
                 <input type="submit" name="commit" value="Modifier" class="btn btn-primary btn-lg btn-block">
             </div>
         </div>
+
+        <div class="hidden">
+            {{ form_widget(edit_form.dates) }}
+        </div>
+
+        {{ form_rest(edit_form) }}
+        {{ form_end(edit_form) }}
+
     </div>
-</div>
-    {{ form_rest(edit_form) }}
-    {{ form_end(edit_form) }}
-
-
-
-
 
 {% endblock %}

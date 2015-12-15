@@ -56,25 +56,12 @@
                 </div>
 
                 <div class="semaine">
-                    <div class="choix">
-                        <input type="checkbox" name="lundi" id="weeklyday-1" />
-                        <label class="wd" for="weeklyday-1">Tous les lundis</label>
-                    </div>
-
-                    <div class="choix">
-                        <input type="checkbox" name="mardi" id="weeklyday-2" />
-                        <label class="wd" for="weeklyday-2">Tous les mardis</label>
-                    </div>
-
-                    <div class="choix">
-                        <input type="checkbox" name="jeudi" id="weeklyday-4" />
-                        <label class="wd" for="weeklyday-4">Tous les jeudis</label>
-                    </div>
-
-                    <div class="choix">
-                        <input type="checkbox" name="vendredi" id="weeklyday-5" />
-                        <label class="wd" for="weeklyday-5">Tous les vendredis</label>
-                    </div>
+                    {% for day in form.habits %}
+                        <div class="choix">
+                            {{ form_widget(day) }}
+                            {{ form_label(day) }}
+                        </div>
+                    {% endfor %}
                 </div>
 
                 <div class="months col-md-12 text-center">
@@ -120,7 +107,6 @@
                     {% endfor %}
                 </div>
 
-
                 {% for year, months in calendrier %}
                     {% for month, days in months %}
                         <div class="month" id="month{{ month }}">
@@ -144,26 +130,14 @@
                                     {% endif %}
 
                                     {% if day_week == 3 or day_week == 6 or day_week == 7 or date(year ~ '-' ~ month ~ '-' ~ day).timestamp < dateLimit or date(year ~ '-' ~ month ~ '-' ~ day).timestamp > finAnnee %}
-
-                                    <td class="inactif">
-
-                                        {% else %}
-                                    <td>
-                                        {% endif %}
-
-
-                                        {% if day_week != 3 and day_week != 6 and day_week != 7 and date(year ~ '-' ~ month ~ '-' ~ day).timestamp > dateLimit and date(year ~ '-' ~ month ~ '-' ~ day).timestamp < finAnnee %}
-
+                                        <td class="inactif">
+                                    {% else %}
+                                        <td>
                                             <input class="calendar-checkbox {{ 'day' ~ day_week }}" type="checkbox" value="{{ year }}-{{ month }}-{{ day }}">
-
-                                        {% endif %}
-
-                                        {{ day }}
-
-                                        {% if (day_week == 7) %}
-                                </tr><tr>
                                     {% endif %}
-
+                                        {{ day }}
+                                    </td>
+                                    {% if (day_week == 7) %}</tr><tr>{% endif %}
                                     {% endfor %}
 
                                 </tr>
@@ -205,7 +179,8 @@
 
                         // Auto select of week checkboxes
                         $('.choix input').on('change', function(){
-                            var daySelected = $(this).attr('id').split('-')[1];
+                            var daySelected = parseInt($(this).attr('id').split('_')[4])+1;
+                            if (daySelected >= 3) daySelected++;
                             $('div.month td input.day' + daySelected).prop('checked', $(this).prop('checked'));
                         })
                     }
