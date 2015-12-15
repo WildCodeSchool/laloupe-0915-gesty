@@ -303,16 +303,16 @@ class EleveController extends Controller
             $array[] = date_format($date, ('Y-n-j'));
         }
 
-        return $array;
+        return $ar;
     }
 
     public function dashboardAction()
     {
+        $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $moyendepaiement = $user->getmodeDePaiement();
         $children = $user->getEleves();
 
-        $em = $this->getDoctrine()->getManager();
 
         if (!$user) {
             throw $this->createNotFoundException('Aucun utilisateur trouvé pour cet id:');

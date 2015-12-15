@@ -11,18 +11,14 @@ WCS\CantineBundle\Entity\Eleve:
         nom:
             type: string
             length: 255
-            nullable: true
         prenom:
             type: string
             length: 255
-            nullable: true
         dateDeNaissance:
             type: date
             column: date_de_naissance
-            nullable: true
         regimeSansPorc:
             type: boolean
-            nullable: true
         allergie:
             type: string
             column: allergie
@@ -35,7 +31,6 @@ WCS\CantineBundle\Entity\Eleve:
             type: string
             length: 255
             column: etablissement
-            nullable: true
         atteste :
             type: boolean
             column: atteste
@@ -50,6 +45,7 @@ WCS\CantineBundle\Entity\Eleve:
             nullable: true
         habits:
             type: array
+
 
     manyToOne:
         user:

@@ -205,7 +205,7 @@
                         $('.choix input').on('change', function(){
                             var daySelected = parseInt($(this).attr('id').split('_')[4])+1;
                             if (daySelected >= 3) daySelected++;
-                            $('div.month td input.day' + daySelected).prop('checked', $(this).prop('checked'));
+                            $('div.month td input.day' + daySelected).prop('checked', $(this).prop('checked'));//http://stackoverflow.com/questions/426258/checking-a-checkbox-with-jquery
                         });
 
                         // Convert date string into checkboxes
