@@ -64,19 +64,17 @@
     display: block;
     padding: 25px;
 
-
-
-
 }
 .panel-default{
     border-color: #ddd;
-   
+
 }
 .panel-body-1{
     box-sizing: inherit;
     text-align:left;
     padding:15px;
     margin-top: 20px;
+    box-shadow: 10px 10px 5px 0px #cfcfcf;
 
 
 
