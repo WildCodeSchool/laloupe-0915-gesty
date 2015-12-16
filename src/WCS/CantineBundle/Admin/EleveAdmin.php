@@ -47,6 +47,10 @@ class EleveAdmin extends Admin
                     'Mme POMMIER Emilie - Ecole "Roland-Garros" - CE2/CM1' => 'Mme POMMIER Emilie - Ecole "Roland-Garros" - CE2/CM1',
                     'Mme DESSEAUX Aurélie/M MARECAUX François - Ecole "Roland-Garros" - CM2' => 'Mme DESSEAUX Aurélie/M MARECAUX François - Ecole "Roland-Garros" - CM2',
                 )))
+            ->add('atteste')
+            ->add('autorise')
+            ->add('certifie')
+            ->add('dates')
         ;
     }
 
