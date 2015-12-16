@@ -303,7 +303,7 @@ class EleveController extends Controller
             $array[] = date_format($date, ('Y-n-j'));
         }
 
-        return $ar;
+        return $array;
     }
 
     public function dashboardAction()

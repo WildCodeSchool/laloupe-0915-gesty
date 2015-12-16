@@ -19,11 +19,12 @@ class EleveAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
+            ->add('user')
             ->add('nom','text')
             ->add('prenom', 'text')
             ->add('dateDeNaissance','date')
-            ->add('regimeSansPorc')
-            ->add('allergie')
+            ->add('regimeSansPorc', null, array('required' => false))
+            ->add('allergie',null ,array('required' => false))
             ->add('Etablissement', 'choice', array (
                 'choices' => array(
                     'Mme WITKIEWICZ Marie-Agnès - Ecole Notre Dame des Fleurs - PS/MS' => 'Mme WITKIEWICZ Marie-Agnès - Ecole Notre Dame des Fleurs - PS/MS',

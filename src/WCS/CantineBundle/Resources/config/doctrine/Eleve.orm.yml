@@ -45,8 +45,6 @@ WCS\CantineBundle\Entity\Eleve:
             nullable: true
         habits:
             type: array
-
-
     manyToOne:
         user:
             targetEntity: Application\Sonata\UserBundle\Entity\User
