@@ -75,6 +75,8 @@ class EleveAdmin extends Admin
                 'edit' => array(),
                 'delete' => array(),
             )))
+            ->add('allergie', 'text')
+            ->add('regimeSansPorc', 'boolean')
         ;
     }
 
