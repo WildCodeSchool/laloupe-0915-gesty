@@ -1,6 +1,9 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
+    {% block retour %}
+        <a href="{{ path('wcs_cantine_dashboard') }}">Retour</a>
+    {% endblock %}
     <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
         <center><h1>Modifier les informations sur mon enfant</h1></center><br/>
 
