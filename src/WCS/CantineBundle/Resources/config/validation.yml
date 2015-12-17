@@ -5,7 +5,7 @@ WCS\CantineBundle\Entity\Eleve:
                 min: 2
                 max: 20
            - Regex:
-               pattern: '/["#{}<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²0-9]/'
+               pattern: '/["#{}€@<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²0-9]/'
                match: false
 
         prenom:
@@ -13,7 +13,7 @@ WCS\CantineBundle\Entity\Eleve:
                 min: 2
                 max: 20
             - Regex:
-               pattern: '/["#{}<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²0-9]/'
+               pattern: '/["#{}€@<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²0-9]/'
                match: false
 
 
@@ -22,6 +22,6 @@ WCS\CantineBundle\Entity\Eleve:
                 min: 1
                 max: 40
             - Regex:
-               pattern: '/["#{}<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²0-9]/'
+               pattern: '/["#{}€@<>=+|~&()`_^@°\[%$£\]ø*µ§!?:;.²0-9]/'
                match: false
 

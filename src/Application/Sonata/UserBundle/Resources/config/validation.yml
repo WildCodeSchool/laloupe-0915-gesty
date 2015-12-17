@@ -5,7 +5,7 @@ Application\Sonata\UserBundle\Entity\User:      # le lien pour la doc, http://sy
                 min: 2
                 max: 20
            - Regex:
-                pattern: '/["#{}<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²0-9]/'
+                pattern: '/["#{}@€<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²0-9]/'
                 match: false
 
         firstname:
@@ -13,25 +13,31 @@ Application\Sonata\UserBundle\Entity\User:      # le lien pour la doc, http://sy
                 min: 2
                 max: 20
             - Regex:
-                pattern: '/["#{}<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²0-9]/'
+                pattern: '/["#{}@€<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²0-9]/'
                 match: false
 
         adresse:
             - Length:
                 min: 1
                 max: 40
+            - Regex:
+                pattern: '/["#{}@€<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²]/'
+                match: false
 
         codePostal:
             - Length:
                 min: 5
                 max: 5
+            - Regex:
+                pattern: '/[A-Z"#{}@€<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²a-z]/'
+                match: false
 
         phone:
             - Length:
                 min: 10
                 max: 10
             - Regex:
-                pattern: '/[A-Z"#{}<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²a-z]/'
+                pattern: '/[A-Z"#{}€@<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²a-z]/'
                 match: false
 
         telephoneSecondaire:
@@ -39,18 +45,21 @@ Application\Sonata\UserBundle\Entity\User:      # le lien pour la doc, http://sy
                 min: 10
                 max: 10
             - Regex:
-                pattern: '/[A-Z"#{}<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²a-z]/'
+                pattern: '/[A-Z"#{}€@<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²a-z]/'
                 match: false
 
         numeroIban:
             - Length:
                 min: 27
                 max: 27
+            - Regex:
+                pattern: '/["#{}€@<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²]/'
+                match: false
 
         caf:
             - Length:
                 min: 7
                 max: 7
             - Regex:
-                pattern: '/[A-Z"#{}<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²a-z]/'
+                pattern: '/[A-Z"#{}€@<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²a-z]/'
                 match: false
