@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use WCS\CantineBundle\Entity\Eleve;
 
 
-class EleveType extends AbstractType
+class EleveEditType extends AbstractType
 {
 
 
@@ -48,9 +48,6 @@ class EleveType extends AbstractType
                 )))
             ->add('regimeSansPorc', 'checkbox', array('required'=>false))
             ->add('allergie', 'text', array('label' =>'allergie', 'required'=>false))
-            ->add('atteste','checkbox', array('required'=>true))
-            ->add('autorise','checkbox', array('required'=>true))
-            ->add('certifie','checkbox', array('required'=>true))
             ->add('dates')
             ->add('habits', null, array('required'=>false))
             ->add('habits', 'choice', array(

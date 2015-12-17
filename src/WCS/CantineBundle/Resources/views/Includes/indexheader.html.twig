@@ -2,12 +2,12 @@
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">
+                <div class="navbar-brand">
                     Gesty
-                </a>
+                </div>
             </div>
             {% if app.user %}
-                <a href="{{ path('user_logout') }}" id="logout">
+                <a href="{{ path('fos_user_security_logout') }}" id="logout">
                     <i class="fa fa-power-off"></i>
                 </a>
             {% endif %}

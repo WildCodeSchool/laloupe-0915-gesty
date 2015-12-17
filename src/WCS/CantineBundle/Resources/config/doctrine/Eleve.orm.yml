@@ -27,9 +27,10 @@ WCS\CantineBundle\Entity\Eleve:
             type: integer
             column: id_foyer
             nullable: true
-        idEtablissement:
-            type: integer
-            column: id_etablissement
+        Etablissement:
+            type: string
+            length: 255
+            column: etablissement
         atteste :
             type: boolean
             column: atteste
@@ -42,7 +43,8 @@ WCS\CantineBundle\Entity\Eleve:
         dates:
             type: text
             nullable: true
-
+        habits:
+            type: array
     manyToOne:
         user:
             targetEntity: Application\Sonata\UserBundle\Entity\User

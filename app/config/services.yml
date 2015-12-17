@@ -7,10 +7,10 @@ services:
       sonata.admin.eleve:
            class: WCS\CantineBundle\Admin\EleveAdmin
            tags:
-               - { name: sonata.admin, manager_type: orm, group: "Eleve", label: "Eleve" }
+               - { name: sonata.admin, manager_type: orm, group: "wcs.group.eleve", label: "Eleve" }
            arguments:
                - ~
-               - WCS\GestyBundle\Entity\Eleve
+               - WCS\CantineBundle\Entity\Eleve
                - ~
       sonata.user.profile.form.type:
             class: Application\Sonata\UserBundle\Form\Type\ProfileType
@@ -22,4 +22,4 @@ services:
             class: WCS\CantineBundle\Form\Type\EleveType
             arguments: [ "WCS\CantineBundle\Entity\Eleve"]
             tags:
-                - {name: "form.type", alias: "WCS_cantinebundle_eleve"}
+                - {name: "form.type", alias: "wcs_cantinebundle_eleve"}

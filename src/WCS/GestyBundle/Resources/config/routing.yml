@@ -2,3 +2,6 @@ wcs_gesty_homepage:
     path:     /
     defaults: { _controller: WCSGestyBundle:Dashboard:index }
 
+wcs_gesty_ecoles:
+    path: /ecoles
+    defaults: {_controller: WCSGestyBundle:Dashboard:ecoles }

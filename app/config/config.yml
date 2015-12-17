@@ -129,23 +129,34 @@ fos_user:
             type: application_sonata_user_registration
 
 sonata_admin:
-    title: WCS Admin  #à personnaliser
+    title: Gesty Admin  #à personnaliser
     #title_logo: /bundles/acmedemo/fancy_acme_logo.png #à personnaliser
+    
+
 
     dashboard:
         blocks:
             -
                 position: left
                 type: sonata.admin.block.admin_list
+                class: col-md-12
             -
                 position: top
                 type: sonata.block.service.text
+                class: col-md-12
                 settings:
                     content: >
                         <h2>Bienvenue dans la page d'administration de Gesty</h2>
+
+
 
         groups:
             app.admin.group.content:
                 label: Foyer
                 items:
                     - sonata.user.admin.user
+            wcs.group.eleve:
+                label: Eleves
+
+
+

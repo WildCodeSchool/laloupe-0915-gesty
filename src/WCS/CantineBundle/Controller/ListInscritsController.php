@@ -20,19 +20,42 @@ class ListInscritsController extends Pupils
      * Lists all Eleve entities.
      *
      */
-    public function listAction()
+    public function listLesEcureuilsAction()
     {
-        $interval = new \DateInterval('P5D');
 
         $date = new \DateTime('now');
-        $date->add($interval);
         $em = $this->getDoctrine()->getManager();
-        $aujourdhui = $em->getRepository('WCSCantineBundle:Eleve')->findByDay($date);
+        $aujourdhui = $em->getRepository('WCSCantineBundle:Eleve')->findByDayLesEcureuils($date);
 
-        return $this->render('WCSCantineBundle:Eleve:list.html.twig', array(
+        return $this->render('WCSCantineBundle:Eleve:list.lesecureuils.html.twig', array(
             'aujourdhui' => $aujourdhui,
         ));
 
     }
 
+    public function listRolandGarrosAction()
+    {
+
+        $date = new \DateTime('now');
+        $em = $this->getDoctrine()->getManager();
+        $aujourdhui = $em->getRepository('WCSCantineBundle:Eleve')->findByDayRolandGarros($date);
+
+        return $this->render('WCSCantineBundle:Eleve:list.rolandgarros.html.twig', array(
+            'aujourdhui' => $aujourdhui,
+        ));
+
+    }
+
+    public function listNotreDameAction()
+    {
+
+        $date = new \DateTime('now');
+        $em = $this->getDoctrine()->getManager();
+        $aujourdhui = $em->getRepository('WCSCantineBundle:Eleve')->findByDayNotreDameDesFleurs($date);
+
+        return $this->render('WCSCantineBundle:Eleve:list.notredame.html.twig', array(
+            'aujourdhui' => $aujourdhui,
+        ));
+
+    }
 }

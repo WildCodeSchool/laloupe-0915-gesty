@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use WCS\CantineBundle\Entity\Eleve;
+use WCS\CantineBundle\Form\Type\EleveEditType;
 use WCS\CantineBundle\Form\Type\EleveType;
 
 /**
@@ -41,9 +42,6 @@ class EleveController extends Controller
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
-
-
-
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity->setUser($this->getUser());
@@ -57,10 +55,9 @@ class EleveController extends Controller
         $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
         $limit = new \DateTime();
 
-        $vacancesEte = new \DateTime('2016-07-06');
-
         $vacancesHiver = $this->getHolidays('2016-02-02', '2016-02-21');
 
+        $vacancesEte = new \DateTime('2016-07-06');
         $date = date_timestamp_get($limit) + 168*60*60;
         $finAnnee = date_timestamp_get($vacancesEte);
 
@@ -75,9 +72,6 @@ class EleveController extends Controller
             'dateLimit' => $date,
             'finAnnee' => $finAnnee,
             'vacancesHiver' => $vacancesHiver,
-
-
-
         ));
     }
 
@@ -151,11 +145,26 @@ class EleveController extends Controller
 
         $editForm = $this->createEditForm($entity);
 
+        // Lancement de la fonction calendrier
+        $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
+        $limit = new \DateTime();
 
+        $vacancesHiver = $this->getHolidays('2016-02-02', '2016-02-21');
+
+        $vacancesEte = new \DateTime('2016-07-06');
+        $date = date_timestamp_get($limit) + 168*60*60;
+        $finAnnee = date_timestamp_get($vacancesEte);
+
+        $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
 
         return $this->render('WCSCantineBundle:Eleve:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
+            'calendrier' => $calendrier,
+            'jours' => $jours,
+            'dateLimit' => $date,
+            'finAnnee' => $finAnnee,
+            'vacancesHiver' => $vacancesHiver,
 
         ));
     }
@@ -169,12 +178,10 @@ class EleveController extends Controller
      */
     private function createEditForm(Eleve $entity)
     {
-        $form = $this->createForm(new EleveType(), $entity, array(
+        $form = $this->createForm(new EleveEditType(), $entity, array(
             'action' => $this->generateUrl('eleve_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
-
-
 
         return $form;
     }
@@ -211,9 +218,6 @@ class EleveController extends Controller
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-
-
-
         ));
     }
 
@@ -304,27 +308,20 @@ class EleveController extends Controller
 
     public function dashboardAction()
     {
+        $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $moyendepaiement = $user->getmodeDePaiement();
         $children = $user->getEleves();
 
 
-
-
         if (!$user) {
             throw $this->createNotFoundException('Aucun utilisateur trouvé pour cet id:');
-        }
-        if (!$children) {
-            throw $this->createNotFoundException('Aucun enfant trouvé pour cet id:');
         }
 
         return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(
             'user' => $user,
             'children' => $children,
-            'modeDePaiement' =>$moyendepaiement,
-
-
-
+            'modeDePaiement' =>$moyendepaiement
         ));
 
 
