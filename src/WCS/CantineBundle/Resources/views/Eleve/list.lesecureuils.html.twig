@@ -8,7 +8,7 @@
         <table class="table">
 
             <tr>
-                <td colspan="5">Enfants inscrits</td>
+                <td class="text-center" colspan="5">Enfants inscrits</td>
             </tr>
 
             <tr>
@@ -32,8 +32,19 @@
         </table>
     </div>
 
-    <div class="test"></div>
-    <div class="total"></div>
+    <div class="table-responsive">
+        <table class="table">
+            <tr>
+                <td>Nombre d'inscrits :</td>
+                <td class="test text-center"></td>
+            </tr>
+            <tr>
+                <td>Nombre d'enfants présents :</td>
+                <td class="total text-center"></td>
+            </tr>
+        </table>
+    </div>
+
 
     {% block javascripts %}
         <script src="{{ asset('bundles/wcscantine/js/jquery.min.js') }}"></script>

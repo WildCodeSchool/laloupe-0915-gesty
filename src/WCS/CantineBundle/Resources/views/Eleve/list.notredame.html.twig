@@ -8,7 +8,7 @@
         <table class="table">
 
             <tr>
-                <td colspan="5">Enfants inscrits</td>
+                <td class="text-center" colspan="5">Enfants inscrits</td>
             </tr>
 
             <tr>
@@ -21,7 +21,7 @@
 
             {% for eleve in aujourdhui %}
                 <tr>
-                    <td><input type="checkbox" name="vehicle" value="{{ eleve.nom }}'-'{{ eleve.prenom }}'-'{{ eleve.dates }}" /></td>
+                    <td><input type="checkbox" class="eleve" name="eleve" value="{{ eleve.nom }}'-'{{ eleve.prenom }}'-'{{ eleve.dates }}" /></td>
                     <td>{{ eleve.nom }}</td>
                     <td>{{ eleve.prenom }}</td>
                     <td>{{ eleve.allergie }}</td>
@@ -31,6 +31,35 @@
 
         </table>
     </div>
+
+    <div class="table-responsive">
+        <table class="table">
+            <tr>
+                <td>Nombre d'inscrits :</td>
+                <td class="test text-center"></td>
+            </tr>
+            <tr>
+                <td>Nombre d'enfants présents :</td>
+                <td class="total text-center"></td>
+            </tr>
+        </table>
+    </div>
+
+    {% block javascripts %}
+        <script src="{{ asset('bundles/wcscantine/js/jquery.min.js') }}"></script>
+        <script src="{{ asset('bundles/wcscantine/js/bootstrap.min.js') }}"></script>
+    {% endblock %}
+    <script>
+        var totalCheckboxes = $('input:checkbox');
+        var totalEleves = totalCheckboxes.length;
+        window.onload = function () {
+            $(".test")[0].innerHTML = totalEleves;
+        };
+        $( ".eleve" ).click(function() {
+            var countCheckedCheckboxes = $('input:checkbox:checked').length;
+            $(".total")[0].innerHTML = countCheckedCheckboxes;
+        });
+    </script>
 
 
 

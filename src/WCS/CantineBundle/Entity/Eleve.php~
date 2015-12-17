@@ -103,7 +103,7 @@ class Eleve
     private $certifie;
 
     /**
-     * @var text
+     * @var string
      */
     private $dates;
 
@@ -371,7 +371,7 @@ class Eleve
     /**
      * Set dates
      *
-     * @param text $dates
+     * @param string $dates
      *
      * @return Eleve
      */
@@ -385,7 +385,7 @@ class Eleve
     /**
      * Get dates
      *
-     * @return text
+     * @return string
      */
     public function getDates()
     {
