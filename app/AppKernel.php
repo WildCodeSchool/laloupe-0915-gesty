@@ -32,6 +32,9 @@ class AppKernel extends Kernel
             new Application\Sonata\UserBundle\ApplicationSonataUserBundle(),
             new WCS\CantineBundle\WCSCantineBundle(),
             new WCS\GestyBundle\WCSGestyBundle(),
+
+            new Vlabs\MediaBundle\VlabsMediaBundle(),
+            new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
