@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="{{ asset('bundles/wcscantine/css/application.css') }}"/>
         <link rel="stylesheet" href="{{ asset('bundles/wcscantine/css/style.css') }}" type="text/css" />
         <link rel="stylesheet" href="{{ asset('bundles/wcscantine/css/style_calendrier.css') }}" type="text/css" />
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     {% endblock %}
 </head>
 <body>
@@ -35,6 +36,7 @@
     {% include "WCSCantineBundle:Includes:indexfooter.html.twig" %}
 {% endblock %}
 {% block javascripts %}
+    <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="{{ asset('bundles/wcscantine/js/jquery.min.js') }}"></script>
 {% endblock %}
 </body>

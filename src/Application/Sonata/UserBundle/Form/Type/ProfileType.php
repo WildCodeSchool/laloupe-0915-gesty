@@ -60,7 +60,6 @@ class ProfileType extends \Sonata\UserBundle\Form\Type\ProfileType
                 'choices'   => array('0' => 'Chèque', '1' => 'Especes', '2' => 'Prélèvements')))
             ->add('numeroIban', 'text', array( 'required' => false))
             ->add('mandatActif', 'checkbox', array( 'required' => false))
-            ->add('file', 'file', array('label' => 'Company logo', 'required' => false))
             ->add('envoyer', 'submit')
         ;
     }

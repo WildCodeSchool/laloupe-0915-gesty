@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
-        <p>Bonjour {{ user.nom }}</p>
+        <p>Bonjour</p>
         <h1>Mon Foyer</h1><br/>
             <p> {{ app.user }} </p><br/>
 
@@ -26,7 +26,6 @@
         <div class="row">
             <div class="col-md-offset-1 col-md-5">
                 <h3>Mes justificatifs</h3>
-                    <td>{{ user.justificatif }}</td>
             </div>
         </div>
         <a href="{{ path('sonata_user_profile_show') }}"><input type="button" value="Modifier mes informations"class="btn btn-primary" ></a>

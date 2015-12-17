@@ -42,21 +42,9 @@ Application\Sonata\UserBundle\Entity\User:
             type: boolean
             column: mandat_actif
             nullable: true
-        justificatif:
-            type: string
-            length: 255
-            nullable: true
-
-
     oneToMany:
         eleves:
             targetEntity: WCS\CantineBundle\Entity\Eleve
             mappedBy: user
 
 
-    lifecycleCallbacks:
-        prePersist: [ preUpload ]
-        preUpdate: [ preUpload ]
-        postPersist: [ upload ]
-        postUpdate: [ upload ]
-        postRemove: [ removeUpload ]

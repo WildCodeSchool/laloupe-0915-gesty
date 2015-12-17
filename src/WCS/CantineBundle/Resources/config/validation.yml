@@ -1,14 +1,27 @@
 WCS\CantineBundle\Entity\Eleve:
     properties:
         nom:
-            - NotBlank: ~
-            - Regex:
-                pattern: '/"#{}<>=+|~&()`_^@°%$£ø*µ§!?,:;.²/'
-                match: false
+           - Length:
+                min: 2
+                max: 20
+           - Regex:
+               pattern: '/["#{}<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²0-9]/'
+               match: false
 
         prenom:
-            - NotBlank: ~
+            - Length:
+                min: 2
+                max: 20
             - Regex:
-                pattern: '/"#{}<>=+|~&()`_^@°%$£ø*µ§!?,:;.²/'
-                match: false
+               pattern: '/["#{}<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²0-9]/'
+               match: false
+
+
+        allergie:
+            - Length:
+                min: 1
+                max: 40
+            - Regex:
+               pattern: '/["#{}<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²0-9]/'
+               match: false
 

@@ -12,141 +12,134 @@ file that was distributed with this source code.
 {% block title %}Enregistrement{% endblock %}
 
   {% block body %}
-<div class='container' role='main'>
+      <div class='container' role='main'>
+
+          <div class="col-lg-12 col-xs-12">
+              <center><h1>Les informations concernant mon foyer</h1></center>
+              <center>
+                  <div class="row">
+                      <div class="col-lg-offset-1 col-lg-3">Coucou</div>
+                      <div class="col-lg-3">Coucou</div>
+                      <div class="col-lg-3">Coucou</div>
+                  </div>
+                  <blockquote>
+                      <h5>
+                          Toute modification de vos informations ne sera mise en place qu'aprés vérification et validation par le service administratif.
+                      </h5>
+                  </blockquote>
+              </center>
+          </div>
+          {{ form_start(form) }}
+          <div class="row">
+              <!--<form class="edit_home" id="edit_home_181" enctype="multipart/form-data" action="/homes/181" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" /><input type="hidden" name="authenticity_token" value="aQFRfA7WoIAqNrHnChqwC0c9ZItQKix1Hp7z05hpFf/dg/CfHidnJIsw63yeElcDN8/qlTkN1yAypVsN+hVqbA==" /> -->
+              <div class="col-md-offset-1 col-md-4 col-xs-12">
+                  <div class="form-group">
+                      <label for="home_gender">Civilité</label>
+                      {{ form_widget(form.gender) }}
+                  </div>
+                  <div class="form-group">
+                      <label for="home_lastname">Nom *</label>
+                      {{ form_errors(form.lastname) }}
+                      {{ form_widget(form.lastname) }} <br/>
+                      <!--<input class="form-control" type="text" value="Wcs" name="home[lastname]" id="home_lastname" /> -->
+                  </div>
+                  <div class="form-group">
+                      <label for="home_firstname">Prénom *</label>
+                      {{ form_errors(form.firstname) }}
+                      {{ form_widget(form.firstname) }} <br/>
+                  </div>
+                  <div class="form-group">
+                      <label for="home_address_street">Adresse</label>
+                      {{ form_errors(form.adresse) }}
+                      {{ form_widget(form.adresse) }} <br/>
+                  </div>
+                  <div class="form-group">
+                      <label for="home_address_postcode">Code postal</label>
+                      {{ form_errors(form.codePostal) }}
+                      {{ form_widget(form.codePostal) }} <br/>
+                  </div>
+                  <div class="form-group">
+                      <label for="home_address_city">Commune *</label>
+                      {{ form_errors(form.commune) }}
+                      {{ form_widget(form.commune) }} <br/>
+                  </div>
+                  <div class="form-group">
+                      <label for="home_phone">Téléphone *</label>
+                      {{ form_errors(form.phone) }}
+                      {{ form_widget(form.phone) }}<br/>
+                  </div>
+                  <div class="form-group">
+                      <label for="home_phone_2">Téléphone secondaire (optionnel)</label>
+                      {{ form_errors(form.telephoneSecondaire) }}
+                      {{ form_widget(form.telephoneSecondaire) }} <br/>
+                  </div>
+              </div>
+
+              <div class="col-md-offset-1 col-md-5 col-xs-12">
+                  <div class="form-group">
+                      <label for="home_caf">Numéro d&#39;allocataire CAF</label>
+                      {{ form_errors(form.caf) }}
+                      {{ form_widget(form.caf) }} <br/>
+                  </div>
+
+                  <label for="home_payment_method">Mode de paiement *</label>
+                  {{ form_errors(form.modeDePaiement) }}
+                  {{ form_widget(form.modeDePaiement) }}
+
+                  <div class="well">Si paiement par prélèvement :
+                      <div class="form-group">
+                          <label for="home_rib">Numéro IBAN du compte</label>
+                          {{ form_errors(form.numeroIban) }}
+                          {{ form_widget(form.numeroIban) }} <br/>
+                      </div>
+                      <div class="form-group">
+                          <!--<input name="home[active_transfer]" type="hidden" value="0" /><input type="checkbox" value="1" checked="checked" name="home[active_transfer]" id="home_active_transfer" /> -->
+                          {{ form_errors(form.mandatActif) }}
+                          {{ form_widget(form.mandatActif) }}
+                          <label for="home_active_transfer">J&#39;ai déjà un mandat de prélèvement actif avec la Mairie</label>
+                      </div>
+                      <p>OU</p>
+                      <!-- <a href="/assets/multipass/Mandat_SEPA_mairie_la_loupe-c69a9ea362dc44265bb25f7aeb8d8fd84caca86d4a8ca67f31b85e506ae1d04c.pdf"> -->Je télécharge l&#39;autorisation de prélèvement</a> à retourner remplie et signée à la Mairie.
+                  </div>
+
+                  <h3>Chargez vos pièces justificatives</h3>
+                  <blockquote>Seules les images ou les fichiers .pdf sont acceptés</blockquote>
+                  <div class="form-group">
+                      <label for="home_caf_evidence">Notification des prestations CAF-MSA</label>
+                      <br>
+
+                      <blockquote>datée de moins de 3 mois.</blockquote>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="home_address_evidence">Justificatif de domicile *</label>
+                      <br>
+                      <a target="_blank" href="https://gesty.s3-eu-central-1.amazonaws.com/uploads/multipass/home/address_evidence/181/Berceuse.jpeg?X-Amz-Expires=600&amp;X-Amz-Date=20151123T152618Z&amp;X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIQTZNIMGSI6GCE3Q/20151123/eu-central-1/s3/aws4_request&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=989322e4477a8262aa828530439f2026fc9391f2c4e902dc7a603a725e2b42ca">Justificatif de domicile</a>
+
+                      <blockquote>Joindre un justificatif récent. À défaut le tarif hors commune sera appliqué.</blockquote>
+                  </div>
+                  <div class="form-group">
+                      <label for="home_salary_evidence">Justificatifs de revenus *</label>
+                      <br>
+                      <a target="_blank" href="https://gesty.s3-eu-central-1.amazonaws.com/uploads/multipass/home/salary_evidence/181/Berceuse.jpeg?X-Amz-Expires=600&amp;X-Amz-Date=20151123T152618Z&amp;X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIQTZNIMGSI6GCE3Q/20151123/eu-central-1/s3/aws4_request&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=c5e3643970e5ee476f601e44705507aa064064cfa2255cca852ed460a0856e46">Justificatif de revenus</a><br>
+
+                      <blockquote>Joindre l'attestation des employeurs ou les 3 derniers bulletins de salaire des parents ou du parent isolé.</blockquote>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-md-6 col-md-offset-3 col-xs-12">
+              <h6 id="champs">* champs obligatoire</h6><br>
+              {{ form_widget(form.envoyer) }} <br/>
+              ou
+              <!-- <a href="/homes/181">Annuler</a> -->
+
+              <blockquote>Après avoir enregistré, laisser la page ouverte tant que vous n'avez pas été redirigé pour permettre le chargement des pièces jointes</blockquote>
+          </div>
+
+          {{ form_end(form) }}
+          <!-- </form> -->
 
 
-    <center><h1>Les informations concernant mon foyer</h1></center>
-    <center>
-        <blockquote>
-            <h5>
-                Toute modification de vos informations ne sera mise en place qu'aprés vérification et validation par le service administratif.
-            </h5>
-        </blockquote>
-    </center>
-
-    {{ form_start(form) }}
-    <div class="row">
-        <!--<form class="edit_home" id="edit_home_181" enctype="multipart/form-data" action="/homes/181" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" /><input type="hidden" name="authenticity_token" value="aQFRfA7WoIAqNrHnChqwC0c9ZItQKix1Hp7z05hpFf/dg/CfHidnJIsw63yeElcDN8/qlTkN1yAypVsN+hVqbA==" /> -->
-        <div class="col-md-offset-1 col-md-4">
-            <div class="form-group">
-                <label for="home_gender">Civilité</label>
-                {{ form_widget(form.gender) }}
-            </div>
-            <div class="form-group">
-                <label for="home_lastname">Nom *</label>
-                {{ form_errors(form.lastname) }}
-                {{ form_widget(form.lastname) }} <br/>
-                <!--<input class="form-control" type="text" value="Wcs" name="home[lastname]" id="home_lastname" /> -->
-            </div>
-            <div class="form-group">
-                <label for="home_firstname">Prénom *</label>
-                {{ form_errors(form.firstname) }}
-                {{ form_widget(form.firstname) }} <br/>
-            </div>
-            <div class="form-group">
-                <label for="home_address_street">Adresse</label>
-                {{ form_errors(form.adresse) }}
-                {{ form_widget(form.adresse) }} <br/>
-            </div>
-            <div class="form-group">
-                <label for="home_address_postcode">Code postal</label>
-                {{ form_errors(form.codePostal) }}
-                {{ form_widget(form.codePostal) }} <br/>
-            </div>
-            <div class="form-group">
-                <label for="home_address_city">Commune *</label>
-                {{ form_errors(form.commune) }}
-                {{ form_widget(form.commune) }} <br/>
-            </div>
-            <div class="form-group">
-                <label for="home_phone">Téléphone *</label>
-                {{ form_errors(form.phone) }}
-                {{ form_widget(form.phone) }}<br/>
-            </div>
-            <div class="form-group">
-                <label for="home_phone_2">Téléphone secondaire (optionnel)</label>
-                {{ form_errors(form.telephoneSecondaire) }}
-                {{ form_widget(form.telephoneSecondaire) }} <br/>
-            </div>
-        </div>
-
-        <div class="col-md-offset-1 col-md-5">
-            <div class="form-group">
-                <label for="home_caf">Numéro d&#39;allocataire CAF</label>
-                {{ form_errors(form.caf) }}
-                {{ form_widget(form.caf) }} <br/>
-            </div>
-
-            <label for="home_payment_method">Mode de paiement *</label>
-            {{ form_errors(form.modeDePaiement) }}
-            {{ form_widget(form.modeDePaiement) }}
-
-            <div class="well">Si paiement par prélèvement :
-                <div class="form-group">
-                    <label for="home_rib">Numéro IBAN du compte *</label>
-                    {{ form_errors(form.numeroIban) }}
-                    {{ form_widget(form.numeroIban) }} <br/>
-                </div>
-                <div class="form-group">
-                    <!--<input name="home[active_transfer]" type="hidden" value="0" /><input type="checkbox" value="1" checked="checked" name="home[active_transfer]" id="home_active_transfer" /> -->
-                    {{ form_errors(form.mandatActif) }}
-                    {{ form_widget(form.mandatActif) }}
-                    <label for="home_active_transfer">J&#39;ai déjà un mandat de prélèvement actif avec la Mairie</label>
-                </div>
-                <p>OU</p>
-                <!-- <a href="/assets/multipass/Mandat_SEPA_mairie_la_loupe-c69a9ea362dc44265bb25f7aeb8d8fd84caca86d4a8ca67f31b85e506ae1d04c.pdf"> -->Je télécharge l&#39;autorisation de prélèvement</a> à retourner remplie et signée à la Mairie.
-            </div>
-
-            <h3>Chargez vos pièces justificatives</h3>
-            <blockquote>Seules les images ou les fichiers .pdf sont acceptés</blockquote>
-            <div class="form-group">
-                <label for="home_caf_evidence">Notification des prestations CAF-MSA</label>
-                <br>
-                <input type="file" name="home[caf_evidence]" id="home_caf_evidence" />
-                <blockquote>datée de moins de 3 mois.</blockquote>
-            </div>
-
-            <div class="form-group">
-                <label for="home_address_evidence">Justificatif de domicile *</label>
-                <br>
-                <a target="_blank" href="https://gesty.s3-eu-central-1.amazonaws.com/uploads/multipass/home/address_evidence/181/Berceuse.jpeg?X-Amz-Expires=600&amp;X-Amz-Date=20151123T152618Z&amp;X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIQTZNIMGSI6GCE3Q/20151123/eu-central-1/s3/aws4_request&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=989322e4477a8262aa828530439f2026fc9391f2c4e902dc7a603a725e2b42ca">Justificatif de domicile</a>
-                <input type="file" name="home[address_evidence]" id="home_address_evidence" />
-                <blockquote>Joindre un justificatif récent. À défaut le tarif hors commune sera appliqué.</blockquote>
-            </div>
-            <div class="form-group">
-                <label for="home_salary_evidence">Justificatifs de revenus *</label>
-                <br>
-                <a target="_blank" href="https://gesty.s3-eu-central-1.amazonaws.com/uploads/multipass/home/salary_evidence/181/Berceuse.jpeg?X-Amz-Expires=600&amp;X-Amz-Date=20151123T152618Z&amp;X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIQTZNIMGSI6GCE3Q/20151123/eu-central-1/s3/aws4_request&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=c5e3643970e5ee476f601e44705507aa064064cfa2255cca852ed460a0856e46">Justificatif de revenus</a><br>
-                <input type="file" name="home[salary_evidence]" id="home_salary_evidence" /><br>
-
-                <input type="file" name="home[salary_evidence_2]" id="home_salary_evidence_2" /><br>
-
-                <input type="file" name="home[salary_evidence_3]" id="home_salary_evidence_3" /><br>
-
-                <input type="file" name="home[salary_evidence_4]" id="home_salary_evidence_4" /><br>
-
-                <input type="file" name="home[salary_evidence_5]" id="home_salary_evidence_5" /><br>
-
-                 {{ form_widget(form.file) }}
-                <blockquote>Joindre l'attestation des employeurs ou les 3 derniers bulletins de salaire des parents ou du parent isolé.</blockquote>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-6 col-md-offset-3">
-        <h6 id="champs">* champs obligatoire</h6><br>
-        {{ form_widget(form.envoyer) }} <br/>
-        ou
-        <!-- <a href="/homes/181">Annuler</a> -->
-
-
-
-        <blockquote>Après avoir enregistré, laisser la page ouverte tant que vous n'avez pas été redirigé pour permettre le chargement des pièces jointes</blockquote>
-    </div>
-
-    {{ form_end(form) }}
-    <!-- </form> -->
-
-
-</div>
+      </div>
   {% endblock %}

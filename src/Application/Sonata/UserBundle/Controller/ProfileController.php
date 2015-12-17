@@ -53,5 +53,4 @@ class ProfileController extends BaseController
             'form' => $form->createView(),
             ));
     }
-
 }
