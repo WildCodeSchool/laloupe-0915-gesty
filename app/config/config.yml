@@ -159,4 +159,9 @@ sonata_admin:
                 label: Eleves
 
 
-
+vlabs_media:
+    image_cache:
+        cache_dir: files/c
+    mapping:
+        image_entity:
+          class: WCS\GestyBundle\Entity\Justificatif

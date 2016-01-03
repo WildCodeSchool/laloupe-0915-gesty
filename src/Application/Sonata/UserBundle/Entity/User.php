@@ -29,6 +29,8 @@ class User extends BaseUser
         parent::setUsername($email);
     }
 
+
+
     /** Generate code */
 
 
@@ -76,7 +78,12 @@ class User extends BaseUser
      * @var \Doctrine\Common\Collections\Collection
      */
     private $eleves;
-    
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $justificatifs;
+
 
     /**
      * Set adresse
@@ -304,4 +311,37 @@ class User extends BaseUser
         return $this->eleves;
     }
 
+    /**
+     * Add justificatif
+     *
+     * @param \WCS\GestyBundle\Entity\Justificatif $justificatif
+     *
+     * @return User
+     */
+    public function addJustificatif(\WCS\GestyBundle\Entity\Justificatif $justificatif)
+    {
+        $this->justificatifs[] = $justificatif;
+
+        return $this;
+    }
+
+    /**
+     * Remove justificatif
+     *
+     * @param \WCS\GestyBundle\Entity\Justificatif $justificatif
+     */
+    public function removeJustificatif(\WCS\GestyBundle\Entity\Justificatif $justificatif)
+    {
+        $this->justificatifs->removeElement($justificatif);
+    }
+
+    /**
+     * Get justificatifs
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getJustificatifs()
+    {
+        return $this->justificatifs;
+    }
 }

@@ -15,6 +15,8 @@ namespace Application\Sonata\UserBundle\Form\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Sonata\UserBundle\Model\UserInterface;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class ProfileType extends \Sonata\UserBundle\Form\Type\ProfileType
 {
@@ -60,6 +62,7 @@ class ProfileType extends \Sonata\UserBundle\Form\Type\ProfileType
                 'choices'   => array('0' => 'Chèque', '1' => 'Especes', '2' => 'Prélèvements')))
             ->add('numeroIban', 'text', array( 'required' => false))
             ->add('mandatActif', 'checkbox', array( 'required' => false))
+            ->add('justificatifs')
             ->add('envoyer', 'submit')
         ;
     }

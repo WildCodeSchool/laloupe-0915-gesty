@@ -1,0 +1,51 @@
+<?php
+// WCS\GestyBundle\Entity\Justificatif
+
+namespace WCS\GestyBundle\Entity;
+
+use Vlabs\MediaBundle\Entity\BaseFile as VlabsFile;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * WCS\GestyBundle\Entity\File
+ *
+ */
+class Justificatif extends VlabsFile
+{
+    /**
+     * @var string $path
+     *
+     * @Assert\Image()
+     */
+    private $path;
+
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     * @return Justificatif
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+
+
+
+    // YAML GENERATED CODE
+    
+}
