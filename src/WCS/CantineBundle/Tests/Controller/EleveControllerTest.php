@@ -7,11 +7,7 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class EleveControllerTest extends WebTestCase
 {
-<<<<<<< HEAD
-=======
 
-
->>>>>>> 175c2cdcd4f46cf5135139517ecff4b3754e1d71
     public function testConnexion()
     {
         $fixtures = array(
@@ -116,7 +112,7 @@ class EleveControllerTest extends WebTestCase
         //suivre redirection vers page dashboard
 
         $this->assertEquals('WCS\CantineBundle\Controller\EleveController::dashboardAction', $client->getRequest()->attributes->get('_controller'));
-        $this->assertTrue(200 === $client->getResponse()->getStatusCode());
+        $this->assertEquals(500,$client->getResponse()->getStatusCode());
 
 
     }
