@@ -72,7 +72,6 @@ class EleveController extends Controller
             'dateLimit' => $date,
             'finAnnee' => $finAnnee,
             'vacancesHiver' => $vacancesHiver,
-            'ecoles' => $ecoles,
         ));
     }
 
