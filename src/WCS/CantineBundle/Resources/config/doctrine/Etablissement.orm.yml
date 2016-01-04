@@ -7,7 +7,7 @@ WCS\CantineBundle\Entity\Etablissement:
             generator:
                 strategy: AUTO
     fields:
-        nom:
+        ecole:
             type: string
             length: 255
         classe:
