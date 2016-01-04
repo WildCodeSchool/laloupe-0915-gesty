@@ -48,47 +48,7 @@
                                             <td>{{ child.prenom }}</td><br/>
                                     </div>
                                     <div class="panel-body-1">
-                                            {% if child.Etablissement == 0 %}
-                                                <td><strong>Classe:</strong> Mme WITKIEWICZ Marie-Agnès - Ecole Notre Dame des Fleurs - PS/MS</td>
-                                            {% elseif child.Etablissement == 1 %}
-                                                <td><strong>Classe :</strong>  Mme BOUCHER Anne-lise - Ecole Notre Dame des Fleurs - MS/GS</td>
-                                            {% elseif child.Etablissement == 2 %}
-                                                <td><strong>Classe :</strong> Mme LEMOUE Laurence - Ecole Notre Dame des Fleurs - CP/CE1</td>
-                                            {% elseif child.Etablissement == 3 %}
-                                                <td><strong>Classe :</strong>Mme LABBEY Hélène - Ecole Notre Dame des Fleurs - CE1/CE2</td>
-                                            {% elseif child.Etablissement == 4 %}
-                                                <td><strong>Classe :</strong> Mme CATTEEU Anne-Sophie - Ecole Notre Dame des Fleurs - CE2/CM1</td>
-                                            {% elseif child.Etablissement == 5 %}
-                                                <td><strong>Classe :</strong> Mme BRAULT Agnès - Ecole Notre Dame des Fleurs - CM1/CM2</td>
-                                            {% elseif child.Etablissement == 6 %}
-                                                <td><strong>Classe :</strong> Mme AVARE Frédérique - Ecole "Les Ecureuils" - TPS</td>
-                                            {% elseif child.Etablissement == 7 %}
-                                                <td><strong>Classe :</strong> Mme GRISON Nadia - Ecole "Les Ecureuils" - PS/MS</td>
-                                            {% elseif child.Etablissement == 8 %}
-                                                <td><strong>Classe :</strong> Mme PICHODO Marie-Pierre - Ecole "Les Ecureuils" - GS</td>
-                                            {% elseif child.Etablissement == 9 %}
-                                                <td><strong>Classe :</strong> M PATARIN David - Ecole "Les Ecureuils" - MS/GS</td>
-                                            {% elseif child.Etablissement == 10 %}
-                                                <td><strong>Classe :</strong> Mme LABUSSIERE Elodie - Ecole "Les Ecureuils" - PS</td>
-                                            {% elseif child.Etablissement == 11 %}
-                                                <td><strong>Classe :</strong> Mmes TRICOT Corinne/DESSAUX Aurélie - Ecole "Roland-Garros" - CP</td>
-                                            {% elseif child.Etablissement == 12 %}
-                                                <td><strong>Classe :</strong> Mle NOUAILLE-DEGORCE Valérie - Ecole "Roland-Garros" - CE1</td>
-                                            {% elseif child.Etablissement == 13 %}
-                                                <td><strong>Classe :</strong> Mme LUCIEN Nathalie - Ecole "Roland-Garros" - CE2</td>
-                                            {% elseif child.Etablissement == 14 %}
-                                                <td><strong>Classe :</strong> Mle BENOIT/Mme BISSIERE - Ecole "Roland-Garros" - CLIS</td>
-                                            {% elseif child.Etablissement == 15 %}
-                                                <td><strong>Classe :</strong> Mme SAUVAGET - Ecole "Roland-Garros" - CM1/CM2</td>
-                                            {% elseif child.Etablissement == 16 %}
-                                                <td><strong>Classe :</strong> Mme MOURAND-PERINO Mélanie - Ecole "Roland-Garros" - CP/CE1</td>
-                                            {% elseif child.Etablissement == 17 %}
-                                                <td><strong>Classe :</strong> Mme POMMIER Emilie - Ecole "Roland-Garros" - CE2/CM1</td>
-                                            {% else %}
-                                                <td><strong>Classe :</strong> Mme DESSEAUX Aurélie/m MARECAUX François - Ecole "Roland-Garros" - CM2</td>
-
-                                                {% endif %}<br/>
-
+                                            {{ child.etablissement }}<br/>
 
                                             {% if child.allergie %}
                                             <td>Allergie: {{ child.allergie }}</td>

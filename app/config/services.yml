@@ -15,7 +15,7 @@ services:
       sonata.admin.etablissement:
            class: WCS\CantineBundle\Admin\EtablissementAdmin
            tags:
-               - { name: sonata.admin, manager_type: orm, group: "wcs.group.etablissement", label: "Etablissement" }
+               - { name: sonata.admin, manager_type: orm, group: "wcs.group.etablissement", label: "Liste des ecoles" }
            arguments:
                - ~
                - WCS\CantineBundle\Entity\Etablissement
@@ -31,3 +31,4 @@ services:
             arguments: [ "WCS\CantineBundle\Entity\Eleve"]
             tags:
                 - {name: "form.type", alias: "wcs_cantinebundle_eleve"}
+
