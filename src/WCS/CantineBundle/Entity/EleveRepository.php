@@ -71,4 +71,18 @@ class EleveRepository extends EntityRepository
             ->setParameter(':eleve', "%".$children."%")
             ->getResult();
     }
+
+    public function findEtablissements()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare('SELECT e FROM WCSCantineBundle:Etablissement e WHERE e.id');
+        $statement->execute();
+        $results = $statement->fetchAll();
+
+        foreach ($results as $result)
+        {
+            return $result;
+        }
+    }
 }
