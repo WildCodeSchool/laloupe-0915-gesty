@@ -35,7 +35,11 @@
 
                 <div class="form-group">
                     {{ form_errors(edit_form.Etablissement) }}
-                    <label for="etablissement">Classe en septembre 2015</label>
+                    {% if "now"|date("n") < 6 %}
+                        <label for="etablissement">Classe en septembre {{ "now"|date("Y") - 1 }}</label>
+                    {% else %}
+                        <label for="etablissement">Classe en septembre {{ "now"|date("Y") }}</label>
+                    {% endif %}
                     {{ form_widget(edit_form.Etablissement) }}
                 </div>
 
