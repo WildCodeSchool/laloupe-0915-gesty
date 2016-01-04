@@ -157,6 +157,12 @@ sonata_admin:
                     - sonata.user.admin.user
             wcs.group.eleve:
                 label: Eleves
+            wcs.group.etablissement:
+                label: Etablissement
 
-
-
+vlabs_media:
+    image_cache:
+        cache_dir: files/c
+    mapping:
+        image_entity:
+          class: WCS\GestyBundle\Entity\Justificatif

@@ -15,11 +15,6 @@ class Etablissement
     /**
      * @var string
      */
-    private $nom;
-
-    /**
-     * @var string
-     */
     private $classe;
 
     /**
@@ -36,30 +31,6 @@ class Etablissement
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set nom
-     *
-     * @param string $nom
-     *
-     * @return Etablissement
-     */
-    public function setNom($nom)
-    {
-        $this->nom = $nom;
-
-        return $this;
-    }
-
-    /**
-     * Get nom
-     *
-     * @return string
-     */
-    public function getNom()
-    {
-        return $this->nom;
     }
 
     /**
@@ -108,5 +79,34 @@ class Etablissement
     public function getInstituteur()
     {
         return $this->instituteur;
+    }
+    /**
+     * @var string
+     */
+    private $ecole;
+
+
+    /**
+     * Set ecole
+     *
+     * @param string $ecole
+     *
+     * @return Etablissement
+     */
+    public function setEcole($ecole)
+    {
+        $this->ecole = $ecole;
+
+        return $this;
+    }
+
+    /**
+     * Get ecole
+     *
+     * @return string
+     */
+    public function getEcole()
+    {
+        return $this->ecole;
     }
 }

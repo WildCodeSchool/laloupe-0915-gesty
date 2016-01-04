@@ -46,5 +46,12 @@ Application\Sonata\UserBundle\Entity\User:
         eleves:
             targetEntity: WCS\CantineBundle\Entity\Eleve
             mappedBy: user
+            cascade: {persist, remove}
+            orphanRemoval: true
+        justificatifs:
+            targetEntity: WCS\GestyBundle\Entity\Justificatif
+            mappedBy: signataire
+            cascade: {persist, remove}
+            orphanRemoval: true
 
 
