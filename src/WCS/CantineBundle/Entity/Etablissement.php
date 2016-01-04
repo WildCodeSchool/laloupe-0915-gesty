@@ -7,6 +7,10 @@ namespace WCS\CantineBundle\Entity;
  */
 class Etablissement
 {
+    public function __toString(){
+        return $this->instituteur.' - '.$this->ecole. ' - ' .$this->classe;
+    }
+
     /**
      * @var integer
      */
@@ -109,4 +113,5 @@ class Etablissement
     {
         return $this->ecole;
     }
+
 }

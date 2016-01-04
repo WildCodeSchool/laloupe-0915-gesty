@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use WCS\CantineBundle\Entity\Eleve;
+use WCS\CantineBundle\Entity\Etablissement;
 use WCS\CantineBundle\Form\Type\EleveEditType;
 use WCS\CantineBundle\Form\Type\EleveType;
 
@@ -63,7 +64,6 @@ class EleveController extends Controller
 
         $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
 
-
         return $this->render('WCSCantineBundle:Eleve:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
@@ -72,6 +72,7 @@ class EleveController extends Controller
             'dateLimit' => $date,
             'finAnnee' => $finAnnee,
             'vacancesHiver' => $vacancesHiver,
+            'ecoles' => $ecoles,
         ));
     }
 
@@ -165,7 +166,6 @@ class EleveController extends Controller
             'dateLimit' => $date,
             'finAnnee' => $finAnnee,
             'vacancesHiver' => $vacancesHiver,
-
         ));
     }
 
@@ -313,7 +313,6 @@ class EleveController extends Controller
         $moyendepaiement = $user->getmodeDePaiement();
         $children = $user->getEleves();
 
-
         if (!$user) {
             throw $this->createNotFoundException('Aucun utilisateur trouvé pour cet id:');
         }
@@ -326,4 +325,5 @@ class EleveController extends Controller
 
 
     }
+
 }
