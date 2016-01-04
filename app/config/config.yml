@@ -158,7 +158,7 @@ sonata_admin:
             wcs.group.eleve:
                 label: Eleves
             wcs.group.etablissement:
-                label: Etablissement
+                label: Ecoles
 
 vlabs_media:
     image_cache:
