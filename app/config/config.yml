@@ -129,7 +129,7 @@ fos_user:
             type: application_sonata_user_registration
 
 sonata_admin:
-    title: Gesty Admin  #à personnaliser
+    title: Gesty Admin
     title_logo: /bundles/wcscantine/images/favicon.ico
     
 
@@ -146,7 +146,7 @@ sonata_admin:
                 class: col-md-12
                 settings:
                     content: >
-                        <h2>Bienvenue dans la page d'administration de Gesty</h2>
+                        <h2>Bienvenue dans la page d'administration de Gesty</h2><br/>
 
 
 

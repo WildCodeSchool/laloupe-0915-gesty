@@ -56,7 +56,7 @@ class EleveRepository extends EntityRepository
                 'SELECT e FROM WCSCantineBundle:Eleve e WHERE e.dates LIKE :day AND e.Etablissement LIKE :place ORDER BY e.nom'
             )
             ->setParameter(':day', "%".$day."%")
-            ->setParameter(':place', "%Notre Dame%")
+            ->setParameter(':place', "%Notre Dame des Fleurs%")
             ->getResult();
     }
 
