@@ -1,4 +1,4 @@
-WCS\CantineBundle\Entity\Etablissement:
+WCS\CantineBundle\Entity\Division:
     type: entity
     id:
         id:
@@ -7,13 +7,15 @@ WCS\CantineBundle\Entity\Etablissement:
             generator:
                 strategy: AUTO
     fields:
-        ecole:
+        grade:
             type: string
             length: 255
-        classe:
-            type: string
-            length: 255
-        instituteur:
+        headTeacher:
             type: string
             length: 255
     lifecycleCallbacks: {  }
+
+    manyToOne:
+        school:
+            targetEntity: WCS\CantineBundle\Entity\School
+            inversedBy: divisions
