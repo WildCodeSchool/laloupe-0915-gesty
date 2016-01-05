@@ -23,14 +23,6 @@ WCS\CantineBundle\Entity\Eleve:
             type: string
             column: allergie
             nullable: true
-        idFoyer:
-            type: integer
-            column: id_foyer
-            nullable: true
-        Etablissement:
-            type: string
-            length: 255
-            column: etablissement
         atteste :
             type: boolean
             column: atteste
@@ -48,6 +40,9 @@ WCS\CantineBundle\Entity\Eleve:
     manyToOne:
         user:
             targetEntity: Application\Sonata\UserBundle\Entity\User
+            inversedBy: eleves
+        division:
+            targetEntity: Division
             inversedBy: eleves
 
 

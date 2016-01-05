@@ -2,6 +2,10 @@ gesty_cantine_eleve:
     resource: "@WCSCantineBundle/Resources/config/routing/eleve.yml"
     prefix:   /
 
+gesty_cantine_dame:
+    resource: "@WCSCantineBundle/Resources/config/routing/dameCantine.yml"
+    prefix:   /canteenManager
+
 wcs_cantine_dashboard:
     path: /dashboard
     defaults: { _controller: "WCSCantineBundle:Eleve:dashboard"  }

@@ -1,0 +1,27 @@
+WCS\CantineBundle\Entity\Division:
+    type: entity
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        grade:
+            type: string
+            length: 255
+        headTeacher:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }
+
+    manyToOne:
+        school:
+            targetEntity: WCS\CantineBundle\Entity\School
+            inversedBy: divisions
+
+    oneToMany:
+        eleves:
+            targetEntity: WCS\CantineBundle\Entity\Eleve
+            mappedBy: division
+            cascade: {persist, remove}

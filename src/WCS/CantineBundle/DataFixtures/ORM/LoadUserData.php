@@ -33,6 +33,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $user1->setLastname('Admin');
         $user1->setPhone('0768298272');
         $userManager->updateUser($user1, true);
+        $this->addReference('superAdmin', $user1);
 
         // Creation du User aaa
         $user2 = $userManager->createUser();
@@ -44,6 +45,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $user2->setLastname('Aaa');
         $user2->setPhone('0768298272');
         $userManager->updateUser($user2, true);
+        $this->addReference('user', $user1);
 
         // Creation du User damedecantine
         $user3 = $userManager->createUser();
@@ -55,6 +57,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $user3->setLastname('Aaa');
         $user3->setPhone('0768298272');
         $userManager->updateUser($user3, true);
+        $this->addReference('dameCantine', $user1);
     }
 
     public function getSecurityManager()

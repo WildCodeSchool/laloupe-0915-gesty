@@ -46,7 +46,8 @@ class Eleve
     }
 
 
-    // GENERATE CODE
+    // GENERATED CODE
+    
     /**
      * @var integer
      */
@@ -78,16 +79,6 @@ class Eleve
     private $allergie;
 
     /**
-     * @var integer
-     */
-    private $idFoyer;
-
-    /**
-     * @var string
-     */
-    private $Etablissement;
-
-    /**
      * @var boolean
      */
     private $atteste;
@@ -116,6 +107,11 @@ class Eleve
      * @var \Application\Sonata\UserBundle\Entity\User
      */
     private $user;
+
+    /**
+     * @var \WCS\CantineBundle\Entity\Division
+     */
+    private $division;
 
 
     /**
@@ -246,54 +242,6 @@ class Eleve
     public function getAllergie()
     {
         return $this->allergie;
-    }
-
-    /**
-     * Set idFoyer
-     *
-     * @param integer $idFoyer
-     *
-     * @return Eleve
-     */
-    public function setIdFoyer($idFoyer)
-    {
-        $this->idFoyer = $idFoyer;
-
-        return $this;
-    }
-
-    /**
-     * Get idFoyer
-     *
-     * @return integer
-     */
-    public function getIdFoyer()
-    {
-        return $this->idFoyer;
-    }
-
-    /**
-     * Set etablissement
-     *
-     * @param string $etablissement
-     *
-     * @return Eleve
-     */
-    public function setEtablissement($etablissement)
-    {
-        $this->Etablissement = $etablissement;
-
-        return $this;
-    }
-
-    /**
-     * Get etablissement
-     *
-     * @return string
-     */
-    public function getEtablissement()
-    {
-        return $this->Etablissement;
     }
 
     /**
@@ -438,5 +386,29 @@ class Eleve
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set division
+     *
+     * @param \WCS\CantineBundle\Entity\Division $division
+     *
+     * @return Eleve
+     */
+    public function setDivision(\WCS\CantineBundle\Entity\Division $division = null)
+    {
+        $this->division = $division;
+
+        return $this;
+    }
+
+    /**
+     * Get division
+     *
+     * @return \WCS\CantineBundle\Entity\Division
+     */
+    public function getDivision()
+    {
+        return $this->division;
     }
 }
