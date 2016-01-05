@@ -19,3 +19,9 @@ WCS\CantineBundle\Entity\Division:
         school:
             targetEntity: WCS\CantineBundle\Entity\School
             inversedBy: divisions
+
+    oneToMany:
+        eleves:
+            targetEntity: WCS\CantineBundle\Entity\Eleve
+            mappedBy: division
+            cascade: {persist, remove}

@@ -21,9 +21,4 @@ class DashboardController extends Controller
         return $this->render('WCSGestyBundle:Dashboard:index.html.twig');
 
     }
-
-    public function ecolesAction()
-    {
-        return $this->render('WCSGestyBundle:Dashboard:ecoles.html.twig');
-    }
 }

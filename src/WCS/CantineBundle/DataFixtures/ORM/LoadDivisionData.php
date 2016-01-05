@@ -1,5 +1,5 @@
 <?php
-// src/WCS/CantineBundle/DataFixtures/ORM/LoadSchoolData.php
+// src/WCS/CantineBundle/DataFixtures/ORM/LoadDivisionData.php
 
 namespace WCS\CantineBundle\DataFixtures\ORM;
 
@@ -11,31 +11,31 @@ use Doctrine\Common\Persistence\ObjectManager;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use WCS\CantineBundle\Entity\Division;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Entity\School;
 
 
-class LoadSchoolData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadDivisionData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
-        $entity1 = new School();
-        $entity1->setName("Les écureuils");
-        $entity1->setAdress("La Loupe");
+        $entity1 = new Division();
+        $entity1->setGrade("CP-CE1");
+        $entity1->setHeadTeacher("Mme Lemoue");
+        $entity1->setSchool($this->getReference("school-nddf"));
         $manager->persist($entity1);
+        $this->setReference('division-lemoue', $entity1);
 
-        $entity2 = new School();
-        $entity2->setName("Notre Dame des Fleurs");
-        $entity2->setAdress("La Loupe");
+        $entity2 = new Division();
+        $entity2->setGrade("CE2-CM1");
+        $entity2->setHeadTeacher("Mme Catteeu");
+        $entity2->setSchool($this->getReference("school-nddf"));
         $manager->persist($entity2);
-
-        $entity3 = new School();
-        $entity3->setName("Roland-Garros");
-        $entity3->setAdress("La Loupe");
-        $manager->persist($entity3);
+        $this->setReference('division-catteeu', $entity2);
 
         $manager->flush();
     }
@@ -47,6 +47,6 @@ class LoadSchoolData extends AbstractFixture implements OrderedFixtureInterface,
 
     public function getOrder()
     {
-        return 2; // ordre d'appel
+        return 3; // ordre d'appel
     }
 }

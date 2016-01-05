@@ -1,6 +1,5 @@
 WCS\CantineBundle\Entity\School:
     type: entity
-    table: null
     id:
         id:
             type: integer
@@ -11,13 +10,18 @@ WCS\CantineBundle\Entity\School:
         name:
             type: string
             length: 255
-        city:
-            type: string
-            length: 255
         adress:
             type: string
             length: 255
         phone:
             type: string
             length: 255
+            nullable: true
     lifecycleCallbacks: {  }
+
+    oneToMany:
+        divisions:
+            targetEntity: WCS\CantineBundle\Entity\Division
+            mappedBy: school
+            cascade: {persist, remove}
+            orphanRemoval: true

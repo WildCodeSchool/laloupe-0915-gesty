@@ -1,4 +1,5 @@
 <?php
+// src/WCS/CantineBundle/Controller/CanteenManagerController.php
 
 namespace WCS\CantineBundle\Controller;
 
@@ -9,15 +10,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  * List controller.
  *
  */
-class ListInscritsController extends Controller
+class CanteenManagerController extends Controller
 {
 
-    public function index()
+    public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
         $schools = $em->getRepository('WCSCantineBundle:School')->findAll();
 
-        return $this->render('WCSCantineBundle:DameCantine:index.html.twig', array(
+        return $this->render('WCSCantineBundle:CanteenManager:index.html.twig', array(
             'schools' => $schools,
         ));
     }
@@ -26,10 +27,10 @@ class ListInscritsController extends Controller
      * Lists all Eleve entities.
      *
      */
-    public function todayListAction($school)
+    public function todayListAction($schoolId)
     {
         $em = $this->getDoctrine()->getManager();
-        $eleves = $em->getRepository('WCSCantineBundle:Eleve')->getTodayList($school);
+        $eleves = $em->getRepository('WCSCantineBundle:Eleve')->getTodayList($schoolId);
 
         return $this->render('WCSCantineBundle:Eleve:todayList.html.twig', array(
             'eleves' => $eleves,

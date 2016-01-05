@@ -1,5 +1,5 @@
 <?php
-// src/WCS/CantineBundle/DataFixtures/ORM/LoadUserData.php
+// src/WCS/CantineBundle/DataFixtures/ORM/LoadSchoolData.php
 
 namespace WCS\CantineBundle\DataFixtures\ORM;
 
@@ -12,28 +12,33 @@ use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use WCS\CantineBundle\Entity\Eleve;
+use WCS\CantineBundle\Entity\School;
 
 
-class LoadEleveData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadSchoolData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
-        $entity1 = new Eleve();
-        $entity1->setUser($this->getReference('user'));
-        $entity1->setAtteste(true);
-        $entity1->setCertifie(true);
-        $entity1->setAutorise(true);
-        $entity1->setNom('Robert');
-        $entity1->setPrenom('Robert');
-        $entity1->setDateDeNaissance(new \DateTime('2004-02-08'));
-        $entity1->setRegimeSansPorc(false);
-        $entity1->setEtablissement('ghjg');
-        $now = new \DateTime();
-        $entity1->setDates($now->format('Y-m-d'));
+        $entity1 = new School();
+        $entity1->setName("Les écureuils");
+        $entity1->setAdress("La Loupe");
         $manager->persist($entity1);
+        $this->setReference('school-ecureuils', $entity1);
+
+        $entity2 = new School();
+        $entity2->setName("Notre Dame des Fleurs");
+        $entity2->setAdress("La Loupe");
+        $manager->persist($entity2);
+        $this->setReference('school-nddf', $entity2);
+
+        $entity3 = new School();
+        $entity3->setName("Roland-Garros");
+        $entity3->setAdress("La Loupe");
+        $manager->persist($entity3);
+        $this->setReference('school-rg', $entity3);
 
         $manager->flush();
     }
