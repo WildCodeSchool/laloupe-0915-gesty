@@ -24,8 +24,7 @@ class EleveEditType extends AbstractType
             ->add('dateDeNaissance', 'date', array(
             'format' => 'dd-MMMM-yyyy',
             'years' =>  range(\date("Y") - 11, \date("Y") - 2),))
-            ->add('Etablissement', 'entity', array(
-                'class' => 'WCSCantineBundle:Etablissement'))
+            ->add('division')
             ->add('regimeSansPorc', 'checkbox', array('required'=>false))
             ->add('allergie', 'text', array('label' =>'allergie', 'required'=>false))
             ->add('dates')
