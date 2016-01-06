@@ -8,7 +8,7 @@ namespace WCS\CantineBundle\Entity;
 class Division
 {
     public function __toString(){
-        return $this->headTeacher.' - '.$this->school. ' - ' .$this->grade;
+        return ucwords($this->headTeacher).' - '.$this->school. ' - ' .$this->grade;
         //return '';
     }
 
