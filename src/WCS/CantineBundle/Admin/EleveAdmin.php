@@ -22,7 +22,9 @@ class EleveAdmin extends Admin
             ->add('user')
             ->add('nom','text')
             ->add('prenom', 'text')
-            ->add('dateDeNaissance','date')
+            ->add('dateDeNaissance', 'date', array(
+                'format' => 'dd-MMMM-yyyy',
+                'years' =>  range(\date("Y") - 11, \date("Y") - 2),))
             ->add('regimeSansPorc', null, array('required' => false))
             ->add('allergie',null ,array('required' => false))
             ->add('division', 'entity', array(
