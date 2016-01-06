@@ -227,6 +227,13 @@ a{
     border-top: 1px solid #7A2903 !important;
 }
 
-.btn__envoyer {
+.commentaires {
+    width: 100%;
     margin-bottom: 10px;
+}
+
+.commentaires,
+.btn__envoyer
+{
+    float: left;
 }
