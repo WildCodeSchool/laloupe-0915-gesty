@@ -34,13 +34,13 @@
                 </div>
 
                 <div class="form-group">
-                    {{ form_errors(edit_form.Etablissement) }}
+                    {{ form_errors(edit_form.division) }}
                     {% if "now"|date("n") < 6 %}
                         <label for="etablissement">Classe en septembre {{ "now"|date("Y") - 1 }}</label>
                     {% else %}
                         <label for="etablissement">Classe en septembre {{ "now"|date("Y") }}</label>
                     {% endif %}
-                    {{ form_widget(edit_form.Etablissement) }}
+                    {{ form_widget(edit_form.division) }}
                 </div>
 
             </div>

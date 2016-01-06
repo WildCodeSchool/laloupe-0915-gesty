@@ -12,13 +12,13 @@ services:
                - ~
                - WCS\CantineBundle\Entity\Eleve
                - ~
-      sonata.admin.etablissement:
-           class: WCS\CantineBundle\Admin\EtablissementAdmin
+      sonata.admin.division:
+           class: WCS\CantineBundle\Admin\DivisionAdmin
            tags:
-               - { name: sonata.admin, manager_type: orm, group: "wcs.group.etablissement", label: "Liste des ecoles" }
+               - { name: sonata.admin, manager_type: orm, group: "wcs.group.division", label: "Liste des ecoles" }
            arguments:
                - ~
-               - WCS\CantineBundle\Entity\Etablissement
+               - WCS\CantineBundle\Entity\Division
                - ~
       sonata.user.profile.form.type:
             class: Application\Sonata\UserBundle\Form\Type\ProfileType

@@ -25,8 +25,8 @@ class EleveAdmin extends Admin
             ->add('dateDeNaissance','date')
             ->add('regimeSansPorc', null, array('required' => false))
             ->add('allergie',null ,array('required' => false))
-            ->add('Etablissement', 'entity', array(
-                'class' => 'WCSCantineBundle:Etablissement'))
+            ->add('division', 'entity', array(
+                'class' => 'WCSCantineBundle:Division'))
             ->add('atteste')
             ->add('autorise')
             ->add('certifie')
@@ -54,7 +54,7 @@ class EleveAdmin extends Admin
             ->add('nom', 'text')
             ->add('prenom', 'text')
             ->add('dateDeNaissance', 'date', array('format' => 'd/m/Y',))
-            ->add('Etablissement','choice', array('label'=>'classe'))
+            ->add('division','choice', array('label'=>'classe'))
             ->add('_action', 'actions', array('actions' => array(
                 'edit' => array(),
                 'delete' => array(),

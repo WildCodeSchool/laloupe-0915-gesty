@@ -81,11 +81,7 @@ security:
             # This config requires being logged for the whole site and having the admin role for the admin part.
             # Change these rules to adapt them to your needs
             - { path: ^/admin/, role: [ROLE_ADMIN, ROLE_SONATA_ADMIN] }
-            - { path: ^/ecoles, role: [ROLE_ADMIN] }
-            - { path: ^/list_les_ecureuils , role: [ROLE_ADMIN] }
-            - { path: ^/list_roland_garros, role: [ROLE_ADMIN] }
-            - { path: ^/list_notre_dame_des_fleurs, role: [ROLE_ADMIN] }
-
+            - { path: ^/canteenManager/, role: [ROLE_ADMIN] }
             - { path: ^/*, role: [IS_AUTHENTICATED, ROLE_USER] }
 
 

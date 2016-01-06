@@ -1,5 +1,5 @@
 <?php
-//WCS/CantineBundle/Admin/EleveAdmin.php
+//WCS/CantineBundle/Admin/DivisionAdmin.php
 namespace WCS\CantineBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
@@ -9,7 +9,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
 
-class EtablissementAdmin extends Admin
+class DivisionAdmin extends Admin
 {
 
 
@@ -17,18 +17,19 @@ class EtablissementAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('ecole')
-            ->add('classe')
-            ->add('instituteur');
+            ->add('grade','text',(array('label'=>'Classe')))
+            ->add('headTeacher','text',(array('label'=>'Instituteur')))
+            ->add('school');
     }
 
     // Fields to be shown on filter forms
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('ecole')
-            ->add('classe')
-            ->add('instituteur');
+            ->add('grade')
+            ->add('headTeacher')
+            ->add('eleves')
+            ->add('school');
     }
 
     // Fields to be shown on lists
@@ -36,9 +37,10 @@ class EtablissementAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('ecole', 'text')
-            ->add('classe', 'text')
-            ->add('instituteur', 'text')
+            ->add('grade', 'text')
+            ->add('headTeacher', 'text')
+            ->add('eleves')
+            ->add('school')
             ->add('_action', 'actions', array('actions' => array(
                 'edit' => array(),
                 'delete' => array(),

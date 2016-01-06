@@ -43,12 +43,11 @@
                             <tr>
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-
                                             <td>{{ child.nom }}</td>
                                             <td>{{ child.prenom }}</td><br/>
                                     </div>
                                     <div class="panel-body-1">
-                                            {{ child.etablissement }}<br/>
+                                            <td>Classe: {{ child.division }}</td><br/>
 
                                             {% if child.allergie %}
                                             <td>Allergie: {{ child.allergie }}</td>

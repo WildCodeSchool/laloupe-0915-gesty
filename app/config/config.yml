@@ -157,7 +157,7 @@ sonata_admin:
                     - sonata.user.admin.user
             wcs.group.eleve:
                 label: Eleves
-            wcs.group.etablissement:
+            wcs.group.division:
                 label: Ecoles
 
 vlabs_media:
