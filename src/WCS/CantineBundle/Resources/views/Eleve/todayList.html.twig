@@ -25,7 +25,13 @@
                     <td class="text-center">{{ eleve.nom }}</td>
                     <td class="text-center">{{ eleve.prenom }}</td>
                     <td class="text-center">{{ eleve.allergie }}</td>
-                    <td class="text-center">{{ eleve.regimeSansPorc }}</td>
+                    <td class="text-center">
+                        {% if eleve.regimeSansPorc == 1 %}
+                            OUI
+                        {% else %}
+                            NON
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
 
