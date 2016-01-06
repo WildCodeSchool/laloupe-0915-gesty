@@ -35,6 +35,62 @@ class LoadEleveData extends AbstractFixture implements OrderedFixtureInterface, 
         $entity1->setDates($now->format('Y-m-d'));
         $manager->persist($entity1);
 
+        $entity2 = new Eleve();
+        $entity2->setUser($this->getReference('user'));
+        $entity2->setAtteste(true);
+        $entity2->setCertifie(true);
+        $entity2->setAutorise(true);
+        $entity2->setNom('Donatello');
+        $entity2->setPrenom('Arabella');
+        $entity2->setDateDeNaissance(new \DateTime('2006-06-15'));
+        $entity2->setRegimeSansPorc(false);
+        $entity2->setDivision($this->getReference('division-catteeu'));
+        $now = new \DateTime();
+        $entity2->setDates($now->format('Y-m-d'));
+        $manager->persist($entity2);
+
+        $entity3 = new Eleve();
+        $entity3->setUser($this->getReference('user'));
+        $entity3->setAtteste(true);
+        $entity3->setCertifie(true);
+        $entity3->setAutorise(true);
+        $entity3->setNom('Sylvestre');
+        $entity3->setPrenom('Coralie');
+        $entity3->setDateDeNaissance(new \DateTime('2011-09-21'));
+        $entity3->setRegimeSansPorc(false);
+        $entity3->setDivision($this->getReference('division-nouaille'));
+        $now = new \DateTime();
+        $entity3->setDates($now->format('Y-m-d'));
+        $manager->persist($entity3);
+
+        $entity4 = new Eleve();
+        $entity4->setUser($this->getReference('user'));
+        $entity4->setAtteste(true);
+        $entity4->setCertifie(true);
+        $entity4->setAutorise(true);
+        $entity4->setNom('Vaillant');
+        $entity4->setPrenom('Eliott');
+        $entity4->setDateDeNaissance(new \DateTime('2010-07-28'));
+        $entity4->setRegimeSansPorc(false);
+        $entity4->setDivision($this->getReference('division-pichodo'));
+        $now = new \DateTime();
+        $entity4->setDates($now->format('Y-m-d'));
+        $manager->persist($entity4);
+
+        $entity5 = new Eleve();
+        $entity5->setUser($this->getReference('user'));
+        $entity5->setAtteste(true);
+        $entity5->setCertifie(true);
+        $entity5->setAutorise(true);
+        $entity5->setNom('Truite');
+        $entity5->setPrenom('Marine');
+        $entity5->setDateDeNaissance(new \DateTime('2009-10-18'));
+        $entity5->setRegimeSansPorc(false);
+        $entity5->setDivision($this->getReference('division-pichodo'));
+        $now = new \DateTime();
+        $entity5->setDates($now->format('Y-m-d'));
+        $manager->persist($entity5);
+
         $manager->flush();
     }
 

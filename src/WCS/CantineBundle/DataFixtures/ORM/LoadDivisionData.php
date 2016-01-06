@@ -37,6 +37,28 @@ class LoadDivisionData extends AbstractFixture implements OrderedFixtureInterfac
         $manager->persist($entity2);
         $this->setReference('division-catteeu', $entity2);
 
+        $entity3 = new Division();
+        $entity3->setGrade("CE1");
+        $entity3->setHeadTeacher("Mle NOUAILLE-DEGORCE Valérie ");
+        $entity3->setSchool($this->getReference("school-rg"));
+        $manager->persist($entity3);
+        $this->setReference('division-nouaille', $entity3);
+
+        $entity4 = new Division();
+        $entity4->setGrade("CE2");
+        $entity4->setHeadTeacher("Mme LUCIEN Nathalie ");
+        $entity4->setSchool($this->getReference("school-rg"));
+        $manager->persist($entity4);
+        $this->setReference('division-lucien', $entity4);
+
+        $entity5 = new Division();
+        $entity5->setGrade("GS");
+        $entity5->setHeadTeacher("Mme PICHODO Marie-Pierre ");
+        $entity5->setSchool($this->getReference("school-ecureuils"));
+        $manager->persist($entity5);
+        $this->setReference('division-pichodo', $entity5);
+
+
         $manager->flush();
     }
 
