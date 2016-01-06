@@ -19,17 +19,18 @@ class DivisionAdmin extends Admin
         $formMapper
             ->add('grade','text',(array('label'=>'Classe')))
             ->add('headTeacher','text',(array('label'=>'Instituteur')))
-            ->add('school');
+            ->add('school',null,(array('label'=>'Ecole')));
     }
 
     // Fields to be shown on filter forms
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('grade')
-            ->add('headTeacher')
-            ->add('eleves')
-            ->add('school');
+            ->add('grade',null,(array('label'=>'Classe')))
+            ->add('headTeacher',null,(array('label'=>'Instituteur')))
+            ->add('school',null,(array('label'=>'Ecole')));
+            //->add('eleves');
+
     }
 
     // Fields to be shown on lists
@@ -37,10 +38,9 @@ class DivisionAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('grade', 'text')
-            ->add('headTeacher', 'text')
-            ->add('eleves')
-            ->add('school')
+            ->add('grade', 'text',(array('label'=>'Classe')))
+            ->add('headTeacher', 'text',(array('label'=>'Instituteur')))
+            ->add('school',null,(array('label'=>'Ecole')))
             ->add('_action', 'actions', array('actions' => array(
                 'edit' => array(),
                 'delete' => array(),

@@ -57,6 +57,8 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
         $listMapper
 
             ->addIdentifier('username')
+            ->add('lastname')
+            ->add('firstname')
             ->add('email')
             ->add('createdAt','date', array('format'=>'d/m/Y',))
         ;
@@ -73,6 +75,8 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
 
             ->add('username')
             ->add('email')
+            ->add('lastname')
+            ->add('firstname')
 
 
         ;
