@@ -15,7 +15,7 @@ services:
       sonata.admin.division:
            class: WCS\CantineBundle\Admin\DivisionAdmin
            tags:
-               - { name: sonata.admin, manager_type: orm, group: "wcs.group.division", label: "Liste des ecoles" }
+               - { name: sonata.admin, manager_type: orm, group: "wcs.group.division", label: "Liste des instituteurs" }
            arguments:
                - ~
                - WCS\CantineBundle\Entity\Division
