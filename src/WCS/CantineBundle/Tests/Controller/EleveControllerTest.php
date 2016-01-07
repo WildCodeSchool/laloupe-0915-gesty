@@ -5,6 +5,7 @@ namespace WCS\CantineBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
+
 class EleveControllerTest extends WebTestCase
 {
 
