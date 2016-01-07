@@ -40,4 +40,24 @@ class EleveRepository extends EntityRepository
             ->setParameter(':eleve', "%".$children."%")
             ->getResult();
     }
+
+    public function getCurrentWeekMeals()
+    {
+        $day = date('Y-m-d', strtotime('last monday'));
+        $result = [];
+        for ($i=1;$i<=4;$i++)
+        {
+            $res = $this->getEntityManager()
+                ->createQuery(
+                    'SELECT COUNT(e) FROM WCSCantineBundle:Eleve e WHERE e.dates LIKE :day'
+                )
+                ->setParameter(':day', "%".$day."%")
+                ->getResult();
+            array_push($result, $res[0][1]);
+            if ($i===2) $day = date('Y-m-d', strtotime($day.' + 2 DAY')); // Jump Wednesday off
+            else $day = date('Y-m-d', strtotime($day.' + 1 DAY'));
+        }
+
+        return $result;
+    }
 }
