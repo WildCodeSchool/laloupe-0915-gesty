@@ -1,0 +1,32 @@
+{% extends sonata_block.templates.block_base %}
+
+{% block block %}
+    <div id="stats" class="container">
+        <div class="col-md-12">
+            <h3>Eleves inscrits :</h3>
+            <div class="row">
+                <div id="block__stateleves" class="col-md-6 blocks__statuser">
+                    <h3><i class="fa fa-male"></i> Repas de la semaine</h3>
+                    <table id="userTable" class="table table-hover tablesorter table-bordered">
+                        <thead>
+                        <tr class="success">
+                            <th>lundi</th>
+                            <th>mardi</th>
+                            <th>jeudi</th>
+                            <th>vendredi</th>
+                        </tr>
+                        </thead>
+                        <tr>
+                            {% for meal in currentWeekMeals %}
+                                <td>{{ meal }}</td>
+                            {% endfor %}
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

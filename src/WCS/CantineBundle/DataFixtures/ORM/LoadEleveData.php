@@ -91,6 +91,7 @@ class LoadEleveData extends AbstractFixture implements OrderedFixtureInterface, 
         $entity5->setDates($now->format('Y-m-d'));
         $manager->persist($entity5);
 
+
         $manager->flush();
     }
 

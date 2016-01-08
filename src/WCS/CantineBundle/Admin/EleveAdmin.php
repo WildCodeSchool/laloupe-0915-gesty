@@ -19,11 +19,11 @@ class EleveAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('user')
+            ->add('user',null,array('label'=>'Email des parents'))
             ->add('nom','text')
             ->add('prenom', 'text')
             ->add('dateDeNaissance', 'date', array(
-                'format' => 'dd-MMMM-yyyy',
+                'format' => 'dd-MM-yyyy',
                 'years' =>  range(\date("Y") - 11, \date("Y") - 2),))
             ->add('regimeSansPorc', null, array('required' => false))
             ->add('allergie',null ,array('required' => false))
@@ -56,7 +56,8 @@ class EleveAdmin extends Admin
             ->add('nom', 'text')
             ->add('prenom', 'text')
             ->add('dateDeNaissance', 'date', array('format' => 'd/m/Y',))
-            ->add('division','choice', array('label'=>'classe'))
+            ->add('division','choice', array('label'=>'Classe'))
+            ->add('user',null, array('label'=>'Email des parents'))
             ->add('_action', 'actions', array('actions' => array(
                 'edit' => array(),
                 'delete' => array(),

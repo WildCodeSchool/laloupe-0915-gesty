@@ -56,11 +56,14 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
     {
         $listMapper
 
-            ->addIdentifier('username')
+            ->addIdentifier('username',null,array('label'=>'email'))
             ->add('lastname')
             ->add('firstname')
-            ->add('email')
             ->add('createdAt','date', array('format'=>'d/m/Y',))
+            ->add('_action', 'actions', array('label'=>'Action','actions' => array(
+                'edit' => array(),
+                'delete' => array(),
+            )))
         ;
 
 
@@ -73,10 +76,10 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
     {
         $filterMapper
 
-            ->add('username')
-            ->add('email')
+            ->add('username',null,array('label'=>'email'))
             ->add('lastname')
             ->add('firstname')
+
 
 
         ;
