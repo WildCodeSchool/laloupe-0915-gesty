@@ -43,6 +43,12 @@ class EleveAdmin extends Admin
             ->add('nom')
             ->add('prenom')
             ->add('dateDeNaissance')
+            ->add('dates','doctrine_orm_date', array('label'=>'Date des repas',array(
+                'widget' => 'single_text',
+                'format' => 'Y-m-d',
+                'required' => false,
+                'attr' => array('class' => 'datetimepicker'))))
+            ->add('division',null, array('label'=>'Classe'))
 
 
         ;

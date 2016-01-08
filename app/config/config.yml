@@ -137,6 +137,10 @@ fos_user:
 sonata_admin:
     title: Gesty Admin
     title_logo: /bundles/wcscantine/images/favicon.ico
+    templates:
+        layout:  SonataAdminBundle::standard_layout.html.twig
+        list_block: SonataAdminBundle:Block:block_admin_list.html.twig
+        dashboard: SonataAdminBundle:Core:dashboard.html.twig
     
 
 
@@ -146,6 +150,7 @@ sonata_admin:
                 position: left
                 type: sonata.admin.block.admin_list
                 class: col-md-12
+
             -
                 position: top
                 type: sonata.block.service.text
@@ -180,3 +185,8 @@ vlabs_media:
     mapping:
         image_entity:
           class: WCS\GestyBundle\Entity\Justificatif
+
+twig:
+    form:
+        resources:
+            - 'SonataCoreBundle:Form:datepicker.html.twig'

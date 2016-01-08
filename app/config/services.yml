@@ -12,6 +12,7 @@ services:
                - ~
                - WCS\CantineBundle\Entity\Eleve
                - ~
+
       sonata.admin.division:
            class: WCS\CantineBundle\Admin\DivisionAdmin
            tags:
@@ -32,6 +33,14 @@ services:
             arguments: [ "WCS\CantineBundle\Entity\Eleve"]
             tags:
                 - {name: "form.type", alias: "wcs_cantinebundle_eleve"}
+
+      ### To check if first connexion redirection ###
+      login_listener:
+              class: 'Application\Sonata\UserBundle\EventListener\ProfileListener'
+              arguments: ['@security.authorization_checker', '@router', '@event_dispatcher']
+              tags:
+                  - { name: 'kernel.event_listener', event: 'security.interactive_login', method: onSecurityInteractiveLogin }
+
 
 
 
