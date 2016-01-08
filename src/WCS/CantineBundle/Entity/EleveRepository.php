@@ -40,4 +40,5 @@ class EleveRepository extends EntityRepository
             ->setParameter(':eleve', "%".$children."%")
             ->getResult();
     }
+
 }

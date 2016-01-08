@@ -154,9 +154,9 @@
                                         {% endif %}
 
 
-                                        {% if day_week != 3 and day_week != 6 and day_week != 7 and date(year ~ '-' ~ month ~ '-' ~ day).timestamp > dateLimit and date(year ~ '-' ~ month ~ '-' ~ day).timestamp < finAnnee %}
+                                        {% if day_week != 3 and day_week != 6 and day_week != 7 %}
 
-                                            <input class="calendar-checkbox {{ 'day' ~ day_week }}" type="checkbox" value="{{ year }}-{{ month }}-{{ day }}">
+                                            <input class="calendar-checkbox {{ 'day' ~ day_week }}" type="checkbox" value="{{ year }}-{{ month }}-{{ day }}" name="{{ date(year ~ '-' ~ month ~ '-' ~ day).timestamp }}">
 
                                         {% endif %}
 
@@ -220,6 +220,14 @@
                         dates.forEach(function(date){
                             $('input[value="'+date+'"]').prop('checked', true);
                         });
+
+                        /*var dateNow = new Date().getTime();
+                        var allCheckboxes = $(this).attr('name');
+                        $(".calendar-checkbox").each(function(){
+                            if (allCheckboxes<dateNow) $(this).click(function() { return false; });
+                        });*/
+
+
                     }
                 </script>
             </div>
