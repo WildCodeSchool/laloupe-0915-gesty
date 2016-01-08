@@ -12,9 +12,6 @@ file that was distributed with this source code.
 {% block title %}Enregistrement{% endblock %}
 
   {% block body %}
-      {% block retour %}
-          <a href="{{ path('wcs_cantine_dashboard') }}">Retour</a>
-      {% endblock %}
       <div class='container' role='main'>
 
         <div class="row">
@@ -147,6 +144,7 @@ file that was distributed with this source code.
 
           <div class="col-md-6 col-md-offset-3">
               <h6 id="champs">* champs obligatoire</h6><br>
+              <div class="hidden">{{ form_widget(form.justificatifs) }}</div>
               {{ form_widget(form.envoyer) }} <br/>
 
               ou

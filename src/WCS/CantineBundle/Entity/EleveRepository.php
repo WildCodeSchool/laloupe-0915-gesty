@@ -12,51 +12,20 @@ use Doctrine\ORM\EntityRepository;
 
 class EleveRepository extends EntityRepository
 {
-    public function findByDayLesEcureuils(\DateTime $date)
+    public function getTodayList($school)
     {
         // Format the date
-        $day = $date->format('Y-n-j');
+        $date = new \DateTime();
+        $day = $date->format('Y-m-d');
 
         // Request pupils to the database from a certain date
         // lien : http://symfony.com/doc/current/book/doctrine.html (src/AppBundle/Entity/ProductRepository.php)
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT e FROM WCSCantineBundle:Eleve e WHERE e.dates LIKE :day AND e.Etablissement LIKE :place ORDER BY e.nom'
+                'SELECT e FROM WCSCantineBundle:Eleve e JOIN e.division d WHERE e.dates LIKE :day AND d.school = :place ORDER BY e.nom'
             )
             ->setParameter(':day', "%".$day."%")
-            ->setParameter(':place', "%Les Ecureuils%")
-            ->getResult();
-    }
-
-    public function findByDayRolandGarros(\DateTime $date)
-    {
-        // Format the date
-        $day = $date->format('Y-n-j');
-
-        // Request pupils to the database from a certain date
-        // lien : http://symfony.com/doc/current/book/doctrine.html (src/AppBundle/Entity/ProductRepository.php)
-        return $this->getEntityManager()
-            ->createQuery(
-                'SELECT e FROM WCSCantineBundle:Eleve e WHERE e.dates LIKE :day AND e.Etablissement LIKE :place ORDER BY e.nom'
-            )
-            ->setParameter(':day', "%".$day."%")
-            ->setParameter(':place', "%Roland-Garros%")
-            ->getResult();
-    }
-
-    public function findByDayNotreDameDesFleurs(\DateTime $date)
-    {
-        // Format the date
-        $day = $date->format('Y-n-j');
-
-        // Request pupils to the database from a certain date
-        // lien : http://symfony.com/doc/current/book/doctrine.html (src/AppBundle/Entity/ProductRepository.php)
-        return $this->getEntityManager()
-            ->createQuery(
-                'SELECT e FROM WCSCantineBundle:Eleve e WHERE e.dates LIKE :day AND e.Etablissement LIKE :place ORDER BY e.nom'
-            )
-            ->setParameter(':day', "%".$day."%")
-            ->setParameter(':place', "%Notre Dame%")
+            ->setParameter(':place', $school)
             ->getResult();
     }
 
@@ -72,17 +41,23 @@ class EleveRepository extends EntityRepository
             ->getResult();
     }
 
-    public function findEtablissements()
+    public function getCurrentWeekMeals()
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        $connection = $em->getConnection();
-        $statement = $connection->prepare('SELECT e FROM WCSCantineBundle:Etablissement e WHERE e.id');
-        $statement->execute();
-        $results = $statement->fetchAll();
-
-        foreach ($results as $result)
+        $day = date('Y-m-d', strtotime('last monday'));
+        $result = [];
+        for ($i=1;$i<=4;$i++)
         {
-            return $result;
+            $res = $this->getEntityManager()
+                ->createQuery(
+                    'SELECT COUNT(e) FROM WCSCantineBundle:Eleve e WHERE e.dates LIKE :day'
+                )
+                ->setParameter(':day', "%".$day."%")
+                ->getResult();
+            array_push($result, $res[0][1]);
+            if ($i===2) $day = date('Y-m-d', strtotime($day.' + 2 DAY')); // Jump Wednesday off
+            else $day = date('Y-m-d', strtotime($day.' + 1 DAY'));
         }
+
+        return $result;
     }
 }

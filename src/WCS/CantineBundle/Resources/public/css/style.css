@@ -163,10 +163,9 @@ p{
 .body{
     font-size: 16px;
 }
-.ecureuil button
+.school button
 {
     border-style: ridge;
-    background:#99ffcc;
     border-radius: 20px;
     padding:10px;
     margin:0;
@@ -178,36 +177,18 @@ p{
     height:90px;
     margin-bottom: 20px;
 }
-.fleur button
+.school-1 button
 {
-    border: ridge;
+    background:#99ffcc;
+}
+.school-2 button
+{
     background:#ff99cc;
-    border-radius: 20px;
-    padding:20px;
-    margin:0;
-    width:auto;
-    overflow:visible;
-    text-align:center;
-    white-space:nowrap;
-    height:90px;
-    margin-bottom: 20px;
-    padding-top: 2px;
 
 }
-.roland button
+.school-0 button
 {
-    border: ridge ;
     background:#ecb3ff;
-    border-radius: 20px;
-    padding:0;
-    margin:0;
-    width:auto;
-    height:auto;
-    overflow:visible;
-    text-align:center;
-    white-space:nowrap;
-    height:90px;
-
 }
 
 button span, button em
@@ -235,4 +216,24 @@ button em
 }
 a{
     color:#5CAB18;
+}
+
+.todayList {
+    font-weight: bold;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th
+{
+    border-top: 1px solid #7A2903 !important;
+}
+
+.commentaires {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.commentaires,
+.btn__envoyer
+{
+    float: left;
 }

@@ -93,6 +93,12 @@ sonata_block:
         sonata.block.service.text:
         sonata.block.service.rss:
 
+         # Block Stat créé pour le DashBoard
+        sonata.block.service.stat:
+            contexts:   [admin]
+
+
+
 sonata_user:
     manager_type: orm # can be orm or mongodb
 
@@ -129,8 +135,8 @@ fos_user:
             type: application_sonata_user_registration
 
 sonata_admin:
-    title: Gesty Admin  #à personnaliser
-    #title_logo: /bundles/acmedemo/fancy_acme_logo.png #à personnaliser
+    title: Gesty Admin
+    title_logo: /bundles/wcscantine/images/favicon.ico
     
 
 
@@ -146,7 +152,13 @@ sonata_admin:
                 class: col-md-12
                 settings:
                     content: >
-                        <h2>Bienvenue dans la page d'administration de Gesty</h2>
+                        <h2>Bienvenue dans la page d'administration de Gesty</h2><br/>
+            -
+                class:    col-md-12
+                position: left
+                type:     sonata.block.service.stat
+
+
 
 
 
@@ -157,8 +169,10 @@ sonata_admin:
                     - sonata.user.admin.user
             wcs.group.eleve:
                 label: Eleves
-            wcs.group.etablissement:
-                label: Etablissement
+            wcs.group.division:
+                label: Ecoles
+
+
 
 vlabs_media:
     image_cache:

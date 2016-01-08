@@ -349,6 +349,7 @@
         },
         {
             "name": "doctrine/dbal",
+<<<<<<< HEAD
             "version": "v2.5.3",
             "source": {
                 "type": "git",
@@ -359,6 +360,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/doctrine/dbal/zipball/2fbcea96eae34a53183377cdbb0b9bec33974648",
                 "reference": "2fbcea96eae34a53183377cdbb0b9bec33974648",
+=======
+            "version": "v2.5.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/dbal.git",
+                "reference": "abbdfd1cff43a7b99d027af3be709bc8fc7d4769"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/abbdfd1cff43a7b99d027af3be709bc8fc7d4769",
+                "reference": "abbdfd1cff43a7b99d027af3be709bc8fc7d4769",
+>>>>>>> 1039fe8f30c0fe3d61d291a730a8aef26dd85a98
                 "shasum": ""
             },
             "require": {
@@ -416,7 +429,11 @@
                 "persistence",
                 "queryobject"
             ],
+<<<<<<< HEAD
             "time": "2015-12-25 16:28:24"
+=======
+            "time": "2016-01-05 22:11:12"
+>>>>>>> 1039fe8f30c0fe3d61d291a730a8aef26dd85a98
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -760,6 +777,7 @@
         },
         {
             "name": "doctrine/orm",
+<<<<<<< HEAD
             "version": "v2.5.3",
             "source": {
                 "type": "git",
@@ -770,6 +788,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/d9fc5388f1aa1751a0e148e76b4569bd207338e9",
                 "reference": "d9fc5388f1aa1751a0e148e76b4569bd207338e9",
+=======
+            "version": "v2.5.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/doctrine2.git",
+                "reference": "bc4ddbfb0114cb33438cc811c9a740d8aa304aab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/bc4ddbfb0114cb33438cc811c9a740d8aa304aab",
+                "reference": "bc4ddbfb0114cb33438cc811c9a740d8aa304aab",
+>>>>>>> 1039fe8f30c0fe3d61d291a730a8aef26dd85a98
                 "shasum": ""
             },
             "require": {
@@ -784,7 +814,6 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "~4.0",
-                "satooshi/php-coveralls": "dev-master",
                 "symfony/yaml": "~2.3|~3.0"
             },
             "suggest": {
@@ -833,7 +862,11 @@
                 "database",
                 "orm"
             ],
+<<<<<<< HEAD
             "time": "2015-12-25 15:50:05"
+=======
+            "time": "2016-01-05 21:34:58"
+>>>>>>> 1039fe8f30c0fe3d61d291a730a8aef26dd85a98
         },
         {
             "name": "friendsofsymfony/rest-bundle",
@@ -1825,17 +1858,17 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "2.11.1",
+            "version": "2.11.2",
             "target-dir": "Nelmio/ApiDocBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "19d4e37365edd5104e31662a2d3b510d92a7e78a"
+                "reference": "1ae2cfa9a50279d722d6b6e7b02322cef948d55d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/19d4e37365edd5104e31662a2d3b510d92a7e78a",
-                "reference": "19d4e37365edd5104e31662a2d3b510d92a7e78a",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/1ae2cfa9a50279d722d6b6e7b02322cef948d55d",
+                "reference": "1ae2cfa9a50279d722d6b6e7b02322cef948d55d",
                 "shasum": ""
             },
             "require": {
@@ -1905,7 +1938,7 @@
                 "documentation",
                 "rest"
             ],
-            "time": "2015-12-08 13:19:42"
+            "time": "2015-12-16 15:17:51"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -2830,12 +2863,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataUserBundle.git",
-                "reference": "7cd8e172b1b978fe6e7ea920a8741af4be8b45dc"
+                "reference": "2b21cc5548b442dc1579b857e5ecd66000a1a0f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataUserBundle/zipball/7cd8e172b1b978fe6e7ea920a8741af4be8b45dc",
-                "reference": "7cd8e172b1b978fe6e7ea920a8741af4be8b45dc",
+                "url": "https://api.github.com/repos/sonata-project/SonataUserBundle/zipball/2b21cc5548b442dc1579b857e5ecd66000a1a0f6",
+                "reference": "2b21cc5548b442dc1579b857e5ecd66000a1a0f6",
                 "shasum": ""
             },
             "require": {
@@ -2893,7 +2926,7 @@
                 "sonata",
                 "user"
             ],
-            "time": "2015-10-21 08:24:58"
+            "time": "2016-01-04 15:00:08"
         },
         {
             "name": "swiftmailer/swiftmailer",

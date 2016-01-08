@@ -1,4 +1,4 @@
-WCS\CantineBundle\Entity\Etablissement:
+WCS\CantineBundle\Entity\School:
     type: entity
     id:
         id:
@@ -7,13 +7,21 @@ WCS\CantineBundle\Entity\Etablissement:
             generator:
                 strategy: AUTO
     fields:
-        ecole:
+        name:
             type: string
             length: 255
-        classe:
+        adress:
             type: string
             length: 255
-        instituteur:
+        phone:
             type: string
             length: 255
+            nullable: true
     lifecycleCallbacks: {  }
+
+    oneToMany:
+        divisions:
+            targetEntity: WCS\CantineBundle\Entity\Division
+            mappedBy: school
+            cascade: {persist, remove}
+            orphanRemoval: true
