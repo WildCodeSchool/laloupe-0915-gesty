@@ -66,6 +66,8 @@ class EleveControllerTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/login');
 
+        // tester que les champs existent
+
         $this->assertEquals(1, $crawler->filter('form input#sonata_user_registration_form_email')->count());
         $this->assertEquals(1, $crawler->filter('form input#sonata_user_registration_form_plainPassword_first')->count());
         $this->assertEquals(1, $crawler->filter('form input#sonata_user_registration_form_plainPassword_second')->count());
@@ -112,7 +114,7 @@ class EleveControllerTest extends WebTestCase
         //suivre redirection vers page dashboard
 
         $this->assertEquals('WCS\CantineBundle\Controller\EleveController::dashboardAction', $client->getRequest()->attributes->get('_controller'));
-        $this->assertEquals(500,$client->getResponse()->getStatusCode());
+        $this->assertEquals(200,$client->getResponse()->getStatusCode());
 
 
     }
@@ -137,6 +139,33 @@ class EleveControllerTest extends WebTestCase
 
         $this->assertEquals('Sonata\UserBundle\Controller\SecurityFOSUser1Controller::logoutAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
+
+    }
+
+    public function testInscription()
+    {
+        //création client fictif
+
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'aaa@email.com',
+            'PHP_AUTH_PW' => 'aaa',
+        ));
+
+        $crawler = $client->request('GET', '/create'); // navigateur fictif
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(1, $crawler->filter('form input#WCS_cantinebundle_eleve_nom')->count()); // pour verifier que le champ existe
+        $this->assertEquals(1, $crawler->filter('form input#WCS_cantinebundle_eleve_prenom')->count());
+
+        $form = $crawler->selectButton('Inscrire mon enfant')->form(); // le navigateur fictif verifie que ce bouton existe
+        $form['WCS_cantinebundle_eleve[nom]'] = 'Aaa'; // verifie que l'on puisse remplir le formulaire
+        $form['WCS_cantinebundle_eleve[prenom]'] = 'Aaa';
+
+        $crawler = $client->request('GET', '/create');
+        $form = $crawler->selectButton('Inscrire mon enfant')->form();
+
+
+// submit the form
+        $crawler = $client->submit($form);
 
     }
 }
