@@ -146,7 +146,7 @@ file that was distributed with this source code.
               <div class="hidden">{{ form_widget(form.justificatifs) }}</div>
 
               {% if app.session.flashBag.has('success1') %}
-                  <div class="alert alert-success">
+                  <div class="alert alert-danger">
                       {% for msg in app.session.flashBag.get('success1') %}
                           {{ msg }}
                       {% endfor %}

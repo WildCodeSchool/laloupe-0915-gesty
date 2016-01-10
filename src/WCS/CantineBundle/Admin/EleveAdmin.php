@@ -47,7 +47,7 @@ class EleveAdmin extends Admin
                 'widget' => 'single_text',
                 'format' => 'Y-m-d',
                 'required' => false,
-                'attr' => array('class' => 'datetimepicker'))))
+                'attr' => array('class' => 'datepicker'))))
             ->add('division',null, array('label'=>'Classe'))
 
 

@@ -166,29 +166,30 @@ p{
 .school button
 {
     border-style: ridge;
-    border-radius: 20px;
-    padding:10px;
+    border-radius: 1px;
+    padding:30px;
     margin:0;
-    width:auto;
-    height:auto;
+    width:250px;
+    height:130px;
     overflow:visible;
     text-align:center;
     white-space:nowrap;
-    height:90px;
     margin-bottom: 20px;
+    box-shadow: 0 0 1px 1px rgba(255,255,255,.8) inset, 0 1px 0 ;
 }
+
 .school-1 button
 {
-    background:#99ffcc;
+    background:#2E64FE;
 }
 .school-2 button
 {
-    background:#ff99cc;
+    background:#2E64FE;
 
 }
 .school-0 button
 {
-    background:#ecb3ff;
+    background:#2E64FE;
 }
 
 button span, button em
@@ -197,10 +198,10 @@ button span, button em
     height:90px;
     line-height:20px;
     margin:5px;
-    color:black;
+    color:white;
     font-size: 16px;
     font-family: 'Carter One', cursive;
-    text-shadow: 5px 5px 5px white;
+
 }
 button span
 {
