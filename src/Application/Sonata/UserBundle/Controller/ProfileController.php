@@ -35,6 +35,8 @@ class ProfileController extends BaseController
             $em->persist($entity);
             $em->flush();
 
+
+
             return $this->redirect($this->generateUrl('wcs_cantine_dashboard'));
         }
 
@@ -48,6 +50,10 @@ class ProfileController extends BaseController
 
         return $this->redirect($this->generateUrl($nextAction));
         */
+        $request->getSession()
+            ->getFlashBag()
+            ->add('success1', 'Si 1ère inscription N\'oubliez pas d\'inscrire votre(vos) enfant(s) à l\'étape suivante svp!')
+        ;
 
         return $this->render('SonataUserBundle:Profile:show.html.twig',array(
             'form' => $form->createView(),

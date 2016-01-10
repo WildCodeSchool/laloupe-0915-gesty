@@ -63,8 +63,11 @@ class ProfileType extends \Sonata\UserBundle\Form\Type\ProfileType
             ->add('mandatActif', 'checkbox', array( 'required' => false))
             ->add('justificatifs')
             ->add('envoyer', 'submit')
+
         ;
+
     }
+
 
     /**
      * {@inheritdoc}

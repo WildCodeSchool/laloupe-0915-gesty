@@ -34,7 +34,7 @@ class ProfileListener
 
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
     {
-        if ($this->authorization->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if ($this->authorization->isGranted('REGISTRATION_SUCCESS')) {
             $user = $event->getAuthenticationToken()->getUser();
             if ($user->getLastLogin() === null) {
                 $this->dispatcher->addListener ( KernelEvents::RESPONSE, array (

@@ -33,6 +33,14 @@
                 </div>
 
             </div>
+
+            {% if app.session.flashBag.has('success') %}
+                <div class="alert alert-success">
+                    {% for msg in app.session.flashBag.get('success') %}
+                        {{ msg }}
+                    {% endfor %}
+                </div>
+            {% endif %}
             <a href="{{ path('sonata_user_profile_show') }}"><input type="button" value="Modifier mes informations"class="btn btn-primary"></a>
             <a href="{{ path('eleve_create') }}"><input type="button" value="Inscrire mon enfant"class="btn btn-primary"></a>
 
@@ -78,6 +86,13 @@
                         {% endfor %}
 
             </div>
+            {% if app.session.flashBag.has('success') %}
+                <div class="alert alert-success">
+                    {% for msg in app.session.flashBag.get('success') %}
+                        {{ msg }}
+                    {% endfor %}
+                </div>
+            {% endif %}
 
             <blockquote>
                 <ul>

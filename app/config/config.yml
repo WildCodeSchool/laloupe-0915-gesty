@@ -139,8 +139,7 @@ sonata_admin:
     title_logo: /bundles/wcscantine/images/favicon.ico
     templates:
         layout:  SonataAdminBundle::standard_layout.html.twig
-        list_block: SonataAdminBundle:Block:block_admin_list.html.twig
-        dashboard: SonataAdminBundle:Core:dashboard.html.twig
+
     
 
 
@@ -186,7 +185,3 @@ vlabs_media:
         image_entity:
           class: WCS\GestyBundle\Entity\Justificatif
 
-twig:
-    form:
-        resources:
-            - 'SonataCoreBundle:Form:datepicker.html.twig'

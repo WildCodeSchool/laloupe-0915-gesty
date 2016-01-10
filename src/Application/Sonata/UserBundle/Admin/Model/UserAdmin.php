@@ -181,15 +181,5 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
         return $this->userManager;
     }
 
-    public function getTemplate($name)
-    {
-        switch ($name) {
-            case 'list':
-                return 'AppUserBundle:Block:block_admin_List.html.twig';
-                break;
-            default:
-                return parent::getTemplate($name);
-                break;
-        }
-    }
+
 }
