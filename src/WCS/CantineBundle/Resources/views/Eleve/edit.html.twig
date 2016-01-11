@@ -195,7 +195,7 @@
                         });
 
                         // Onclick the month selected appear and the other is hidden
-                        var current = 9;
+                        var current = 09;
                         $('.months a').click(function(){
                             var month = $(this).attr('id').replace('linkMonth', '');
                             if (month != current){
@@ -221,13 +221,15 @@
                             $('input[value="'+date+'"]').prop('checked', true);
                         });
 
-                        /*var dateNow = new Date().getTime();
-                        var allCheckboxes = $(this).attr('name');
-                        $(".calendar-checkbox").each(function(){
-                            if (allCheckboxes<dateNow) $(this).click(function() { return false; });
+                        /*$(".calendar-checkbox").each(function(){
+                            var dateNow = new Date().getTime();
+                            var allCheckboxes = $(this).attr('name');
+                            if (allCheckboxes < dateNow) {
+                                $(this).click(function() {
+                                    return false;
+                                });
+                            }
                         });*/
-
-
                     }
                 </script>
             </div>

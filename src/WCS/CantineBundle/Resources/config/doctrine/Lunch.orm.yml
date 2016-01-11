@@ -1,0 +1,27 @@
+WCS\CantineBundle\Entity\Lunch:
+    type: entity
+    table: null
+    repositoryClass: WCS\CantineBundle\Entity\LunchRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        date:
+            type: datetime
+            column: Date
+        inscrits:
+            type: string
+            length: 255
+            column: Inscrits
+        presents:
+            type: string
+            length: 255
+            column: Presents
+        commentaires:
+            type: string
+            length: 255
+            column: Commentaires
+    lifecycleCallbacks: {  }
