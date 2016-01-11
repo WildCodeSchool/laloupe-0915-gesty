@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use WCS\CantineBundle\Entity\Eleve;
-use WCS\CantineBundle\Entity\Division;
 use WCS\CantineBundle\Form\Type\EleveEditType;
 use WCS\CantineBundle\Form\Type\EleveType;
 
@@ -192,8 +191,6 @@ class EleveController extends Controller
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-
-
         $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
 
         if (!$entity) {
@@ -272,10 +269,10 @@ class EleveController extends Controller
 
         while ($calendrier <= $end) {
             $y = date_format($calendrier, ('Y'));
-            $n = date_format($calendrier, ('n'));
-            $j = date_format($calendrier, ('j'));
+            $m = date_format($calendrier, ('m'));
+            $d = date_format($calendrier, ('d'));
             $w = str_replace('0', '7', date_format($calendrier, ('w')));
-            $return[$y][$n][$j] = $w;
+            $return[$y][$m][$d] = $w;
             $calendrier->add(new \DateInterval('P1D'));
         }
         return $return;
@@ -299,7 +296,7 @@ class EleveController extends Controller
         );
 
         foreach ($period as $date) {
-            $array[] = date_format($date, ('Y-n-j'));
+            $array[] = date_format($date, ('Y-m-d'));
         }
 
         return $array;
@@ -324,6 +321,15 @@ class EleveController extends Controller
         ));
 
 
+    }
+
+    public function updateDate($query)
+    {
+        return $this->getDoctrine()->getManager()
+            ->createQuery(
+                'UPDATE WCSCantineBundle:Eleve SET dates'
+            )
+            ->getResult();
     }
 
 }

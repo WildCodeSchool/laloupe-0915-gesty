@@ -53,7 +53,7 @@ class StatElevesBlockService extends BaseBlockService
     {
         //eleves stats
 
-        $eleves=$this->em
+       $this->em
             ->getRepository('WCSCantineBundle:Eleve')
             ->findAll();
 

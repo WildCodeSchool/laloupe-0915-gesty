@@ -3,13 +3,13 @@
 namespace WCS\CantineBundle\Entity;
 
 /**
- * Etablissement
+ * Division
  */
 class Division
 {
     public function __toString(){
-        //return $this->instituteur.' - '.$this->ecole. ' - ' .$this->classe;
-        return '';
+        return ucwords($this->headTeacher).' - '.$this->school. ' - ' .$this->grade;
+        //return '';
     }
 
 

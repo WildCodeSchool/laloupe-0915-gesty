@@ -154,9 +154,9 @@
                                         {% endif %}
 
 
-                                        {% if day_week != 3 and day_week != 6 and day_week != 7 and date(year ~ '-' ~ month ~ '-' ~ day).timestamp > dateLimit and date(year ~ '-' ~ month ~ '-' ~ day).timestamp < finAnnee %}
+                                        {% if day_week != 3 and day_week != 6 and day_week != 7 %}
 
-                                            <input class="calendar-checkbox {{ 'day' ~ day_week }}" type="checkbox" value="{{ year }}-{{ month }}-{{ day }}">
+                                            <input class="calendar-checkbox {{ 'day' ~ day_week }}" type="checkbox" value="{{ year }}-{{ month }}-{{ day }}" name="{{ year }}-{{ month }}-{{ day }}">
 
                                         {% endif %}
 
@@ -195,7 +195,7 @@
                         });
 
                         // Onclick the month selected appear and the other is hidden
-                        var current = 9;
+                        var current = 09;
                         $('.months a').click(function(){
                             var month = $(this).attr('id').replace('linkMonth', '');
                             if (month != current){
@@ -204,6 +204,7 @@
                                 $('.months a').removeClass('active');
                                 $('.months a#linkMonth' + month).addClass('active');
                                 current = month;
+                                disablePrevDate(); // rappel de la fonction qui bloque les jours précédents + 7
                             }
                             return false;
                         });
@@ -220,6 +221,28 @@
                         dates.forEach(function(date){
                             $('input[value="'+date+'"]').prop('checked', true);
                         });
+
+                        // fonction pour bloquer les jours antérieurs + 7
+                        function disablePrevDate(){
+                            var dateNow = new Date(); // Date d'aujourd'hui
+                            dateNow.setHours(0); // Désactivation des heures, minutes et secondes
+                            dateNow.setMinutes(0);
+                            dateNow.setSeconds(0);
+                            dateNow.setDate(dateNow.getDate() + 7); // Ajout de 7 jours
+
+                            $(".calendar-checkbox").each(function(){ // Pour chaque checkbox
+                                var allCheckboxes = $(this).attr('name'); // On récupère l'attribut 'name'
+                                var currentDate = new Date(allCheckboxes); // On transforme en date (type js)
+                                currentDate.setHours(0); // Désactivation des heures, minutes et secondes
+                                currentDate.setMinutes(0);
+                                currentDate.setSeconds(0);
+
+                                $(this)[0].disabled = (currentDate.getTime() < dateNow.getTime());
+                                // .disabled = désactive la checkbox, .getTime() = obtenir le timestamp
+                            });
+                        }
+
+                        disablePrevDate(); // rappel de la fonction qui bloque les jours précédents + 7
                     }
                 </script>
             </div>
