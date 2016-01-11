@@ -43,7 +43,7 @@ class EleveRepository extends EntityRepository
 
     public function getCurrentWeekMeals()
     {
-        $day = date('Y-m-d', strtotime('last monday'));
+        $day = date('Y-m-d', strtotime('last monday', strtotime('tomorrow'))); //by default strtotime('last monday') returns the current day on mondays
         $result = [];
         for ($i=1;$i<=4;$i++)
         {
