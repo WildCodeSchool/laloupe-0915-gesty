@@ -4,6 +4,7 @@
 namespace WCS\CantineBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 use WCS\CantineBundle\Form\Type\LunchType;
 use WCS\CantineBundle\Entity\Lunch;
@@ -29,21 +30,20 @@ class CanteenManagerController extends Controller
      * Lists all Eleve entities.
      *
      */
-    public function todayListAction($schoolId)
+    public function todayListAction(Request $request, $schoolId)
     {
         $em = $this->getDoctrine()->getManager();
         $eleves = $em->getRepository('WCSCantineBundle:Eleve')->getTodayList($schoolId);
         $schools = $em->getRepository('WCSCantineBundle:School')->find($schoolId);
 
-        $pupils = new Lunch();
-        $form = $this->createForm(new LunchType(), $pupils, array(
-            'action' => $this->generateUrl('wcs_gesty_ecoles'),
-            'method' => 'POST',
-        ));
+        $lunch = new Lunch();
+        $form = $this->createForm(new LunchType());
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
-        $em->persist($pupils);
-        $em->flush();
+            $em->persist($lunch);
+            $em->flush();
+
             return $this->redirect($this->generateUrl('wcs_gesty_ecoles'));
         }
 
@@ -54,4 +54,5 @@ class CanteenManagerController extends Controller
         ));
 
     }
+
 }

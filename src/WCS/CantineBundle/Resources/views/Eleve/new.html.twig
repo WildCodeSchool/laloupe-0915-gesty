@@ -182,6 +182,7 @@
                                 $('.months a').removeClass('active');
                                 $('.months a#linkMonth' + month).addClass('active');
                                 current = month;
+                                disablePrevDate();
                             }
                             return false;
                         });
@@ -192,6 +193,28 @@
                             if (daySelected >= 3) daySelected++;
                             $('div.month td input.day' + daySelected).prop('checked', $(this).prop('checked'));
                         })
+
+                        // fonction pour bloquer les jours antérieurs + 7
+                        function disablePrevDate(){
+                            var dateNow = new Date(); // Date d'aujourd'hui
+                            dateNow.setHours(0); // Désactivation des heures, minutes et secondes
+                            dateNow.setMinutes(0);
+                            dateNow.setSeconds(0);
+                            dateNow.setDate(dateNow.getDate() + 7); // Ajout de 7 jours
+
+                            $(".calendar-checkbox").each(function(){ // Pour chaque checkbox
+                                var allCheckboxes = $(this).attr('name'); // On récupère l'attribut 'name'
+                                var currentDate = new Date(allCheckboxes); // On transforme en date (type js)
+                                currentDate.setHours(0); // Désactivation des heures, minutes et secondes
+                                currentDate.setMinutes(0);
+                                currentDate.setSeconds(0);
+
+                                $(this)[0].disabled = (currentDate.getTime() < dateNow.getTime());
+                                // .disabled = désactive la checkbox, .getTime() = obtenir le timestamp
+                            });
+                        }
+
+                        disablePrevDate(); // rappel de la fonction qui bloque les jours précédents + 7
                     }
                 </script>
             </div>

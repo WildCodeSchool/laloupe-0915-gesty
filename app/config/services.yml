@@ -35,5 +35,3 @@ services:
                 - {name: "form.type", alias: "wcs_cantinebundle_eleve"}
 
 
-
-

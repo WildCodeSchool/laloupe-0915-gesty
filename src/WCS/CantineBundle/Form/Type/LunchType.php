@@ -15,12 +15,13 @@ class LunchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('date')
-            ->add('inscrits')
-            ->add('presents')
-            ->add('noninscrits')
-            ->add('absents')
-            ->add('commentaires')
+            ->add('schoolId')
+            ->add('date', null)
+            ->add('inscrits', null)
+            ->add('presents', null)
+            ->add('noninscrits', null)
+            ->add('absents', null)
+            ->add('commentaires', null)
             ->add('Valider', 'submit')
         ;
     }

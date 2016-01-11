@@ -9,7 +9,7 @@
 
             <tr>
                 <td class="text-center welcome">{{ "now"|date("d/m/Y") }}</td>
-                <td class="text-center welcome" colspan="4">Enfants inscrits - {{ ecoles.name }}</td>
+                <td class="text-center welcome schoolname" colspan="4" id="{{ ecoles.id }}">Enfants inscrits - {{ ecoles.name }}</td>
             </tr>
 
             <tr>
@@ -68,14 +68,20 @@
         </table>
     </div>
 
+
     {{ form_start(form) }}
+    <div class="hidden">
     {{ form_widget(form.date) }}
+    {{ form_widget(form.commentaires) }}
     {{ form_widget(form.inscrits) }}
     {{ form_widget(form.noninscrits) }}
     {{ form_widget(form.presents) }}
     {{ form_widget(form.absents) }}
-    {{ form_widget(form.commentaires) }}
-    {{ form_widget(form.Valider) }}
+    {{ form_widget(form.schoolId) }}
+    </div>
+    <div class="text-center">{{ form_widget(form.Valider) }}</div>
+
+    {{ form_end(form) }}
 
 
 
@@ -99,6 +105,8 @@
                 $('input:checkbox:checked').each(function(){
                     pupils += this.value + ';';
                 });
+                var school = $('.schoolname').attr('id');
+                $('#wcs_cantinebundle_lunch_schoolId').val(school);
                 $('#wcs_cantinebundle_lunch_presents').val(pupils);
                 this.submit();
             });
@@ -110,7 +118,7 @@
         };
     </script>
 
-    {{ form_end(form) }}
+
 
 {% endblock %}
 

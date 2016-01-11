@@ -9,28 +9,32 @@ WCS\CantineBundle\Entity\Lunch:
             generator:
                 strategy: AUTO
     fields:
+        schoolId:
+            type: integer
+            column: school_id
+            nullable: true
         date:
             type: string
             length: 255
-            column: Date
+            nullable: true
         inscrits:
             type: string
             length: 255
-            column: Inscrits
+            nullable: true
         presents:
             type: string
             length: 255
-            column: Presents
+            nullable: true
         noninscrits:
             type: string
             length: 255
-            column: Noninscrits
+            nullable: true
         absents:
             type: string
             length: 255
-            column: Absents
+            nullable: true
         commentaires:
             type: string
             length: 255
-            column: Commentaires
+            nullable: true
     lifecycleCallbacks: {  }
