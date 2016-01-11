@@ -36,6 +36,7 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
         $this->defineFormBuilder($formBuilder);
 
         return $formBuilder;
+
     }
 
     /**
@@ -60,13 +61,13 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
             ->add('lastname')
             ->add('firstname')
             ->add('createdAt','date', array('format'=>'d/m/Y',))
-            ->add('enabled', null
-                , array('required' => false,'label'=>'Validé'))
+            ->add('enabled', null, array('required' => false,'label'=>'Compte validé'))
             ->add('_action', 'actions', array('label'=>'Action','actions' => array(
                 'edit' => array(),
                 'delete' => array(),
             )))
         ;
+
 
 
     }
@@ -136,27 +137,29 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                     'required' => true))
                 ->add('commune', 'text', array('label'=>'Commune' ))
                 ->add('phone', null, array('required' => true))
-                ->add('enabled', null
-                    , array('required' => false, 'label'=>'validé'))
             ->end()
-        ;
 
-        if ($this->getSubject() && !$this->getSubject()->hasRole('ROLE_SUPER_ADMIN')) {
-            $formMapper
+
+
+
                 ->with('Management')
                 ->add('realRoles', 'sonata_security_roles', array(
                     'label'    => 'form.label_roles',
                     'expanded' => true,
+
                     'multiple' => true,
                     'required' => false
                 ))
+                ->add('enabled', null, array(
+                    'required' => false, 'label'=>'Compte validé'))
                 ->end()
             ;
-        }
+
 
 
 
     }
+
 
     /**
      * {@inheritdoc}

@@ -24,16 +24,6 @@ use Sonata\UserBundle\Entity\BaseUser as BaseUser;
  */
 class User extends BaseUser
 {
-
-    protected $enabled;
-    #...
-    public function __construct()
-    {
-        parent::__construct();
-        $this->enabled = true;
-    }
-
-
     public function setEmail($email){
         parent::setEmail($email);
         parent::setUsername($email);

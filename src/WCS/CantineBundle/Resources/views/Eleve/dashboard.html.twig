@@ -22,7 +22,10 @@
 
 
         <div class="col-md-8 col-md-offset-2">
-            <p>Bonjour {{ app.user.username }}</p>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <p>Bonjour: {{ app.user.lastname }}  {{ app.user.firstname }} </p>
+            {% endif %}
+
             <div class="my-home col-md-7">
                 <h1>Mon Foyer</h1><br/>
                 <p> {{ app.user }} </p><br/>
