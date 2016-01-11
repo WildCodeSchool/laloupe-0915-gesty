@@ -63,7 +63,7 @@ Class ProfileControllerTest extends WebTestCase
          $this->assertEquals('Application\Sonata\UserBundle\Controller\ProfileController::setProfileAction', $client->getRequest()->attributes->get('_controller'));
          $this->assertEquals(200, $client->getResponse()->getStatusCode());
          $link = $crawler
-             ->filter('button#application_sonata_user_profile_envoyer')
+             ->filter('#application_sonata_user_profile_envoyer')
              ->eq(0)
              ->link();
          $crawler = $client->click($link); */

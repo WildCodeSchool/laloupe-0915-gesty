@@ -57,13 +57,13 @@ class CanteenManagerControllerCTest extends WebTestCase
             ->link();
         $crawler = $client->click($link);
 
-        //suivre redirection vers page dashboard
+        //suivre redirection vers page todaylist
 
-        $this->assertEquals('Sonata\UserBundle\Controller\SecurityFOSUser1Controller::logoutAction', $client->getRequest()->attributes->get('_controller'));
+        $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::todayListAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
     }*/
 
-    public function testLogout()
+   /* public function testLogout()
     {
         //test bouton 'logout'
 
@@ -78,17 +78,17 @@ class CanteenManagerControllerCTest extends WebTestCase
             ->filter('a#logout')
             ->eq(0)
             ->link();
-        $crawler = $client->click($link);
+        $crawler = $client->click($link);*/
 
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        /*$this->assertEquals(302, $client->getResponse()->getStatusCode());
         $crawler = $client->followRedirect();
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        /*//suivre redirection vers page login
+        //suivre redirection vers page login
 
         $this->assertEquals('Sonata\UserBundle\Controller\SecurityFOSUser1Controller::logoutAction', $client->getRequest()->attributes->get('_controller'));
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());*/
-    }
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+    }*/
 }
