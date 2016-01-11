@@ -70,13 +70,16 @@
 
 
     {{ form_start(form) }}
-
+    <div class="hidden">
     {{ form_widget(form.date) }}
     {{ form_widget(form.commentaires) }}
     {{ form_widget(form.inscrits) }}
     {{ form_widget(form.noninscrits) }}
     {{ form_widget(form.presents) }}
     {{ form_widget(form.absents) }}
+    {{ form_widget(form.schoolId) }}
+    </div>
+    <div class="text-center">{{ form_widget(form.Valider) }}</div>
 
     {{ form_end(form) }}
 

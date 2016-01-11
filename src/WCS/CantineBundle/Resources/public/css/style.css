@@ -167,7 +167,7 @@ p{
 {
     border-style: ridge;
     border-radius: 1px;
-    padding:30px;
+    padding:50px;
     width:350px;
     height:130px;
     overflow:visible;
@@ -240,4 +240,7 @@ a{
 .btn__envoyer
 {
     float: left;
+}
+.fa-2x{
+    float:left;
 }
