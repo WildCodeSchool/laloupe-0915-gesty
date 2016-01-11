@@ -7,11 +7,15 @@ namespace WCS\CantineBundle\Entity;
  */
 class Lunch
 {
-    
     /**
      * @var integer
      */
     private $id;
+
+    /**
+     * @var integer
+     */
+    private $schoolId;
 
     /**
      * @var string
@@ -52,6 +56,30 @@ class Lunch
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set schoolId
+     *
+     * @param integer $schoolId
+     *
+     * @return Lunch
+     */
+    public function setSchoolId($schoolId)
+    {
+        $this->schoolId = $schoolId;
+
+        return $this;
+    }
+
+    /**
+     * Get schoolId
+     *
+     * @return integer
+     */
+    public function getSchoolId()
+    {
+        return $this->schoolId;
     }
 
     /**
