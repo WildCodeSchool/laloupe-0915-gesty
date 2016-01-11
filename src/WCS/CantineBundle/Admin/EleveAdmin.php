@@ -43,6 +43,8 @@ class EleveAdmin extends Admin
             ->add('nom')
             ->add('prenom')
             ->add('dateDeNaissance')
+            ->add('dates','doctrine_orm_date', array('label'=>'Date des repas'))
+            ->add('division',null, array('label'=>'Classe'))
 
 
         ;
@@ -64,6 +66,7 @@ class EleveAdmin extends Admin
             )))
             ->add('allergie', 'text')
             ->add('regimeSansPorc', 'boolean')
+            ->add('Nombre de repas/mois')
         ;
     }
 

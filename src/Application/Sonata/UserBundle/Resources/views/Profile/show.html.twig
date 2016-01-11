@@ -139,16 +139,34 @@ file that was distributed with this source code.
               </div>
           </div>
 
+
+
           <div class="col-md-6 col-md-offset-3">
               <h6 id="champs">* champs obligatoire</h6><br>
               <div class="hidden">{{ form_widget(form.justificatifs) }}</div>
-              {{ form_widget(form.envoyer) }} <br/>
+
+              {% if app.session.flashBag.has('success1') %}
+                  <div class="alert alert-danger">
+                      {% for msg in app.session.flashBag.get('success1') %}
+                          {{ msg }}
+                      {% endfor %}
+                  </div>
+              {% endif %}
+              <input type="submit" name="commit" value="Envoyer" class="btn btn-primary btn-lg btn-block">
+              <div class="hidden">{{ form_widget(form.envoyer) }}</div> <br/>
+
+
+
 
               ou
               <!-- <a href="/homes/181">Annuler</a> -->
 
-              <blockquote>Après avoir enregistré, laisser la page ouverte tant que vous n'avez pas été redirigé pour permettre le chargement des pièces jointes</blockquote>
+              <blockquote>
+
+                  Après avoir enregistré, laisser la page ouverte tant que vous n'avez pas été redirigé pour permettre le chargement des pièces jointes</blockquote>
           </div>
+
+
 
           {{ form_end(form) }}
           <!-- </form> -->

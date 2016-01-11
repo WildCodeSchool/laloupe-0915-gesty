@@ -7,13 +7,14 @@ namespace WCS\CantineBundle\Entity;
  */
 class Lunch
 {
+    
     /**
      * @var integer
      */
     private $id;
 
     /**
-     * @var \DateTime
+     * @var string
      */
     private $date;
 
@@ -26,6 +27,16 @@ class Lunch
      * @var string
      */
     private $presents;
+
+    /**
+     * @var string
+     */
+    private $noninscrits;
+
+    /**
+     * @var string
+     */
+    private $absents;
 
     /**
      * @var string
@@ -46,7 +57,7 @@ class Lunch
     /**
      * Set date
      *
-     * @param \DateTime $date
+     * @param string $date
      *
      * @return Lunch
      */
@@ -60,7 +71,7 @@ class Lunch
     /**
      * Get date
      *
-     * @return \DateTime
+     * @return string
      */
     public function getDate()
     {
@@ -116,6 +127,54 @@ class Lunch
     }
 
     /**
+     * Set noninscrits
+     *
+     * @param string $noninscrits
+     *
+     * @return Lunch
+     */
+    public function setNoninscrits($noninscrits)
+    {
+        $this->noninscrits = $noninscrits;
+
+        return $this;
+    }
+
+    /**
+     * Get noninscrits
+     *
+     * @return string
+     */
+    public function getNoninscrits()
+    {
+        return $this->noninscrits;
+    }
+
+    /**
+     * Set absents
+     *
+     * @param string $absents
+     *
+     * @return Lunch
+     */
+    public function setAbsents($absents)
+    {
+        $this->absents = $absents;
+
+        return $this;
+    }
+
+    /**
+     * Get absents
+     *
+     * @return string
+     */
+    public function getAbsents()
+    {
+        return $this->absents;
+    }
+
+    /**
      * Set commentaires
      *
      * @param string $commentaires
@@ -139,4 +198,3 @@ class Lunch
         return $this->commentaires;
     }
 }
-

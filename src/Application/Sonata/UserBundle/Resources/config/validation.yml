@@ -63,3 +63,8 @@ Application\Sonata\UserBundle\Entity\User:      # le lien pour la doc, http://sy
             - Regex:
                 pattern: '/[A-Z"#{}€@<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²a-z]/'
                 match: false
+
+
+
+
+

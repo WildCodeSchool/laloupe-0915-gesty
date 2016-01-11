@@ -180,4 +180,6 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
     {
         return $this->userManager;
     }
+
+
 }

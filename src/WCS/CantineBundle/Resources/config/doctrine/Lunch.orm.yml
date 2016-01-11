@@ -10,7 +10,8 @@ WCS\CantineBundle\Entity\Lunch:
                 strategy: AUTO
     fields:
         date:
-            type: datetime
+            type: string
+            length: 255
             column: Date
         inscrits:
             type: string
@@ -20,6 +21,14 @@ WCS\CantineBundle\Entity\Lunch:
             type: string
             length: 255
             column: Presents
+        noninscrits:
+            type: string
+            length: 255
+            column: Noninscrits
+        absents:
+            type: string
+            length: 255
+            column: Absents
         commentaires:
             type: string
             length: 255
