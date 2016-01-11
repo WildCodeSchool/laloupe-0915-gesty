@@ -4,7 +4,9 @@
         {% for school in schools %}
 
             <div class="school school-{{ loop.index % 3 }}">
-                <button><i class="fa fa-home fa-3x"></i><a id="school" href="{{ path('wcs_cantine_todayList', {'schoolId': school.id}) }}"><span>{{ school.name }}</span></a></button>
+
+                <button><i class="fa fa-home fa-2x"></i><a href="{{ path('wcs_cantine_todayList', {'schoolId': school.id}) }}"><span>{{ school.name }}</span></a></button>
+
             </div>
 
         {% endfor %}
