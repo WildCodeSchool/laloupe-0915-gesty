@@ -169,7 +169,7 @@ p{
     border-radius: 1px;
     padding:30px;
     margin:0;
-    width:250px;
+    width:350px;
     height:130px;
     overflow:visible;
     text-align:center;
@@ -180,16 +180,16 @@ p{
 
 .school-1 button
 {
-    background:#2E64FE;
+    background: #f5f4e9;
 }
 .school-2 button
 {
-    background:#2E64FE;
+    background:#f5f4e9;
 
 }
 .school-0 button
 {
-    background:#2E64FE;
+    background:#f5f4e9;
 }
 
 button span, button em
@@ -198,7 +198,7 @@ button span, button em
     height:90px;
     line-height:20px;
     margin:5px;
-    color:white;
+    color:black;
     font-size: 16px;
     font-family: 'Carter One', cursive;
 

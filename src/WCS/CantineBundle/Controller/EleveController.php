@@ -315,10 +315,6 @@ class EleveController extends Controller
         if (!$user) {
             throw $this->createNotFoundException('Aucun utilisateur trouvé pour cet id:');
         }
-        $request->getSession()
-            ->getFlashBag()
-            ->add('success', 'En cas de 1ère inscription pensez à inscrire votre(vos) enfant(s) SVP!')
-        ;
 
 
         return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(

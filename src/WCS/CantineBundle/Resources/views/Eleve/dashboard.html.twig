@@ -2,6 +2,25 @@
 
 {% block body %}
 
+    <div class="modal fade" tabindex="-1" data-backdrop="show" role="dialog"id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" style="color:red;">Attention</h4>
+                </div>
+                <div class="modal-body">
+                    <p style="color:red;">En cas de 1ère inscription merci de ne pas oublier d'enregistrer votre(vos) enfant(s) en cliquant sur le bouton suivant :  <a href="{{ path('eleve_create') }}"><input type="button" value="Inscrire mon enfant"class="btn btn-primary"></a></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+
         <div class="col-md-8 col-md-offset-2">
             <p>Bonjour {{ app.user.username }}</p>
             <div class="my-home col-md-7">
@@ -86,13 +105,7 @@
                         {% endfor %}
 
             </div>
-            {% if app.session.flashBag.has('success') %}
-                <div class="alert alert-success">
-                    {% for msg in app.session.flashBag.get('success') %}
-                        {{ msg }}
-                    {% endfor %}
-                </div>
-            {% endif %}
+
 
             <blockquote>
                 <ul>
@@ -101,5 +114,6 @@
                 </ul>
             </blockquote>
         </div>
+
 
 {% endblock %}
