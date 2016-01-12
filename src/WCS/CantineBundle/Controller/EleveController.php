@@ -2,7 +2,6 @@
 
 namespace WCS\CantineBundle\Controller;
 
-use Application\Sonata\UserBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -51,6 +50,11 @@ class EleveController extends Controller
         $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
         $limit = new \DateTime();
 
+        // Récupération des dates du calendrier
+
+        $em = $this->getDoctrine()->getManager();
+        $cal = $em->getRepository('WCSCantineBundle:Calendar')->findAll();
+
         $vacancesHiver = $this->getHolidays('2016-02-06', '2016-02-22');
         $vacancesNoel = $this->getHolidays('2015-12-19', '2016-01-04');
         $vacancesToussaint = $this->getHolidays('2016-04-02', '2016-04-18');
@@ -74,6 +78,7 @@ class EleveController extends Controller
             'vacancesNoel' => $vacancesNoel,
             'grandesVacances' => $grandesVacances,
             'vacancesToussaint' => $vacancesToussaint,
+            'cal' => $cal,
         ));
     }
 
@@ -320,7 +325,7 @@ class EleveController extends Controller
         $children = $user->getEleves();
 
         $em = $this->getDoctrine()->getManager();
-        //$entity = $em->getRepository('WCSCantineBundle:Lunch')->find('user' => );
+        $presentChildren = $em->getRepository('WCSCantineBundle:Eleve')->findOneBy(array('user' => $user->getId()));
 
         if (!$user) {
             throw $this->createNotFoundException('Aucun utilisateur trouvé pour cet id:');
@@ -330,7 +335,8 @@ class EleveController extends Controller
         return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(
             'user' => $user,
             'children' => $children,
-            'modeDePaiement' =>$moyendepaiement
+            'modeDePaiement' => $moyendepaiement,
+            'presentChildren' => $presentChildren,
         ));
 
 
@@ -341,6 +347,15 @@ class EleveController extends Controller
         return $this->getDoctrine()->getManager()
             ->createQuery(
                 'UPDATE WCSCantineBundle:Eleve SET dates'
+            )
+            ->getResult();
+    }
+
+    public function getHolidaysDates()
+    {
+        return $this->getDoctrine()->getManager()
+            ->createQuery(
+                'SELECT e FROM WCSCantineBundle:Calendar e'
             )
             ->getResult();
     }

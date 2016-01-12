@@ -11,10 +11,6 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class EleveAdmin extends Admin
 {
-
-
-
-
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
