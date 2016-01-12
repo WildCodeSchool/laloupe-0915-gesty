@@ -2,121 +2,137 @@
 
 {% block body %}
 
-    <a href="{{ path('wcs_gesty_ecoles') }}" class="btn__retour">Retour</a>
+    <div class="container-fluid">
+        <a href="{{ path('wcs_gesty_ecoles') }}" class="btn__retour">Retour</a>
+        {{ form_start(form) }}
+        <div class="table-responsive">
+            <table class="table">
 
-    <div class="table-responsive">
-        <table class="table">
+                <tr>
+                    <td class="text-center welcome dateNow" id="{{ "now"|date("Y-m-d") }}">{{ "now"|date("d/m/Y") }}</td>
+                    <td class="text-center welcome schoolname" colspan="4" id="{{ ecoles.id }}">Enfants inscrits - {{ ecoles.name }}</td>
+                </tr>
 
-            <tr>
-                <td class="text-center welcome">{{ "now"|date("d/m/Y") }}</td>
-                <td class="text-center welcome schoolname" colspan="4" id="{{ ecoles.id }}">Enfants inscrits - {{ ecoles.name }}</td>
-            </tr>
+                <tr>
+                    <td class="todayList text-center">Présence</td>
+                    <td class="todayList text-center">Nom</td>
+                    <td class="todayList text-center">Prénom</td>
+                    <td class="todayList text-center">Allergie(s)</td>
+                    <td class="todayList text-center">Régime sans porc</td>
+                </tr>
 
-            <tr>
-                <td class="todayList text-center">Présence</td>
-                <td class="todayList text-center">Nom</td>
-                <td class="todayList text-center">Prénom</td>
-                <td class="todayList text-center">Allergie(s)</td>
-                <td class="todayList text-center">Régime sans porc</td>
-            </tr>
-
-            {% for eleve in eleves %}
-            <tr>
-                <td class="text-center"><input type="checkbox" class="eleve" name="eleve" value="{{ eleve.nom }},{{ eleve.prenom }}" /></td>
-                <td class="text-center">{{ eleve.nom |upper}}</td>
-                <td class="text-center">{{ eleve.prenom }}</td>
-                <td class="text-center">{{ eleve.allergie }}</td>
-                <td class="text-center sansporc">
-                    {% if eleve.regimeSansPorc == 1 %}
-                        OUI
-                    {% else %}
-                        NON
-                    {% endif %}
-                </td>
-            {% endfor %}
-            </tr>
-            <tr>
-                <td class="text-center"><button class="ajout">Ajouter</button></td>
-                <td class="text-center"><input name="nom" /></td>
-                <td class="text-center"><input name="prenom" /></td>
-                <td class="text-center"><input name="allergies" /></td>
-                <td class="text-center"><input name="regimesansporc" /></td>
-            </tr>
-            <tr>
-                <td colspan="5"><div><textarea class="commentaires" rows="2" placeholder="Commentaires..."></textarea></div>
-            </tr>
-        </table>
-    </div>
-
-
-
-    <div class="table-responsive">
-        <table class="table">
-            <tr>
-                <td class="text-center">Nombre d'inscrits :</td>
-                <td class="test text-center"></td>
-            </tr>
-            <tr>
-                <td class="text-center">Nombre de Régime sans porc :</td>
-                <td class="porc text-center"></td>
-            </tr>
-            <tr>
-                <td class="text-center">Nombre d'enfants présents :</td>
-                <td class="total text-center"></td>
-            </tr>
-
-        </table>
-    </div>
-
-
-    {{ form_start(form) }}
-    <div class="hidden">
-    {{ form_widget(form.date) }}
-    {{ form_widget(form.commentaires) }}
-    {{ form_widget(form.inscrits) }}
-    {{ form_widget(form.noninscrits) }}
-    {{ form_widget(form.presents) }}
-    {{ form_widget(form.absents) }}
-    {{ form_widget(form.schoolId) }}
-    </div>
-    <div class="text-center">{{ form_widget(form.Valider) }}</div>
-
-    {{ form_end(form) }}
+                {% for eleve in eleves %}
+                <tr>
+                    <td class="text-center"><input type="checkbox" class="eleve" name="eleve" value="{{ eleve.nom }},{{ eleve.prenom }}" /></td>
+                    <td class="text-center">{{ eleve.nom |upper}}</td>
+                    <td class="text-center">{{ eleve.prenom }}</td>
+                    <td class="text-center">{{ eleve.allergie }}</td>
+                    <td class="text-center sansporc">
+                        {% if eleve.regimeSansPorc == 1 %}
+                            OUI
+                        {% else %}
+                            NON
+                        {% endif %}
+                    </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td class="text-center"><a class="ajouter" href="">Ajouter</a></td>
+                    <td class="text-center"><input name="nom" /></td>
+                    <td class="text-center"><input name="prenom" /></td>
+                    <td class="text-center"><input name="allergies" /></td>
+                    <td class="text-center"><input name="regimesansporc" /></td>
+                </tr>
+                <tr>
+                    <td colspan="5"><div>{{ form_widget(form.commentaires) }}</div>
+                </tr>
+            </table>
+        </div>
 
 
 
+        <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <td class="text-center">Nombre d'inscrits :</td>
+                    <td class="test text-center"></td>
+                </tr>
+                <tr>
+                    <td class="text-center">Nombre de Régime sans porc :</td>
+                    <td class="porc text-center"></td>
+                </tr>
+                <tr>
+                    <td class="text-center">Nombre d'enfants présents :</td>
+                    <td class="total text-center"></td>
+                </tr>
 
-    {% block javascripts %}
-        <script src="{{ asset('bundles/wcscantine/js/jquery.min.js') }}"></script>
-        <script src="{{ asset('bundles/wcscantine/js/bootstrap.min.js') }}"></script>
-    {% endblock %}
-    <script>
-        var totalCheckboxes = $('input:checkbox');
-        var totalSansPorc = $('.sansporc');
-        var totalEleves = totalCheckboxes.length;
-        window.onload = function () {
-            $(".total")[0].innerHTML = 0;
-            $(".test")[0].innerHTML = totalEleves;
-            $(".porc")[0].innerHTML = $('.sansporc:contains("OUI")').length;
+            </table>
+        </div>
 
-            $('form[name="wcs_cantinebundle_lunch"]').submit(function(e){
-                e.preventDefault();
-                var pupils = '';
-                $('input:checkbox:checked').each(function(){
-                    pupils += this.value + ';';
+
+
+        <div class="hidden">
+            {{ form_widget(form.date) }}
+            {{ form_widget(form.inscrits) }}
+            {{ form_widget(form.noninscrits) }}
+            {{ form_widget(form.presents) }}
+            {{ form_widget(form.absents) }}
+            {{ form_widget(form.schoolId) }}
+        </div>
+        <div class="text-center">{{ form_widget(form.Valider) }}</div>
+
+        {{ form_end(form) }}
+
+
+
+
+        {% block javascripts %}
+            <script src="{{ asset('bundles/wcscantine/js/jquery.min.js') }}"></script>
+            <script src="{{ asset('bundles/wcscantine/js/bootstrap.min.js') }}"></script>
+        {% endblock %}
+        <script>
+            var totalCheckboxes = $('input:checkbox');
+            var totalSansPorc = $('.sansporc');
+            var totalEleves = totalCheckboxes.length;
+            window.onload = function () {
+                $(".total")[0].innerHTML = 0;
+                $(".test")[0].innerHTML = totalEleves;
+                $(".porc")[0].innerHTML = $('.sansporc:contains("OUI")').length;
+
+                $('form[name="wcs_cantinebundle_lunch"]').submit(function(e){
+                    e.preventDefault();
+                    var pupils = '';
+                    $('input:checkbox:checked').each(function(){
+                        pupils += this.value + ';';
+                    });
+                    var registrated = '';
+                    $('input:checkbox').each(function(){
+                        registrated += this.value + ';';
+                    });
+                    var school = $('.schoolname').attr('id');
+                    var dateNow = $('.dateNow').attr('id'); // On récupère l'attribut 'id'
+                    $('#wcs_cantinebundle_lunch_date').val(dateNow);
+                    $('#wcs_cantinebundle_lunch_schoolId').val(school);
+                    $('#wcs_cantinebundle_lunch_presents').val(pupils);
+                    $('#wcs_cantinebundle_lunch_inscrits').val(registrated);
+                    this.submit();
                 });
-                var school = $('.schoolname').attr('id');
-                $('#wcs_cantinebundle_lunch_schoolId').val(school);
-                $('#wcs_cantinebundle_lunch_presents').val(pupils);
-                this.submit();
-            });
 
-            $( ".eleve" ).click(function() {
-                var countCheckedCheckboxes = $('input:checkbox:checked').length;
-                $(".total")[0].innerHTML = countCheckedCheckboxes;
-            });
-        };
-    </script>
+                $( ".eleve" ).click(function() {
+                    var countCheckedCheckboxes = $('input:checkbox:checked').length;
+                    $(".total")[0].innerHTML = countCheckedCheckboxes;
+                });
+
+                $( ".ajouter" ).click(function() {
+                    var name = $('input[name=nom]').val();
+                    $('.nom').val(name);
+                    $('.eleveAdd').val(name);
+                });
+
+
+            };
+        </script>
+    </div>
 
 
 

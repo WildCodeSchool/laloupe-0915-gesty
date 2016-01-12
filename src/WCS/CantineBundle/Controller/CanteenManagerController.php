@@ -37,7 +37,7 @@ class CanteenManagerController extends Controller
         $schools = $em->getRepository('WCSCantineBundle:School')->find($schoolId);
 
         $lunch = new Lunch();
-        $form = $this->createForm(new LunchType());
+        $form = $this->createForm(new LunchType(), $lunch);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
