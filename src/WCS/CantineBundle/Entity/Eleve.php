@@ -19,8 +19,7 @@ class Eleve
     public function __construct()
     {
         $this->habits = array();
-        $this->dates = new \DateTime('1950-1-01');
-
+        
     }
 
     public static function getHabitDays()
