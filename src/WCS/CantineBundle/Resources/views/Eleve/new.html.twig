@@ -139,15 +139,28 @@
                                     {% endif %}
 
                                     {% if day_week == 3 or day_week == 6 or day_week == 7 or date(year ~ '-' ~ month ~ '-' ~ day).timestamp < dateLimit or date(year ~ '-' ~ month ~ '-' ~ day).timestamp > finAnnee %}
-                                        <td class="inactif">
-                                    {% else %}
-                                        <td>
-                                            <input class="calendar-checkbox {{ 'day' ~ day_week }}" type="checkbox" value="{{ year }}-{{ month }}-{{ day }}">
-                                    {% endif %}
+
+                                    <td class="inactif">
+
+                                        {% else %}
+                                    <td>
+                                        {% endif %}
+
+
+                                        {% if day_week != 3 and day_week != 6 and day_week != 7 %}
+
+                                            <input class="calendar-checkbox {{ 'day' ~ day_week }}" type="checkbox" value="{{ year }}-{{ month }}-{{ day }}" name="{{ year }}-{{ month }}-{{ day }}">
+
+                                        {% endif %}
+
                                         {{ day }}
-                                    </td>
-                                    {% if (day_week == 7) %}</tr><tr>{% endif %}
+
+                                        {% if (day_week == 7) %}
+                                </tr><tr>
+                                    {% endif %}
+
                                     {% endfor %}
+
 
                                 </tr>
                                 </tbody>

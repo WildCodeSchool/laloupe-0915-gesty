@@ -66,7 +66,7 @@ class EleveAdmin extends Admin
             )))
             ->add('allergie', 'text')
             ->add('regimeSansPorc', 'boolean')
-            ->add('Nombre de repas/mois')
+            ->add('dates')
         ;
     }
 
