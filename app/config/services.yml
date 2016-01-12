@@ -43,4 +43,9 @@ services:
             tags:
                 - {name: "form.type", alias: "wcs_cantinebundle_eleve"}
 
-
+      application.sonata_user_listener:
+            class: Application\Sonata\UserBundle\EventListener\editProfileListener
+            tags:
+                - { name: doctrine.event_listener, event: preUpdate }
+            arguments:
+                - @mailer
