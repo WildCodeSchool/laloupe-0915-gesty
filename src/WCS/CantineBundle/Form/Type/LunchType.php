@@ -16,12 +16,15 @@ class LunchType extends AbstractType
     {
         $builder
             ->add('schoolId')
-            ->add('date', null)
-            ->add('inscrits', null)
-            ->add('presents', null)
-            ->add('noninscrits', null)
-            ->add('absents', null)
-            ->add('commentaires', null)
+            ->add('date')
+            ->add('inscrits')
+            ->add('presents')
+            ->add('noninscrits')
+            ->add('absents')
+            ->add('commentaires', 'text', array(
+                'attr' => array(
+                    'placeholder' => 'Commentaires...',
+                )))
             ->add('Valider', 'submit')
         ;
     }

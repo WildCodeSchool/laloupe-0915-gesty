@@ -4,7 +4,7 @@
 
     <div class="container-fluid">
     <a href="{{ path('wcs_gesty_ecoles') }}" class="btn__retour">Retour</a>
-
+        {{ form_start(form) }}
     <div class="table-responsive">
         <table class="table">
 
@@ -44,7 +44,7 @@
                 <td class="text-center"><input name="regimesansporc" /></td>
             </tr>
             <tr>
-                <td colspan="5"><div><textarea class="commentaires" rows="2" placeholder="Commentaires..."></textarea></div>
+                <td colspan="5"><div>{{ form_widget(form.commentaires) }}</div>
             </tr>
         </table>
     </div>
@@ -70,16 +70,15 @@
     </div>
 
 
-    {{ form_start(form) }}
-    <div class="hidden">
+
+
     {{ form_widget(form.date) }}
-    {{ form_widget(form.commentaires) }}
     {{ form_widget(form.inscrits) }}
     {{ form_widget(form.noninscrits) }}
     {{ form_widget(form.presents) }}
     {{ form_widget(form.absents) }}
     {{ form_widget(form.schoolId) }}
-    </div>
+
     <div class="text-center">{{ form_widget(form.Valider) }}</div>
 
     {{ form_end(form) }}
