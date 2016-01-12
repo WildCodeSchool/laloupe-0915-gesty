@@ -29,8 +29,9 @@ file that was distributed with this source code.
                 <div class="panel-body">
 
                     {% if error %}
-                        <div class="alert alert-danger alert-error"> Votre compte est en attente de validation</div>
+                        <div class="alert alert-danger alert-error">{{ error | replace({"Bad credentials." : "Mot de passe invalide."}, 'FOSUserBundle') }}</div>
                     {% endif %}
+
 
                     <form action="{{ path("fos_user_security_check") }}" method="post" role="form"
                           class="form-horizontal">

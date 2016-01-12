@@ -15,7 +15,7 @@ class EleveRepository extends EntityRepository
     public function getTodayList($school)
     {
         // Format the date
-        $date = new \DateTime();
+        $date = new \DateTime('');
         $day = $date->format('Y-m-d');
 
         // Request pupils to the database from a certain date
@@ -49,7 +49,7 @@ class EleveRepository extends EntityRepository
         {
             $res = $this->getEntityManager()
                 ->createQuery(
-                    'SELECT COUNT(e) FROM WCSCantineBundle:Eleve e WHERE e.dates LIKE :day'
+                    'SELECT COUNT(e) FROM WCSCantineBundle:Eleve e WHERE e.dates LIKE :day '
                 )
                 ->setParameter(':day', "%".$day."%")
                 ->getResult();

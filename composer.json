@@ -29,6 +29,7 @@
         "knplabs/knp-gaufrette-bundle": "dev-master"
 
 
+
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

@@ -29,6 +29,13 @@ class User extends BaseUser
         parent::setUsername($email);
     }
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->enabled = false;
+
+    }
+
 
 
     /** Generate code */
