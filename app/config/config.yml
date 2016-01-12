@@ -145,11 +145,11 @@ sonata_user:
                 type: application_sonata_user_registration
 
 
+
 fos_user:
     db_driver:      orm # can be orm or odm
     firewall_name:  main
     user_class:     Application\Sonata\UserBundle\Entity\User
-
 
 
 
@@ -161,14 +161,17 @@ fos_user:
         user_manager: sonata.user.orm.user_manager # If you're using doctrine orm (use sonata.user.mongodb.group_manager for mongodb)
 
     registration:
+        confirmation:
+            enabled: false
         form:
             type: application_sonata_user_registration
+
+
 
 sonata_admin:
     title: Gesty Admin
     title_logo: /bundles/wcscantine/images/favicon.ico
-    templates:
-        layout:  SonataAdminBundle::standard_layout.html.twig
+
 
     
 
@@ -215,6 +218,12 @@ vlabs_media:
         image_entity:
           class: WCS\GestyBundle\Entity\Justificatif
 
+
+twig:
+    form:
+        resources:
+            - 'SonataCoreBundle:Form:datepicker.html.twig'
+
 braincrafted_bootstrap:
     output_dir:
     assets_dir: %kernel.root_dir%/../vendor/twbs/bootstrap
@@ -225,3 +234,4 @@ braincrafted_bootstrap:
         knp_menu: true
         knp_paginator: true
     less_filter: lessphp
+

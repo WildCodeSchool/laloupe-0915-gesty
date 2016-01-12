@@ -43,7 +43,9 @@ class EleveAdmin extends Admin
             ->add('nom')
             ->add('prenom')
             ->add('dateDeNaissance')
-            ->add('dates','doctrine_orm_date', array('label'=>'Date des repas'))
+            ->add('dates','doctrine_orm_date_range',
+                    ['field_type' => 'sonata_type_date_range' ,
+                    'field_options'=> array('widget' => 'single_text', 'required' => false, 'attr' => array('class' => 'datepicker'))])
             ->add('division',null, array('label'=>'Classe'))
 
 
