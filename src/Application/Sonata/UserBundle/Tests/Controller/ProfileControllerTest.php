@@ -53,7 +53,7 @@ Class ProfileControllerTest extends WebTestCase
         $crawler = $client->submit($form);
 
 
-        //test bouton 'Envoyer'
+        /*//test bouton 'Envoyer'
 
          $client = static::createClient(array(), array(
              'PHP_AUTH_USER' => 'aaa@email.com',
@@ -66,14 +66,14 @@ Class ProfileControllerTest extends WebTestCase
              ->filter('input:contains("Envoyer")')
              ->eq(0)
              ->link();
-         $crawler = $client->click($link);
+         $crawler = $client->click($link);*/
     }
 
     //test que l'on peut sortir de cette page
 
-    /*public function testOut()
+    public function testOut()
     {
-        //test lien 'Retour'
+        /*//test lien 'Retour'
 
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'aaa@email.com',
@@ -86,7 +86,7 @@ Class ProfileControllerTest extends WebTestCase
             ->filter('a#retour')
             ->eq(0)
             ->link();
-        $crawler = $client->click($link);
+        $crawler = $client->click($link);*/
 
         //test bouton 'logout'
         $client = static::createClient(array(), array(
@@ -107,5 +107,5 @@ Class ProfileControllerTest extends WebTestCase
         $this->assertEquals('Sonata\UserBundle\Controller\SecurityFOSUser1Controller::logoutAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
-    }*/
+    }
 }

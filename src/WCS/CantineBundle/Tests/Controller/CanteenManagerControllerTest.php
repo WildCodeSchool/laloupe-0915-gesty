@@ -25,8 +25,8 @@ class CanteenManagerControllerCTest extends WebTestCase
         $this->assertTrue($crawler->filter('form input[name="_password"]')->count() == 1);
 
         $form = $crawler->selectButton('Connexion')->form();
-        $form['_username'] = 'admin1@email.com';
-        $form['_password'] = 'admin';
+        $form['_username'] = 'damedecantine@email.com';
+        $form['_password'] = 'aaa';
 
         $crawler = $client->submit($form);
 
@@ -38,6 +38,7 @@ class CanteenManagerControllerCTest extends WebTestCase
         $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::indexAction', $client->getRequest()->attributes->get('_controller'));
+
     }
 
     /*public function testSchoolButton()
@@ -45,50 +46,64 @@ class CanteenManagerControllerCTest extends WebTestCase
         //test bouton "les écureuils"
 
         $client = static::createClient(array(), array(
-            'PHP_AUTH_USER' => 'admin1@email.com',
-            'PHP_AUTH_PW' => 'admin',
+            'PHP_AUTH_USER' => 'damedecantine@email.com',
+            'PHP_AUTH_PW' => 'aaa',
         ));
-        $crawler = $client->request('GET', '/canteenManager');
-        $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::todayListAction', $client->getRequest()->attributes->get('_controller'));
+        $crawler = $client->request('GET', '/canteenManager/');
+        $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::indexAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
         $link = $crawler
-            ->filter('a#school')
+            ->filter('a:contains("Les écureuils")')
             ->eq(0)
             ->link();
         $crawler = $client->click($link);
 
         //suivre redirection vers page todaylist
 
-        $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::todayListAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $client->followRedirect();
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $client->followRedirect();
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::todayListAction', $client->getRequest()->attributes->get('_controller'));
+
+
     }*/
 
-   /* public function testLogout()
+    public function testLogout()
     {
+
+        $fixtures = array(
+            'WCS\CantineBundle\DataFixtures\ORM\LoadUserData',
+            'WCS\CantineBundle\DataFixtures\ORM\LoadSchoolData'
+        );
+        $this->fixtures = $this->loadFixtures($fixtures, null, 'doctrine', true)->getReferenceRepository();
+
         //test bouton 'logout'
 
         $client = static::createClient(array(), array(
-            'PHP_AUTH_USER' => 'admin1@email.com',
-            'PHP_AUTH_PW' => 'admin',
-        ));
-        $crawler = $client->request('GET', '/canteenManager');
-        $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::indexAction', $client->getRequest()->attributes->get('_controller'));
+            'PHP_AUTH_USER' => 'damedecantine@email.com',
+            'PHP_AUTH_PW' => 'aaa',));
+
+        $crawler = $client->request('GET', '/canteenManager/');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::indexAction', $client->getRequest()->attributes->get('_controller'));
+
         $link = $crawler
             ->filter('a#logout')
             ->eq(0)
             ->link();
-        $crawler = $client->click($link);*/
+        $crawler = $client->click($link);
 
-        /*$this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $crawler = $client->followRedirect();
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $client->followRedirect();
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-
-        //suivre redirection vers page login
+        //$crawler = $client->followRedirect();
+        //$this->assertEquals(302, $client->getResponse()->getStatusCode());
+        //$client->followRedirect();
+        //$this->assertEquals(200, $client->getResponse()->getStatusCode());
+        //$this->assertEquals('Sonata\UserBundle\Controller\SecurityFOSUser1Controller::loginAction', $client->getRequest()->attributes->get('_controller'));
 
         $this->assertEquals('Sonata\UserBundle\Controller\SecurityFOSUser1Controller::logoutAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-    }*/
+
+    }
 }
