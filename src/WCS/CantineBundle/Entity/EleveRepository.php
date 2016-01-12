@@ -43,17 +43,6 @@ class EleveRepository extends EntityRepository
 
         return $result;
     }
-    public function mealsByMonth($children)
-    {
-        //Request meals by months by pupils
-        return $this->getEntityManager()
-            ->createQuery(
-
-                  )
-            ->setParameter(':eleve',"%".$children."%")
-            ->getResult();
 
 
-
-    }
 }

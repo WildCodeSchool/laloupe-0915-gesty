@@ -68,6 +68,7 @@ class RegistrationFOSUser1Controller extends \Sonata\UserBundle\Controller\Regis
             'form' => $form->createView(),
         ));
     }
+
 }
 
 
