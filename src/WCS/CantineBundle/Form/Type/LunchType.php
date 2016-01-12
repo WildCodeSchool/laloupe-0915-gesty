@@ -22,6 +22,7 @@ class LunchType extends AbstractType
             ->add('noninscrits')
             ->add('absents')
             ->add('commentaires', 'text', array(
+                'required' => false,
                 'attr' => array(
                     'placeholder' => 'Commentaires...',
                 )))
