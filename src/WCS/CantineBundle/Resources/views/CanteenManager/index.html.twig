@@ -2,10 +2,11 @@
 {% block body %}
 
         {% for school in schools %}
-
+        <div class="container-fluid">
             <div class="school school-{{ loop.index % 3 }}">
-                <button><i class="fa fa-home fa-2x"></i><a href="{{ path('wcs_cantine_todayList', {'schoolId': school.id}) }}"><span>{{ school.name }}</span></a></button>
+                <button class="col-sm-offset-4 col-md-offset-4"><i class="fa fa-home fa-2x"></i><a href="{{ path('wcs_cantine_todayList', {'schoolId': school.id}) }}"><span>{{ school.name }}</span></a></button>
             </div>
+        </div>
 
         {% endfor %}
 

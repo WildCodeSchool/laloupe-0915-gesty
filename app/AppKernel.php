@@ -35,6 +35,10 @@ class AppKernel extends Kernel
 
             new Vlabs\MediaBundle\VlabsMediaBundle(),
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
+
+            new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
+
+
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
