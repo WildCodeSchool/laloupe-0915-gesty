@@ -146,7 +146,7 @@ sonata_user:
         register:
             form:
                 type: application_sonata_user_registration
-            confirm: true
+
 
 
 
@@ -173,6 +173,9 @@ fos_user:
 sonata_admin:
     title: Gesty Admin
     title_logo: /bundles/wcscantine/images/favicon.ico
+    templates:
+        layout:       'WCSCantineBundle:Admin:standard_layout.html.twig'
+
 
     dashboard:
         blocks:
@@ -195,12 +198,15 @@ sonata_admin:
 
         groups:
             app.admin.group.content:
+                icon: '<i class="fa fa-users"></i>'
                 label: Foyer
                 items:
                     - sonata.user.admin.user
             wcs.group.eleve:
+                icon: '<i class="fa fa-user"></i>'
                 label: Eleves
             wcs.group.division:
+                icon: '<i class="fa fa-home"></i>'
                 label: Ecoles
 
 
