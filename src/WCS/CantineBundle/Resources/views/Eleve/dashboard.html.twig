@@ -24,7 +24,13 @@
         <div class="col-md-8 col-md-offset-2">
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <div class="informations__familles">
-                <p>Bonjour : {{ app.user.lastname }}  {{ app.user.firstname }} </p>
+                <p>Bonjour :
+                    {% if app.user.gender == 'm' %}
+                    M.
+                    {% else %}
+                    Mme
+                    {% endif %}
+                    {{ app.user.lastname }}  {{ app.user.firstname }} </p>
             {% endif %}
 
 
