@@ -41,7 +41,7 @@ class CanteenManagerControllerCTest extends WebTestCase
 
     }
 
-    /*public function testSchoolButton()
+    public function testSchoolButton()
     {
         //test bouton "les écureuils"
 
@@ -61,17 +61,13 @@ class CanteenManagerControllerCTest extends WebTestCase
 
         //suivre redirection vers page todaylist
 
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $client->followRedirect();
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::todayListAction', $client->getRequest()->attributes->get('_controller'));
 
 
-    }*/
+    }
 
-    public function testLogout()
+    /*public function testLogout()
     {
 
         $fixtures = array(
@@ -96,14 +92,8 @@ class CanteenManagerControllerCTest extends WebTestCase
             ->link();
         $crawler = $client->click($link);
 
-        //$crawler = $client->followRedirect();
-        //$this->assertEquals(302, $client->getResponse()->getStatusCode());
-        //$client->followRedirect();
-        //$this->assertEquals(200, $client->getResponse()->getStatusCode());
-        //$this->assertEquals('Sonata\UserBundle\Controller\SecurityFOSUser1Controller::loginAction', $client->getRequest()->attributes->get('_controller'));
-
         $this->assertEquals('Sonata\UserBundle\Controller\SecurityFOSUser1Controller::logoutAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
-    }
+    }*/
 }
