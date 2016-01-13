@@ -319,30 +319,6 @@ class User extends BaseUser
     }
 
     /**
-     * Add justificatif
-     *
-     * @param \WCS\GestyBundle\Entity\Justificatif $justificatif
-     *
-     * @return User
-     */
-    public function addJustificatif(\WCS\GestyBundle\Entity\Justificatif $justificatif)
-    {
-        $this->justificatifs[] = $justificatif;
-
-        return $this;
-    }
-
-    /**
-     * Remove justificatif
-     *
-     * @param \WCS\GestyBundle\Entity\Justificatif $justificatif
-     */
-    public function removeJustificatif(\WCS\GestyBundle\Entity\Justificatif $justificatif)
-    {
-        $this->justificatifs->removeElement($justificatif);
-    }
-
-    /**
      * Get justificatifs
      *
      * @return \Doctrine\Common\Collections\Collection
@@ -351,4 +327,5 @@ class User extends BaseUser
     {
         return $this->justificatifs;
     }
+
 }
