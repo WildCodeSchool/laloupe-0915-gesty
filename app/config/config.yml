@@ -211,13 +211,6 @@ sonata_admin:
 
 
 
-vlabs_media:
-    image_cache:
-        cache_dir: files/c
-    mapping:
-        image_entity:
-            class: WCS\GestyBundle\Entity\Justificatif
-
 braincrafted_bootstrap:
     output_dir:
     assets_dir: %kernel.root_dir%/../vendor/twbs/bootstrap

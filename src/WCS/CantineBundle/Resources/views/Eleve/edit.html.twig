@@ -83,40 +83,40 @@
                     {% for key,value in calendrier %}
                         {% for mois,jour in value %}
                             {% if mois == 1 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Jan</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}" name="mois5">Jan</a>
                             {% endif %}
                             {% if mois == 2 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Fév</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}" name="mois6">Fév</a>
                             {% endif %}
                             {% if mois == 3 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Mar</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}" name="mois7">Mar</a>
                             {% endif %}
                             {% if mois == 4 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Avr</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}" name="mois8">Avr</a>
                             {% endif %}
                             {% if mois == 5 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Mai</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}" name="mois9">Mai</a>
                             {% endif %}
                             {% if mois == 6 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Jui</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}" name="mois10">Jui</a>
                             {% endif %}
                             {% if mois == 7 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Jui</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}" name="mois11">Jui</a>
                             {% endif %}
                             {% if mois == 8 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Aoû</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}" name="mois12">Aoû</a>
                             {% endif %}
                             {% if mois == 9 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Sep</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}" name="mois1">Sep</a>
                             {% endif %}
                             {% if mois == 10 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Oct</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}" name="mois2">Oct</a>
                             {% endif %}
                             {% if mois == 11 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Nov</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}" name="mois3">Nov</a>
                             {% endif %}
                             {% if mois == 12 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Déc</a>
+                                <a class="moisecole" href="#" id="linkMonth{{ mois }}" name="mois4">Déc</a>
                             {% endif %}
                         {% endfor %}
                     {% endfor %}
@@ -195,7 +195,7 @@
                         });
 
                         // Onclick the month selected appear and the other is hidden
-                        var current = 09;
+                        var current = 9;
                         $('.months a').click(function(){
                             var month = $(this).attr('id').replace('linkMonth', '');
                             if (month != current){
@@ -204,7 +204,7 @@
                                 $('.months a').removeClass('active');
                                 $('.months a#linkMonth' + month).addClass('active');
                                 current = month;
-                                disablePrevDate(); // rappel de la fonction qui bloque les jours précédents + 7
+                                disablePrevDate();
                             }
                             return false;
                         });
@@ -213,14 +213,33 @@
                         $('.choix input').on('change', function(){
                             var daySelected = parseInt($(this).attr('id').split('_')[4])+1;
                             if (daySelected >= 3) daySelected++;
-                            $('div.month td input.day' + daySelected).prop('checked', $(this).prop('checked'));//http://stackoverflow.com/questions/426258/checking-a-checkbox-with-jquery
+                            var dateNow = new Date(); // Date d'aujourd'hui
+                            dateNow.setHours(0); // Désactivation des heures, minutes et secondes
+                            dateNow.setMinutes(0);
+                            dateNow.setSeconds(0);
+                            dateNow.setDate(dateNow.getDate() + 7);
+                            $('div.month td input.day' + daySelected).each(function() {
+                                var getDate = $(this).attr('name');
+                                var timestamp = new Date (getDate);
+                                timestamp.setHours(0); // Désactivation des heures, minutes et secondes
+                                timestamp.setMinutes(0);
+                                timestamp.setSeconds(0);
+                                $(this)[0].checked = (timestamp.getTime() > dateNow.getTime());
+                            })
                         });
 
-                        // Convert date string into checkboxes
-                        var dates = $('#WCS_cantinebundle_eleve_dates').html().split(';');
-                        dates.forEach(function(date){
-                            $('input[value="'+date+'"]').prop('checked', true);
+                        // Get the checkboxes checked in comparison with the database dates
+                        var dates = $('textarea#WCS_cantinebundle_eleve_dates').val();
+                        var dateSplit = dates.split(';');
+                        $('.calendar-checkbox').each(function(){
+                            var checkboxesValue = $(this).val();
+                            for (i = 0; i < dateSplit.length; i++) {
+                                if (dateSplit[i] == checkboxesValue) {
+                                    $(this).attr('checked');
+                                }
+                            }
                         });
+
 
                         // fonction pour bloquer les jours antérieurs + 7
                         function disablePrevDate(){

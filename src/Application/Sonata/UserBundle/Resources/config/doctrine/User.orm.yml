@@ -48,10 +48,6 @@ Application\Sonata\UserBundle\Entity\User:
             mappedBy: user
             cascade: {persist, remove}
             orphanRemoval: true
-        justificatifs:
-            targetEntity: WCS\GestyBundle\Entity\Justificatif
-            mappedBy: signataire
-            cascade: {persist, remove}
-            orphanRemoval: true
+
 
 

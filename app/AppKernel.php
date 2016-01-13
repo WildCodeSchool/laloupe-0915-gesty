@@ -33,9 +33,6 @@ class AppKernel extends Kernel
             new WCS\CantineBundle\WCSCantineBundle(),
             new WCS\GestyBundle\WCSGestyBundle(),
 
-            new Vlabs\MediaBundle\VlabsMediaBundle(),
-            new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
-
             new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
 
 
