@@ -235,7 +235,7 @@
                             var checkboxesValue = $(this).val();
                             for (i = 0; i < dateSplit.length; i++) {
                                 if (dateSplit[i] == checkboxesValue) {
-                                    $(this).attr('checked');
+                                    this.checked = true;
                                 }
                             }
                         });
