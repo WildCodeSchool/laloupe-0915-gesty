@@ -64,10 +64,52 @@ class CanteenManagerControllerCTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::todayListAction', $client->getRequest()->attributes->get('_controller'));
 
+        //test bouton "Notre Dame des Fleurs"
+
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'damedecantine@email.com',
+            'PHP_AUTH_PW' => 'aaa',
+        ));
+        $crawler = $client->request('GET', '/canteenManager/');
+        $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::indexAction', $client->getRequest()->attributes->get('_controller'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $link = $crawler
+            ->filter('a:contains("Notre Dame des Fleurs")')
+            ->eq(0)
+            ->link();
+        $crawler = $client->click($link);
+
+        //suivre redirection vers page todaylist
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::todayListAction', $client->getRequest()->attributes->get('_controller'));
+
+        //test bouton "Roland-Garros"
+
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'damedecantine@email.com',
+            'PHP_AUTH_PW' => 'aaa',
+        ));
+        $crawler = $client->request('GET', '/canteenManager/');
+        $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::indexAction', $client->getRequest()->attributes->get('_controller'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $link = $crawler
+            ->filter('a:contains("Roland-Garros")')
+            ->eq(0)
+            ->link();
+        $crawler = $client->click($link);
+
+        //suivre redirection vers page todaylist
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::todayListAction', $client->getRequest()->attributes->get('_controller'));
+
 
     }
 
-    /*public function testLogout()
+    public function testLogout()
     {
 
         $fixtures = array(
@@ -95,5 +137,5 @@ class CanteenManagerControllerCTest extends WebTestCase
         $this->assertEquals('Sonata\UserBundle\Controller\SecurityFOSUser1Controller::logoutAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
-    }*/
+    }
 }
