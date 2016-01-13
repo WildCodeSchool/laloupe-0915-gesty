@@ -29,13 +29,16 @@
 
 
             <div class="my-home col-md-7">
-                <h1>Mon Foyer</h1><br/>
+                <h1>Mon Foyer <span class="created__at">(Créé le {{ app.user.createdAt|date('d-m-Y') }})</span></h1><br/>
                 <p> {{ app.user }} </p><br/>
 
 
                 <tr>
-
+                    {% if user.phone %}
                     <td><i class="fa fa-phone"></i>{{ user.phone }}</td><br/>
+                    {% else %}
+                        <td><i class="fa fa-phone"></i>Aucun numéro de téléphone renseigné</td><br/>
+                    {% endif %}
                     <blockquote>
                         {% if user.commune %}
                         <td>{{ user.commune }}</td><br/>
