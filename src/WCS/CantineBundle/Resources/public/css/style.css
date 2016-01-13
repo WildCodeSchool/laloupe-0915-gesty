@@ -245,3 +245,9 @@ a{
 .fa-2x{
     float:left;
 }
+
+.informations__familles
+{
+    padding: 10px;
+    box-shadow: 0px 0px 10px 5px #cfcfcf;
+}

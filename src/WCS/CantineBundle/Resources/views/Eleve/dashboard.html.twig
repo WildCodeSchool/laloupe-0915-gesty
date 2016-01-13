@@ -23,8 +23,10 @@
 
         <div class="col-md-8 col-md-offset-2">
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <div class="informations__familles">
                 <p>Bonjour : {{ app.user.lastname }}  {{ app.user.firstname }} </p>
             {% endif %}
+
 
             <div class="my-home col-md-7">
                 <h1>Mon Foyer</h1><br/>
@@ -35,14 +37,22 @@
 
                     <td><i class="fa fa-phone"></i>{{ user.phone }}</td><br/>
                     <blockquote>
+                        {% if user.commune %}
                         <td>{{ user.commune }}</td><br/>
+                        {% else %}
+                        <td>Aucune commune renseignée</td><br/>
+                        {% endif %}
                     </blockquote>
-                    {% if modeDePaiement == 0 %}
+                    {% if modeDePaiement %}
+                    {% if modeDePaiement != null and modeDePaiement == 0 %}
                         <td>Paiement par chèque</td>
                     {% elseif modeDePaiement == 1 %}
                         <td>Paiement par espèces</td>
                     {% else  %}
                         <td>Paiement par prélèvement</td>
+                    {% endif %}
+                    {% else  %}
+                        <td>Aucun moyen de paiement renseigné</td>
                     {% endif %}
                 </tr><br/>
             </div>
@@ -56,6 +66,7 @@
 
             </div>
 
+
             {% if app.session.flashBag.has('success') %}
                 <div class="alert alert-danger">
                     {% for msg in app.session.flashBag.get('success') %}
@@ -65,7 +76,7 @@
             {% endif %}
             <a href="{{ path('sonata_user_profile_show') }}"><input type="button" value="Modifier mes informations"class="btn btn-primary"></a>
             <a href="{{ path('eleve_create') }}"><input type="button" value="Inscrire mon enfant"class="btn btn-primary"></a>
-
+            </div>
             <div class="children-list">
                     <h3>Mes enfants</h3>
 
