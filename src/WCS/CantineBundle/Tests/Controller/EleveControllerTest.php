@@ -55,9 +55,6 @@ class EleveControllerTest extends WebTestCase
         $this->assertEquals('WCS\CantineBundle\Controller\EleveController::createAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        //test bouton inscrire mon enfant quand on est connecté (formulaire)
-
-
     }
 
     //test connexion quand je créée un compte
@@ -136,10 +133,31 @@ class EleveControllerTest extends WebTestCase
             ->link();
         $crawler = $client->click($link);
 
-        //suivre redirection vers page dashboard
+            //suivre redirection vers page dashboard
 
         $this->assertEquals('Sonata\UserBundle\Controller\SecurityFOSUser1Controller::logoutAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
+
+
+        //test bouton 'Modifier mes informations'
+
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'aaa@email.com',
+            'PHP_AUTH_PW' => 'aaa',
+        ));
+        $crawler = $client->request('GET', '/dashboard');
+        $this->assertEquals('WCS\CantineBundle\Controller\EleveController::dashboardAction', $client->getRequest()->attributes->get('_controller'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $link = $crawler
+            ->filter('a:contains("Modifier mes informations")')
+            ->eq(0)
+            ->link();
+        $crawler = $client->click($link);
+
+            //suivre redirection vers page profile
+
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertEquals('Sonata\UserBundle\Controller\ProfileController::setProfileAction', $client->getRequest()->attributes->get('_controller'));
 
     }
 

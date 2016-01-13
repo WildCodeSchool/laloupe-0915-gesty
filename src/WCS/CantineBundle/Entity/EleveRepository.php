@@ -15,7 +15,7 @@ class EleveRepository extends EntityRepository
     public function getTodayList($school)
     {
         // Format the date
-        $date = new \DateTime();
+        $date = new \DateTime('');
         $day = $date->format('Y-m-d');
 
         // Request pupils to the database from a certain date
@@ -43,13 +43,13 @@ class EleveRepository extends EntityRepository
 
     public function getCurrentWeekMeals()
     {
-        $day = date('Y-m-d', strtotime('last monday'));
+        $day = date('Y-m-d', strtotime('last monday', strtotime('tomorrow'))); //by default strtotime('last monday') returns the current day on mondays
         $result = [];
         for ($i=1;$i<=4;$i++)
         {
             $res = $this->getEntityManager()
                 ->createQuery(
-                    'SELECT COUNT(e) FROM WCSCantineBundle:Eleve e WHERE e.dates LIKE :day'
+                    'SELECT COUNT(e) FROM WCSCantineBundle:Eleve e WHERE e.dates LIKE :day '
                 )
                 ->setParameter(':day', "%".$day."%")
                 ->getResult();
@@ -59,5 +59,18 @@ class EleveRepository extends EntityRepository
         }
 
         return $result;
+    }
+    public function mealsByMonth($children)
+    {
+        //Request meals by months by pupils
+        return $this->getEntityManager()
+            ->createQuery(
+
+                  )
+            ->setParameter(':eleve',"%".$children."%")
+            ->getResult();
+
+
+
     }
 }

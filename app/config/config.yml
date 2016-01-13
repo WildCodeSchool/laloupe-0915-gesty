@@ -11,7 +11,7 @@ parameters:
 
 framework:
     #esi:             ~
-    translator:      { fallbacks: ["%locale%"] }
+    translator:      { fallbacks: fr}
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -36,6 +36,9 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    form:
+        resources:
+            - 'SonataCoreBundle:Form:datepicker.html.twig'
 
 # Assetic Configuration
 assetic:
@@ -45,10 +48,38 @@ assetic:
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
-        #closure:
-        #    jar: "%kernel.root_dir%/Resources/java/compiler.jar"
-        #yui_css:
-        #    jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
+        less:
+            node: /usr/local/bin/node
+            node_paths: [/usr/local/lib/node_modules]
+            apply_to: "\.less$"
+        lessphp:
+            file: %kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php
+            apply_to: "\.less$"
+    assets:
+            bootstrap_css:
+                inputs:
+                    - %kernel.root_dir%/../vendor/twitter/bootstrap/less/bootstrap.less
+                    - %kernel.root_dir%/../vendor/twitter/bootstrap/less/responsive.less
+                filters:
+                    - less
+                    - cssrewrite
+                output: css/bootstrap.css
+            bootstrap_js:
+                inputs:
+                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-transition.js
+                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-alert.js
+                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-button.js
+                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-carousel.js
+                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-collapse.js
+                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-dropdown.js
+                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-modal.js
+                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-tooltip.js
+                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-popover.js
+                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-scrollspy.js
+                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-tab.js
+                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-typeahead.js
+                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-affix.js
+                output: js/bootstrap.js
 
 # Doctrine Configuration
 doctrine:
@@ -109,19 +140,20 @@ sonata_user:
 
     admin:
         user:
-            class:      Application\Sonata\UserBundle\Admin\Model\UserAdmin
+            class:    Application\Sonata\UserBundle\Admin\Model\UserAdmin
 
     profile:
         register:
             form:
                 type: application_sonata_user_registration
+            confirm: true
+
 
 
 fos_user:
     db_driver:      orm # can be orm or odm
     firewall_name:  main
     user_class:     Application\Sonata\UserBundle\Entity\User
-
 
     group:
         group_class:   Application\Sonata\UserBundle\Entity\Group
@@ -131,14 +163,16 @@ fos_user:
         user_manager: sonata.user.orm.user_manager # If you're using doctrine orm (use sonata.user.mongodb.group_manager for mongodb)
 
     registration:
+        confirmation:
+            enabled: true
         form:
             type: application_sonata_user_registration
+
+
 
 sonata_admin:
     title: Gesty Admin
     title_logo: /bundles/wcscantine/images/favicon.ico
-    
-
 
     dashboard:
         blocks:
@@ -146,6 +180,7 @@ sonata_admin:
                 position: left
                 type: sonata.admin.block.admin_list
                 class: col-md-12
+
             -
                 position: top
                 type: sonata.block.service.text
@@ -157,10 +192,6 @@ sonata_admin:
                 class:    col-md-12
                 position: left
                 type:     sonata.block.service.stat
-
-
-
-
 
         groups:
             app.admin.group.content:
@@ -174,9 +205,13 @@ sonata_admin:
 
 
 
-vlabs_media:
-    image_cache:
-        cache_dir: files/c
-    mapping:
-        image_entity:
-          class: WCS\GestyBundle\Entity\Justificatif
+braincrafted_bootstrap:
+    output_dir:
+    assets_dir: %kernel.root_dir%/../vendor/twbs/bootstrap
+    fonts_dir: %kernel.root_dir%/../web/fonts
+    auto_configure:
+        assetic: true
+        twig: true
+        knp_menu: true
+        knp_paginator: true
+    less_filter: lessphp

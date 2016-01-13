@@ -7,6 +7,14 @@ namespace WCS\CantineBundle\Entity;
  */
 class School
 {
+    /**
+     * @return string
+     */
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 
 
     // YAML GENERATED CODE

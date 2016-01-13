@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 Class ProfileControllerTest extends WebTestCase
 {
-    //test que les champs à remplir existent
+   //test que les champs à remplir existent
 
     public function testFields()
     {
@@ -53,7 +53,7 @@ Class ProfileControllerTest extends WebTestCase
         $crawler = $client->submit($form);
 
 
-        /* //test bouton 'Envoyer'
+        /*//test bouton 'Envoyer'
 
          $client = static::createClient(array(), array(
              'PHP_AUTH_USER' => 'aaa@email.com',
@@ -63,17 +63,17 @@ Class ProfileControllerTest extends WebTestCase
          $this->assertEquals('Application\Sonata\UserBundle\Controller\ProfileController::setProfileAction', $client->getRequest()->attributes->get('_controller'));
          $this->assertEquals(200, $client->getResponse()->getStatusCode());
          $link = $crawler
-             ->filter('button#application_sonata_user_profile_envoyer')
+             ->filter('input:contains("Envoyer")')
              ->eq(0)
              ->link();
-         $crawler = $client->click($link); */
+         $crawler = $client->click($link);*/
     }
 
     //test que l'on peut sortir de cette page
 
     public function testOut()
     {
-        //test lien 'Retour'
+        /*//test lien 'Retour'
 
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'aaa@email.com',
@@ -86,7 +86,7 @@ Class ProfileControllerTest extends WebTestCase
             ->filter('a#retour')
             ->eq(0)
             ->link();
-        $crawler = $client->click($link);
+        $crawler = $client->click($link);*/
 
         //test bouton 'logout'
         $client = static::createClient(array(), array(

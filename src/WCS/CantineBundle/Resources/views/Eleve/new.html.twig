@@ -139,15 +139,28 @@
                                     {% endif %}
 
                                     {% if day_week == 3 or day_week == 6 or day_week == 7 or date(year ~ '-' ~ month ~ '-' ~ day).timestamp < dateLimit or date(year ~ '-' ~ month ~ '-' ~ day).timestamp > finAnnee %}
-                                        <td class="inactif">
-                                    {% else %}
-                                        <td>
-                                            <input class="calendar-checkbox {{ 'day' ~ day_week }}" type="checkbox" value="{{ year }}-{{ month }}-{{ day }}">
-                                    {% endif %}
+
+                                    <td class="inactif">
+
+                                        {% else %}
+                                    <td>
+                                        {% endif %}
+
+
+                                        {% if day_week != 3 and day_week != 6 and day_week != 7 %}
+
+                                            <input class="calendar-checkbox {{ 'day' ~ day_week }}" type="checkbox" value="{{ year }}-{{ month }}-{{ day }}" name="{{ year }}-{{ month }}-{{ day }}">
+
+                                        {% endif %}
+
                                         {{ day }}
-                                    </td>
-                                    {% if (day_week == 7) %}</tr><tr>{% endif %}
+
+                                        {% if (day_week == 7) %}
+                                </tr><tr>
+                                    {% endif %}
+
                                     {% endfor %}
+
 
                                 </tr>
                                 </tbody>
@@ -182,6 +195,7 @@
                                 $('.months a').removeClass('active');
                                 $('.months a#linkMonth' + month).addClass('active');
                                 current = month;
+                                disablePrevDate();
                             }
                             return false;
                         });
@@ -190,8 +204,46 @@
                         $('.choix input').on('change', function(){
                             var daySelected = parseInt($(this).attr('id').split('_')[4])+1;
                             if (daySelected >= 3) daySelected++;
-                            $('div.month td input.day' + daySelected).prop('checked', $(this).prop('checked'));
-                        })
+                            var dateNow = new Date(); // Date d'aujourd'hui
+                            dateNow.setHours(0); // Désactivation des heures, minutes et secondes
+                            dateNow.setMinutes(0);
+                            dateNow.setSeconds(0);
+                            dateNow.setDate(dateNow.getDate() + 7);
+                            $('div.month td input.day' + daySelected).each(function() {
+                                var getDate = $(this).attr('name');
+                                var timestamp = new Date (getDate);
+                                timestamp.setHours(0); // Désactivation des heures, minutes et secondes
+                                timestamp.setMinutes(0);
+                                timestamp.setSeconds(0);
+
+                            $(this)[0].checked = (timestamp.getTime() > dateNow.getTime());
+
+                            })
+
+
+                            });
+
+
+                        // fonction pour bloquer les jours antérieurs + 7
+                        function disablePrevDate(){
+                            var dateNow = new Date(); // Date d'aujourd'hui
+                            dateNow.setHours(0); // Désactivation des heures, minutes et secondes
+                            dateNow.setMinutes(0);
+                            dateNow.setSeconds(0);
+                            dateNow.setDate(dateNow.getDate() + 7); // Ajout de 7 jours
+                            $(".calendar-checkbox").each(function(){ // Pour chaque checkbox
+                                var allCheckboxes = $(this).attr('name'); // On récupère l'attribut 'name'
+                                var currentDate = new Date(allCheckboxes); // On transforme en date (type js)
+                                currentDate.setHours(0); // Désactivation des heures, minutes et secondes
+                                currentDate.setMinutes(0);
+                                currentDate.setSeconds(0);
+
+                                $(this)[0].disabled = (currentDate.getTime() < dateNow.getTime());
+                                // .disabled = désactive la checkbox, .getTime() = obtenir le timestamp
+                            });
+                        }
+
+                        disablePrevDate(); // rappel de la fonction qui bloque les jours précédents + 7
                     }
                 </script>
             </div>

@@ -32,7 +32,7 @@ class EleveAdmin extends Admin
             ->add('atteste')
             ->add('autorise')
             ->add('certifie')
-            ->add('dates')
+
         ;
     }
 
@@ -43,6 +43,7 @@ class EleveAdmin extends Admin
             ->add('nom')
             ->add('prenom')
             ->add('dateDeNaissance')
+            ->add('division',null, array('label'=>'Classe'))
 
 
         ;
@@ -64,6 +65,7 @@ class EleveAdmin extends Admin
             )))
             ->add('allergie', 'text')
             ->add('regimeSansPorc', 'boolean')
+
         ;
     }
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace WCS\GestyBundle\Form;
+namespace WCS\CantineBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class JustificatifType extends AbstractType
+class LunchType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,9 +15,18 @@ class JustificatifType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('image', 'vlabs_file', array(
-                'required' => false
-            ))
+            ->add('schoolId')
+            ->add('date')
+            ->add('inscrits')
+            ->add('presents')
+            ->add('noninscrits')
+            ->add('absents')
+            ->add('commentaires', 'text', array(
+                'required' => false,
+                'attr' => array(
+                    'placeholder' => 'Commentaires...',
+                )))
+            ->add('Valider', 'submit')
         ;
     }
     
@@ -27,7 +36,7 @@ class JustificatifType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'WCS\GestyBundle\Entity\Justificatif'
+            'data_class' => 'WCS\CantineBundle\Entity\Lunch'
         ));
     }
 
@@ -36,6 +45,6 @@ class JustificatifType extends AbstractType
      */
     public function getName()
     {
-        return 'wcs_gestybundle_justificatif';
+        return 'wcs_cantinebundle_lunch';
     }
 }

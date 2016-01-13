@@ -12,6 +12,7 @@ services:
                - ~
                - WCS\CantineBundle\Entity\Eleve
                - ~
+
       sonata.admin.division:
            class: WCS\CantineBundle\Admin\DivisionAdmin
            tags:
@@ -32,6 +33,5 @@ services:
             arguments: [ "WCS\CantineBundle\Entity\Eleve"]
             tags:
                 - {name: "form.type", alias: "wcs_cantinebundle_eleve"}
-
 
 

@@ -1,12 +1,14 @@
 {% extends '::base.html.twig' %}
 {% block body %}
 
-    {% for school in schools %}
-
-        <div class="school school-{{ loop.index % 3 }}">
-            <button><a href="{{ path('wcs_cantine_todayList', {'schoolId': school.id}) }}"><span><em>{{ school.name }}</em></span></a></button>
+        {% for school in schools %}
+        <div class="container-fluid">
+            <div class="school school-{{ loop.index % 3 }}">
+                <button class="col-sm-offset-4 col-md-offset-4"><i class="fa fa-home fa-2x"></i><a href="{{ path('wcs_cantine_todayList', {'schoolId': school.id}) }}"><span>{{ school.name }}</span></a></button>
+            </div>
         </div>
 
-    {% endfor %}
+        {% endfor %}
+
 
 {% endblock %}

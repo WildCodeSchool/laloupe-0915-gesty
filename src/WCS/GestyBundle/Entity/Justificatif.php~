@@ -48,4 +48,33 @@ class Justificatif extends VlabsFile
 
     // YAML GENERATED CODE
     
+    /**
+     * @var \Application\Sonata\UserBundle\Entity\User
+     */
+    private $signataire;
+
+
+    /**
+     * Set signataire
+     *
+     * @param \Application\Sonata\UserBundle\Entity\User $signataire
+     *
+     * @return Justificatif
+     */
+    public function setSignataire(\Application\Sonata\UserBundle\Entity\User $signataire = null)
+    {
+        $this->signataire = $signataire;
+
+        return $this;
+    }
+
+    /**
+     * Get signataire
+     *
+     * @return \Application\Sonata\UserBundle\Entity\User
+     */
+    public function getSignataire()
+    {
+        return $this->signataire;
+    }
 }
