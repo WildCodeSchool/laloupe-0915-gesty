@@ -19,7 +19,7 @@ class Eleve
     public function __construct()
     {
         $this->habits = array();
-        
+
     }
 
     public static function getHabitDays()

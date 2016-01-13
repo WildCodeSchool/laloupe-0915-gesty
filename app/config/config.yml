@@ -36,6 +36,9 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    form:
+        resources:
+            - 'SonataCoreBundle:Form:datepicker.html.twig'
 
 # Assetic Configuration
 assetic:
@@ -137,12 +140,13 @@ sonata_user:
 
     admin:
         user:
-            class:      Application\Sonata\UserBundle\Admin\Model\UserAdmin
+            class:    Application\Sonata\UserBundle\Admin\Model\UserAdmin
 
     profile:
         register:
             form:
                 type: application_sonata_user_registration
+            confirm: true
 
 
 
@@ -150,8 +154,6 @@ fos_user:
     db_driver:      orm # can be orm or odm
     firewall_name:  main
     user_class:     Application\Sonata\UserBundle\Entity\User
-
-
 
     group:
         group_class:   Application\Sonata\UserBundle\Entity\Group
@@ -162,7 +164,7 @@ fos_user:
 
     registration:
         confirmation:
-            enabled: false
+            enabled: true
         form:
             type: application_sonata_user_registration
 
@@ -171,10 +173,6 @@ fos_user:
 sonata_admin:
     title: Gesty Admin
     title_logo: /bundles/wcscantine/images/favicon.ico
-
-
-    
-
 
     dashboard:
         blocks:
@@ -195,10 +193,6 @@ sonata_admin:
                 position: left
                 type:     sonata.block.service.stat
 
-
-
-
-
         groups:
             app.admin.group.content:
                 label: Foyer
@@ -216,13 +210,7 @@ vlabs_media:
         cache_dir: files/c
     mapping:
         image_entity:
-          class: WCS\GestyBundle\Entity\Justificatif
-
-
-twig:
-    form:
-        resources:
-            - 'SonataCoreBundle:Form:datepicker.html.twig'
+            class: WCS\GestyBundle\Entity\Justificatif
 
 braincrafted_bootstrap:
     output_dir:
@@ -234,4 +222,3 @@ braincrafted_bootstrap:
         knp_menu: true
         knp_paginator: true
     less_filter: lessphp
-
