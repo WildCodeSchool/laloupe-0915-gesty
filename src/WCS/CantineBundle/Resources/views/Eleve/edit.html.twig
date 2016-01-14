@@ -218,13 +218,18 @@
                             dateNow.setMinutes(0);
                             dateNow.setSeconds(0);
                             dateNow.setDate(dateNow.getDate() + 7);
+                            var finAnnee = '2016-07-06';
+                            var timestampFinAnnee = new Date (finAnnee);
+                            timestampFinAnnee.setHours(0); // Désactivation des heures, minutes et secondes
+                            timestampFinAnnee.setMinutes(0);
+                            timestampFinAnnee.setSeconds(0);
                             $('div.month td input.day' + daySelected).each(function() {
                                 var getDate = $(this).attr('name');
                                 var timestamp = new Date (getDate);
                                 timestamp.setHours(0); // Désactivation des heures, minutes et secondes
                                 timestamp.setMinutes(0);
                                 timestamp.setSeconds(0);
-                                $(this)[0].checked = (timestamp.getTime() > dateNow.getTime());
+                                $(this)[0].checked = (timestamp.getTime() > dateNow.getTime() && timestamp.getTime() < timestampFinAnnee.getTime());
                             })
                         });
 
