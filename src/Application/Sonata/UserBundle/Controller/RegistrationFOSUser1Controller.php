@@ -25,7 +25,6 @@ class RegistrationFOSUser1Controller extends \Sonata\UserBundle\Controller\Regis
         if ($user instanceof UserInterface && 'POST' === $this->container->get('request')->getMethod()) {
             $this->container->get('session')->getFlashBag()->set('sonata_user_error', 'sonata_user_already_authenticated');
             $url = $this->container->get('router')->generate('sonata_user_profile_show');
-
             return new RedirectResponse($url);
         }
 
@@ -47,7 +46,7 @@ class RegistrationFOSUser1Controller extends \Sonata\UserBundle\Controller\Regis
                 $this->container->get('session')->remove('sonata_basket_delivery_redirect');
             }
 
-            $this->setFlash('fos_user_success', 'registration.flash.user_created');
+            $this->setFlash('fos_user_success', 'Votre compte est bien enregistré. Veuillez vous rendre dans votre boîte mail pour activer votre compte.');
             $url = $this->container->get('session')->get('sonata_user_redirect_url');
 
             if (null === $url || "" === $url) {
