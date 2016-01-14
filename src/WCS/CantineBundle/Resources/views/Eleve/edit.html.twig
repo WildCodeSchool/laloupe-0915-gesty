@@ -181,9 +181,12 @@
                 <script>
                     window.onload = function () {
                         // Show the current month and hide the others
+                        var today = new Date();
+                        var currentMonth = today.getMonth()+1;
+                        if (currentMonth<10) currentMonth = ''+0+currentMonth;
+                        $('.months a#linkMonth'+currentMonth).addClass('active');
                         $('.month').hide();
-                        $('.month:first').show();
-                        $('.months a:first').addClass('active');
+                        $('.month#month'+currentMonth).show();
 
                         // Convert date checkboxes into text on submit
                         $('form[name="WCS_cantinebundle_eleve"]').submit(function(e){
@@ -218,22 +221,27 @@
                             dateNow.setMinutes(0);
                             dateNow.setSeconds(0);
                             dateNow.setDate(dateNow.getDate() + 7);
+                            var checked = $(this).is(':checked');
                             $('div.month td input.day' + daySelected).each(function() {
                                 var getDate = $(this).attr('name');
-                                var timestamp = new Date (getDate);
-                                timestamp.setHours(0); // Désactivation des heures, minutes et secondes
-                                timestamp.setMinutes(0);
-                                timestamp.setSeconds(0);
-                                $(this)[0].checked = (timestamp.getTime() > dateNow.getTime());
+                                var d = new Date (getDate);
+                                d.setHours(0); // Désactivation des heures, minutes et secondes
+                                d.setMinutes(0);
+                                d.setSeconds(0);
+
+                                if (d.getTime() > dateNow.getTime())
+                                {
+                                    $(this)[0].checked = checked;
+                                }
                             })
                         });
+
 
                         // Get the checkboxes checked in comparison with the database dates
                         var datesArray = [
                             {% for lunch in lunches %}
                         '{{ lunch.date|date('Y-m-d') }}',
                             {% endfor %}];
-                        alert(datesArray);
                         $('.calendar-checkbox').each(function(){
                             var checkboxesValue = $(this).val();
                             for (i = 0; i < datesArray.length; i++) {
