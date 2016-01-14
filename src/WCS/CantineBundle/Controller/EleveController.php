@@ -302,10 +302,12 @@ class EleveController extends Controller
 
     public function dashboardAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $moyendepaiement = $user->getmodeDePaiement();
         $children = $user->getEleves();
+
+        $em = $this->getDoctrine()->getManager();
+        //$entity = $em->getRepository('WCSCantineBundle:Lunch')->find('user' => );
 
         if (!$user) {
             throw $this->createNotFoundException('Aucun utilisateur trouvé pour cet id:');
