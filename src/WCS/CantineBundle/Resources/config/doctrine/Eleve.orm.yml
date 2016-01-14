@@ -23,20 +23,9 @@ WCS\CantineBundle\Entity\Eleve:
             type: string
             column: allergie
             nullable: true
-        atteste :
-            type: boolean
-            column: atteste
-        autorise:
-            type: boolean
-            column: autorise
-        certifie:
-            type: boolean
-            column: certifie
-        dates:
-            type: text
-            nullable: true
         habits:
             type: array
+
     manyToOne:
         user:
             targetEntity: Application\Sonata\UserBundle\Entity\User
@@ -45,6 +34,9 @@ WCS\CantineBundle\Entity\Eleve:
             targetEntity: Division
             inversedBy: eleves
 
-
+    oneToMany:
+        lunches:
+            targetEntity: WCS\CantineBundle\Entity\Lunch
+            mappedBy: eleve
 
     lifecycleCallbacks: {  }

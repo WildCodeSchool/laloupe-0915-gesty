@@ -33,8 +33,8 @@ class CanteenManagerController extends Controller
     public function todayListAction(Request $request, $schoolId)
     {
         $em = $this->getDoctrine()->getManager();
-        $eleves = $em->getRepository('WCSCantineBundle:Eleve')->getTodayList($schoolId);
-        $schools = $em->getRepository('WCSCantineBundle:School')->find($schoolId);
+        $lunches = $em->getRepository('WCSCantineBundle:Lunch')->getTodayList($schoolId);
+        $school = $em->getRepository('WCSCantineBundle:School')->find($schoolId);
 
         $lunch = new Lunch();
         $form = $this->createForm(new LunchType(), $lunch);
@@ -48,8 +48,8 @@ class CanteenManagerController extends Controller
         }
 
         return $this->render('WCSCantineBundle:Eleve:todayList.html.twig', array(
-            'eleves' => $eleves,
-            'ecoles' => $schools,
+            'lunches' => $lunches,
+            'ecole' => $school,
             'form' => $form->createView(),
         ));
 

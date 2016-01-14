@@ -38,9 +38,9 @@
                 </div>
                 <div class="form-group">
                     {% if "now"|date("n") < 5 %}
-                    <label for="etablissement">Classe en septembre {{ "now"|date("Y") - 1 }}</label>
+                        <label for="etablissement">Classe en septembre {{ "now"|date("Y") - 1 }}</label>
                     {% else %}
-                    <label for="etablissement">Classe en septembre {{ "now"|date("Y") }}</label>
+                        <label for="etablissement">Classe en septembre {{ "now"|date("Y") }}</label>
                     {% endif %}
                     {{ form_widget(form.division) }} <br/>
                 </div>
@@ -74,46 +74,17 @@
                 </div>
 
                 <div class="months col-md-12 text-center">
-                    {% for key,value in calendrier %}
-                        {% for mois,jour in value %}
-                            {% if mois == 1 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Jan</a>
-                            {% endif %}
-                            {% if mois == 2 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Fév</a>
-                            {% endif %}
-                            {% if mois == 3 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Mar</a>
-                            {% endif %}
-                            {% if mois == 4 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Avr</a>
-                            {% endif %}
-                            {% if mois == 5 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Mai</a>
-                            {% endif %}
-                            {% if mois == 6 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Jui</a>
-                            {% endif %}
-                            {% if mois == 7 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Jui</a>
-                            {% endif %}
-                            {% if mois == 8 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Aoû</a>
-                            {% endif %}
-                            {% if mois == 9 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Sep</a>
-                            {% endif %}
-                            {% if mois == 10 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Oct</a>
-                            {% endif %}
-                            {% if mois == 11 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Nov</a>
-                            {% endif %}
-                            {% if mois == 12 %}
-                                <a class="moisecole" href="#" id="linkMonth{{ mois }}">Déc</a>
-                            {% endif %}
-                        {% endfor %}
-                    {% endfor %}
+                    <a class="moisecole" href="#" id="linkMonth09">Sep</a>
+                    <a class="moisecole" href="#" id="linkMonth10">Oct</a>
+                    <a class="moisecole" href="#" id="linkMonth11">Nov</a>
+                    <a class="moisecole" href="#" id="linkMonth12">Déc</a>
+                    <a class="moisecole" href="#" id="linkMonth01">Jan</a>
+                    <a class="moisecole" href="#" id="linkMonth02">Fév</a>
+                    <a class="moisecole" href="#" id="linkMonth03">Mar</a>
+                    <a class="moisecole" href="#" id="linkMonth04">Avr</a>
+                    <a class="moisecole" href="#" id="linkMonth05">Mai</a>
+                    <a class="moisecole" href="#" id="linkMonth06">Jui</a>
+                    <a class="moisecole" href="#" id="linkMonth07">Jui</a>
                 </div>
 
                 {% for year, months in calendrier %}
@@ -168,84 +139,6 @@
                         </div>
                     {% endfor %}
                 {% endfor %}
-
-
-                <script>
-                    window.onload = function () {
-                        // Show the current month and hide the others
-                        $('.month').hide();
-                        $('.month:first').show();
-                        $('.months a:first').addClass('active');
-                        $('form[name="WCS_cantinebundle_eleve"]').submit(function(e){
-                            e.preventDefault();
-                            var dates = '';
-                            $('.calendar-checkbox:checked').each(function(){
-                                dates += this.value + ';';
-                            });
-                            $('#WCS_cantinebundle_eleve_dates').html(dates);
-                            this.submit();
-                        });
-                        // Onclick the month selected appear and the other is hidden
-                        var current = 9;
-                        $('.months a').click(function(){
-                            var month = $(this).attr('id').replace('linkMonth', '');
-                            if (month != current){
-                                $('#month'+current).slideUp();
-                                $('#month'+month).slideDown();
-                                $('.months a').removeClass('active');
-                                $('.months a#linkMonth' + month).addClass('active');
-                                current = month;
-                                disablePrevDate();
-                            }
-                            return false;
-                        });
-
-                        // Auto select of week checkboxes
-                        $('.choix input').on('change', function(){
-                            var daySelected = parseInt($(this).attr('id').split('_')[4])+1;
-                            if (daySelected >= 3) daySelected++;
-                            var dateNow = new Date(); // Date d'aujourd'hui
-                            dateNow.setHours(0); // Désactivation des heures, minutes et secondes
-                            dateNow.setMinutes(0);
-                            dateNow.setSeconds(0);
-                            dateNow.setDate(dateNow.getDate() + 7);
-                            $('div.month td input.day' + daySelected).each(function() {
-                                var getDate = $(this).attr('name');
-                                var timestamp = new Date (getDate);
-                                timestamp.setHours(0); // Désactivation des heures, minutes et secondes
-                                timestamp.setMinutes(0);
-                                timestamp.setSeconds(0);
-
-                            $(this)[0].checked = (timestamp.getTime() > dateNow.getTime());
-
-                            })
-
-
-                            });
-
-
-                        // fonction pour bloquer les jours antérieurs + 7
-                        function disablePrevDate(){
-                            var dateNow = new Date(); // Date d'aujourd'hui
-                            dateNow.setHours(0); // Désactivation des heures, minutes et secondes
-                            dateNow.setMinutes(0);
-                            dateNow.setSeconds(0);
-                            dateNow.setDate(dateNow.getDate() + 7); // Ajout de 7 jours
-                            $(".calendar-checkbox").each(function(){ // Pour chaque checkbox
-                                var allCheckboxes = $(this).attr('name'); // On récupère l'attribut 'name'
-                                var currentDate = new Date(allCheckboxes); // On transforme en date (type js)
-                                currentDate.setHours(0); // Désactivation des heures, minutes et secondes
-                                currentDate.setMinutes(0);
-                                currentDate.setSeconds(0);
-
-                                $(this)[0].disabled = (currentDate.getTime() < dateNow.getTime());
-                                // .disabled = désactive la checkbox, .getTime() = obtenir le timestamp
-                            });
-                        }
-
-                        disablePrevDate(); // rappel de la fonction qui bloque les jours précédents + 7
-                    }
-                </script>
             </div>
 
             <div class="col-md-offset-1 col-md-9">
@@ -300,5 +193,96 @@
             {{ form_end(form) }}
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        window.onload = function () {
+            // Show the current month and hide the others
+            var today = new Date();
+            var currentMonth = today.getMonth()+1;
+            if (currentMonth<10) currentMonth = ''+0+currentMonth;
+            $('.months a#linkMonth'+currentMonth).addClass('active');
+            $('.month').hide();
+            $('.month#month'+currentMonth).show();
+
+
+            // Onclick the month selected appear and the other is hidden
+            $('.months a').click(function(){
+                var month = $(this).attr('id').replace('linkMonth', '');
+                var current = $('.months a.active').attr('id').replace('linkMonth', '');
+                if (month != current){
+                    $('#month'+current).hide();
+                    $('#month'+month).show();
+                    $('.months a').removeClass('active');
+                    $('.months a#linkMonth' + month).addClass('active');
+                }
+                return false;
+            });
+
+            // Format date when sumbitting the form
+            $('form[name="WCS_cantinebundle_eleve"]').submit(function(e){
+                e.preventDefault();
+                var dates = '';
+                $('.calendar-checkbox:checked').each(function(){
+                    dates += this.value + ';';
+                });
+                $('#WCS_cantinebundle_eleve_dates').val(dates);
+                this.submit();
+                //console.log(dates);
+            });
+
+
+            // Auto select of week checkboxes
+            $('.choix input').on('change', function(){
+                var daySelected = parseInt($(this).attr('id').split('_')[4])+1;
+                if (daySelected >= 3) daySelected++;
+                var dateNow = new Date(); // Date d'aujourd'hui
+                dateNow.setHours(0); // Désactivation des heures, minutes et secondes
+                dateNow.setMinutes(0);
+                dateNow.setSeconds(0);
+                dateNow.setDate(dateNow.getDate() + 7);
+                var checked = $(this).is(':checked');
+                $('div.month td input.day' + daySelected).each(function() {
+                    var getDate = $(this).attr('name');
+                    var d = new Date (getDate);
+                    d.setHours(0); // Désactivation des heures, minutes et secondes
+                    d.setMinutes(0);
+                    d.setSeconds(0);
+
+                    if (d.getTime() > dateNow.getTime())
+                    {
+                        $(this)[0].checked = checked;
+                    }
+
+                })
+
+
+            });
+
+
+            // fonction pour bloquer les jours antérieurs + 7
+            function disablePrevDate(){
+                var dateNow = new Date(); // Date d'aujourd'hui
+                dateNow.setHours(0); // Désactivation des heures, minutes et secondes
+                dateNow.setMinutes(0);
+                dateNow.setSeconds(0);
+                dateNow.setDate(dateNow.getDate() + 7); // Ajout de 7 jours
+                $(".calendar-checkbox").each(function(){ // Pour chaque checkbox
+                    var allCheckboxes = $(this).attr('name'); // On récupère l'attribut 'name'
+                    var currentDate = new Date(allCheckboxes); // On transforme en date (type js)
+                    currentDate.setHours(0); // Désactivation des heures, minutes et secondes
+                    currentDate.setMinutes(0);
+                    currentDate.setSeconds(0);
+
+                    $(this)[0].disabled = (currentDate.getTime() < dateNow.getTime());
+                    // .disabled = désactive la checkbox, .getTime() = obtenir le timestamp
+                });
+            }
+
+            disablePrevDate(); // rappel de la fonction qui bloque les jours précédents + 7
+        }
+    </script>
 {% endblock %}
 
