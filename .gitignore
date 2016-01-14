@@ -12,3 +12,4 @@
 .idea/*
 /bash
 composer.lock
+.bash_profile
