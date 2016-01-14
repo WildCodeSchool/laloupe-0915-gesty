@@ -409,18 +409,6 @@
         },
         {
             "name": "doctrine/dbal",
-<<<<<<< HEAD
-            "version": "v2.5.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/dbal.git",
-                "reference": "2fbcea96eae34a53183377cdbb0b9bec33974648"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/2fbcea96eae34a53183377cdbb0b9bec33974648",
-                "reference": "2fbcea96eae34a53183377cdbb0b9bec33974648",
-=======
             "version": "v2.5.4",
             "source": {
                 "type": "git",
@@ -431,7 +419,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/doctrine/dbal/zipball/abbdfd1cff43a7b99d027af3be709bc8fc7d4769",
                 "reference": "abbdfd1cff43a7b99d027af3be709bc8fc7d4769",
->>>>>>> 1039fe8f30c0fe3d61d291a730a8aef26dd85a98
                 "shasum": ""
             },
             "require": {
@@ -489,11 +476,7 @@
                 "persistence",
                 "queryobject"
             ],
-<<<<<<< HEAD
-            "time": "2015-12-25 16:28:24"
-=======
             "time": "2016-01-05 22:11:12"
->>>>>>> 1039fe8f30c0fe3d61d291a730a8aef26dd85a98
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -837,18 +820,6 @@
         },
         {
             "name": "doctrine/orm",
-<<<<<<< HEAD
-            "version": "v2.5.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "d9fc5388f1aa1751a0e148e76b4569bd207338e9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/d9fc5388f1aa1751a0e148e76b4569bd207338e9",
-                "reference": "d9fc5388f1aa1751a0e148e76b4569bd207338e9",
-=======
             "version": "v2.5.4",
             "source": {
                 "type": "git",
@@ -859,7 +830,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/bc4ddbfb0114cb33438cc811c9a740d8aa304aab",
                 "reference": "bc4ddbfb0114cb33438cc811c9a740d8aa304aab",
->>>>>>> 1039fe8f30c0fe3d61d291a730a8aef26dd85a98
                 "shasum": ""
             },
             "require": {
@@ -922,11 +892,7 @@
                 "database",
                 "orm"
             ],
-<<<<<<< HEAD
-            "time": "2015-12-25 15:50:05"
-=======
             "time": "2016-01-05 21:34:58"
->>>>>>> 1039fe8f30c0fe3d61d291a730a8aef26dd85a98
         },
         {
             "name": "friendsofsymfony/rest-bundle",
