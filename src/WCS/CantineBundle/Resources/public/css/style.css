@@ -256,3 +256,6 @@ a{
 {
     font-size: small;
 }
+.alert-success{
+    text-align:center;
+}
