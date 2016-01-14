@@ -1,0 +1,112 @@
+{% extends '@SonataAdmin/standard_layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/wcscantine/css/admin.css') }}"/>
+
+{% endblock %}
+{# remove sonata-project link on nav #}
+{% block side_bar_after_nav %}
+{% endblock %}
+
+{% block body %}
+    <div class="sonata-ba-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="cms-block-56967079ce365" class="cms-block cms-block-element">
+                    <h2>Bienvenue dans la page d'administration de Gesty</h2><br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10">
+                    <div id="cms-block-569671125d368" class="cms-block cms-block-element">
+
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">Foyer</h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-hover">
+                                    <tbody>
+                                    <tr>
+                                        <td class="sonata-ba-list-label" width="40%">
+
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a class="btn btn-link btn-flat" href="/projet-gesty/web/app_dev.php/admin/sonata/user/user/create">
+                                                    <i class="fa fa-plus-circle"></i>
+                                                    Ajouter                                                                </a>
+                                                <a class="btn btn-link btn-flat" href="/projet-gesty/web/app_dev.php/admin/sonata/user/user/list">
+                                                    <i class="glyphicon glyphicon-list"></i>
+                                                    Liste</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">Eleves</h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-hover">
+                                    <tbody>
+                                    <tr>
+                                        <td class="sonata-ba-list-label" width="40%">
+                                            Eleve
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a class="btn btn-link btn-flat" href="/projet-gesty/web/app_dev.php/admin/wcs/cantine/eleve/create">
+                                                    <i class="fa fa-plus-circle"></i>
+                                                    Ajouter                                                                </a>
+                                                <a class="btn btn-link btn-flat" href="/projet-gesty/web/app_dev.php/admin/wcs/cantine/eleve/list">
+                                                    <i class="glyphicon glyphicon-list"></i>
+                                                    Liste</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">Ecoles</h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-hover">
+                                    <tbody>
+                                    <tr>
+                                        <td class="sonata-ba-list-label" width="40%">
+                                            Liste des instituteurs
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a class="btn btn-link btn-flat" href="/projet-gesty/web/app_dev.php/admin/wcs/cantine/division/create">
+                                                    <i class="fa fa-plus-circle"></i>
+                                                    Ajouter                                                                </a>
+                                                <a class="btn btn-link btn-flat" href="/projet-gesty/web/app_dev.php/admin/wcs/cantine/division/list">
+                                                    <i class="glyphicon glyphicon-list"></i>
+                                                    plop</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-header">
+                        <h3 class="box-title">plop</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
