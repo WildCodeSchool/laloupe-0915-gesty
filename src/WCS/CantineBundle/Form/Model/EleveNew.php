@@ -1,11 +1,11 @@
 <?php
 
-namespace WCS\CantineBundle\Entity;
+namespace WCS\CantineBundle\Form\Model;
 
 /**
  * Eleve
  */
-class Eleve
+class EleveNew
 {
     /**
      * @return string
@@ -35,7 +35,7 @@ class Eleve
     public static function getHabitDaysLabels()
     {
         $result = array();
-        foreach (Eleve::getHabitDays() as $key => $day) {
+        foreach (EleveNew::getHabitDays() as $key => $day) {
             $result[$key] = 'Tous les ' . $day . 's';
         }
         return $result;
@@ -48,7 +48,6 @@ class Eleve
 
 
     // GENERATED CODE
-    
 
     /**
      * @var integer
@@ -81,14 +80,29 @@ class Eleve
     private $allergie;
 
     /**
+     * @var boolean
+     */
+    private $atteste;
+
+    /**
+     * @var boolean
+     */
+    private $autorise;
+
+    /**
+     * @var boolean
+     */
+    private $certifie;
+
+    /**
+     * @var string
+     */
+    private $dates;
+
+    /**
      * @var array
      */
     private $habits;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $lunches;
 
     /**
      * @var \Application\Sonata\UserBundle\Entity\User
@@ -232,6 +246,102 @@ class Eleve
     }
 
     /**
+     * Set atteste
+     *
+     * @param boolean $atteste
+     *
+     * @return Eleve
+     */
+    public function setAtteste($atteste)
+    {
+        $this->atteste = $atteste;
+
+        return $this;
+    }
+
+    /**
+     * Get atteste
+     *
+     * @return boolean
+     */
+    public function getAtteste()
+    {
+        return $this->atteste;
+    }
+
+    /**
+     * Set autorise
+     *
+     * @param boolean $autorise
+     *
+     * @return Eleve
+     */
+    public function setAutorise($autorise)
+    {
+        $this->autorise = $autorise;
+
+        return $this;
+    }
+
+    /**
+     * Get autorise
+     *
+     * @return boolean
+     */
+    public function getAutorise()
+    {
+        return $this->autorise;
+    }
+
+    /**
+     * Set certifie
+     *
+     * @param boolean $certifie
+     *
+     * @return Eleve
+     */
+    public function setCertifie($certifie)
+    {
+        $this->certifie = $certifie;
+
+        return $this;
+    }
+
+    /**
+     * Get certifie
+     *
+     * @return boolean
+     */
+    public function getCertifie()
+    {
+        return $this->certifie;
+    }
+
+    /**
+     * Set dates
+     *
+     * @param string $dates
+     *
+     * @return Eleve
+     */
+    public function setDates($dates)
+    {
+        $this->dates = $dates;
+
+        return $this;
+    }
+
+    /**
+     * Get dates
+     *
+     * @return string
+     */
+    public function getDates()
+    {
+        return $this->dates;
+    }
+
+    /**
      * Set habits
      *
      * @param array $habits
@@ -253,40 +363,6 @@ class Eleve
     public function getHabits()
     {
         return $this->habits;
-    }
-
-    /**
-     * Add lunch
-     *
-     * @param \WCS\CantineBundle\Entity\Lunch $lunch
-     *
-     * @return Eleve
-     */
-    public function addLunch(\WCS\CantineBundle\Entity\Lunch $lunch)
-    {
-        $this->lunches[] = $lunch;
-
-        return $this;
-    }
-
-    /**
-     * Remove lunch
-     *
-     * @param \WCS\CantineBundle\Entity\Lunch $lunch
-     */
-    public function removeLunch(\WCS\CantineBundle\Entity\Lunch $lunch)
-    {
-        $this->lunches->removeElement($lunch);
-    }
-
-    /**
-     * Get lunches
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getLunches()
-    {
-        return $this->lunches;
     }
 
     /**
@@ -335,5 +411,44 @@ class Eleve
     public function getDivision()
     {
         return $this->division;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $lunches;
+
+
+    /**
+     * Add lunch
+     *
+     * @param \WCS\CantineBundle\Entity\Lunch $lunch
+     *
+     * @return Eleve
+     */
+    public function addLunch(\WCS\CantineBundle\Entity\Lunch $lunch)
+    {
+        $this->lunches[] = $lunch;
+
+        return $this;
+    }
+
+    /**
+     * Remove lunch
+     *
+     * @param \WCS\CantineBundle\Entity\Lunch $lunch
+     */
+    public function removeLunch(\WCS\CantineBundle\Entity\Lunch $lunch)
+    {
+        $this->lunches->removeElement($lunch);
+    }
+
+    /**
+     * Get lunches
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLunches()
+    {
+        return $this->lunches;
     }
 }

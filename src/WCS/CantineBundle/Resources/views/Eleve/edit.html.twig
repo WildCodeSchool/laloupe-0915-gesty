@@ -235,11 +235,10 @@
                             var checkboxesValue = $(this).val();
                             for (i = 0; i < dateSplit.length; i++) {
                                 if (dateSplit[i] == checkboxesValue) {
-                                    $(this).attr('checked');
+                                    this.checked = true;
                                 }
                             }
                         });
-
 
                         // fonction pour bloquer les jours antérieurs + 7
                         function disablePrevDate(){
