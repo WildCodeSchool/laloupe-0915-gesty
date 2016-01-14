@@ -4,6 +4,11 @@
     {% block retour %}
         <a href="{{ path('wcs_cantine_dashboard') }}">Retour</a>
     {% endblock %}
+
+    {% for lunch in lunches %}
+        {{ lunch.date|date('d-m-Y') }}
+
+{% endfor %}
     <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
         <center><h1>Modifier les informations sur mon enfant</h1></center><br/>
 
@@ -145,6 +150,8 @@
                         </div>
                     {% endfor %}
                 {% endfor %}
+
+
             </div>
 
             <div class="col-md-6 col-md-offset-3">
@@ -152,7 +159,6 @@
                 <input type="submit" name="commit" value="Modifier" class="btn btn-primary btn-lg btn-block">
             </div>
         </div>
-
 
 
         {{ form_rest(edit_form) }}
@@ -200,55 +206,69 @@
                 //console.log(dates);
             });
 
-
-            // Auto select of week checkboxes
-            $('.choix input').on('change', function(){
-                var daySelected = parseInt($(this).attr('id').split('_')[4])+1;
-                if (daySelected >= 3) daySelected++;
-                var dateNow = new Date(); // Date d'aujourd'hui
-                dateNow.setHours(0); // Désactivation des heures, minutes et secondes
-                dateNow.setMinutes(0);
-                dateNow.setSeconds(0);
-                dateNow.setDate(dateNow.getDate() + 7);
-                var checked = $(this).is(':checked');
-                $('div.month td input.day' + daySelected).each(function() {
-                    var getDate = $(this).attr('name');
-                    var d = new Date (getDate);
-                    d.setHours(0); // Désactivation des heures, minutes et secondes
-                    d.setMinutes(0);
-                    d.setSeconds(0);
-
-                    if (d.getTime() > dateNow.getTime())
-                    {
-                        $(this)[0].checked = checked;
+            // Get the checkboxes checked in comparison with the database dates
+            var datesArray = [
+            {% for lunch in lunches %}
+                {% if not loop.first %},{% endif %}
+            '{{ lunch.date|date('Y-m-d') }}'
+            {% endfor %}]; // On stocke les dates de lunches dans un array
+            $('.calendar-checkbox').each(function(){ // On parcourt chaque checkbox
+                var checkboxesValue = $(this).val(); // On récupère la valeur de chaque checkbox
+                for (i = 0; i < datesArray.length; i++) { // Pour chaque entité de l'array
+                    if (datesArray[i] == checkboxesValue) { // Si l'entité est égale à la valeur de la checkbox
+                        this.checked = true; // Alors tu checkes la checkbox
                     }
-
-                })
-
-
+                }
             });
 
+        // Auto select of week checkboxes
+        $('.choix input').on('change', function(){
+            var daySelected = parseInt($(this).attr('id').split('_')[4])+1;
+            if (daySelected >= 3) daySelected++;
+            var dateNow = new Date(); // Date d'aujourd'hui
+            dateNow.setHours(0); // Désactivation des heures, minutes et secondes
+            dateNow.setMinutes(0);
+            dateNow.setSeconds(0);
+            dateNow.setDate(dateNow.getDate() + 7);
+            var checked = $(this).is(':checked');
+            $('div.month td input.day' + daySelected).each(function() {
+                var getDate = $(this).attr('name');
+                var d = new Date (getDate);
+                d.setHours(0); // Désactivation des heures, minutes et secondes
+                d.setMinutes(0);
+                d.setSeconds(0);
 
-            // fonction pour bloquer les jours antérieurs + 7
-            function disablePrevDate(){
-                var dateNow = new Date(); // Date d'aujourd'hui
-                dateNow.setHours(0); // Désactivation des heures, minutes et secondes
-                dateNow.setMinutes(0);
-                dateNow.setSeconds(0);
-                dateNow.setDate(dateNow.getDate() + 7); // Ajout de 7 jours
-                $(".calendar-checkbox").each(function(){ // Pour chaque checkbox
-                    var allCheckboxes = $(this).attr('name'); // On récupère l'attribut 'name'
-                    var currentDate = new Date(allCheckboxes); // On transforme en date (type js)
-                    currentDate.setHours(0); // Désactivation des heures, minutes et secondes
-                    currentDate.setMinutes(0);
-                    currentDate.setSeconds(0);
+                if (d.getTime() > dateNow.getTime())
+                {
+                    $(this)[0].checked = checked;
+                }
 
-                    $(this)[0].disabled = (currentDate.getTime() < dateNow.getTime());
-                    // .disabled = désactive la checkbox, .getTime() = obtenir le timestamp
-                });
-            }
+            })
 
-            disablePrevDate(); // rappel de la fonction qui bloque les jours précédents + 7
+
+        });
+
+
+        // fonction pour bloquer les jours antérieurs + 7
+        function disablePrevDate(){
+            var dateNow = new Date(); // Date d'aujourd'hui
+            dateNow.setHours(0); // Désactivation des heures, minutes et secondes
+            dateNow.setMinutes(0);
+            dateNow.setSeconds(0);
+            dateNow.setDate(dateNow.getDate() + 7); // Ajout de 7 jours
+            $(".calendar-checkbox").each(function(){ // Pour chaque checkbox
+                var allCheckboxes = $(this).attr('name'); // On récupère l'attribut 'name'
+                var currentDate = new Date(allCheckboxes); // On transforme en date (type js)
+                currentDate.setHours(0); // Désactivation des heures, minutes et secondes
+                currentDate.setMinutes(0);
+                currentDate.setSeconds(0);
+
+                $(this)[0].disabled = (currentDate.getTime() < dateNow.getTime());
+                // .disabled = désactive la checkbox, .getTime() = obtenir le timestamp
+            });
+        }
+
+        disablePrevDate(); // rappel de la fonction qui bloque les jours précédents + 7
         }
     </script>
 {% endblock %}
