@@ -133,6 +133,7 @@ class EleveController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
+        $lunches = $em->getRepository('WCSCantineBundle:Lunch')->findBy(array('eleve' => $entity));
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Eleve entity.');
@@ -160,6 +161,7 @@ class EleveController extends Controller
             'dateLimit' => $date,
             'finAnnee' => $finAnnee,
             'vacancesHiver' => $vacancesHiver,
+            'lunches' => $lunches,
         ));
     }
 
