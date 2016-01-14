@@ -197,16 +197,14 @@
                         });
 
                         // Onclick the month selected appear and the other is hidden
-                        var current = 9;
                         $('.months a').click(function(){
                             var month = $(this).attr('id').replace('linkMonth', '');
+                            var current = $('.months a.active').attr('id').replace('linkMonth', '');
                             if (month != current){
-                                $('#month'+current).slideUp();
-                                $('#month'+month).slideDown();
+                                $('#month'+current).hide();
+                                $('#month'+month).show();
                                 $('.months a').removeClass('active');
                                 $('.months a#linkMonth' + month).addClass('active');
-                                current = month;
-                                disablePrevDate();
                             }
                             return false;
                         });
@@ -231,12 +229,15 @@
                         });
 
                         // Get the checkboxes checked in comparison with the database dates
-                        var dates = $('textarea#WCS_cantinebundle_eleve_dates').val();
-                        var dateSplit = dates.split(';');
+                        var datesArray = [
+                            {% for lunch in lunches %}
+                        '{{ lunch.date|date('Y-m-d') }}',
+                            {% endfor %}];
+                        alert(datesArray);
                         $('.calendar-checkbox').each(function(){
                             var checkboxesValue = $(this).val();
-                            for (i = 0; i < dateSplit.length; i++) {
-                                if (dateSplit[i] == checkboxesValue) {
+                            for (i = 0; i < datesArray.length; i++) {
+                                if (datesArray[i] == checkboxesValue) {
                                     this.checked = true;
                                 }
                             }
