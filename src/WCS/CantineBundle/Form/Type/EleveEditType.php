@@ -28,7 +28,6 @@ class EleveEditType extends AbstractType
                 'class' => 'WCSCantineBundle:Division'))
             ->add('regimeSansPorc', 'checkbox', array('required'=>false))
             ->add('allergie', 'text', array('label' =>'allergie', 'required'=>false))
-            ->add('dates')
             ->add('habits', null, array('required'=>false))
             ->add('habits', 'choice', array(
                 'choices'   => Eleve::getHabitDaysLabels(),
