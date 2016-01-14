@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use WCS\CantineBundle\Entity\Eleve;
+use WCS\CantineBundle\Form\Handler\EleveHandler;
+use WCS\CantineBundle\Form\Model\EleveNew;
 use WCS\CantineBundle\Form\Type\EleveEditType;
 use WCS\CantineBundle\Form\Type\EleveType;
 
@@ -38,17 +40,11 @@ class EleveController extends Controller
      */
     public function createAction(Request $request)
     {
-        $entity = new Eleve();
+        $entity = new EleveNew();
         $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
+        $handler = new EleveHandler($form, $request, $this->getDoctrine()->getManager(), $this->getUser());
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity->setUser($this->getUser());
-
-            $em->persist($entity);
-            $em->flush();
-
+        if ($handler->process($entity)) {
             return $this->redirect($this->generateUrl('wcs_cantine_dashboard'));
         }
         // Lancement de la fonction calendrier
@@ -77,11 +73,11 @@ class EleveController extends Controller
     /**
      * Creates a form to create a Eleve entity.
      *
-     * @param Eleve $entity The entity
+     * @param EleveNew $entity The entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Eleve $entity)
+    private function createCreateForm(EleveNew $entity)
     {
         $form = $this->createForm(new EleveType(), $entity, array(
             'action' => $this->generateUrl('eleve_create'),
@@ -137,6 +133,7 @@ class EleveController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
+        $lunches = $em->getRepository('WCSCantineBundle:Lunch')->findBy(array('eleve' => $entity));
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Eleve entity.');
@@ -164,6 +161,7 @@ class EleveController extends Controller
             'dateLimit' => $date,
             'finAnnee' => $finAnnee,
             'vacancesHiver' => $vacancesHiver,
+            'lunches' => $lunches,
         ));
     }
 

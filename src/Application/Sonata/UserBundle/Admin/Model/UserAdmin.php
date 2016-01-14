@@ -149,7 +149,7 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                     'multiple' => true,
                     'required' => false
                 ))
-                ->add('enabled', null, array('required' => false))
+                ->add('enabled', null, array('required' => false, 'label'=>'Validé'))
                 ->end()
             ;
 

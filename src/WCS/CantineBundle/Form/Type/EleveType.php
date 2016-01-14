@@ -47,7 +47,7 @@ class EleveType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'WCS\CantineBundle\Entity\Eleve'
+            'data_class' => 'WCS\CantineBundle\Form\Model\EleveNew'
         ));
     }
 

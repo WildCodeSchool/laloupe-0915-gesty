@@ -7,45 +7,29 @@ namespace WCS\CantineBundle\Entity;
  */
 class Lunch
 {
+
+
+    // GENERATED CODE
+    
     /**
      * @var integer
      */
     private $id;
 
     /**
-     * @var integer
-     */
-    private $schoolId;
-
-    /**
-     * @var string
+     * @var \DateTime
      */
     private $date;
 
     /**
-     * @var string
+     * @var integer
      */
-    private $inscrits;
+    private $status;
 
     /**
-     * @var string
+     * @var \WCS\CantineBundle\Entity\Eleve
      */
-    private $presents;
-
-    /**
-     * @var string
-     */
-    private $noninscrits;
-
-    /**
-     * @var string
-     */
-    private $absents;
-
-    /**
-     * @var string
-     */
-    private $commentaires;
+    private $eleve;
 
 
     /**
@@ -59,33 +43,9 @@ class Lunch
     }
 
     /**
-     * Set schoolId
-     *
-     * @param integer $schoolId
-     *
-     * @return Lunch
-     */
-    public function setSchoolId($schoolId)
-    {
-        $this->schoolId = $schoolId;
-
-        return $this;
-    }
-
-    /**
-     * Get schoolId
-     *
-     * @return integer
-     */
-    public function getSchoolId()
-    {
-        return $this->schoolId;
-    }
-
-    /**
      * Set date
      *
-     * @param string $date
+     * @param \DateTime $date
      *
      * @return Lunch
      */
@@ -99,7 +59,7 @@ class Lunch
     /**
      * Get date
      *
-     * @return string
+     * @return \DateTime
      */
     public function getDate()
     {
@@ -107,122 +67,50 @@ class Lunch
     }
 
     /**
-     * Set inscrits
+     * Set status
      *
-     * @param string $inscrits
+     * @param integer $status
      *
      * @return Lunch
      */
-    public function setInscrits($inscrits)
+    public function setStatus($status)
     {
-        $this->inscrits = $inscrits;
+        $this->status = $status;
 
         return $this;
     }
 
     /**
-     * Get inscrits
+     * Get status
      *
-     * @return string
+     * @return integer
      */
-    public function getInscrits()
+    public function getStatus()
     {
-        return $this->inscrits;
+        return $this->status;
     }
 
     /**
-     * Set presents
+     * Set eleve
      *
-     * @param string $presents
+     * @param \WCS\CantineBundle\Entity\Eleve $eleve
      *
      * @return Lunch
      */
-    public function setPresents($presents)
+    public function setEleve(\WCS\CantineBundle\Entity\Eleve $eleve = null)
     {
-        $this->presents = $presents;
+        $this->eleve = $eleve;
 
         return $this;
     }
 
     /**
-     * Get presents
+     * Get eleve
      *
-     * @return string
+     * @return \WCS\CantineBundle\Entity\Eleve
      */
-    public function getPresents()
+    public function getEleve()
     {
-        return $this->presents;
-    }
-
-    /**
-     * Set noninscrits
-     *
-     * @param string $noninscrits
-     *
-     * @return Lunch
-     */
-    public function setNoninscrits($noninscrits)
-    {
-        $this->noninscrits = $noninscrits;
-
-        return $this;
-    }
-
-    /**
-     * Get noninscrits
-     *
-     * @return string
-     */
-    public function getNoninscrits()
-    {
-        return $this->noninscrits;
-    }
-
-    /**
-     * Set absents
-     *
-     * @param string $absents
-     *
-     * @return Lunch
-     */
-    public function setAbsents($absents)
-    {
-        $this->absents = $absents;
-
-        return $this;
-    }
-
-    /**
-     * Get absents
-     *
-     * @return string
-     */
-    public function getAbsents()
-    {
-        return $this->absents;
-    }
-
-    /**
-     * Set commentaires
-     *
-     * @param string $commentaires
-     *
-     * @return Lunch
-     */
-    public function setCommentaires($commentaires)
-    {
-        $this->commentaires = $commentaires;
-
-        return $this;
-    }
-
-    /**
-     * Get commentaires
-     *
-     * @return string
-     */
-    public function getCommentaires()
-    {
-        return $this->commentaires;
+        return $this->eleve;
     }
 }
