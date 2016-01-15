@@ -53,6 +53,7 @@ class EleveController extends Controller
 
         $vacancesHiver = $this->getHolidays('2016-02-06', '2016-02-22');
         $vacancesNoel = $this->getHolidays('2015-12-19', '2016-01-04');
+        $vacancesToussaint = $this->getHolidays('2016-04-02', '2016-04-18');
 
         $vacancesEte = new \DateTime('2016-07-06');
         $date = date_timestamp_get($limit) + 168*60*60;
@@ -72,6 +73,7 @@ class EleveController extends Controller
             'vacancesHiver' => $vacancesHiver,
             'vacancesNoel' => $vacancesNoel,
             'grandesVacances' => $grandesVacances,
+            'vacancesToussaint' => $vacancesToussaint,
         ));
     }
 
@@ -152,6 +154,7 @@ class EleveController extends Controller
 
         $vacancesHiver = $this->getHolidays('2016-02-06', '2016-02-22');
         $vacancesNoel = $this->getHolidays('2015-12-19', '2016-01-04');
+        $vacancesToussaint = $this->getHolidays('2016-04-02', '2016-04-18');
 
         $vacancesEte = new \DateTime('2016-07-06');
         $date = date_timestamp_get($limit) + 168*60*60;
@@ -171,6 +174,7 @@ class EleveController extends Controller
             'vacancesHiver' => $vacancesHiver,
             'lunches' => $lunches,
             'grandesVacances' => $grandesVacances,
+            'vacancesToussaint' => $vacancesToussaint,
             'vacancesNoel' => $vacancesNoel,
         ));
     }

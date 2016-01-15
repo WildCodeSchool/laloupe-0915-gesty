@@ -231,6 +231,11 @@
                                 '{{ dateNoel }}',
                                 {% endfor %}
                             ];
+                            var vacancesToussaint = [
+                                {% for dateNoel in vacancesNoel %}
+                                '{{ dateNoel }}',
+                                {% endfor %}
+                            ];
 
                             var daySelected = parseInt($(this).attr('id').split('_')[4])+1;
                             if (daySelected >= 3) daySelected++;
@@ -258,6 +263,12 @@
                                     }
                                     for (i = 0; i < vacancesNoel.length; i++) {
                                         if (vacancesNoel[i] == getDate){
+                                            this.checked = false;
+                                            $(this)[0].disabled = true;
+                                        }
+                                    }
+                                    for (i = 0; i < vacancesToussaint.length; i++) {
+                                        if (vacancesToussaint[i] == getDate){
                                             this.checked = false;
                                             $(this)[0].disabled = true;
                                         }
@@ -299,6 +310,11 @@
                                 '{{ dateNoel }}',
                                 {% endfor %}
                             ];
+                            var vacancesToussaint = [
+                                {% for dateNoel in vacancesNoel %}
+                                '{{ dateNoel }}',
+                                {% endfor %}
+                            ];
 
                             $(".calendar-checkbox").each(function(){ // Pour chaque checkbox
                                 var allCheckboxes = $(this).attr('name'); // On récupère l'attribut 'name'
@@ -318,6 +334,12 @@
                                 }
                                 for (i = 0; i < vacancesNoel.length; i++) {
                                     if (vacancesNoel[i] == getDate){
+                                        this.checked = false;
+                                        $(this)[0].disabled = true;
+                                    }
+                                }
+                                for (i = 0; i < vacancesToussaint.length; i++) {
+                                    if (vacancesToussaint[i] == getDate){
                                         this.checked = false;
                                         $(this)[0].disabled = true;
                                     }

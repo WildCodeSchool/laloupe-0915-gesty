@@ -249,6 +249,11 @@
                     '{{ dateNoel }}',
                     {% endfor %}
                 ];
+                var vacancesToussaint = [
+                    {% for dateNoel in vacancesNoel %}
+                    '{{ dateNoel }}',
+                    {% endfor %}
+                ];
 
                 var daySelected = parseInt($(this).attr('id').split('_')[4])+1;
                 if (daySelected >= 3) daySelected++;
@@ -280,6 +285,12 @@
                                 $(this)[0].disabled = true;
                             }
                         }
+                        for (i = 0; i < vacancesToussaint.length; i++) {
+                            if (vacancesToussaint[i] == getDate){
+                                this.checked = false;
+                                $(this)[0].disabled = true;
+                            }
+                        }
                     }
                 })
             });
@@ -298,6 +309,11 @@
                     {% endfor %}
                 ];
                 var vacancesNoel = [
+                    {% for dateNoel in vacancesNoel %}
+                    '{{ dateNoel }}',
+                    {% endfor %}
+                ];
+                var vacancesToussaint = [
                     {% for dateNoel in vacancesNoel %}
                     '{{ dateNoel }}',
                     {% endfor %}
@@ -322,6 +338,12 @@
                     }
                     for (i = 0; i < vacancesNoel.length; i++) {
                         if (vacancesNoel[i] == getDate){
+                            this.checked = false;
+                            $(this)[0].disabled = true;
+                        }
+                    }
+                    for (i = 0; i < vacancesToussaint.length; i++) {
+                        if (vacancesToussaint[i] == getDate){
                             this.checked = false;
                             $(this)[0].disabled = true;
                         }
