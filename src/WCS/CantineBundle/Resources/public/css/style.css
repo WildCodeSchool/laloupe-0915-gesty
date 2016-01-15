@@ -259,3 +259,7 @@ a{
 .alert-success{
     text-align:center;
 }
+
+.checkboxesRed{
+    background-color: red;
+}
