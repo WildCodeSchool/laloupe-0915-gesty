@@ -16,11 +16,21 @@ class CalendarAdmin extends Admin
     {
         $formMapper
             ->add('period',null,array('label'=>'Année scolaire (ex: 2015-2016)'))
-            ->add('start', 'date', array(
-                'format' => 'd-m-Y',
+            ->add('start', 'sonata_type_date_picker', array(
+                'format' => 'y-MM-dd',
+                'dp_use_current'        => false,
                 'label'=>'Date de début d\'année',))
-            ->add('end', 'date', array(
-                'format' => 'd-m-Y',
+            ->add('end', 'sonata_type_date_picker', array(
+                'format' => 'y-MM-dd',
+                'dp_use_current'        => false,
+                'label'=>'Date de fin d\'année',))
+            ->add('vacancesToussaintStart', 'sonata_type_date_picker', array(
+                'format' => 'y-MM-dd',
+                'dp_use_current'        => false,
+                'label'=>'Date de fin d\'année',))
+            ->add('vacancesToussaintEnd', 'sonata_type_date_picker', array(
+                'format' => 'y-MM-dd',
+                'dp_use_current'        => false,
                 'label'=>'Date de fin d\'année',))
         ;
     }
@@ -34,15 +44,8 @@ class CalendarAdmin extends Admin
     // Fields to be shown on lists
     protected function configureListFields(ListMapper $listMapper)
     {
-        $listMapper
-            ->add('period',null,array('label'=>'Année scolaire (ex: 2015-2016)'))
-            ->add('start', 'date', array(
-                'format' => 'd-m-Y',
-                'label'=>'Date de début d\'année',))
-            ->add('end', 'date', array(
-                'format' => 'd-m-Y',
-                'label'=>'Date de fin d\'année',))
-            ;
+
+
     }
 
 

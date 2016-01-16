@@ -25,28 +25,37 @@ WCS\CantineBundle\Entity\Calendar:
         vacancesNoelStart:
             type: date
             column: vacances_noel_start
+            nullable: true
         vacancesNoelEnd:
             type: date
             column: vacances_noel_end
+            nullable: true
         vacancesHiverStart:
             type: date
             column: vacances_hiver_start
+            nullable: true
         vacancesHiverEnd:
             type: date
             column: vacances_hiver_end
+            nullable: true
         vacancesPrintempsStart:
             type: date
             column: vacances_printemps_start
+            nullable: true
         vacancesPrintempsEnd:
             type: date
             column: vacances_printemps_end
+            nullable: true
         vacancesEte:
             type: date
             column: vacances_ete
+            nullable: true
         feriePaques:
             type: date
             column: ferie_paques
+            nullable: true
         feriePentecote:
             type: date
             column: ferie_pentecote
+            nullable: true
     lifecycleCallbacks: {  }
