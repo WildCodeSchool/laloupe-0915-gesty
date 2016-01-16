@@ -30,7 +30,7 @@ class EleveRepository extends EntityRepository
         $result = [];
         for ($i=1;$i<=4;$i++)
         {
-            $res = $this->getEntityManager()
+            /*$res = $this->getEntityManager()
                 ->createQuery(
                     'SELECT COUNT(e) FROM WCSCantineBundle:Eleve e WHERE e.dates LIKE :day '
                 )
@@ -38,7 +38,7 @@ class EleveRepository extends EntityRepository
                 ->getResult();
             array_push($result, $res[0][1]);
             if ($i===2) $day = date('Y-m-d', strtotime($day.' + 2 DAY')); // Jump Wednesday off
-            else $day = date('Y-m-d', strtotime($day.' + 1 DAY'));
+            else $day = date('Y-m-d', strtotime($day.' + 1 DAY'));*/
         }
 
         return $result;

@@ -1,0 +1,65 @@
+WCS\CantineBundle\Entity\Calendar:
+    type: entity
+    table: null
+    repositoryClass: WCS\CantineBundle\Entity\CalendarRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        period:
+            type: string
+            length: 255
+        start:
+            type: string
+            length: 255
+        end:
+            type: string
+            length: 255
+        vacancesToussaintStart:
+            type: string
+            length: 255
+            column: vacances_toussaint_start
+        vacancesToussaintEnd:
+            type: string
+            length: 255
+            column: vacances_toussaint_end
+        vacancesNoelStart:
+            type: string
+            length: 255
+            column: vacances_noel_start
+        vacancesNoelEnd:
+            type: string
+            length: 255
+            column: vacances_noel_end
+        vacancesHiverStart:
+            type: string
+            length: 255
+            column: vacances_hiver_start
+        vacancesHiverEnd:
+            type: string
+            length: 255
+            column: vacances_hiver_end
+        vacancesPrintempsStart:
+            type: string
+            length: 255
+            column: vacances_printemps_start
+        vacancesPrintempsEnd:
+            type: string
+            length: 255
+            column: vacances_printemps_end
+        vacancesEte:
+            type: string
+            length: 255
+            column: vacances_ete
+        feriePaques:
+            type: string
+            length: 255
+            column: ferie_paques
+        feriePentecote:
+            type: string
+            length: 255
+            column: ferie_pentecote
+    lifecycleCallbacks: {  }

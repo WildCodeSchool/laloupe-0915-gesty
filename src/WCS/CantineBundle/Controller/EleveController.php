@@ -2,7 +2,6 @@
 
 namespace WCS\CantineBundle\Controller;
 
-use Application\Sonata\UserBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -51,6 +50,7 @@ class EleveController extends Controller
         $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
         $limit = new \DateTime();
 
+        // Récupération des dates du calendrier
         $vacancesHiver = $this->getHolidays('2016-02-06', '2016-02-22');
         $vacancesNoel = $this->getHolidays('2015-12-19', '2016-01-04');
         $vacancesToussaint = $this->getHolidays('2016-04-02', '2016-04-18');
@@ -341,6 +341,15 @@ class EleveController extends Controller
         return $this->getDoctrine()->getManager()
             ->createQuery(
                 'UPDATE WCSCantineBundle:Eleve SET dates'
+            )
+            ->getResult();
+    }
+
+    public function getHolidaysDates()
+    {
+        return $this->getDoctrine()->getManager()
+            ->createQuery(
+                'SELECT e FROM WCSCantineBundle:Calendar e'
             )
             ->getResult();
     }
