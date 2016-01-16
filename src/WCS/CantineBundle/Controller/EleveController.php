@@ -51,6 +51,10 @@ class EleveController extends Controller
         $limit = new \DateTime();
 
         // Récupération des dates du calendrier
+
+        $em = $this->getDoctrine()->getManager();
+        $cal = $em->getRepository('WCSCantineBundle:Calendar')->findAll();
+
         $vacancesHiver = $this->getHolidays('2016-02-06', '2016-02-22');
         $vacancesNoel = $this->getHolidays('2015-12-19', '2016-01-04');
         $vacancesToussaint = $this->getHolidays('2016-04-02', '2016-04-18');
@@ -74,6 +78,7 @@ class EleveController extends Controller
             'vacancesNoel' => $vacancesNoel,
             'grandesVacances' => $grandesVacances,
             'vacancesToussaint' => $vacancesToussaint,
+            'cal' => $cal,
         ));
     }
 
