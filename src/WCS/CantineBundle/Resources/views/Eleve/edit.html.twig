@@ -261,14 +261,14 @@
                                             $(this)[0].disabled = true;
                                         }
                                     }
-                                    for (i = 0; i < vacancesNoel.length; i++) {
-                                        if (vacancesNoel[i] == getDate){
+                                    for (j = 0; j < vacancesNoel.length; j++) {
+                                        if (vacancesNoel[j] == getDate){
                                             this.checked = false;
                                             $(this)[0].disabled = true;
                                         }
                                     }
-                                    for (i = 0; i < vacancesToussaint.length; i++) {
-                                        if (vacancesToussaint[i] == getDate){
+                                    for (k = 0; k < vacancesToussaint.length; k++) {
+                                        if (vacancesToussaint[k] == getDate){
                                             this.checked = false;
                                             $(this)[0].disabled = true;
                                         }
@@ -285,8 +285,8 @@
                             {% endfor %}];
                         $('.calendar-checkbox').each(function(){
                             var checkboxesValue = $(this).val();
-                            for (i = 0; i < datesArray.length; i++) {
-                                if (datesArray[i] == checkboxesValue) {
+                            for (a = 0; a < datesArray.length; a++) {
+                                if (datesArray[a] == checkboxesValue) {
                                     this.checked = true;
                                 }
                             }
@@ -332,14 +332,14 @@
                                         $(this)[0].disabled = true;
                                     }
                                 }
-                                for (i = 0; i < vacancesNoel.length; i++) {
-                                    if (vacancesNoel[i] == getDate){
+                               for (j = 0; j < vacancesNoel.length; j++) {
+                                    if (vacancesNoel[j] == allCheckboxes){
                                         this.checked = false;
                                         $(this)[0].disabled = true;
                                     }
                                 }
-                                for (i = 0; i < vacancesToussaint.length; i++) {
-                                    if (vacancesToussaint[i] == getDate){
+                                for (k = 0; k < vacancesToussaint.length; k++) {
+                                    if (vacancesToussaint[k] == allCheckboxes){
                                         this.checked = false;
                                         $(this)[0].disabled = true;
                                     }
