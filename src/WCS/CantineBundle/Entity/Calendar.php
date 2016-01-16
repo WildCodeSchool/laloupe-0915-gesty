@@ -7,6 +7,7 @@ namespace WCS\CantineBundle\Entity;
  */
 class Calendar
 {
+  
     /**
      * @var integer
      */
@@ -18,67 +19,67 @@ class Calendar
     private $period;
 
     /**
-     * @var string
+     * @var \DateTime
      */
     private $start;
 
     /**
-     * @var string
+     * @var \DateTime
      */
     private $end;
 
     /**
-     * @var string
+     * @var \DateTime
      */
     private $vacancesToussaintStart;
 
     /**
-     * @var string
+     * @var \DateTime
      */
     private $vacancesToussaintEnd;
 
     /**
-     * @var string
+     * @var \DateTime
      */
     private $vacancesNoelStart;
 
     /**
-     * @var string
+     * @var \DateTime
      */
     private $vacancesNoelEnd;
 
     /**
-     * @var string
+     * @var \DateTime
      */
     private $vacancesHiverStart;
 
     /**
-     * @var string
+     * @var \DateTime
      */
     private $vacancesHiverEnd;
 
     /**
-     * @var string
+     * @var \DateTime
      */
     private $vacancesPrintempsStart;
 
     /**
-     * @var string
+     * @var \DateTime
      */
     private $vacancesPrintempsEnd;
 
     /**
-     * @var string
+     * @var \DateTime
      */
     private $vacancesEte;
 
     /**
-     * @var string
+     * @var \DateTime
      */
     private $feriePaques;
 
     /**
-     * @var string
+     * @var \DateTime
      */
     private $feriePentecote;
 
@@ -120,7 +121,7 @@ class Calendar
     /**
      * Set start
      *
-     * @param string $start
+     * @param \DateTime $start
      *
      * @return Calendar
      */
@@ -134,7 +135,7 @@ class Calendar
     /**
      * Get start
      *
-     * @return string
+     * @return \DateTime
      */
     public function getStart()
     {
@@ -144,7 +145,7 @@ class Calendar
     /**
      * Set end
      *
-     * @param string $end
+     * @param \DateTime $end
      *
      * @return Calendar
      */
@@ -158,7 +159,7 @@ class Calendar
     /**
      * Get end
      *
-     * @return string
+     * @return \DateTime
      */
     public function getEnd()
     {
@@ -168,7 +169,7 @@ class Calendar
     /**
      * Set vacancesToussaintStart
      *
-     * @param string $vacancesToussaintStart
+     * @param \DateTime $vacancesToussaintStart
      *
      * @return Calendar
      */
@@ -182,7 +183,7 @@ class Calendar
     /**
      * Get vacancesToussaintStart
      *
-     * @return string
+     * @return \DateTime
      */
     public function getVacancesToussaintStart()
     {
@@ -192,7 +193,7 @@ class Calendar
     /**
      * Set vacancesToussaintEnd
      *
-     * @param string $vacancesToussaintEnd
+     * @param \DateTime $vacancesToussaintEnd
      *
      * @return Calendar
      */
@@ -206,7 +207,7 @@ class Calendar
     /**
      * Get vacancesToussaintEnd
      *
-     * @return string
+     * @return \DateTime
      */
     public function getVacancesToussaintEnd()
     {
@@ -216,7 +217,7 @@ class Calendar
     /**
      * Set vacancesNoelStart
      *
-     * @param string $vacancesNoelStart
+     * @param \DateTime $vacancesNoelStart
      *
      * @return Calendar
      */
@@ -230,7 +231,7 @@ class Calendar
     /**
      * Get vacancesNoelStart
      *
-     * @return string
+     * @return \DateTime
      */
     public function getVacancesNoelStart()
     {
@@ -240,7 +241,7 @@ class Calendar
     /**
      * Set vacancesNoelEnd
      *
-     * @param string $vacancesNoelEnd
+     * @param \DateTime $vacancesNoelEnd
      *
      * @return Calendar
      */
@@ -254,7 +255,7 @@ class Calendar
     /**
      * Get vacancesNoelEnd
      *
-     * @return string
+     * @return \DateTime
      */
     public function getVacancesNoelEnd()
     {
@@ -264,7 +265,7 @@ class Calendar
     /**
      * Set vacancesHiverStart
      *
-     * @param string $vacancesHiverStart
+     * @param \DateTime $vacancesHiverStart
      *
      * @return Calendar
      */
@@ -278,7 +279,7 @@ class Calendar
     /**
      * Get vacancesHiverStart
      *
-     * @return string
+     * @return \DateTime
      */
     public function getVacancesHiverStart()
     {
@@ -288,7 +289,7 @@ class Calendar
     /**
      * Set vacancesHiverEnd
      *
-     * @param string $vacancesHiverEnd
+     * @param \DateTime $vacancesHiverEnd
      *
      * @return Calendar
      */
@@ -302,7 +303,7 @@ class Calendar
     /**
      * Get vacancesHiverEnd
      *
-     * @return string
+     * @return \DateTime
      */
     public function getVacancesHiverEnd()
     {
@@ -312,7 +313,7 @@ class Calendar
     /**
      * Set vacancesPrintempsStart
      *
-     * @param string $vacancesPrintempsStart
+     * @param \DateTime $vacancesPrintempsStart
      *
      * @return Calendar
      */
@@ -326,7 +327,7 @@ class Calendar
     /**
      * Get vacancesPrintempsStart
      *
-     * @return string
+     * @return \DateTime
      */
     public function getVacancesPrintempsStart()
     {
@@ -336,7 +337,7 @@ class Calendar
     /**
      * Set vacancesPrintempsEnd
      *
-     * @param string $vacancesPrintempsEnd
+     * @param \DateTime $vacancesPrintempsEnd
      *
      * @return Calendar
      */
@@ -350,7 +351,7 @@ class Calendar
     /**
      * Get vacancesPrintempsEnd
      *
-     * @return string
+     * @return \DateTime
      */
     public function getVacancesPrintempsEnd()
     {
@@ -360,7 +361,7 @@ class Calendar
     /**
      * Set vacancesEte
      *
-     * @param string $vacancesEte
+     * @param \DateTime $vacancesEte
      *
      * @return Calendar
      */
@@ -374,7 +375,7 @@ class Calendar
     /**
      * Get vacancesEte
      *
-     * @return string
+     * @return \DateTime
      */
     public function getVacancesEte()
     {
@@ -384,7 +385,7 @@ class Calendar
     /**
      * Set feriePaques
      *
-     * @param string $feriePaques
+     * @param \DateTime $feriePaques
      *
      * @return Calendar
      */
@@ -398,7 +399,7 @@ class Calendar
     /**
      * Get feriePaques
      *
-     * @return string
+     * @return \DateTime
      */
     public function getFeriePaques()
     {
@@ -408,7 +409,7 @@ class Calendar
     /**
      * Set feriePentecote
      *
-     * @param string $feriePentecote
+     * @param \DateTime $feriePentecote
      *
      * @return Calendar
      */
@@ -422,11 +423,10 @@ class Calendar
     /**
      * Get feriePentecote
      *
-     * @return string
+     * @return \DateTime
      */
     public function getFeriePentecote()
     {
         return $this->feriePentecote;
     }
 }
-

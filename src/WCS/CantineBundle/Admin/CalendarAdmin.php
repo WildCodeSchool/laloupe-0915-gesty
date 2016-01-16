@@ -16,8 +16,12 @@ class CalendarAdmin extends Admin
     {
         $formMapper
             ->add('period',null,array('label'=>'Année scolaire (ex: 2015-2016)'))
-            ->add('start','text')
-            ->add('end', 'text')
+            ->add('start', 'date', array(
+                'format' => 'd-m-Y',
+                'label'=>'Date de début d\'année',))
+            ->add('end', 'date', array(
+                'format' => 'd-m-Y',
+                'label'=>'Date de fin d\'année',))
         ;
     }
 
@@ -32,8 +36,12 @@ class CalendarAdmin extends Admin
     {
         $listMapper
             ->add('period',null,array('label'=>'Année scolaire (ex: 2015-2016)'))
-            ->add('start','text', array('label'=>'Date de début d\'année'))
-            ->add('end','text', array('label'=>'Date de fin d\'année'))
+            ->add('start', 'date', array(
+                'format' => 'd-m-Y',
+                'label'=>'Date de début d\'année',))
+            ->add('end', 'date', array(
+                'format' => 'd-m-Y',
+                'label'=>'Date de fin d\'année',))
             ;
     }
 

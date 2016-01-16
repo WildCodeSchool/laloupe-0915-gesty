@@ -1,0 +1,12 @@
+<?php
+
+namespace WCS\CantineBundle\Entity;
+
+/**
+ * Calendar
+ */
+class Calendar
+{
+  
+}
+
