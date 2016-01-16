@@ -27,11 +27,47 @@ class CalendarAdmin extends Admin
             ->add('vacancesToussaintStart', 'sonata_type_date_picker', array(
                 'format' => 'y-MM-dd',
                 'dp_use_current'        => false,
-                'label'=>'Date de fin d\'année',))
+                'label'=>'Date de début des vacances de la Toussaint',))
             ->add('vacancesToussaintEnd', 'sonata_type_date_picker', array(
                 'format' => 'y-MM-dd',
                 'dp_use_current'        => false,
-                'label'=>'Date de fin d\'année',))
+                'label'=>'Date de fin des vacances de la Toussaint',))
+            ->add('vacancesNoelStart', 'sonata_type_date_picker', array(
+                'format' => 'y-MM-dd',
+                'dp_use_current'        => false,
+                'label'=>'Date de début des vacances de Noël',))
+            ->add('vacancesNoelEnd', 'sonata_type_date_picker', array(
+                'format' => 'y-MM-dd',
+                'dp_use_current'        => false,
+                'label'=>'Date de fin des vacances de Noël',))
+            ->add('vacancesHiverStart', 'sonata_type_date_picker', array(
+                'format' => 'y-MM-dd',
+                'dp_use_current'        => false,
+                'label'=>"Date de début des vacances d'hiver",))
+            ->add('vacancesHiverEnd', 'sonata_type_date_picker', array(
+                'format' => 'y-MM-dd',
+                'dp_use_current'        => false,
+                'label'=>"Date de fin des vacances d'hiver",))
+            ->add('vacancesPrintempsStart', 'sonata_type_date_picker', array(
+                'format' => 'y-MM-dd',
+                'dp_use_current'        => false,
+                'label'=>'Date de début des vacances de printemps',))
+            ->add('vacancesPrintempsEnd', 'sonata_type_date_picker', array(
+                'format' => 'y-MM-dd',
+                'dp_use_current'        => false,
+                'label'=>'Date de fin des vacances de printemps',))
+            ->add('vacancesEte', 'sonata_type_date_picker', array(
+                'format' => 'y-MM-dd',
+                'dp_use_current'        => false,
+                'label'=>"Date des vacances d'été",))
+            ->add('feriePaques', 'sonata_type_date_picker', array(
+                'format' => 'y-MM-dd',
+                'dp_use_current'        => false,
+                'label'=>'Lundi de Pâques (férié)',))
+            ->add('feriePentecote', 'sonata_type_date_picker', array(
+                'format' => 'y-MM-dd',
+                'dp_use_current'        => false,
+                'label'=>'Lundi de la Pentecôte (férié)',))
         ;
     }
 
@@ -44,7 +80,7 @@ class CalendarAdmin extends Admin
     // Fields to be shown on lists
     protected function configureListFields(ListMapper $listMapper)
     {
-
+        
 
     }
 
