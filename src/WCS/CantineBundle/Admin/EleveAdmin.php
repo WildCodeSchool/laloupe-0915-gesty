@@ -25,9 +25,6 @@ class EleveAdmin extends Admin
             ->add('allergie',null ,array('required' => false))
             ->add('division', 'entity', array(
                 'class' => 'WCSCantineBundle:Division'))
-            ->add('atteste')
-            ->add('autorise')
-            ->add('certifie')
 
         ;
     }
@@ -61,6 +58,7 @@ class EleveAdmin extends Admin
             )))
             ->add('allergie', 'text')
             ->add('regimeSansPorc', 'boolean')
+            ->add('date',null, array('label'=>'Nbre de repas/mois'))
 
         ;
     }

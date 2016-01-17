@@ -32,7 +32,7 @@ class EleveRepository extends EntityRepository
         {
             /*$res = $this->getEntityManager()
                 ->createQuery(
-                    'SELECT COUNT(e) FROM WCSCantineBundle:Eleve e WHERE e.dates LIKE :day '
+                    'SELECT COUNT(d) FROM WCSCantineBundle:Lunch d WHERE d.date LIKE :day'
                 )
                 ->setParameter(':day', "%".$day."%")
                 ->getResult();
