@@ -325,7 +325,7 @@ class EleveController extends Controller
         $children = $user->getEleves();
 
         $em = $this->getDoctrine()->getManager();
-        //$entity = $em->getRepository('WCSCantineBundle:Lunch')->find('user' => );
+        $presentChildren = $em->getRepository('WCSCantineBundle:Eleve')->findOneBy(array('user' => $user->getId()));
 
         if (!$user) {
             throw $this->createNotFoundException('Aucun utilisateur trouvé pour cet id:');
@@ -335,7 +335,8 @@ class EleveController extends Controller
         return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(
             'user' => $user,
             'children' => $children,
-            'modeDePaiement' =>$moyendepaiement
+            'modeDePaiement' => $moyendepaiement,
+            'presentChildren' => $presentChildren,
         ));
 
 

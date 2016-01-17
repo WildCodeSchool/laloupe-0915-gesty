@@ -2,6 +2,9 @@
 
 {% block body %}
 
+    {% if presentChildren == null %}
+        {#{% if not presentChildren.user.id %}#}
+
     <div class="modal fade" tabindex="-1" data-backdrop="show" role="dialog"id="myModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -18,8 +21,7 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-
-
+        {% endif %}
 
 
         <div class="col-md-8 col-md-offset-2">
