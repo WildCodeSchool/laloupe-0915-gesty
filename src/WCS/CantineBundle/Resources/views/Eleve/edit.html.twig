@@ -208,6 +208,8 @@
                                 {% endfor %}
                             ];
 
+                            var feteDuTravail = '{{ feteDuTravail }}';
+
                             var daySelected = parseInt($(this).attr('id').split('_')[4])+1;
                             if (daySelected >= 3) daySelected++;
                             var dateNow = new Date(); // Date d'aujourd'hui
@@ -223,7 +225,7 @@
                                 d.setMinutes(0);
                                 d.setSeconds(0);
 
-                                if (d.getTime() > dateNow.getTime() && d.getTime() < finAnneeTS.getTime())
+                                if (d.getTime() > dateNow.getTime() && d.getTime() < finAnneeTS.getTime() || feteDuTravail == allCheckboxes)
                                 {
                                     $(this)[0].checked = checked;
                                     for (i = 0; i < vacancesHiver.length; i++) {
@@ -287,6 +289,8 @@
                                 {% endfor %}
                             ];
 
+                            var feteDuTravail = '{{ feteDuTravail }}';
+
                             $(".calendar-checkbox").each(function(){ // Pour chaque checkbox
                                 var allCheckboxes = $(this).attr('name'); // On récupère l'attribut 'name'
                                 var currentDate = new Date(allCheckboxes); // On transforme en date (type js)
@@ -294,7 +298,7 @@
                                 currentDate.setMinutes(0);
                                 currentDate.setSeconds(0);
 
-                                $(this)[0].disabled = (currentDate.getTime() < dateNow.getTime());
+                                $(this)[0].disabled = (currentDate.getTime() < dateNow.getTime() || feteDuTravail == allCheckboxes);
                                 // .disabled = désactive la checkbox, .getTime() = obtenir le timestamp
 
                                 for (i = 0; i < vacancesHiver.length; i++) {

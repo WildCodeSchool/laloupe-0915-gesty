@@ -15,7 +15,6 @@ class CalendarAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('period',null,array('label'=>'Année scolaire (ex: 2015-2016)'))
             ->add('start', 'sonata_type_date_picker', array(
                 'format' => 'y-MM-dd',
                 'dp_use_current'        => false,

@@ -14,6 +14,7 @@ class Eleve
     public function __toString()
     {
         return $this->nom;
+
     }
 
     public function __construct()

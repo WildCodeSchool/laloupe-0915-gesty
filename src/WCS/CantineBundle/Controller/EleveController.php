@@ -10,6 +10,7 @@ use WCS\CantineBundle\Form\Handler\EleveHandler;
 use WCS\CantineBundle\Form\Model\EleveNew;
 use WCS\CantineBundle\Form\Type\EleveEditType;
 use WCS\CantineBundle\Form\Type\EleveType;
+use WCS\CantineBundle\DependencyInjection\Ical;
 
 /**
  * Eleve controller.
@@ -146,6 +147,7 @@ class EleveController extends Controller
 
         $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
         $lunches = $em->getRepository('WCSCantineBundle:Lunch')->findBy(array('eleve' => $entity));
+        //$feries = $em->getRepository('WCSCantineBundle:Calendar')->findBy(array('period' => '2015'));
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Eleve entity.');
@@ -168,6 +170,9 @@ class EleveController extends Controller
         $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
 
         $grandesVacances = '2016-07-06';
+        $feteDuTravail = '2016-05-01';
+
+        $cal = $this->getIcal();
 
         return $this->render('WCSCantineBundle:Eleve:edit.html.twig', array(
             'entity' => $entity,
@@ -181,6 +186,8 @@ class EleveController extends Controller
             'grandesVacances' => $grandesVacances,
             'vacancesToussaint' => $vacancesToussaint,
             'vacancesNoel' => $vacancesNoel,
+            'feteDuTravail' => $feteDuTravail,
+            'cal' => $cal,
         ));
     }
 
@@ -358,6 +365,12 @@ class EleveController extends Controller
                 'SELECT e FROM WCSCantineBundle:Calendar e'
             )
             ->getResult();
+    }
+
+    public function getIcal()
+    {
+        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
+        return $ical->events();
     }
 
 }

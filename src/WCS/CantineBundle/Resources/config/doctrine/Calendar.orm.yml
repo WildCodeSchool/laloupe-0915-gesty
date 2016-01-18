@@ -9,9 +9,6 @@ WCS\CantineBundle\Entity\Calendar:
             generator:
                 strategy: AUTO
     fields:
-        period:
-            type: string
-            length: 255
         start:
             type: date
         end:
