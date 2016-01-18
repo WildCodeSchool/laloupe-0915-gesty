@@ -38,6 +38,7 @@ class User extends BaseUser
 
 
 
+
     /** Generate code */
 
 

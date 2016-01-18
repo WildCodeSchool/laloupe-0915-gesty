@@ -22,15 +22,6 @@ services:
                - WCS\CantineBundle\Entity\Division
                - ~
 
-      sonata.admin.calendar:
-                 class: WCS\CantineBundle\Admin\CalendarAdmin
-                 tags:
-                     - { name: sonata.admin, manager_type: orm, group: "wcs.group.calendar", label: "Générer un calendrier" }
-                 arguments:
-                     - ~
-                     - WCS\CantineBundle\Entity\Calendar
-                     - ~
-
       sonata.user.profile.form.type:
             class: Application\Sonata\UserBundle\Form\Type\ProfileType
             arguments: [ "Application\Sonata\UserBundle\Entity\User" ]
@@ -43,4 +34,9 @@ services:
             tags:
                 - {name: "form.type", alias: "wcs_cantinebundle_eleve"}
 
-
+      application.sonata_user_listener:
+            class: Application\Sonata\UserBundle\EventListener\editProfileListener
+            tags:
+                - { name: doctrine.event_listener, event: preUpdate }
+            arguments:
+                - @mailer
