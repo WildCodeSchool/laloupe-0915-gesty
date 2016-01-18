@@ -2,6 +2,7 @@
 
 namespace Application\Sonata\UserBundle\Controller;
 
+use Application\Sonata\UserBundle\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -36,6 +37,7 @@ class RegistrationFOSUser1Controller extends \Sonata\UserBundle\Controller\Regis
         if ($process) {
             $user = $form->getData();
 
+
             $authUser = false;
             if ($confirmationEnabled) {
                 $this->container->get('session')->set('fos_user_send_confirmation_email/email', $user->getEmail());
@@ -68,6 +70,47 @@ class RegistrationFOSUser1Controller extends \Sonata\UserBundle\Controller\Regis
             'form' => $form->createView(),
         ));
     }
+
+    /**
+     * Tell the user to check his email provider
+     */
+    public function checkEmailAction()
+    {
+        $email = $this->container->get('session')->get('fos_user_send_confirmation_email/email');
+        $this->container->get('session')->remove('fos_user_send_confirmation_email/email');
+        $user = $this->container->get('fos_user.user_manager')->findUserByEmail($email);
+
+        if (null === $user) {
+            throw new NotFoundHttpException(sprintf('The user with email "%s" does not exist', $email));
+        }
+
+        return $this->container->get('templating')->renderResponse('SonataUserBundle:Registration:checkEmail.html.'.$this->getEngine(), array(
+            'user' => $user,
+        ));
+    }
+
+    /*private function sendWelcomeMail($user)
+        {
+
+            $mail = $this->get('doctrine')->getRepository('WCSCantineBundle:User:WelcomeMail')->findOneById(1);
+            $destinataire = $user->getEmail();
+            $sendMessage = \Swift_Message::newInstance()
+                ->setSubject($mail->getSujet())
+                // TODO Modify the setFrom with CHLaLoupe mailserver informations
+                ->setFrom('CHLaLoupe@gmail.com')
+                ->setTo($destinataire)
+                ->setBody(
+                    $this->renderView(
+                        'Emails/welcome_mail.html.twig',
+                        array(
+                            'user' => $user,
+                            'mail' => $mail
+                        )
+                    ),
+                    'text/html'
+                );
+            $this->get('mailer')->send($sendMessage);
+        }*/
 
 }
 

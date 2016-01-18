@@ -24,7 +24,11 @@ class EleveAdmin extends Admin
             ->add('regimeSansPorc', null, array('required' => false))
             ->add('allergie',null ,array('required' => false))
             ->add('division', 'entity', array(
-                'class' => 'WCSCantineBundle:Division'))
+                'class' => 'WCSCantineBundle:Division',
+                'required'=>true ))
+
+
+
 
 
 

@@ -216,8 +216,6 @@ sonata_admin:
                 label: Ecoles
 
 
-
-
 braincrafted_bootstrap:
     output_dir:
     assets_dir: %kernel.root_dir%/../vendor/twbs/bootstrap
