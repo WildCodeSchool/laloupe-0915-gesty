@@ -21,7 +21,9 @@ class Eleve
     {
         $this->habits = array();
 
+
     }
+
 
     public static function getHabitDays()
     {
@@ -337,4 +339,8 @@ class Eleve
     {
         return $this->division;
     }
+
+
+
+
 }

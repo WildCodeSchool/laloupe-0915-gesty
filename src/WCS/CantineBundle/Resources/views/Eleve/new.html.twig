@@ -9,7 +9,6 @@
         <a href="{{ path('wcs_cantine_dashboard') }}">Retour</a>
     {% endblock %}
 
-    {{ dump(cal) }}
 
     <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
         <center><h1>Inscription de mon enfant</h1></center>
@@ -190,9 +189,7 @@
                     <input type="submit" name="commit" value="Inscrire mon enfant" class="btn btn-primary btn-lg btn-block">
                 </div>
             </div>
-            <div class="hidden">
-            {{ form_widget(form.dates) }}
-            </div>
+
 
             {{ form_end(form) }}
         </div>

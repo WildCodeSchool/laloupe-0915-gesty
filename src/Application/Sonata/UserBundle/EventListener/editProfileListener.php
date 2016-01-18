@@ -27,6 +27,7 @@ class editProfileListener
             foreach ($admins as $admin) {
                 $mailsArray[] = $admin->getEmail();
             }
+
             /**
              * TODO setFrom
              */
@@ -49,7 +50,7 @@ class editProfileListener
 
     private function getMailBody($changes, $user)
     {
-        $result = '<h3>Changements dans le profile de '. $user .'</h3>';
+        $result = '<h3>Changements dans le profil de '. $user .'</h3>';
 
         foreach ($changes as $property=>$change) {
             if ( $property === "email" ||

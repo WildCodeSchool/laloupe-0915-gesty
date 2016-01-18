@@ -8,7 +8,6 @@ namespace WCS\CantineBundle\Entity;
 class Lunch
 {
 
-
     // GENERATED CODE
     
     /**

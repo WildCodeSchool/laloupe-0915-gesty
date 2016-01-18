@@ -218,8 +218,6 @@ sonata_admin:
                 icon: '<i class="fa fa-calendar"></i>'
                 label: Calendrier
 
-
-
 braincrafted_bootstrap:
     output_dir:
     assets_dir: %kernel.root_dir%/../vendor/twbs/bootstrap
