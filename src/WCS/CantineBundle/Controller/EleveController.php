@@ -53,9 +53,42 @@ class EleveController extends Controller
 
         // Récupération des dates du calendrier
 
-        $vacancesHiver = $this->getHolidays('2016-02-06', '2016-02-22');
-        $vacancesNoel = $this->getHolidays('2015-12-19', '2016-01-04');
-        $vacancesToussaint = $this->getHolidays('2016-04-02', '2016-04-18');
+        // Date du début et de fin des vacances de la Toussaint
+        $toussaintStart = $this->getToussaintStart();
+        $toussaintStartDT = new \DateTime($toussaintStart);
+        $toussaintStartFormat = date_format($toussaintStartDT, ('Y-m-d'));
+        $toussaintEnd = $this->getToussaintEnd();
+        $toussaintEndDT = new \DateTime($toussaintEnd);
+        $toussaintEndFormat = date_format($toussaintEndDT, ('Y-m-d'));
+
+        // Date du début et de fin des vacances de Noël
+        $noelStart = $this->getNoelStart();
+        $noelStartDT = new \DateTime($noelStart);
+        $noelStartFormat = date_format($noelStartDT, ('Y-m-d'));
+        $noelEnd = $this->getNoelEnd();
+        $noelEndDT = new \DateTime($noelEnd);
+        $noelEndFormat = date_format($noelEndDT, ('Y-m-d'));
+
+        // Date du début et de fin des vacances d'hiver
+        $hiverStart = $this->getHiverStart();
+        $hiverStartDT = new \DateTime($hiverStart);
+        $hiverStartFormat = date_format($hiverStartDT, ('Y-m-d'));
+        $hiverEnd = $this->getHiverEnd();
+        $hiverEndDT = new \DateTime($hiverEnd);
+        $hiverEndFormat = date_format($hiverEndDT, ('Y-m-d'));
+
+        // Date du début et de fin des vacances de Printemps
+        $printempsStart = $this->getPrintempsStart();
+        $printempsStartDT = new \DateTime($printempsStart);
+        $printempsStartFormat = date_format($printempsStartDT, ('Y-m-d'));
+        $printempsEnd = $this->getPrintempsEnd();
+        $printempsEndDT = new \DateTime($printempsEnd);
+        $printempsEndFormat = date_format($printempsEndDT, ('Y-m-d'));
+
+        $vacancesHiver = $this->getHolidays($hiverStartFormat, $hiverEndFormat);
+        $vacancesNoel = $this->getHolidays($noelStartFormat, $noelEndFormat);
+        $vacancesToussaint = $this->getHolidays($toussaintStartFormat, $toussaintEndFormat);
+        $vacancesPrintemps = $this->getHolidays($printempsStartFormat, $printempsEndFormat);
 
         $icalVacancesEte = new \DateTime($this->getYearEnd());
         $grandesVacances = date_format($icalVacancesEte, ('Y-m-d'));
@@ -77,6 +110,7 @@ class EleveController extends Controller
             'vacancesNoel' => $vacancesNoel,
             'grandesVacances' => $grandesVacances,
             'vacancesToussaint' => $vacancesToussaint,
+            'vacancesPrintemps' => $vacancesPrintemps,
         ));
     }
 

@@ -188,7 +188,7 @@
                         // Auto select of week checkboxes
                         $('.choix input').on('change', function(){
 
-                            // Récupère les dates des vacances et des jours fériés
+                            // Récupère les dates des vacances
                             var finAnnee = '{{ grandesVacances }}';
                             var finAnneeTS = new Date (finAnnee);
                             finAnneeTS.setHours(0); // Désactivation des heures, minutes et secondes
@@ -261,8 +261,8 @@
                                             $(this)[0].disabled = true;
                                         }
                                     }
-                                    for (k = 0; k < vacancesPrintemps.length; k++) {
-                                        if (vacancesPrintemps[k] == getDate){
+                                    for (l = 0; l < vacancesPrintemps.length; l++) {
+                                        if (vacancesPrintemps[l] == getDate){
                                             this.checked = false;
                                             $(this)[0].disabled = true;
                                         }
@@ -294,7 +294,7 @@
                             dateNow.setSeconds(0);
                             dateNow.setDate(dateNow.getDate() + 7); // Ajout de 7 jours
 
-                            // Récupère les dates des vacances et des jours fériéqs
+                            // Récupère les dates des vacances
                             var vacancesHiver = [
                                 {% for dateHiver in vacancesHiver %}
                                 '{{ dateHiver }}',
@@ -349,8 +349,8 @@
                                         $(this)[0].disabled = true;
                                     }
                                 }
-                                for (k = 0; k < vacancesPrintemps.length; k++) {
-                                    if (vacancesPrintemps[k] == allCheckboxes){
+                                for (l = 0; l < vacancesPrintemps.length; l++) {
+                                    if (vacancesPrintemps[l] == allCheckboxes){
                                         this.checked = false;
                                         $(this)[0].disabled = true;
                                     }
