@@ -5,6 +5,10 @@
         <a href="{{ path('wcs_cantine_dashboard') }}">Retour</a>
     {% endblock %}
 
+    {{ dump(cal) }}
+
+    {{ dump(vacancesHiver) }}
+
     <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
         <center><h1>Modifier les informations sur mon enfant</h1></center><br/>
 
@@ -185,6 +189,8 @@
 
                         // Auto select of week checkboxes
                         $('.choix input').on('change', function(){
+
+                            // Récupère les dates des vacances et des jours fériés
                             var finAnnee = '{{ grandesVacances }}';
                             var finAnneeTS = new Date (finAnnee);
                             finAnneeTS.setHours(0); // Désactivation des heures, minutes et secondes
@@ -196,15 +202,14 @@
                                 '{{ dateHiver }}',
                                 {% endfor %}
                             ];
-
                             var vacancesNoel = [
                                 {% for dateNoel in vacancesNoel %}
                                 '{{ dateNoel }}',
                                 {% endfor %}
                             ];
                             var vacancesToussaint = [
-                                {% for dateNoel in vacancesNoel %}
-                                '{{ dateNoel }}',
+                                {% for dateToussaint in vacancesToussaint %}
+                                '{{ dateToussaint }}',
                                 {% endfor %}
                             ];
 
@@ -226,6 +231,15 @@
                                 if (d.getTime() > dateNow.getTime() && d.getTime() < finAnneeTS.getTime())
                                 {
                                     $(this)[0].checked = checked;
+                                    // Désactive les jours fériés fixes
+                                    if (getDate.match(/[0-9]{4}-11-01/) || getDate.match(/[0-9]{4}-05-01/) || getDate.match(/[0-9]{4}-01-01/)
+                                            || getDate.match(/[0-9]{4}-05-08/) || getDate.match(/[0-9]{4}-11-11/))
+                                    {
+                                        this.checked = false;
+                                        $(this)[0].disabled = true;
+                                    }
+
+                                    // Désactive les vacances scolaires
                                     for (i = 0; i < vacancesHiver.length; i++) {
                                         if (vacancesHiver[i] == getDate){
                                             this.checked = false;
@@ -252,7 +266,7 @@
                         // Get the checkboxes checked in comparison with the database dates
                         var datesArray = [
                             {% for lunch in lunches %}
-                        '{{ lunch.date|date('Y-m-d') }}',
+                            '{{ lunch.date|date('Y-m-d') }}',
                             {% endfor %}];
                         $('.calendar-checkbox').each(function(){
                             var checkboxesValue = $(this).val();
@@ -271,6 +285,7 @@
                             dateNow.setSeconds(0);
                             dateNow.setDate(dateNow.getDate() + 7); // Ajout de 7 jours
 
+                            // Récupère les dates des vacances et des jours fériéqs
                             var vacancesHiver = [
                                 {% for dateHiver in vacancesHiver %}
                                 '{{ dateHiver }}',
@@ -282,10 +297,11 @@
                                 {% endfor %}
                             ];
                             var vacancesToussaint = [
-                                {% for dateNoel in vacancesNoel %}
-                                '{{ dateNoel }}',
+                                {% for dateToussaint in vacancesToussaint %}
+                                '{{ dateToussaint }}',
                                 {% endfor %}
                             ];
+                            var grandesVacances = '{{ grandesVacances }}';
 
                             $(".calendar-checkbox").each(function(){ // Pour chaque checkbox
                                 var allCheckboxes = $(this).attr('name'); // On récupère l'attribut 'name'
@@ -294,16 +310,20 @@
                                 currentDate.setMinutes(0);
                                 currentDate.setSeconds(0);
 
-                                $(this)[0].disabled = (currentDate.getTime() < dateNow.getTime());
+                                // Désactive les jours fériés fixes
+                                $(this)[0].disabled = (currentDate.getTime() < dateNow.getTime()
+                                || allCheckboxes > grandesVacances || allCheckboxes.match(/[0-9]{4}-05-01/) || allCheckboxes.match(/[0-9]{4}-11-01/)
+                                || allCheckboxes.match(/[0-9]{4}-01-01/) || allCheckboxes.match(/[0-9]{4}-05-08/) || allCheckboxes.match(/[0-9]{4}-11-11/));
                                 // .disabled = désactive la checkbox, .getTime() = obtenir le timestamp
 
+                                // Désactive les vacances scolaires
                                 for (i = 0; i < vacancesHiver.length; i++) {
                                     if (vacancesHiver[i] == allCheckboxes){
                                         this.checked = false;
                                         $(this)[0].disabled = true;
                                     }
                                 }
-                               for (j = 0; j < vacancesNoel.length; j++) {
+                                for (j = 0; j < vacancesNoel.length; j++) {
                                     if (vacancesNoel[j] == allCheckboxes){
                                         this.checked = false;
                                         $(this)[0].disabled = true;

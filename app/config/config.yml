@@ -214,9 +214,7 @@ sonata_admin:
             wcs.group.division:
                 icon: '<i class="fa fa-home"></i>'
                 label: Ecoles
-            wcs.group.calendar:
-                icon: '<i class="fa fa-calendar"></i>'
-                label: Calendrier
+
 
 braincrafted_bootstrap:
     output_dir:
