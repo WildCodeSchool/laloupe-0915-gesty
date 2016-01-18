@@ -179,9 +179,18 @@ class EleveController extends Controller
         $hiverEndDT = new \DateTime($hiverEnd);
         $hiverEndFormat = date_format($hiverEndDT, ('Y-m-d'));
 
+        // Date du début et de fin des vacances de Printemps
+        $printempsStart = $this->getPrintempsStart();
+        $printempsStartDT = new \DateTime($printempsStart);
+        $printempsStartFormat = date_format($printempsStartDT, ('Y-m-d'));
+        $printempsEnd = $this->getPrintempsEnd();
+        $printempsEndDT = new \DateTime($printempsEnd);
+        $printempsEndFormat = date_format($printempsEndDT, ('Y-m-d'));
+
         $vacancesHiver = $this->getHolidays($hiverStartFormat, $hiverEndFormat);
         $vacancesNoel = $this->getHolidays($noelStartFormat, $noelEndFormat);
         $vacancesToussaint = $this->getHolidays($toussaintStartFormat, $toussaintEndFormat);
+        $vacancesPrintemps = $this->getHolidays($printempsStartFormat, $printempsEndFormat);
 
         $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
 
@@ -205,6 +214,7 @@ class EleveController extends Controller
             'vacancesHiver' => $vacancesHiver,
             'vacancesToussaint' => $vacancesToussaint,
             'vacancesNoel' => $vacancesNoel,
+            'vacancesPrintemps' => $vacancesPrintemps,
             'grandesVacances' => $grandesVacances,
             'cal' => $cal,
         ));
@@ -422,14 +432,26 @@ class EleveController extends Controller
     {
         $now = new \DateTime();
         $anneeActuelle = date_format($now, ('Y'));
+        $moisActuel = date_format($now, ('m'));
 
         $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
         $array = $ical->events();
 
-        foreach ($array as $key => $value){
-            foreach ($value as $test => $essai){
-                if (strpos($essai, ($anneeActuelle - 1).'12') !== false and $test == 'DTSTART'){
-                    return $essai;
+        if ($moisActuel >= '07') {
+            foreach ($array as $key => $value) {
+                foreach ($value as $test => $essai) {
+                    if (strpos($essai, $anneeActuelle.'12') !== false and $test == 'DTSTART') {
+                        return $essai;
+                    }
+                }
+            }
+
+        } else {
+            foreach ($array as $key => $value) {
+                foreach ($value as $test => $essai) {
+                    if (strpos($essai, ($anneeActuelle - 1).'12') !== false and $test == 'DTSTART') {
+                        return $essai;
+                    }
                 }
             }
         }
@@ -439,31 +461,55 @@ class EleveController extends Controller
     {
         $now = new \DateTime();
         $anneeActuelle = date_format($now, ('Y'));
+        $moisActuel = date_format($now, ('m'));
 
         $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
         $array = $ical->events();
 
-        foreach ($array as $key => $value){
-            foreach ($value as $test => $essai){
-                if (strpos($essai, $anneeActuelle.'01') !== false and $test == 'DTEND'){
-                    return $essai;
+        if ($moisActuel >= '07'){
+            foreach ($array as $key => $value){
+                foreach ($value as $test => $essai){
+                    if (strpos($essai, ($anneeActuelle + 1).'01') !== false and $test == 'DTEND'){
+                        return $essai;
+                    }
+                }
+            }
+        } else {
+            foreach ($array as $key => $value){
+                foreach ($value as $test => $essai){
+                    if (strpos($essai, $anneeActuelle.'01') !== false and $test == 'DTEND'){
+                        return $essai;
+                    }
                 }
             }
         }
+
+
     }
 
     public function getHiverStart()
     {
         $now = new \DateTime();
         $anneeActuelle = date_format($now, ('Y'));
+        $moisActuel = date_format($now, ('m'));
 
         $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
         $array = $ical->events();
 
-        foreach ($array as $key => $value){
-            foreach ($value as $test => $essai){
-                if (strpos($essai, $anneeActuelle.'02') !== false and $test == 'DTSTART'){
-                    return $essai;
+        if ($moisActuel >= '07') {
+            foreach ($array as $key => $value){
+                foreach ($value as $test => $essai){
+                    if (strpos($essai, ($anneeActuelle + 1).'02') !== false and $test == 'DTSTART'){
+                        return $essai;
+                    }
+                }
+            }
+        } else {
+            foreach ($array as $key => $value) {
+                foreach ($value as $test => $essai) {
+                    if (strpos($essai, $anneeActuelle . '02') !== false and $test == 'DTSTART') {
+                        return $essai;
+                    }
                 }
             }
         }
@@ -473,14 +519,81 @@ class EleveController extends Controller
     {
         $now = new \DateTime();
         $anneeActuelle = date_format($now, ('Y'));
+        $moisActuel = date_format($now, ('m'));
 
         $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
         $array = $ical->events();
 
-        foreach ($array as $key => $value){
-            foreach ($value as $test => $essai){
-                if (strpos($essai, $anneeActuelle.'02') !== false and $test == 'DTEND'){
-                    return $essai;
+        if ($moisActuel >= '07') {
+            foreach ($array as $key => $value){
+                foreach ($value as $test => $essai){
+                    if (strpos($essai, ($anneeActuelle + 1).'02') !== false and $test == 'DTEND'){
+                        return $essai;
+                    }
+                }
+            }
+        } else {
+            foreach ($array as $key => $value) {
+                foreach ($value as $test => $essai) {
+                    if (strpos($essai, $anneeActuelle . '02') !== false and $test == 'DTEND') {
+                        return $essai;
+                    }
+                }
+            }
+        }
+    }
+
+    public function getPrintempsStart()
+    {
+        $now = new \DateTime();
+        $anneeActuelle = date_format($now, ('Y'));
+        $moisActuel = date_format($now, ('m'));
+
+        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
+        $array = $ical->events();
+
+        if ($moisActuel >= '07') {
+            foreach ($array as $key => $value) {
+                foreach ($value as $test => $essai) {
+                    if (strpos($essai, ($anneeActuelle + 1). '04') !== false and $test == 'DTSTART') {
+                        return $essai;
+                    }
+                }
+            }
+        } else {
+            foreach ($array as $key => $value) {
+                foreach ($value as $test => $essai) {
+                    if (strpos($essai, $anneeActuelle. '04') !== false and $test == 'DTSTART') {
+                        return $essai;
+                    }
+                }
+            }
+        }
+    }
+
+    public function getPrintempsEnd()
+    {
+        $now = new \DateTime();
+        $anneeActuelle = date_format($now, ('Y'));
+        $moisActuel = date_format($now, ('m'));
+
+        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
+        $array = $ical->events();
+
+        if ($moisActuel >= '07') {
+            foreach ($array as $key => $value) {
+                foreach ($value as $test => $essai) {
+                    if (strpos($essai, ($anneeActuelle + 1). '04') !== false and $test == 'DTEND') {
+                        return $essai;
+                    }
+                }
+            }
+        } else {
+            foreach ($array as $key => $value) {
+                foreach ($value as $test => $essai) {
+                    if (strpos($essai, $anneeActuelle . '04') !== false and $test == 'DTEND') {
+                        return $essai;
+                    }
                 }
             }
         }

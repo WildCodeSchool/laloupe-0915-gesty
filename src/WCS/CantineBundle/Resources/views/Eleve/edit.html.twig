@@ -7,8 +7,6 @@
 
     {{ dump(cal) }}
 
-    {{ dump(vacancesHiver) }}
-
     <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
         <center><h1>Modifier les informations sur mon enfant</h1></center><br/>
 
@@ -212,6 +210,11 @@
                                 '{{ dateToussaint }}',
                                 {% endfor %}
                             ];
+                            var vacancesPrintemps = [
+                                {% for datePrintemps in vacancesPrintemps %}
+                                '{{ datePrintemps }}',
+                                {% endfor %}
+                            ];
 
                             var daySelected = parseInt($(this).attr('id').split('_')[4])+1;
                             if (daySelected >= 3) daySelected++;
@@ -254,6 +257,12 @@
                                     }
                                     for (k = 0; k < vacancesToussaint.length; k++) {
                                         if (vacancesToussaint[k] == getDate){
+                                            this.checked = false;
+                                            $(this)[0].disabled = true;
+                                        }
+                                    }
+                                    for (k = 0; k < vacancesPrintemps.length; k++) {
+                                        if (vacancesPrintemps[k] == getDate){
                                             this.checked = false;
                                             $(this)[0].disabled = true;
                                         }
@@ -301,6 +310,11 @@
                                 '{{ dateToussaint }}',
                                 {% endfor %}
                             ];
+                            var vacancesPrintemps = [
+                                {% for datePrintemps in vacancesPrintemps %}
+                                '{{ datePrintemps }}',
+                                {% endfor %}
+                            ];
                             var grandesVacances = '{{ grandesVacances }}';
 
                             $(".calendar-checkbox").each(function(){ // Pour chaque checkbox
@@ -331,6 +345,12 @@
                                 }
                                 for (k = 0; k < vacancesToussaint.length; k++) {
                                     if (vacancesToussaint[k] == allCheckboxes){
+                                        this.checked = false;
+                                        $(this)[0].disabled = true;
+                                    }
+                                }
+                                for (k = 0; k < vacancesPrintemps.length; k++) {
+                                    if (vacancesPrintemps[k] == allCheckboxes){
                                         this.checked = false;
                                         $(this)[0].disabled = true;
                                     }
