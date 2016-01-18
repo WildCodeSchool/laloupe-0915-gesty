@@ -39,4 +39,5 @@ WCS\CantineBundle\Entity\Eleve:
             targetEntity: WCS\CantineBundle\Entity\Lunch
             mappedBy: eleve
 
+
     lifecycleCallbacks: {  }

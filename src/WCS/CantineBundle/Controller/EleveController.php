@@ -2,7 +2,6 @@
 
 namespace WCS\CantineBundle\Controller;
 
-use Application\Sonata\UserBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -51,11 +50,20 @@ class EleveController extends Controller
         $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
         $limit = new \DateTime();
 
-        $vacancesHiver = $this->getHolidays('2016-02-02', '2016-02-21');
+        // Récupération des dates du calendrier
+
+        $em = $this->getDoctrine()->getManager();
+        $cal = $em->getRepository('WCSCantineBundle:Calendar')->findAll();
+
+        $vacancesHiver = $this->getHolidays('2016-02-06', '2016-02-22');
+        $vacancesNoel = $this->getHolidays('2015-12-19', '2016-01-04');
+        $vacancesToussaint = $this->getHolidays('2016-04-02', '2016-04-18');
 
         $vacancesEte = new \DateTime('2016-07-06');
         $date = date_timestamp_get($limit) + 168*60*60;
         $finAnnee = date_timestamp_get($vacancesEte);
+
+        $grandesVacances = '2016-07-06';
 
         $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
 
@@ -67,6 +75,10 @@ class EleveController extends Controller
             'dateLimit' => $date,
             'finAnnee' => $finAnnee,
             'vacancesHiver' => $vacancesHiver,
+            'vacancesNoel' => $vacancesNoel,
+            'grandesVacances' => $grandesVacances,
+            'vacancesToussaint' => $vacancesToussaint,
+            'cal' => $cal,
         ));
     }
 
@@ -133,6 +145,7 @@ class EleveController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
+        $lunches = $em->getRepository('WCSCantineBundle:Lunch')->findBy(array('eleve' => $entity));
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Eleve entity.');
@@ -144,13 +157,17 @@ class EleveController extends Controller
         $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
         $limit = new \DateTime();
 
-        $vacancesHiver = $this->getHolidays('2016-02-02', '2016-02-21');
+        $vacancesHiver = $this->getHolidays('2016-02-06', '2016-02-22');
+        $vacancesNoel = $this->getHolidays('2015-12-19', '2016-01-04');
+        $vacancesToussaint = $this->getHolidays('2016-04-02', '2016-04-18');
 
         $vacancesEte = new \DateTime('2016-07-06');
         $date = date_timestamp_get($limit) + 168*60*60;
         $finAnnee = date_timestamp_get($vacancesEte);
 
         $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
+
+        $grandesVacances = '2016-07-06';
 
         return $this->render('WCSCantineBundle:Eleve:edit.html.twig', array(
             'entity' => $entity,
@@ -160,6 +177,10 @@ class EleveController extends Controller
             'dateLimit' => $date,
             'finAnnee' => $finAnnee,
             'vacancesHiver' => $vacancesHiver,
+            'lunches' => $lunches,
+            'grandesVacances' => $grandesVacances,
+            'vacancesToussaint' => $vacancesToussaint,
+            'vacancesNoel' => $vacancesNoel,
         ));
     }
 
@@ -283,7 +304,6 @@ class EleveController extends Controller
         $interval = new \DateInterval('P1D');
 
         $realEnd = new \DateTime($end);
-        $realEnd->add($interval);
 
         $period = new \DatePeriod(
             new \DateTime($start),
@@ -300,10 +320,12 @@ class EleveController extends Controller
 
     public function dashboardAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $moyendepaiement = $user->getmodeDePaiement();
         $children = $user->getEleves();
+
+        $em = $this->getDoctrine()->getManager();
+        $presentChildren = $em->getRepository('WCSCantineBundle:Eleve')->findOneBy(array('user' => $user->getId()));
 
         if (!$user) {
             throw $this->createNotFoundException('Aucun utilisateur trouvé pour cet id:');
@@ -313,7 +335,8 @@ class EleveController extends Controller
         return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(
             'user' => $user,
             'children' => $children,
-            'modeDePaiement' =>$moyendepaiement
+            'modeDePaiement' => $moyendepaiement,
+            'presentChildren' => $presentChildren,
         ));
 
 
@@ -324,6 +347,15 @@ class EleveController extends Controller
         return $this->getDoctrine()->getManager()
             ->createQuery(
                 'UPDATE WCSCantineBundle:Eleve SET dates'
+            )
+            ->getResult();
+    }
+
+    public function getHolidaysDates()
+    {
+        return $this->getDoctrine()->getManager()
+            ->createQuery(
+                'SELECT e FROM WCSCantineBundle:Calendar e'
             )
             ->getResult();
     }
