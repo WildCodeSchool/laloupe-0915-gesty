@@ -1,0 +1,11 @@
+<?php
+
+namespace WCS\CantineBundle\Entity;
+
+/**
+ * Feries
+ */
+class Feries
+{
+   
+}

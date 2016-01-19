@@ -1,0 +1,30 @@
+feries:
+    path:     /
+    defaults: { _controller: "WCSCantineBundle:Feries:index" }
+
+feries_show:
+    path:     /{id}/show
+    defaults: { _controller: "WCSCantineBundle:Feries:show" }
+
+feries_new:
+    path:     /new
+    defaults: { _controller: "WCSCantineBundle:Feries:new" }
+
+feries_create:
+    path:     /create
+    defaults: { _controller: "WCSCantineBundle:Feries:create" }
+    methods:  POST
+
+feries_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "WCSCantineBundle:Feries:edit" }
+
+feries_update:
+    path:     /{id}/update
+    defaults: { _controller: "WCSCantineBundle:Feries:update" }
+    methods:  [POST, PUT]
+
+feries_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "WCSCantineBundle:Feries:delete" }
+    methods:  [POST, DELETE]

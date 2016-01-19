@@ -214,6 +214,9 @@ sonata_admin:
             wcs.group.division:
                 icon: '<i class="fa fa-home"></i>'
                 label: Ecoles
+            wcs.group.feries:
+                icon: '<i class="fa fa-calendar"></i>'
+                label: Jours fériés
 
 
 braincrafted_bootstrap:

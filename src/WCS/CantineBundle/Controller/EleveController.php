@@ -44,6 +44,19 @@ class EleveController extends Controller
         $form = $this->createCreateForm($entity);
         $handler = new EleveHandler($form, $request, $this->getDoctrine()->getManager(), $this->getUser());
 
+        // Récupère les jours fériés en base de données
+        $dateNow = new \DateTime('Y');
+        $dateString = date_format($dateNow, ('Y'));
+        $em = $this->getDoctrine()->getManager();
+        $feries = $em->getRepository('WCSCantineBundle:Feries')->findBy(array('annee' => $dateString));
+        $feriesArray = [];
+        for ($i = 0; $i < count($feries); $i++){
+            $feriesArray[$i]['paques'] = $feries[$i]->getPaques();
+            $feriesArray[$i]['pentecote'] = $feries[$i]->getPentecote();
+            $feriesArray[$i]['ascension'] = $feries[$i]->getAscension();
+        }
+        // fin //
+
         if ($handler->process($entity)) {
             return $this->redirect($this->generateUrl('wcs_cantine_dashboard'));
         }
@@ -51,37 +64,40 @@ class EleveController extends Controller
         $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
         $limit = new \DateTime();
 
+        // Liste des jours de la semaine
+        $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
+
         // Récupération des dates du calendrier
 
         // Date du début et de fin des vacances de la Toussaint
-        $toussaintStart = $this->getToussaintStart();
+        $toussaintStart = $this->container->get('calendar.holidays')->getToussaintStart();
         $toussaintStartDT = new \DateTime($toussaintStart);
         $toussaintStartFormat = date_format($toussaintStartDT, ('Y-m-d'));
-        $toussaintEnd = $this->getToussaintEnd();
+        $toussaintEnd = $this->container->get('calendar.holidays')->getToussaintEnd();
         $toussaintEndDT = new \DateTime($toussaintEnd);
         $toussaintEndFormat = date_format($toussaintEndDT, ('Y-m-d'));
 
         // Date du début et de fin des vacances de Noël
-        $noelStart = $this->getNoelStart();
+        $noelStart = $this->container->get('calendar.holidays')->getNoelStart();
         $noelStartDT = new \DateTime($noelStart);
         $noelStartFormat = date_format($noelStartDT, ('Y-m-d'));
-        $noelEnd = $this->getNoelEnd();
+        $noelEnd = $this->container->get('calendar.holidays')->getNoelEnd();
         $noelEndDT = new \DateTime($noelEnd);
         $noelEndFormat = date_format($noelEndDT, ('Y-m-d'));
 
         // Date du début et de fin des vacances d'hiver
-        $hiverStart = $this->getHiverStart();
+        $hiverStart = $this->container->get('calendar.holidays')->getHiverStart();
         $hiverStartDT = new \DateTime($hiverStart);
         $hiverStartFormat = date_format($hiverStartDT, ('Y-m-d'));
-        $hiverEnd = $this->getHiverEnd();
+        $hiverEnd = $this->container->get('calendar.holidays')->getHiverEnd();
         $hiverEndDT = new \DateTime($hiverEnd);
         $hiverEndFormat = date_format($hiverEndDT, ('Y-m-d'));
 
         // Date du début et de fin des vacances de Printemps
-        $printempsStart = $this->getPrintempsStart();
+        $printempsStart = $this->container->get('calendar.holidays')->getPrintempsStart();
         $printempsStartDT = new \DateTime($printempsStart);
         $printempsStartFormat = date_format($printempsStartDT, ('Y-m-d'));
-        $printempsEnd = $this->getPrintempsEnd();
+        $printempsEnd = $this->container->get('calendar.holidays')->getPrintempsEnd();
         $printempsEndDT = new \DateTime($printempsEnd);
         $printempsEndFormat = date_format($printempsEndDT, ('Y-m-d'));
 
@@ -90,14 +106,12 @@ class EleveController extends Controller
         $vacancesToussaint = $this->getHolidays($toussaintStartFormat, $toussaintEndFormat);
         $vacancesPrintemps = $this->getHolidays($printempsStartFormat, $printempsEndFormat);
 
-        $icalVacancesEte = new \DateTime($this->getYearEnd());
+        $icalVacancesEte = new \DateTime($this->container->get('calendar.holidays')->getYearEnd());
         $grandesVacances = date_format($icalVacancesEte, ('Y-m-d'));
 
-        $vacancesEte = new \DateTime($this->getYearEnd());
+        $vacancesEte = new \DateTime($this->container->get('calendar.holidays')->getYearEnd());
         $date = date_timestamp_get($limit) + 168*60*60;
         $finAnnee = date_timestamp_get($vacancesEte);
-
-        $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
 
         return $this->render('WCSCantineBundle:Eleve:new.html.twig', array(
             'entity' => $entity,
@@ -111,6 +125,7 @@ class EleveController extends Controller
             'grandesVacances' => $grandesVacances,
             'vacancesToussaint' => $vacancesToussaint,
             'vacancesPrintemps' => $vacancesPrintemps,
+            'feries' => $feriesArray,
         ));
     }
 
@@ -174,10 +189,22 @@ class EleveController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $dateNow = new \DateTime('Y');
+        $dateString = date_format($dateNow, ('Y'));
 
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
         $lunches = $em->getRepository('WCSCantineBundle:Lunch')->findBy(array('eleve' => $entity));
+
+        // Récupère les jours fériés en base de données
+        $feries = $em->getRepository('WCSCantineBundle:Feries')->findBy(array('annee' => $dateString));
+        $feriesArray = [];
+        for ($i = 0; $i < count($feries); $i++){
+            $feriesArray[$i]['paques'] = $feries[$i]->getPaques();
+            $feriesArray[$i]['pentecote'] = $feries[$i]->getPentecote();
+            $feriesArray[$i]['ascension'] = $feries[$i]->getAscension();
+        }
+        // Fin //
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Eleve entity.');
@@ -189,35 +216,38 @@ class EleveController extends Controller
         $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
         $limit = new \DateTime();
 
+        // Liste des jours de la semaine
+        $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
+
         // Date du début et de fin des vacances de la Toussaint
-        $toussaintStart = $this->getToussaintStart();
+        $toussaintStart = $this->container->get('calendar.holidays')->getToussaintStart();
         $toussaintStartDT = new \DateTime($toussaintStart);
         $toussaintStartFormat = date_format($toussaintStartDT, ('Y-m-d'));
-        $toussaintEnd = $this->getToussaintEnd();
+        $toussaintEnd = $this->container->get('calendar.holidays')->getToussaintEnd();
         $toussaintEndDT = new \DateTime($toussaintEnd);
         $toussaintEndFormat = date_format($toussaintEndDT, ('Y-m-d'));
 
         // Date du début et de fin des vacances de Noël
-        $noelStart = $this->getNoelStart();
+        $noelStart = $this->container->get('calendar.holidays')->getNoelStart();
         $noelStartDT = new \DateTime($noelStart);
         $noelStartFormat = date_format($noelStartDT, ('Y-m-d'));
-        $noelEnd = $this->getNoelEnd();
+        $noelEnd = $this->container->get('calendar.holidays')->getNoelEnd();
         $noelEndDT = new \DateTime($noelEnd);
         $noelEndFormat = date_format($noelEndDT, ('Y-m-d'));
 
         // Date du début et de fin des vacances d'hiver
-        $hiverStart = $this->getHiverStart();
+        $hiverStart = $this->container->get('calendar.holidays')->getHiverStart();
         $hiverStartDT = new \DateTime($hiverStart);
         $hiverStartFormat = date_format($hiverStartDT, ('Y-m-d'));
-        $hiverEnd = $this->getHiverEnd();
+        $hiverEnd = $this->container->get('calendar.holidays')->getHiverEnd();
         $hiverEndDT = new \DateTime($hiverEnd);
         $hiverEndFormat = date_format($hiverEndDT, ('Y-m-d'));
 
         // Date du début et de fin des vacances de Printemps
-        $printempsStart = $this->getPrintempsStart();
+        $printempsStart = $this->container->get('calendar.holidays')->getPrintempsStart();
         $printempsStartDT = new \DateTime($printempsStart);
         $printempsStartFormat = date_format($printempsStartDT, ('Y-m-d'));
-        $printempsEnd = $this->getPrintempsEnd();
+        $printempsEnd = $this->container->get('calendar.holidays')->getPrintempsEnd();
         $printempsEndDT = new \DateTime($printempsEnd);
         $printempsEndFormat = date_format($printempsEndDT, ('Y-m-d'));
 
@@ -226,16 +256,14 @@ class EleveController extends Controller
         $vacancesToussaint = $this->getHolidays($toussaintStartFormat, $toussaintEndFormat);
         $vacancesPrintemps = $this->getHolidays($printempsStartFormat, $printempsEndFormat);
 
-        $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
-
-        $icalVacancesEte = new \DateTime($this->getYearEnd());
+        $icalVacancesEte = new \DateTime($this->container->get('calendar.holidays')->getYearEnd());
         $grandesVacances = date_format($icalVacancesEte, ('Y-m-d'));
 
-        $vacancesEte = new \DateTime($this->getYearEnd());
+        $vacancesEte = new \DateTime($this->container->get('calendar.holidays')->getYearEnd());
         $date = date_timestamp_get($limit) + 168*60*60;
         $finAnnee = date_timestamp_get($vacancesEte);
 
-        $cal = $this->getIcal();
+        $cal = $this->container->get('calendar.holidays')->getIcal();
 
         return $this->render('WCSCantineBundle:Eleve:edit.html.twig', array(
             'entity' => $entity,
@@ -251,6 +279,7 @@ class EleveController extends Controller
             'vacancesPrintemps' => $vacancesPrintemps,
             'grandesVacances' => $grandesVacances,
             'cal' => $cal,
+            'feries' => $feriesArray,
         ));
     }
 
@@ -412,229 +441,5 @@ class EleveController extends Controller
             )
             ->getResult();
     }
-
-    public function getIcal()
-    {
-        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
-        return $ical->events();
-    }
-
-    // Get the date of the year end
-    public function getYearEnd()
-    {
-        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
-        $array = $ical->events();
-        return $date = $array[6]['DTSTART'];
-    }
-
-
-    public function getToussaintStart()
-    {
-        $now = new \DateTime();
-        $anneeActuelle = date_format($now, ('Y'));
-
-        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
-        $array = $ical->events();
-
-        foreach ($array as $key => $value){
-            foreach ($value as $test => $essai){
-                if (strpos($essai, $anneeActuelle.'10') !== false and $test == 'DTSTART'){
-                    return $essai;
-                }
-            }
-        }
-    }
-
-    public function getToussaintEnd()
-    {
-        $now = new \DateTime();
-        $anneeActuelle = date_format($now, ('Y'));
-
-        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
-        $array = $ical->events();
-
-        foreach ($array as $key => $value){
-            foreach ($value as $test => $essai){
-                if (strpos($essai, $anneeActuelle.'11') !== false and $test == 'DTEND'){
-                    return $essai;
-                }
-            }
-        }
-    }
-
-    public function getNoelStart()
-    {
-        $now = new \DateTime();
-        $anneeActuelle = date_format($now, ('Y'));
-        $moisActuel = date_format($now, ('m'));
-
-        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
-        $array = $ical->events();
-
-        if ($moisActuel >= '07') {
-            foreach ($array as $key => $value) {
-                foreach ($value as $test => $essai) {
-                    if (strpos($essai, $anneeActuelle.'12') !== false and $test == 'DTSTART') {
-                        return $essai;
-                    }
-                }
-            }
-
-        } else {
-            foreach ($array as $key => $value) {
-                foreach ($value as $test => $essai) {
-                    if (strpos($essai, ($anneeActuelle - 1).'12') !== false and $test == 'DTSTART') {
-                        return $essai;
-                    }
-                }
-            }
-        }
-    }
-
-    public function getNoelEnd()
-    {
-        $now = new \DateTime();
-        $anneeActuelle = date_format($now, ('Y'));
-        $moisActuel = date_format($now, ('m'));
-
-        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
-        $array = $ical->events();
-
-        if ($moisActuel >= '07'){
-            foreach ($array as $key => $value){
-                foreach ($value as $test => $essai){
-                    if (strpos($essai, ($anneeActuelle + 1).'01') !== false and $test == 'DTEND'){
-                        return $essai;
-                    }
-                }
-            }
-        } else {
-            foreach ($array as $key => $value){
-                foreach ($value as $test => $essai){
-                    if (strpos($essai, $anneeActuelle.'01') !== false and $test == 'DTEND'){
-                        return $essai;
-                    }
-                }
-            }
-        }
-
-
-    }
-
-    public function getHiverStart()
-    {
-        $now = new \DateTime();
-        $anneeActuelle = date_format($now, ('Y'));
-        $moisActuel = date_format($now, ('m'));
-
-        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
-        $array = $ical->events();
-
-        if ($moisActuel >= '07') {
-            foreach ($array as $key => $value){
-                foreach ($value as $test => $essai){
-                    if (strpos($essai, ($anneeActuelle + 1).'02') !== false and $test == 'DTSTART'){
-                        return $essai;
-                    }
-                }
-            }
-        } else {
-            foreach ($array as $key => $value) {
-                foreach ($value as $test => $essai) {
-                    if (strpos($essai, $anneeActuelle . '02') !== false and $test == 'DTSTART') {
-                        return $essai;
-                    }
-                }
-            }
-        }
-    }
-
-    public function getHiverEnd()
-    {
-        $now = new \DateTime();
-        $anneeActuelle = date_format($now, ('Y'));
-        $moisActuel = date_format($now, ('m'));
-
-        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
-        $array = $ical->events();
-
-        if ($moisActuel >= '07') {
-            foreach ($array as $key => $value){
-                foreach ($value as $test => $essai){
-                    if (strpos($essai, ($anneeActuelle + 1).'02') !== false and $test == 'DTEND'){
-                        return $essai;
-                    }
-                }
-            }
-        } else {
-            foreach ($array as $key => $value) {
-                foreach ($value as $test => $essai) {
-                    if (strpos($essai, $anneeActuelle . '02') !== false and $test == 'DTEND') {
-                        return $essai;
-                    }
-                }
-            }
-        }
-    }
-
-    public function getPrintempsStart()
-    {
-        $now = new \DateTime();
-        $anneeActuelle = date_format($now, ('Y'));
-        $moisActuel = date_format($now, ('m'));
-
-        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
-        $array = $ical->events();
-
-        if ($moisActuel >= '07') {
-            foreach ($array as $key => $value) {
-                foreach ($value as $test => $essai) {
-                    if (strpos($essai, ($anneeActuelle + 1). '04') !== false and $test == 'DTSTART') {
-                        return $essai;
-                    }
-                }
-            }
-        } else {
-            foreach ($array as $key => $value) {
-                foreach ($value as $test => $essai) {
-                    if (strpos($essai, $anneeActuelle. '04') !== false and $test == 'DTSTART') {
-                        return $essai;
-                    }
-                }
-            }
-        }
-    }
-
-    public function getPrintempsEnd()
-    {
-        $now = new \DateTime();
-        $anneeActuelle = date_format($now, ('Y'));
-        $moisActuel = date_format($now, ('m'));
-
-        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
-        $array = $ical->events();
-
-        if ($moisActuel >= '07') {
-            foreach ($array as $key => $value) {
-                foreach ($value as $test => $essai) {
-                    if (strpos($essai, ($anneeActuelle + 1). '04') !== false and $test == 'DTEND') {
-                        return $essai;
-                    }
-                }
-            }
-        } else {
-            foreach ($array as $key => $value) {
-                foreach ($value as $test => $essai) {
-                    if (strpos($essai, $anneeActuelle . '04') !== false and $test == 'DTEND') {
-                        return $essai;
-                    }
-                }
-            }
-        }
-    }
-
-
-
-
 
 }

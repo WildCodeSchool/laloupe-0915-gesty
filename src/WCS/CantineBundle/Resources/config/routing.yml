@@ -1,3 +1,7 @@
+wcs_cantine_feries:
+    resource: "@WCSCantineBundle/Resources/config/routing/feries.yml"
+    prefix:   /feries
+
 gesty_cantine_eleve:
     resource: "@WCSCantineBundle/Resources/config/routing/eleve.yml"
     prefix:   /

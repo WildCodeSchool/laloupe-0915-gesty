@@ -5,8 +5,6 @@
         <a href="{{ path('wcs_cantine_dashboard') }}">Retour</a>
     {% endblock %}
 
-    {{ dump(cal) }}
-
     <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
         <center><h1>Modifier les informations sur mon enfant</h1></center><br/>
 
@@ -215,6 +213,13 @@
                                 '{{ datePrintemps }}',
                                 {% endfor %}
                             ];
+                            var feries = [
+                                {% for key, array in feries %}
+                                {% for jours, dates in array %}
+                                '{{ dates|date('Y-m-d') }}',
+                                {% endfor %}
+                                {% endfor %}
+                            ];
 
                             var daySelected = parseInt($(this).attr('id').split('_')[4])+1;
                             if (daySelected >= 3) daySelected++;
@@ -267,6 +272,12 @@
                                             $(this)[0].disabled = true;
                                         }
                                     }
+                                    for (m = 0; m < feries.length; m++) {
+                                        if (feries[m] == getDate){
+                                            this.checked = false;
+                                            $(this)[0].disabled = true;
+                                        }
+                                    }
                                 }
                             })
                         });
@@ -315,6 +326,13 @@
                                 '{{ datePrintemps }}',
                                 {% endfor %}
                             ];
+                            var feries = [
+                                {% for key, array in feries %}
+                                    {% for jours, dates in array %}
+                                    '{{ dates|date('Y-m-d') }}',
+                                    {% endfor %}
+                                {% endfor %}
+                            ];
                             var grandesVacances = '{{ grandesVacances }}';
 
                             $(".calendar-checkbox").each(function(){ // Pour chaque checkbox
@@ -351,6 +369,12 @@
                                 }
                                 for (l = 0; l < vacancesPrintemps.length; l++) {
                                     if (vacancesPrintemps[l] == allCheckboxes){
+                                        this.checked = false;
+                                        $(this)[0].disabled = true;
+                                    }
+                                }
+                                for (m = 0; m < feries.length; m++) {
+                                    if (feries[m] == allCheckboxes){
                                         this.checked = false;
                                         $(this)[0].disabled = true;
                                     }

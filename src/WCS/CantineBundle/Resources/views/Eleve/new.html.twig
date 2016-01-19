@@ -218,17 +218,7 @@
                 return false;
             });
 
-            // Format date when sumbitting the form
-            $('form[name="WCS_cantinebundle_eleve"]').submit(function(e){
-                e.preventDefault();
-                var dates = '';
-                $('.calendar-checkbox:checked').each(function(){
-                    dates += this.value + ';';
-                });
-                $('#WCS_cantinebundle_eleve_dates').val(dates);
-                this.submit();
-                //console.log(dates);
-            });
+
 
 
             // Auto select of week checkboxes
@@ -259,6 +249,13 @@
                 var vacancesPrintemps = [
                     {% for datePrintemps in vacancesPrintemps %}
                     '{{ datePrintemps }}',
+                    {% endfor %}
+                ];
+                var feries = [
+                    {% for key, array in feries %}
+                    {% for jours, dates in array %}
+                    '{{ dates|date('Y-m-d') }}',
+                    {% endfor %}
                     {% endfor %}
                 ];
 
@@ -313,6 +310,12 @@
                                 $(this)[0].disabled = true;
                             }
                         }
+                        for (m = 0; m < feries.length; m++) {
+                            if (feries[m] == getDate){
+                                this.checked = false;
+                                $(this)[0].disabled = true;
+                            }
+                        }
                     }
                 })
             });
@@ -344,6 +347,13 @@
                 var vacancesPrintemps = [
                     {% for datePrintemps in vacancesPrintemps %}
                     '{{ datePrintemps }}',
+                    {% endfor %}
+                ];
+                var feries = [
+                    {% for key, array in feries %}
+                    {% for jours, dates in array %}
+                    '{{ dates|date('Y-m-d') }}',
+                    {% endfor %}
                     {% endfor %}
                 ];
                 var grandesVacances = '{{ grandesVacances }}';
@@ -382,6 +392,12 @@
                     }
                     for (l = 0; l < vacancesPrintemps.length; l++) {
                         if (vacancesPrintemps[l] == allCheckboxes){
+                            this.checked = false;
+                            $(this)[0].disabled = true;
+                        }
+                    }
+                    for (m = 0; m < feries.length; m++) {
+                        if (feries[m] == allCheckboxes){
                             this.checked = false;
                             $(this)[0].disabled = true;
                         }
