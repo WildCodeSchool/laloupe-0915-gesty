@@ -53,14 +53,12 @@
                         <td>Aucune commune renseignée</td><br/>
                         {% endif %}
                     </blockquote>
-                    {% if modeDePaiement %}
-                    {% if modeDePaiement != null and modeDePaiement == 0 %}
+                    {% if  modeDePaiement == 'Cheque' %}
                         <td>Paiement par chèque</td>
-                    {% elseif modeDePaiement == 1 %}
+                    {% elseif modeDePaiement == 'Especes' %}
                         <td>Paiement par espèces</td>
-                    {% else  %}
+                    {% elseif modeDePaiement == 'Prelevements' %}
                         <td>Paiement par prélèvement</td>
-                    {% endif %}
                     {% else  %}
                         <td>Aucun moyen de paiement renseigné</td>
                     {% endif %}

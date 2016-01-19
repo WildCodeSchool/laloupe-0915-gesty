@@ -57,11 +57,10 @@ class ProfileType extends \Sonata\UserBundle\Form\Type\ProfileType
             ->add('phone', 'text', array( 'required' => true))
             ->add('telephoneSecondaire', 'text', array( 'required' => false))
             ->add('caf', 'text', array( 'required' => false))
-            ->add('modeDePaiement', 'choice',array(
-                'choices'   => array('0' => 'Chèque', '1' => 'Especes', '2' => 'Prélèvements')))
+            ->add('modeDePaiement', 'choice',array('required'=>true,
+                'choices'   => array('placeholder'=>'Sélectionnez','Cheque' => 'Chèque', 'Especes' => 'Espèces', 'Prelevements' => 'Prélèvements',)))
             ->add('numeroIban', 'text', array( 'required' => false))
             ->add('mandatActif', 'checkbox', array( 'required' => false))
-            ->add('justificatifs')
             ->add('envoyer', 'submit')
 
         ;

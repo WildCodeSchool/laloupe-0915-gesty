@@ -12,11 +12,13 @@
 namespace Application\Sonata\UserBundle\Admin\Model;
 
 
+use Application\Sonata\UserBundle\Entity\User;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use FOS\UserBundle\Model\UserManagerInterface;
+use Symfony\Component\Validator\Tests\Fixtures\Entity;
 
 class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
 {
@@ -50,6 +52,8 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
         });
     }
 
+
+
     /**
      * {@inheritdoc}
      */
@@ -61,6 +65,7 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
             ->add('lastname')
             ->add('firstname')
             ->add('createdAt','date', array('format'=>'d/m/Y',))
+            ->add('modeDePaiement',null, array('label'=>'moyen de paiement'),array('Cheque' => 'Chèque', 'Especes' => 'Espèces', 'Prelevements' => 'Prélèvements'))
             ->add('enabled', null, array('editable' => true))
             ->add('_action', 'actions', array('label'=>'Action','actions' => array(
                 'edit' => array(),
@@ -82,6 +87,9 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
             ->add('username',null,array('label'=>'email'))
             ->add('lastname')
             ->add('firstname')
+            ->add('modeDePaiement','doctrine_orm_choice', array('label'=>'mode de paiement'),'choice' , array('placeholder'=>'Sélectionnez',
+                'choices' => array('Cheque' => 'Chèque', 'Especes' => 'Especes', 'Prelevements' => 'Prélèvements')))
+
 
 
 
@@ -137,11 +145,8 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                     'required' => true))
                 ->add('commune', 'text', array('label'=>'Commune' ))
                 ->add('phone', null, array('required' => true))
+                ->add('modeDePaiement','choice', array('label'=>'mode de paiement','choices'=>array(''=>'Sélectionnez','Cheque'=>'Chèque','Especes'=>'Espèces','Prelevements'=>'Prélèvements')))
             ->end()
-
-
-
-
                 ->with('Management')
                 ->add('realRoles', 'sonata_security_roles', array(
                     'label'    => 'form.label_roles',
@@ -153,11 +158,7 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                 ->end()
             ;
 
-
-
-
     }
-
 
     /**
      * {@inheritdoc}
