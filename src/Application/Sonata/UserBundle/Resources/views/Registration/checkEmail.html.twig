@@ -1,6 +1,6 @@
 {% extends '::base.html.twig' %}
 
-{% block fos_user_content %}
+{% block body%}
+    <h3>Votre compte à bien été crée</h3>
     <p>{{ 'registration.check_email'|trans({'%email%': user.email}, 'FOSUserBundle') }}</p>
-    <h2>Bienvenue</h2>
-{% endblock fos_user_content %}
+{% endblock %}

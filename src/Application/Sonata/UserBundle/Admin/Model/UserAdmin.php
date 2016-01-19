@@ -65,7 +65,13 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
             ->add('lastname')
             ->add('firstname')
             ->add('createdAt','date', array('format'=>'d/m/Y',))
-            ->add('modeDePaiement',null, array('label'=>'moyen de paiement'),array('Cheque' => 'Chèque', 'Especes' => 'Espèces', 'Prelevements' => 'Prélèvements'))
+            ->add('modeDePaiement',null, array(
+                    'label'=>'moyen de paiement'),array(
+                    'Cheque' => 'Chèque',
+                    'Especes' => 'Espèces',
+                    'Prelevements' => 'Prélèvements'
+            ))
+            ->add('eleves',null,array('label'=>'Enfants rattachés'))
             ->add('enabled', null, array('editable' => true))
             ->add('_action', 'actions', array('label'=>'Action','actions' => array(
                 'edit' => array(),

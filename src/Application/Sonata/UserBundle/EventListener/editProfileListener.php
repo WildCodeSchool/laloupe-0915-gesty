@@ -10,8 +10,6 @@ class editProfileListener
 
     public function preUpdate(\Doctrine\ORM\Event\PreUpdateEventArgs $user)
     {
-
-
         /**
          * SEND MAIL ON PROFILE CHANGES
          */

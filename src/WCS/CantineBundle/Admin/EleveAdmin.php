@@ -26,6 +26,7 @@ class EleveAdmin extends Admin
             ->add('division', 'entity', array(
                 'class' => 'WCSCantineBundle:Division',
                 'required'=>true ))
+            ->add('habits')
 
 
 

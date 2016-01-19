@@ -25,7 +25,7 @@ class RegistrationFOSUser1Controller extends \Sonata\UserBundle\Controller\Regis
 
         if ($user instanceof UserInterface && 'POST' === $this->container->get('request')->getMethod()) {
             $this->container->get('session')->getFlashBag()->set('sonata_user_error', 'sonata_user_already_authenticated');
-            $url = $this->container->get('router')->generate('sonata_user_profile_show');
+            $url = $this->container->get('router')->generate('sonata_user_security_login');
             return new RedirectResponse($url);
         }
 
@@ -44,12 +44,12 @@ class RegistrationFOSUser1Controller extends \Sonata\UserBundle\Controller\Regis
                 $route = 'fos_user_registration_check_email';
             } else {
                 $authUser = true;
-                $route = $this->container->get('session')->get('sonata_basket_delivery_redirect', 'sonata_user_profile_show');
+                $route = $this->container->get('session')->get('sonata_basket_delivery_redirect', 'sonata_user_security_login');
                 $this->container->get('session')->remove('sonata_basket_delivery_redirect');
             }
 
             $this->setFlash('fos_user_success', 'Votre compte est bien enregistré. Veuillez vous rendre dans votre boîte mail pour activer votre compte.');
-            $url = $this->container->get('session')->get('sonata_user_redirect_url');
+            $url = $this->container->get('session')->get('sonata_user_profile_show');
 
             if (null === $url || "" === $url) {
                 $url = $this->container->get('router')->generate($route);
@@ -64,7 +64,7 @@ class RegistrationFOSUser1Controller extends \Sonata\UserBundle\Controller\Regis
             return $response;
         }
 
-        $this->container->get('session')->set('sonata_user_redirect_url', $this->container->get('request')->headers->get('referer'));
+        $this->container->get('session')->set('sonata_user_security_login', $this->container->get('request')->headers->get('referer'));
 
         return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.'.$this->getEngine(), array(
             'form' => $form->createView(),
@@ -84,7 +84,7 @@ class RegistrationFOSUser1Controller extends \Sonata\UserBundle\Controller\Regis
             throw new NotFoundHttpException(sprintf('The user with email "%s" does not exist', $email));
         }
 
-        return $this->container->get('templating')->renderResponse('SonataUserBundle:Registration:checkEmail.html.'.$this->getEngine(), array(
+        return $this->container->get('templating')->renderResponse('ApplicationSonataUserBundle:Registration:checkEmail.html.'.$this->getEngine(), array(
             'user' => $user,
         ));
     }
