@@ -145,9 +145,7 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                     'required' => true))
                 ->add('commune', 'text', array('label'=>'Commune' ))
                 ->add('phone', null, array('required' => true))
-                ->add('modeDePaiement','doctrine_orm_choice', array('label'=>'mode de paiement'),'choice' , array('placeholder'=>'Sélectionnez',
-                'choices' => array('Cheque' => 'Chèque', 'Especes' => 'Especes', 'Prelevements' => 'Prélèvements')))
-
+                ->add('modeDePaiement','choice', array('label'=>'mode de paiement','choices'=>array(''=>'Sélectionnez','Cheque'=>'Chèque','Especes'=>'Espèces','Prelevements'=>'Prélèvements')))
             ->end()
                 ->with('Management')
                 ->add('realRoles', 'sonata_security_roles', array(
