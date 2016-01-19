@@ -7,8 +7,6 @@
 
     {{ dump(cal) }}
 
-    {{ dump(vacancesHiver) }}
-
     <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
         <center><h1>Modifier les informations sur mon enfant</h1></center><br/>
 
@@ -190,7 +188,7 @@
                         // Auto select of week checkboxes
                         $('.choix input').on('change', function(){
 
-                            // Récupère les dates des vacances et des jours fériés
+                            // Récupère les dates des vacances
                             var finAnnee = '{{ grandesVacances }}';
                             var finAnneeTS = new Date (finAnnee);
                             finAnneeTS.setHours(0); // Désactivation des heures, minutes et secondes
@@ -210,6 +208,11 @@
                             var vacancesToussaint = [
                                 {% for dateToussaint in vacancesToussaint %}
                                 '{{ dateToussaint }}',
+                                {% endfor %}
+                            ];
+                            var vacancesPrintemps = [
+                                {% for datePrintemps in vacancesPrintemps %}
+                                '{{ datePrintemps }}',
                                 {% endfor %}
                             ];
 
@@ -258,6 +261,12 @@
                                             $(this)[0].disabled = true;
                                         }
                                     }
+                                    for (l = 0; l < vacancesPrintemps.length; l++) {
+                                        if (vacancesPrintemps[l] == getDate){
+                                            this.checked = false;
+                                            $(this)[0].disabled = true;
+                                        }
+                                    }
                                 }
                             })
                         });
@@ -285,7 +294,7 @@
                             dateNow.setSeconds(0);
                             dateNow.setDate(dateNow.getDate() + 7); // Ajout de 7 jours
 
-                            // Récupère les dates des vacances et des jours fériéqs
+                            // Récupère les dates des vacances
                             var vacancesHiver = [
                                 {% for dateHiver in vacancesHiver %}
                                 '{{ dateHiver }}',
@@ -299,6 +308,11 @@
                             var vacancesToussaint = [
                                 {% for dateToussaint in vacancesToussaint %}
                                 '{{ dateToussaint }}',
+                                {% endfor %}
+                            ];
+                            var vacancesPrintemps = [
+                                {% for datePrintemps in vacancesPrintemps %}
+                                '{{ datePrintemps }}',
                                 {% endfor %}
                             ];
                             var grandesVacances = '{{ grandesVacances }}';
@@ -331,6 +345,12 @@
                                 }
                                 for (k = 0; k < vacancesToussaint.length; k++) {
                                     if (vacancesToussaint[k] == allCheckboxes){
+                                        this.checked = false;
+                                        $(this)[0].disabled = true;
+                                    }
+                                }
+                                for (l = 0; l < vacancesPrintemps.length; l++) {
+                                    if (vacancesPrintemps[l] == allCheckboxes){
                                         this.checked = false;
                                         $(this)[0].disabled = true;
                                     }
