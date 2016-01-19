@@ -42,6 +42,8 @@ class User extends BaseUser
     /** Generate code */
 
 
+
+
     /**
      * @var string
      */
@@ -68,7 +70,7 @@ class User extends BaseUser
     private $caf;
 
     /**
-     * @var integer
+     * @var string
      */
     private $modeDePaiement;
 
@@ -86,11 +88,6 @@ class User extends BaseUser
      * @var \Doctrine\Common\Collections\Collection
      */
     private $eleves;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $justificatifs;
 
 
     /**
@@ -216,7 +213,7 @@ class User extends BaseUser
     /**
      * Set modeDePaiement
      *
-     * @param integer $modeDePaiement
+     * @param string $modeDePaiement
      *
      * @return User
      */
@@ -230,7 +227,7 @@ class User extends BaseUser
     /**
      * Get modeDePaiement
      *
-     * @return integer
+     * @return string
      */
     public function getModeDePaiement()
     {
@@ -317,15 +314,5 @@ class User extends BaseUser
     public function getEleves()
     {
         return $this->eleves;
-    }
-
-    /**
-     * Get justificatifs
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getJustificatifs()
-    {
-        return $this->justificatifs;
     }
 }

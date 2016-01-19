@@ -31,7 +31,6 @@ class EleveAdmin extends Admin
 
 
 
-
         ;
     }
 

@@ -30,7 +30,8 @@ Application\Sonata\UserBundle\Entity\User:
             length: 255
             nullable: true
         modeDePaiement:
-            type: integer
+            type: string
+            length: 255
             column: mode_de_paiement
             nullable: true
         numeroIban:
