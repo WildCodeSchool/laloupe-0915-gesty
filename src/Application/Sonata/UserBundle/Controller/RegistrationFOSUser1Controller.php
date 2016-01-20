@@ -66,7 +66,7 @@ class RegistrationFOSUser1Controller extends \Sonata\UserBundle\Controller\Regis
 
         $this->container->get('session')->set('sonata_user_security_login', $this->container->get('request')->headers->get('referer'));
 
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.'.$this->getEngine(), array(
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.' . $this->getEngine(), array(
             'form' => $form->createView(),
         ));
     }
@@ -84,33 +84,30 @@ class RegistrationFOSUser1Controller extends \Sonata\UserBundle\Controller\Regis
             throw new NotFoundHttpException(sprintf('The user with email "%s" does not exist', $email));
         }
 
-        return $this->container->get('templating')->renderResponse('ApplicationSonataUserBundle:Registration:checkEmail.html.'.$this->getEngine(), array(
+        return $this->container->get('templating')->renderResponse('ApplicationSonataUserBundle:Registration:checkEmail.html.' . $this->getEngine(), array(
             'user' => $user,
         ));
     }
 
-    /*private function sendWelcomeMail($user)
-        {
+    public function sendMailAction($user)
+    {
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Bienvenue sur Gesty')
+            ->setFrom('cryptyo@gmail.com')
+            ->setTo('bruchonsev@gmail.com')
+            ->setBody($this->renderView(
+                'WCSCantineBundle:User:registrationEmail.html.twig',
+                array('user' => $user
+                )
+            ),
+                'text/html'
+            );
+        $this->get('mailer')->send($message);
 
-            $mail = $this->get('doctrine')->getRepository('WCSCantineBundle:User:WelcomeMail')->findOneById(1);
-            $destinataire = $user->getEmail();
-            $sendMessage = \Swift_Message::newInstance()
-                ->setSubject($mail->getSujet())
-                // TODO Modify the setFrom with CHLaLoupe mailserver informations
-                ->setFrom('CHLaLoupe@gmail.com')
-                ->setTo($destinataire)
-                ->setBody(
-                    $this->renderView(
-                        'Emails/welcome_mail.html.twig',
-                        array(
-                            'user' => $user,
-                            'mail' => $mail
-                        )
-                    ),
-                    'text/html'
-                );
-            $this->get('mailer')->send($sendMessage);
-        }*/
+        return new RedirectResponse($this->getRedirectionUrl($user));
+
+    }
+
 
 }
 

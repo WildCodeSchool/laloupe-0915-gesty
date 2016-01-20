@@ -105,36 +105,35 @@ file that was distributed with this source code.
                   <h3>Chargez vos pièces justificatives</h3>
                   <blockquote>Seules les images ou les fichiers .pdf sont acceptés</blockquote>
                   <div class="form-group">
-                      <label for="home_caf_evidence">Notification des prestations CAF-MSA</label>
                       <br>
-                      <input type="file" name="home[caf_evidence]" id="home_caf_evidence" />
-
+                        {{ form_label(form.file_prestations) }}
+                        {{ form_errors(form.file_prestations) }}
+                        {{ form_widget(form.file_prestations) }}
                       <blockquote>datée de moins de 3 mois.</blockquote>
                   </div>
 
                   <div class="form-group">
-                      <label for="home_address_evidence">Justificatif de domicile *</label>
                       <br>
-
-                      <input type="file" name="home[address_evidence]" id="home_address_evidence" />
+                      {{ form_label(form.file_domicile) }}
+                      {{ form_errors(form.file_domicile) }}
+                      {{ form_widget(form.file_domicile) }}
 
                       <blockquote>Joindre un justificatif récent. À défaut le tarif hors commune sera appliqué.</blockquote>
                   </div>
+
                   <div class="form-group">
-                      <label for="home_salary_evidence">Justificatifs de revenus *</label>
                       <br>
+                      {{ form_label(form.file_salaire_1) }}
+                      {{ form_errors(form.file_salaire_1) }}
+                      {{ form_widget(form.file_salaire_1) }}
 
-                      <input type="file" name="home[salary_evidence]" id="home_salary_evidence" /><br>
+                      {{ form_label(form.file_salaire_2) }}
+                      {{ form_errors(form.file_salaire_2) }}
+                      {{ form_widget(form.file_salaire_2) }}
 
-                      <input type="file" name="home[salary_evidence_2]" id="home_salary_evidence_2" /><br>
-
-                      <input type="file" name="home[salary_evidence_3]" id="home_salary_evidence_3" /><br>
-
-                      <input type="file" name="home[salary_evidence_4]" id="home_salary_evidence_4" /><br>
-
-                      <input type="file" name="home[salary_evidence_5]" id="home_salary_evidence_5" /><br>
-
-
+                      {{ form_label(form.file_salaire_3) }}
+                      {{ form_errors(form.file_salaire_3) }}
+                      {{ form_widget(form.file_salaire_3) }}
 
                       <blockquote>Joindre l'attestation des employeurs ou les 3 derniers bulletins de salaire des parents ou du parent isolé.</blockquote>
                   </div>
@@ -157,9 +156,6 @@ file that was distributed with this source code.
               <input id="informations_envoyer" type="submit" name="commit" value="Envoyer" class="btn btn-primary btn-lg btn-block">
               <div class="hidden">{{ form_widget(form.envoyer) }}</div> <br/>
 
-
-
-
               ou
               <!-- <a href="/homes/181">Annuler</a> -->
 
@@ -167,8 +163,6 @@ file that was distributed with this source code.
 
                   Après avoir enregistré, laisser la page ouverte tant que vous n'avez pas été redirigé pour permettre le chargement des pièces jointes</blockquote>
           </div>
-
-
 
           {{ form_end(form) }}
           <!-- </form> -->

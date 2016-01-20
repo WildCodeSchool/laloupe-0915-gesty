@@ -36,12 +36,149 @@ class User extends BaseUser
 
     }
 
+    public $file_domicile;
+    public $file_prestations;
+    public $file_salaire_1;
+    public $file_salaire_2;
+    public $file_salaire_3;
+
+
+    protected function getUploadDir()
+    {
+        return 'uploads';
+    }
+
+    protected function getUploadRootDir()
+    {
+        return __DIR__.'/../../../../../app/'.$this->getUploadDir();
+    }
+
+    public function getWebPathDomicile()
+    {
+        return null === $this->path_domicile ? null : $this->getUploadDir().'/'.$this->path_domicile;
+    }
+
+    public function getAbsolutePathDomicile()
+    {
+        return null === $this->path_domicile ? null : $this->getUploadRootDir().'/'.$this->path_domicile;
+    }
+
+    public function getWebPathPrestations()
+    {
+        return null === $this->path_prestations ? null : $this->getUploadDir().'/'.$this->path_prestations;
+    }
+
+    public function getAbsolutePathPrestations()
+    {
+        return null === $this->path_prestations ? null : $this->getUploadRootDir().'/'.$this->path_prestations;
+    }
+    public function getWebPathSalaire1()
+    {
+        return null === $this->path_salaire_1 ? null : $this->getUploadDir().'/'.$this->path_salaire_1;
+    }
+
+    public function getAbsolutePathSalaire1()
+    {
+        return null === $this->path_salaire_1 ? null : $this->getUploadRootDir().'/'.$this->path_salaire_1;
+    }
+    public function getWebPathSalaire2()
+    {
+        return null === $this->path_salaire_2 ? null : $this->getUploadDir().'/'.$this->path_salaire_2;
+    }
+
+    public function getAbsolutePathSalaire2()
+    {
+        return null === $this->path_salaire_2 ? null : $this->getUploadRootDir().'/'.$this->path_salaire_2;
+    }
+    public function getWebPathSalaire3()
+    {
+        return null === $this->path_salaire_3 ? null : $this->getUploadDir().'/'.$this->path_salaire_3;
+    }
+
+    public function getAbsolutePathSalaire3()
+    {
+        return null === $this->path_salaire_3 ? null : $this->getUploadRootDir().'/'.$this->path_salaire_3;
+    }
+
+
+
+    public function preUpload()
+    {
+        if (null !== $this->file_domicile) {
+            // do whatever you want to generate a unique name
+            $this->path_domicile = uniqid().'.'.$this->file_domicile->guessExtension();
+        }
+        if  (null !== $this->file_prestations) {
+            // do whatever you want to generate a unique name
+            $this->path_prestations = uniqid().'.'.$this->file_prestations->guessExtension();
+        }
+        if  (null !== $this->file_salaire_1) {
+            // do whatever you want to generate a unique name
+            $this->path_salaire_1 = uniqid().'.'.$this->file_salaire_1->guessExtension();
+        }
+        if  (null !== $this->file_salaire_2) {
+            // do whatever you want to generate a unique name
+            $this->path_salaire_2 = uniqid().'.'.$this->file_salaire_2->guessExtension();
+        }
+        if  (null !== $this->file_salaire_3) {
+            // do whatever you want to generate a unique name
+            $this->path_salaire_3 = uniqid().'.'.$this->file_salaire_3->guessExtension();
+        }
+
+    }
+
+    public function upload()
+    {
+        if (null != $this->file_domicile) {
+            $this->file_domicile->move($this->getUploadRootDir(), $this->path_domicile);
+            unset($this->file_domicile);
+        }
+
+        if (null != $this->file_prestations) {
+            $this->file_prestations->move($this->getUploadRootDir(), $this->path_prestations);
+            unset($this->file_prestations);
+        }
+        if (null != $this->file_salaire_1) {
+            $this->file_salaire_1->move($this->getUploadRootDir(), $this->path_salaire_1);
+            unset($this->file_salaire_1);
+        }
+        if (null != $this->file_salaire_2) {
+            $this->file_salaire_2->move($this->getUploadRootDir(), $this->path_salaire_2);
+            unset($this->file_salaire_2);
+        }
+        if (null != $this->file_salaire_3) {
+            $this->file_salaire_3->move($this->getUploadRootDir(), $this->path_salaire_3);
+            unset($this->file_salaire_3);
+        }
+
+    }
+
+
+    public function removeUpload()
+    {
+        if ($file = $this->getAbsolutePathDomicile()) {
+            unlink($file);
+        }
+        if ($file = $this->getAbsolutePathPrestations()) {
+            unlink($file);
+        }
+        if ($file = $this->getAbsolutePathSalaire1()) {
+            unlink($file);
+        }
+        if ($file = $this->getAbsolutePathSalaire2()) {
+            unlink($file);
+        }
+        if ($file = $this->getAbsolutePathSalaire3()) {
+            unlink($file);
+        }
+    }
+
+
+
 
 
 
     /** Generate code */
-
-
 
 
     /**
@@ -83,6 +220,31 @@ class User extends BaseUser
      * @var boolean
      */
     private $mandatActif;
+
+    /**
+     * @var string
+     */
+    private $path_domicile;
+
+    /**
+     * @var string
+     */
+    private $path_prestations;
+
+    /**
+     * @var string
+     */
+    private $path_salaire_1;
+
+    /**
+     * @var string
+     */
+    private $path_salaire_2;
+
+    /**
+     * @var string
+     */
+    private $path_salaire_3;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -280,6 +442,126 @@ class User extends BaseUser
     public function getMandatActif()
     {
         return $this->mandatActif;
+    }
+
+    /**
+     * Set pathDomicile
+     *
+     * @param string $pathDomicile
+     *
+     * @return User
+     */
+    public function setPathDomicile($pathDomicile)
+    {
+        $this->path_domicile = $pathDomicile;
+
+        return $this;
+    }
+
+    /**
+     * Get pathDomicile
+     *
+     * @return string
+     */
+    public function getPathDomicile()
+    {
+        return $this->path_domicile;
+    }
+
+    /**
+     * Set pathPrestations
+     *
+     * @param string $pathPrestations
+     *
+     * @return User
+     */
+    public function setPathPrestations($pathPrestations)
+    {
+        $this->path_prestations = $pathPrestations;
+
+        return $this;
+    }
+
+    /**
+     * Get pathPrestations
+     *
+     * @return string
+     */
+    public function getPathPrestations()
+    {
+        return $this->path_prestations;
+    }
+
+    /**
+     * Set pathSalaire1
+     *
+     * @param string $pathSalaire1
+     *
+     * @return User
+     */
+    public function setPathSalaire1($pathSalaire1)
+    {
+        $this->path_salaire_1 = $pathSalaire1;
+
+        return $this;
+    }
+
+    /**
+     * Get pathSalaire1
+     *
+     * @return string
+     */
+    public function getPathSalaire1()
+    {
+        return $this->path_salaire_1;
+    }
+
+    /**
+     * Set pathSalaire2
+     *
+     * @param string $pathSalaire2
+     *
+     * @return User
+     */
+    public function setPathSalaire2($pathSalaire2)
+    {
+        $this->path_salaire_2 = $pathSalaire2;
+
+        return $this;
+    }
+
+    /**
+     * Get pathSalaire2
+     *
+     * @return string
+     */
+    public function getPathSalaire2()
+    {
+        return $this->path_salaire_2;
+    }
+
+    /**
+     * Set pathSalaire3
+     *
+     * @param string $pathSalaire3
+     *
+     * @return User
+     */
+    public function setPathSalaire3($pathSalaire3)
+    {
+        $this->path_salaire_3 = $pathSalaire3;
+
+        return $this;
+    }
+
+    /**
+     * Get pathSalaire3
+     *
+     * @return string
+     */
+    public function getPathSalaire3()
+    {
+        return $this->path_salaire_3;
     }
 
     /**

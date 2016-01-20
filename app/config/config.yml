@@ -173,7 +173,7 @@ fos_user:
                 # Nom de l'expediteur
                     sender_name: Gesty
                 # Permet de définir le template de l'email à envoyer (en html)
-            template: WCSCantineBundle:User:registration.email.twig
+            template: WCSCantineBundle:User:registrationEmail.html.twig
 
 
 sonata_admin:
