@@ -44,5 +44,28 @@ class EleveRepository extends EntityRepository
         return $result;
     }
 
+    public function getNumberMonthMeals($eleve_id)
+    {
+        $dateNow = new \Datetime();
+        $dateNowFormat = date_format($dateNow, ('Y-m'));
+
+        $dates = $this->getEntityManager()
+            ->createQuery(
+                'SELECT e FROM WCSCantineBundle:Lunch e WHERE e. LIKE :eleve'
+            )
+            ->setParameter(':eleve', "%".$eleve_id."%")
+            ->getResult();
+
+        $count = '';
+        foreach ($dates as $date){
+            if (preg_match('#^'.$dateNowFormat.'#', $date) === 1) {
+                $count = count($date);
+            }
+        }
+        return $count;
+
+    }
+
+
 
 }

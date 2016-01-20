@@ -30,7 +30,7 @@ class EleveType extends AbstractType
             ->add('atteste','checkbox', array('required'=>true))
             ->add('autorise','checkbox', array('required'=>true))
             ->add('certifie','checkbox', array('required'=>true))
-            //->add('dates')
+            ->add('dates')
             ->add('habits', null, array('required'=>false))
             ->add('habits', 'choice', array(
                 'choices'   => Eleve::getHabitDaysLabels(),

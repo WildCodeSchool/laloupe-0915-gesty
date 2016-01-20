@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 use WCS\CantineBundle\Form\Type\LunchType;
 use WCS\CantineBundle\Entity\Lunch;
+use WCS\CantineBundle\Entity\EleveRepository;
 
 /**
  * List controller.
@@ -39,7 +40,6 @@ class CanteenManagerController extends Controller
             'date' => $dateNow,
         ));
         $school = $em->getRepository('WCSCantineBundle:School')->find($schoolId);
-
 
         $lunch = new Lunch();
         $form = $this->createForm(new LunchType(), $lunch);

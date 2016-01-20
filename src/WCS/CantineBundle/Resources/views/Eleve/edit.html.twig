@@ -94,6 +94,9 @@
                     <a class="moisecole" href="#" id="linkMonth07">Jui</a>
                 </div>
 
+                <div class="hidden">
+                {{ form_widget(edit_form.lunches) }}
+                </div>
 
                 {% for year, months in calendrier %}
                     {% for month, days in months %}
@@ -273,10 +276,7 @@
 
 
                         // Get the checkboxes checked in comparison with the database dates
-                        var datesArray = [
-                            {% for lunch in lunches %}
-                            '{{ lunch.date|date('Y-m-d') }}',
-                            {% endfor %}];
+                        var datesArray = $('#WCS_cantinebundle_eleve_lunches').val();
                         $('.calendar-checkbox').each(function(){
                             var checkboxesValue = $(this).val();
                             for (a = 0; a < datesArray.length; a++) {

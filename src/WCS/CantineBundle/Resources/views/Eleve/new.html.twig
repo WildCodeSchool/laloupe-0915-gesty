@@ -4,7 +4,6 @@
 
 
 {% block body %}
-
     {% block retour %}
         <a href="{{ path('wcs_cantine_dashboard') }}">Retour</a>
     {% endblock %}
@@ -84,6 +83,10 @@
                     <a class="moisecole" href="#" id="linkMonth05">Mai</a>
                     <a class="moisecole" href="#" id="linkMonth06">Jui</a>
                     <a class="moisecole" href="#" id="linkMonth07">Jui</a>
+                </div>
+
+                <div class="hidden">
+                    {{ form_widget(form.dates) }}
                 </div>
 
                 {% for year, months in calendrier %}
@@ -219,7 +222,7 @@
             });
 
             // Format date when sumbitting the form
-            /*$('form[name="WCS_cantinebundle_eleve"]').submit(function(e){
+            $('form[name="WCS_cantinebundle_eleve"]').submit(function(e){
                 e.preventDefault();
                 var dates = '';
                 $('.calendar-checkbox:checked').each(function(){
@@ -228,7 +231,7 @@
                 $('#WCS_cantinebundle_eleve_dates').val(dates);
                 this.submit();
                 //console.log(dates);
-            });*/
+            });
 
             // Auto select of week checkboxes
             $('.choix input').on('change', function(){

@@ -6,11 +6,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use WCS\CantineBundle\Entity\Eleve;
+use WCS\CantineBundle\Entity\Lunch;
 use WCS\CantineBundle\Form\Handler\EleveHandler;
 use WCS\CantineBundle\Form\Model\EleveNew;
 use WCS\CantineBundle\Form\Type\EleveEditType;
 use WCS\CantineBundle\Form\Type\EleveType;
-use WCS\CantineBundle\DependencyInjection\Ical;
+use WCS\CantineBundle\Form\Type\LunchType;
 
 /**
  * Eleve controller.
@@ -195,7 +196,6 @@ class EleveController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
-        $lunches = $em->getRepository('WCSCantineBundle:Lunch')->findBy(array('eleve' => $entity));
 
         // Récupère les jours fériés en base de données
         $feries = $em->getRepository('WCSCantineBundle:Feries')->findBy(array('annee' => $dateString));
@@ -270,7 +270,6 @@ class EleveController extends Controller
             'calendrier' => $calendrier,
             'jours' => $jours,
             'dateLimit' => $date,
-            'lunches' => $lunches,
             'finAnnee' => $finAnnee,
             'vacancesHiver' => $vacancesHiver,
             'vacancesToussaint' => $vacancesToussaint,
@@ -290,7 +289,7 @@ class EleveController extends Controller
      */
     private function createEditForm(Eleve $entity)
     {
-        $form = $this->createForm(new EleveEditType(), $entity, array(
+        $form = $this->createForm(new EleveEditType($this->getDoctrine()->getManager()), $entity, array(
             'action' => $this->generateUrl('eleve_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
