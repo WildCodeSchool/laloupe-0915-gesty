@@ -263,8 +263,6 @@ class EleveController extends Controller
         $date = date_timestamp_get($limit) + 168*60*60;
         $finAnnee = date_timestamp_get($vacancesEte);
 
-        $cal = $this->container->get('calendar.holidays')->getIcal();
-
         return $this->render('WCSCantineBundle:Eleve:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
@@ -278,7 +276,6 @@ class EleveController extends Controller
             'vacancesNoel' => $vacancesNoel,
             'vacancesPrintemps' => $vacancesPrintemps,
             'grandesVacances' => $grandesVacances,
-            'cal' => $cal,
             'feries' => $feriesArray,
         ));
     }
@@ -404,7 +401,7 @@ class EleveController extends Controller
         $period = new \DatePeriod(new \DateTime($start), new \DateInterval('P1D'), new \DateTime($end));
 
         foreach ($period as $date) {
-            echo $array[] = date_format($date, ('Y-m-d'));
+            $array[] = date_format($date, ('Y-m-d'));
         }
         return $array;
     }
