@@ -11,6 +11,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class EleveAdmin extends Admin
 {
+
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -26,12 +27,9 @@ class EleveAdmin extends Admin
             ->add('division', 'entity', array(
                 'class' => 'WCSCantineBundle:Division',
                 'required'=>true ))
-            ->add('habits')
+            ->add('habits', null, array('label'=>'Jours habituels des repas')
 
-
-
-
-
+            )
         ;
     }
 
@@ -65,6 +63,9 @@ class EleveAdmin extends Admin
             ->add('allergie', 'text')
             ->add('regimeSansPorc', 'boolean')
             ->add('date',null, array('label'=>'Nbre de repas/mois'))
+            ->add('habits',null,array(
+                'label'=>'Jours habituels',
+                ))
 
         ;
     }

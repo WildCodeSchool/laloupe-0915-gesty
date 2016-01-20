@@ -71,7 +71,7 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                     'Especes' => 'Espèces',
                     'Prelevements' => 'Prélèvements'
             ))
-            ->add('eleves',null,array('label'=>'Enfants rattachés'))
+            ->add('eleves',null,array('label'=>'Nom enfant(s)'))
             ->add('enabled', null, array('editable' => true))
             ->add('_action', 'actions', array('label'=>'Action','actions' => array(
                 'edit' => array(),
