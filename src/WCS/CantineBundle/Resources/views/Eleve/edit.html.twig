@@ -159,17 +159,6 @@
                         $('.month').hide();
                         $('.month#month'+currentMonth).show();
 
-                        // Convert date checkboxes into text on submit
-                        /*$('form[name="WCS_cantinebundle_eleve"]').submit(function(e){
-                            e.preventDefault();
-                            var dates = '';
-                            $('.calendar-checkbox:checked').each(function(){
-                                dates += this.value + ';';
-                            });
-                            $('#WCS_cantinebundle_eleve_dates').html(dates);
-                            this.submit();
-                        });*/
-
                         // Onclick the month selected appear and the other is hidden
                         $('.months a').click(function(){
                             var month = $(this).attr('id').replace('linkMonth', '');

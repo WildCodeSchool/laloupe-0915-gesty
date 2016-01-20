@@ -40,9 +40,22 @@ class EleveController extends Controller
      */
     public function createAction(Request $request)
     {
+        // Enregistre les élèves en BDD
         $entity = new EleveNew();
         $form = $this->createCreateForm($entity);
         $handler = new EleveHandler($form, $request, $this->getDoctrine()->getManager(), $this->getUser());
+        if ($handler->process($entity)) {
+            return $this->redirect($this->generateUrl('wcs_cantine_dashboard'));
+        }
+
+        // Lancement de la fonction calendrier
+        $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
+        $limit = new \DateTime();
+
+        // Liste des jours de la semaine
+        $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
+
+        // Récupération des dates du calendrier
 
         // Récupère les jours fériés en base de données
         $dateNow = new \DateTime('Y');
@@ -56,18 +69,6 @@ class EleveController extends Controller
             $feriesArray[$i]['ascension'] = $feries[$i]->getAscension();
         }
         // fin //
-
-        if ($handler->process($entity)) {
-            return $this->redirect($this->generateUrl('wcs_cantine_dashboard'));
-        }
-        // Lancement de la fonction calendrier
-        $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
-        $limit = new \DateTime();
-
-        // Liste des jours de la semaine
-        $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
-
-        // Récupération des dates du calendrier
 
         // Date du début et de fin des vacances de la Toussaint
         $toussaintStart = $this->container->get('calendar.holidays')->getToussaintStart();

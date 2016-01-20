@@ -32,9 +32,14 @@ class CanteenManagerController extends Controller
      */
     public function todayListAction(Request $request, $schoolId)
     {
+        $dateNow = new \DateTime();
+
         $em = $this->getDoctrine()->getManager();
-        $lunches = $em->getRepository('WCSCantineBundle:Lunch')->getTodayList($schoolId);
+        $lunches = $em->getRepository('WCSCantineBundle:Lunch')->findBy(array(
+            'date' => $dateNow,
+        ));
         $school = $em->getRepository('WCSCantineBundle:School')->find($schoolId);
+
 
         $lunch = new Lunch();
         $form = $this->createForm(new LunchType(), $lunch);
