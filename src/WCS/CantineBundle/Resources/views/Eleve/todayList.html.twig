@@ -2,6 +2,8 @@
 
 {% block body %}
 
+    {{ dump(lunches) }}
+
     <div class="container-fluid">
         <a href="{{ path('wcs_gesty_ecoles') }}" class="btn__retour">Retour</a>
         {{ form_start(form) }}

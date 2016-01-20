@@ -9,7 +9,9 @@ class Lunch
 {
 
     // GENERATED CODE
-    
+
+
+ 
     /**
      * @var integer
      */
