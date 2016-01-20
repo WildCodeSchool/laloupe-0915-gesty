@@ -67,13 +67,27 @@ class ProfileType extends \Sonata\UserBundle\Form\Type\ProfileType
                 )))
             ->add('numeroIban', 'text', array( 'required' => false))
             ->add('mandatActif', 'checkbox', array( 'required' => false))
+            ->add('file_domicile', 'file', array(
+                'label'=>'Justificatif de Domicile*',
+                'required'=>true
+            ))
+            ->add('file_prestations', 'file', array(
+                'label'=>'Notification des prestations CAF-MSA*',
+                'required'=>true
+            ))
+            ->add('file_salaire_1', 'file', array('label'=>'Justificatif de revenus*',
+                'required'=>true,
+                ))
+            ->add('file_salaire_2', 'file', array('label'=>'Salaire',
+                'required'=>false
+            ))
+            ->add('file_salaire_3', 'file', array('label'=>'Salaire',
+                'required'=>false))
             ->add('envoyer', 'submit')
 
         ;
 
     }
-
-
     /**
      * {@inheritdoc}
      */
