@@ -82,7 +82,7 @@ security:
             # Change these rules to adapt them to your needs
             - { path: ^/admin/, role: [ROLE_ADMIN, ROLE_SONATA_ADMIN] }
             - { path: ^/canteenManager/, role: [ROLE_ADMIN] }
-            - { path: ^/*, role: [IS_AUTHENTICATED, ROLE_USER] }
+            - { path: ^/*, role: [IS_AUTHENTICATED, ROLE_USER, ROLE_SUPER_ADMIN] }
 
 
 
