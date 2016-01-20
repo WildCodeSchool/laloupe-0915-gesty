@@ -2,8 +2,6 @@
 
 {% block body %}
 
-    {{ dump(lunches) }}
-
     <div class="container-fluid">
         <a href="{{ path('wcs_gesty_ecoles') }}" class="btn__retour">Retour</a>
         {{ form_start(form) }}
@@ -23,7 +21,10 @@
                     <td class="todayList text-center">Régime sans porc</td>
                 </tr>
 
+
+
                 {% for lunch in lunches %}
+                {% if lunch.eleve.division.school.id == ecole.id %}
                 <tr>
                     <td class="text-center"><input type="checkbox" class="eleve" name="eleve" value="{{ lunch.eleve.nom }},{{ lunch.eleve.prenom }}" /></td>
                     <td class="text-center">{{ lunch.eleve.nom |upper}}</td>
@@ -36,7 +37,10 @@
                             NON
                         {% endif %}
                     </td>
+                    {% endif %}
                     {% endfor %}
+
+
                 </tr>
                 <tr>
                     <td class="text-center"><a class="ajouter" href="">Ajouter</a></td>
