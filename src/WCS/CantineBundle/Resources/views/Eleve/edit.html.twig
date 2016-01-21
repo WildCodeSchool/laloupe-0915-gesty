@@ -287,6 +287,22 @@
                             }
                         });
 
+                        // Habits checked in comparison with database
+                        var habits = [
+                            {% for key, days in habits %}
+                            '{{ days }}',
+                            {% endfor %}
+                        ];
+                        $('.choix').each(function(){
+                            var checkboxesValue = $(this).val();
+                            for (a = 0; a < habits.length; a++) {
+                                if (habits[a] == checkboxesValue) {
+                                    this.checked = true;
+                                }
+                            }
+                        });
+
+
                         // fonction pour bloquer les jours antérieurs + 7
                         function disablePrevDate(){
                             var dateNow = new Date(); // Date d'aujourd'hui
