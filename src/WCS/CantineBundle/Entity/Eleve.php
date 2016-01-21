@@ -14,21 +14,24 @@ class Eleve
     public function __toString()
     {
         return $this->nom;
+
     }
 
     public function __construct()
     {
         $this->habits = array();
 
+
     }
+
 
     public static function getHabitDays()
     {
         return array(
-            '_monday' => 'lundi',
-            '_tuesday' => 'mardi',
-            '_thursday' => 'jeudi',
-            '_friday' => 'vendredi',
+            'lundi' => 'lundi',
+            'mardi' => 'mardi',
+            'jeudi' => 'jeudi',
+            'vendredi' => 'vendredi',
         );
     }
 
@@ -336,4 +339,22 @@ class Eleve
     {
         return $this->division;
     }
+
+    /**
+     * @var \WCS\CantineBundle\Entity\Lunch
+     */
+    private $date;
+
+    /**
+     * Get date
+     *
+     * @return \Application\Sonata\UserBundle\Entity\User
+     */
+    public function getdate()
+    {
+        return $this->date;
+    }
+
+
+
 }

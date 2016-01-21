@@ -30,30 +30,42 @@ class EleveRepository extends EntityRepository
         $result = [];
         for ($i=1;$i<=4;$i++)
         {
-            $res = $this->getEntityManager()
+            /*$res = $this->getEntityManager()
                 ->createQuery(
-                    'SELECT COUNT(e) FROM WCSCantineBundle:Eleve e WHERE e.dates LIKE :day '
+                    'SELECT COUNT(d) FROM WCSCantineBundle:Lunch d WHERE d.date LIKE :day'
                 )
                 ->setParameter(':day', "%".$day."%")
                 ->getResult();
             array_push($result, $res[0][1]);
             if ($i===2) $day = date('Y-m-d', strtotime($day.' + 2 DAY')); // Jump Wednesday off
-            else $day = date('Y-m-d', strtotime($day.' + 1 DAY'));
+            else $day = date('Y-m-d', strtotime($day.' + 1 DAY'));*/
         }
 
         return $result;
     }
-    public function mealsByMonth($children)
-    {
-        //Request meals by months by pupils
-        return $this->getEntityManager()
-            ->createQuery(
 
-                  )
-            ->setParameter(':eleve',"%".$children."%")
+    public function getNumberMonthMeals($eleve_id)
+    {
+        $dateNow = new \Datetime();
+        $dateNowFormat = date_format($dateNow, ('Y-m'));
+
+        $dates = $this->getEntityManager()
+            ->createQuery(
+                'SELECT e FROM WCSCantineBundle:Lunch e WHERE e. LIKE :eleve'
+            )
+            ->setParameter(':eleve', "%".$eleve_id."%")
             ->getResult();
 
-
+        $count = '';
+        foreach ($dates as $date){
+            if (preg_match('#^'.$dateNowFormat.'#', $date) === 1) {
+                $count = count($date);
+            }
+        }
+        return $count;
 
     }
+
+
+
 }

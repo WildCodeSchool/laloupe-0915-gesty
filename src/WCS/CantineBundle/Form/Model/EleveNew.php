@@ -47,8 +47,6 @@ class EleveNew
     }
 
 
-    // GENERATED CODE
-
     /**
      * @var integer
      */

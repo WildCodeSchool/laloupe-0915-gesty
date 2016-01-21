@@ -64,6 +64,35 @@ Application\Sonata\UserBundle\Entity\User:      # le lien pour la doc, http://sy
                 pattern: '/[A-Z"#{}€@<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²a-z]/'
                 match: false
 
+        file_domicile:
+            - File:
+                maxSize: 1024k
+                mimeTypes: [application/pdf]
+                mimeTypesMessage: Veuillez télécharger un fichier PDF valide.
+
+        file_prestations:
+            - File:
+                maxSize: 1024k
+                mimeTypes: [application/pdf]
+                mimeTypesMessage: Veuillez télécharger un fichier PDF valide.
+
+        file_salaire_1:
+            - File:
+                maxSize: 1024k
+                mimeTypes: [application/pdf]
+                mimeTypesMessage: Veuillez télécharger un fichier PDF valide.
+
+        file_salaire_2:
+            - File:
+                maxSize: 1024k
+                mimeTypes: [application/pdf]
+                mimeTypesMessage: Veuillez télécharger un fichier PDF valide.
+
+        file_salaire_3:
+            - File:
+                maxSize: 1024k
+                mimeTypes: [application/pdf]
+                mimeTypesMessage: Veuillez télécharger un fichier PDF valide.
 
 
 

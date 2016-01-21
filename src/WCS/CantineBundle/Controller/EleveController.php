@@ -2,15 +2,16 @@
 
 namespace WCS\CantineBundle\Controller;
 
-use Application\Sonata\UserBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use WCS\CantineBundle\Entity\Eleve;
+use WCS\CantineBundle\Entity\Lunch;
 use WCS\CantineBundle\Form\Handler\EleveHandler;
 use WCS\CantineBundle\Form\Model\EleveNew;
 use WCS\CantineBundle\Form\Type\EleveEditType;
 use WCS\CantineBundle\Form\Type\EleveType;
+use WCS\CantineBundle\Form\Type\LunchType;
 
 /**
  * Eleve controller.
@@ -40,24 +41,79 @@ class EleveController extends Controller
      */
     public function createAction(Request $request)
     {
+        // Enregistre les élèves en BDD
         $entity = new EleveNew();
         $form = $this->createCreateForm($entity);
         $handler = new EleveHandler($form, $request, $this->getDoctrine()->getManager(), $this->getUser());
-
         if ($handler->process($entity)) {
             return $this->redirect($this->generateUrl('wcs_cantine_dashboard'));
         }
+
         // Lancement de la fonction calendrier
         $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
         $limit = new \DateTime();
 
-        $vacancesHiver = $this->getHolidays('2016-02-02', '2016-02-21');
+        // Liste des jours de la semaine
+        $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
 
-        $vacancesEte = new \DateTime('2016-07-06');
+        // Récupération des dates du calendrier
+
+        // Récupère les jours fériés en base de données
+        $dateNow = new \DateTime('Y');
+        $dateString = date_format($dateNow, ('Y'));
+        $em = $this->getDoctrine()->getManager();
+        $feries = $em->getRepository('WCSCantineBundle:Feries')->findBy(array('annee' => $dateString));
+        $feriesArray = [];
+        for ($i = 0; $i < count($feries); $i++){
+            $feriesArray[$i]['paques'] = $feries[$i]->getPaques();
+            $feriesArray[$i]['pentecote'] = $feries[$i]->getPentecote();
+            $feriesArray[$i]['ascension'] = $feries[$i]->getAscension();
+        }
+        // fin //
+
+        // Date du début et de fin des vacances de la Toussaint
+        $toussaintStart = $this->container->get('calendar.holidays')->getToussaintStart();
+        $toussaintStartDT = new \DateTime($toussaintStart);
+        $toussaintStartFormat = date_format($toussaintStartDT, ('Y-m-d'));
+        $toussaintEnd = $this->container->get('calendar.holidays')->getToussaintEnd();
+        $toussaintEndDT = new \DateTime($toussaintEnd);
+        $toussaintEndFormat = date_format($toussaintEndDT, ('Y-m-d'));
+
+        // Date du début et de fin des vacances de Noël
+        $noelStart = $this->container->get('calendar.holidays')->getNoelStart();
+        $noelStartDT = new \DateTime($noelStart);
+        $noelStartFormat = date_format($noelStartDT, ('Y-m-d'));
+        $noelEnd = $this->container->get('calendar.holidays')->getNoelEnd();
+        $noelEndDT = new \DateTime($noelEnd);
+        $noelEndFormat = date_format($noelEndDT, ('Y-m-d'));
+
+        // Date du début et de fin des vacances d'hiver
+        $hiverStart = $this->container->get('calendar.holidays')->getHiverStart();
+        $hiverStartDT = new \DateTime($hiverStart);
+        $hiverStartFormat = date_format($hiverStartDT, ('Y-m-d'));
+        $hiverEnd = $this->container->get('calendar.holidays')->getHiverEnd();
+        $hiverEndDT = new \DateTime($hiverEnd);
+        $hiverEndFormat = date_format($hiverEndDT, ('Y-m-d'));
+
+        // Date du début et de fin des vacances de Printemps
+        $printempsStart = $this->container->get('calendar.holidays')->getPrintempsStart();
+        $printempsStartDT = new \DateTime($printempsStart);
+        $printempsStartFormat = date_format($printempsStartDT, ('Y-m-d'));
+        $printempsEnd = $this->container->get('calendar.holidays')->getPrintempsEnd();
+        $printempsEndDT = new \DateTime($printempsEnd);
+        $printempsEndFormat = date_format($printempsEndDT, ('Y-m-d'));
+
+        $vacancesHiver = $this->getHolidays($hiverStartFormat, $hiverEndFormat);
+        $vacancesNoel = $this->getHolidays($noelStartFormat, $noelEndFormat);
+        $vacancesToussaint = $this->getHolidays($toussaintStartFormat, $toussaintEndFormat);
+        $vacancesPrintemps = $this->getHolidays($printempsStartFormat, $printempsEndFormat);
+
+        $icalVacancesEte = new \DateTime($this->container->get('calendar.holidays')->getYearEnd());
+        $grandesVacances = date_format($icalVacancesEte, ('Y-m-d'));
+
+        $vacancesEte = new \DateTime($this->container->get('calendar.holidays')->getYearEnd());
         $date = date_timestamp_get($limit) + 168*60*60;
         $finAnnee = date_timestamp_get($vacancesEte);
-
-        $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
 
         return $this->render('WCSCantineBundle:Eleve:new.html.twig', array(
             'entity' => $entity,
@@ -67,6 +123,11 @@ class EleveController extends Controller
             'dateLimit' => $date,
             'finAnnee' => $finAnnee,
             'vacancesHiver' => $vacancesHiver,
+            'vacancesNoel' => $vacancesNoel,
+            'grandesVacances' => $grandesVacances,
+            'vacancesToussaint' => $vacancesToussaint,
+            'vacancesPrintemps' => $vacancesPrintemps,
+            'feries' => $feriesArray,
         ));
     }
 
@@ -130,10 +191,21 @@ class EleveController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $dateNow = new \DateTime('Y');
+        $dateString = date_format($dateNow, ('Y'));
 
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
-        $lunches = $em->getRepository('WCSCantineBundle:Lunch')->findBy(array('eleve' => $entity));
+
+        // Récupère les jours fériés en base de données
+        $feries = $em->getRepository('WCSCantineBundle:Feries')->findBy(array('annee' => $dateString));
+        $feriesArray = [];
+        for ($i = 0; $i < count($feries); $i++){
+            $feriesArray[$i]['paques'] = $feries[$i]->getPaques();
+            $feriesArray[$i]['pentecote'] = $feries[$i]->getPentecote();
+            $feriesArray[$i]['ascension'] = $feries[$i]->getAscension();
+        }
+        // Fin //
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Eleve entity.');
@@ -145,13 +217,52 @@ class EleveController extends Controller
         $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
         $limit = new \DateTime();
 
-        $vacancesHiver = $this->getHolidays('2016-02-02', '2016-02-21');
+        // Liste des jours de la semaine
+        $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
 
-        $vacancesEte = new \DateTime('2016-07-06');
+        // Date du début et de fin des vacances de la Toussaint
+        $toussaintStart = $this->container->get('calendar.holidays')->getToussaintStart();
+        $toussaintStartDT = new \DateTime($toussaintStart);
+        $toussaintStartFormat = date_format($toussaintStartDT, ('Y-m-d'));
+        $toussaintEnd = $this->container->get('calendar.holidays')->getToussaintEnd();
+        $toussaintEndDT = new \DateTime($toussaintEnd);
+        $toussaintEndFormat = date_format($toussaintEndDT, ('Y-m-d'));
+
+        // Date du début et de fin des vacances de Noël
+        $noelStart = $this->container->get('calendar.holidays')->getNoelStart();
+        $noelStartDT = new \DateTime($noelStart);
+        $noelStartFormat = date_format($noelStartDT, ('Y-m-d'));
+        $noelEnd = $this->container->get('calendar.holidays')->getNoelEnd();
+        $noelEndDT = new \DateTime($noelEnd);
+        $noelEndFormat = date_format($noelEndDT, ('Y-m-d'));
+
+        // Date du début et de fin des vacances d'hiver
+        $hiverStart = $this->container->get('calendar.holidays')->getHiverStart();
+        $hiverStartDT = new \DateTime($hiverStart);
+        $hiverStartFormat = date_format($hiverStartDT, ('Y-m-d'));
+        $hiverEnd = $this->container->get('calendar.holidays')->getHiverEnd();
+        $hiverEndDT = new \DateTime($hiverEnd);
+        $hiverEndFormat = date_format($hiverEndDT, ('Y-m-d'));
+
+        // Date du début et de fin des vacances de Printemps
+        $printempsStart = $this->container->get('calendar.holidays')->getPrintempsStart();
+        $printempsStartDT = new \DateTime($printempsStart);
+        $printempsStartFormat = date_format($printempsStartDT, ('Y-m-d'));
+        $printempsEnd = $this->container->get('calendar.holidays')->getPrintempsEnd();
+        $printempsEndDT = new \DateTime($printempsEnd);
+        $printempsEndFormat = date_format($printempsEndDT, ('Y-m-d'));
+
+        $vacancesHiver = $this->getHolidays($hiverStartFormat, $hiverEndFormat);
+        $vacancesNoel = $this->getHolidays($noelStartFormat, $noelEndFormat);
+        $vacancesToussaint = $this->getHolidays($toussaintStartFormat, $toussaintEndFormat);
+        $vacancesPrintemps = $this->getHolidays($printempsStartFormat, $printempsEndFormat);
+
+        $icalVacancesEte = new \DateTime($this->container->get('calendar.holidays')->getYearEnd());
+        $grandesVacances = date_format($icalVacancesEte, ('Y-m-d'));
+
+        $vacancesEte = new \DateTime($this->container->get('calendar.holidays')->getYearEnd());
         $date = date_timestamp_get($limit) + 168*60*60;
         $finAnnee = date_timestamp_get($vacancesEte);
-
-        $jours= array('Lun','Mar','Mer','Jeu','Ven','Sam','Dim');
 
         return $this->render('WCSCantineBundle:Eleve:edit.html.twig', array(
             'entity' => $entity,
@@ -161,7 +272,11 @@ class EleveController extends Controller
             'dateLimit' => $date,
             'finAnnee' => $finAnnee,
             'vacancesHiver' => $vacancesHiver,
-            'lunches' => $lunches,
+            'vacancesToussaint' => $vacancesToussaint,
+            'vacancesNoel' => $vacancesNoel,
+            'vacancesPrintemps' => $vacancesPrintemps,
+            'grandesVacances' => $grandesVacances,
+            'feries' => $feriesArray,
         ));
     }
 
@@ -174,7 +289,7 @@ class EleveController extends Controller
      */
     private function createEditForm(Eleve $entity)
     {
-        $form = $this->createForm(new EleveEditType(), $entity, array(
+        $form = $this->createForm(new EleveEditType($this->getDoctrine()->getManager()), $entity, array(
             'action' => $this->generateUrl('eleve_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
@@ -282,30 +397,23 @@ class EleveController extends Controller
      */
     private function getHolidays($start, $end)
     {
-        $interval = new \DateInterval('P1D');
-
-        $realEnd = new \DateTime($end);
-        $realEnd->add($interval);
-
-        $period = new \DatePeriod(
-            new \DateTime($start),
-            $interval,
-            $realEnd
-        );
+        $array = [];
+        $period = new \DatePeriod(new \DateTime($start), new \DateInterval('P1D'), new \DateTime($end));
 
         foreach ($period as $date) {
             $array[] = date_format($date, ('Y-m-d'));
         }
-
         return $array;
     }
 
     public function dashboardAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $moyendepaiement = $user->getmodeDePaiement();
         $children = $user->getEleves();
+
+        $em = $this->getDoctrine()->getManager();
+        $presentChildren = $em->getRepository('WCSCantineBundle:Eleve')->findOneBy(array('user' => $user->getId()));
 
         if (!$user) {
             throw $this->createNotFoundException('Aucun utilisateur trouvé pour cet id:');
@@ -315,7 +423,8 @@ class EleveController extends Controller
         return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(
             'user' => $user,
             'children' => $children,
-            'modeDePaiement' =>$moyendepaiement
+            'modeDePaiement' => $moyendepaiement,
+            'presentChildren' => $presentChildren,
         ));
 
 

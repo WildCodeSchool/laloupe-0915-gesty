@@ -1,0 +1,21 @@
+WCS\CantineBundle\Entity\Feries:
+    type: entity
+    table: null
+    repositoryClass: WCS\CantineBundle\Entity\FeriesRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        annee:
+            type: string
+            length: 4
+        paques:
+            type: date
+        ascension:
+            type: date
+        pentecote:
+            type: date
+    lifecycleCallbacks: {  }

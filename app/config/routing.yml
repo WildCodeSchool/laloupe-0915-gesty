@@ -41,3 +41,4 @@ sonata_user_change_password:
 sonata_user:
     resource: '@SonataUserBundle/Resources/config/routing/admin_security.xml'
     prefix: /admin
+

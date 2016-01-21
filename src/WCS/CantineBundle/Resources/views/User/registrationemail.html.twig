@@ -1,0 +1,15 @@
+{# src/WCS/CantineBundle/Resources/views/User/registration.email.twig #}
+
+{% block subject %}Confirmation d'inscription{% endblock %}
+
+{% block body_html %}
+    <div class="lien">
+    <p> Bonjour {{ user.lastname }}  {{ user.firstname }} !</p><br/>
+
+        <p>Merci de valider votre inscription en cliquant sur le lien suivant : {{ confirmationUrl }}</p><br/>
+
+    </div>
+
+
+    l'Administrateur de Gesty
+{% endblock %}

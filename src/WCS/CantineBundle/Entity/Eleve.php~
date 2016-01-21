@@ -14,13 +14,16 @@ class Eleve
     public function __toString()
     {
         return $this->nom;
+
     }
 
     public function __construct()
     {
         $this->habits = array();
 
+
     }
+
 
     public static function getHabitDays()
     {
@@ -336,4 +339,8 @@ class Eleve
     {
         return $this->division;
     }
+
+
+
+
 }

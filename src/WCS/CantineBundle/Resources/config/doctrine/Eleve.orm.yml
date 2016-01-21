@@ -38,5 +38,9 @@ WCS\CantineBundle\Entity\Eleve:
         lunches:
             targetEntity: WCS\CantineBundle\Entity\Lunch
             mappedBy: eleve
+            joinColumn:
+                name: date
+                referencedColumnName: date
+
 
     lifecycleCallbacks: {  }

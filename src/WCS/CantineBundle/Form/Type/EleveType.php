@@ -24,7 +24,7 @@ class EleveType extends AbstractType
             'format' => 'dd-MMMM-yyyy',
             'years' =>  range(\date("Y") - 11, \date("Y") - 2),))
             ->add('division', 'entity', array(
-                'class' => 'WCSCantineBundle:Division'))
+                'class' => 'WCSCantineBundle:Division', 'required'=>true,'placeholder'=>'Sélectionnez'))
             ->add('regimeSansPorc', 'checkbox', array('required'=>false))
             ->add('allergie', 'text', array('label' =>'allergie', 'required'=>false))
             ->add('atteste','checkbox', array('required'=>true))

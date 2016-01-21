@@ -30,7 +30,8 @@ Application\Sonata\UserBundle\Entity\User:
             length: 255
             nullable: true
         modeDePaiement:
-            type: integer
+            type: string
+            length: 255
             column: mode_de_paiement
             nullable: true
         numeroIban:
@@ -42,6 +43,32 @@ Application\Sonata\UserBundle\Entity\User:
             type: boolean
             column: mandat_actif
             nullable: true
+        path_domicile:
+            type: string
+            length: 255
+        path_prestations:
+            type: string
+            length: 255
+        path_salaire_1:
+            type: string
+            length: 255
+        path_salaire_2:
+            type: string
+            length: 255
+        path_salaire_3:
+            type: string
+            length: 255
+
+
+
+    lifecycleCallbacks:
+        prePersist: [ preUpload ]
+        preUpdate: [ preUpload ]
+        postPersist: [ upload ]
+        postUpdate: [ upload ]
+        postRemove: [ removeUpload ]
+
+
     oneToMany:
         eleves:
             targetEntity: WCS\CantineBundle\Entity\Eleve

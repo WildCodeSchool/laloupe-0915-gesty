@@ -22,6 +22,15 @@ services:
                - WCS\CantineBundle\Entity\Division
                - ~
 
+      sonata.admin.feries:
+           class: WCS\CantineBundle\Admin\FeriesAdmin
+           tags:
+               - { name: sonata.admin, manager_type: orm, group: "wcs.group.feries", label: "Jours fériés" }
+           arguments:
+               - ~
+               - WCS\CantineBundle\Entity\Feries
+               - ~
+
       sonata.user.profile.form.type:
             class: Application\Sonata\UserBundle\Form\Type\ProfileType
             arguments: [ "Application\Sonata\UserBundle\Entity\User" ]
@@ -34,4 +43,12 @@ services:
             tags:
                 - {name: "form.type", alias: "wcs_cantinebundle_eleve"}
 
+      application.sonata_user_listener:
+            class: Application\Sonata\UserBundle\EventListener\editProfileListener
+            tags:
+                - { name: doctrine.event_listener, event: preUpdate }
+            arguments:
+                - @mailer
 
+      calendar.holidays:
+            class: WCS\CantineBundle\Services\CalendarHolidays

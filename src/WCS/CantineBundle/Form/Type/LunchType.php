@@ -15,9 +15,7 @@ class LunchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('eleve')
-            ->add('Valider', 'submit')
-        ;
+            ->add('date', 'text');
     }
     
     /**

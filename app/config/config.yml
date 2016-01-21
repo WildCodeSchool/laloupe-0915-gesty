@@ -161,13 +161,19 @@ fos_user:
 
     service:
         user_manager: sonata.user.orm.user_manager # If you're using doctrine orm (use sonata.user.mongodb.group_manager for mongodb)
-
+        mailer: fos_user.mailer.twig_swift # Permet de définir quel service de mail utiliser
     registration:
-        confirmation:
-            enabled: true
         form:
             type: application_sonata_user_registration
-
+        confirmation:
+            enabled: true
+            from_email:
+                # Adresse de l'expediteur
+                    address: cryptyo@gmail.com
+                # Nom de l'expediteur
+                    sender_name: Gesty
+                # Permet de définir le template de l'email à envoyer (en html)
+            template: WCSCantineBundle:User:registrationEmail.html.twig
 
 
 sonata_admin:
@@ -208,7 +214,9 @@ sonata_admin:
             wcs.group.division:
                 icon: '<i class="fa fa-home"></i>'
                 label: Ecoles
-
+            wcs.group.feries:
+                icon: '<i class="fa fa-calendar"></i>'
+                label: Jours fériés
 
 
 braincrafted_bootstrap:

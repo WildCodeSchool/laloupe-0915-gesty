@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 use WCS\CantineBundle\Form\Type\LunchType;
 use WCS\CantineBundle\Entity\Lunch;
+use WCS\CantineBundle\Entity\EleveRepository;
 
 /**
  * List controller.
@@ -32,8 +33,12 @@ class CanteenManagerController extends Controller
      */
     public function todayListAction(Request $request, $schoolId)
     {
+        $dateNow = new \DateTime();
+
         $em = $this->getDoctrine()->getManager();
-        $lunches = $em->getRepository('WCSCantineBundle:Lunch')->getTodayList($schoolId);
+        $lunches = $em->getRepository('WCSCantineBundle:Lunch')->findBy(array(
+            'date' => $dateNow,
+        ));
         $school = $em->getRepository('WCSCantineBundle:School')->find($schoolId);
 
         $lunch = new Lunch();

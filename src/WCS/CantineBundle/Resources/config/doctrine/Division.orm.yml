@@ -10,9 +10,11 @@ WCS\CantineBundle\Entity\Division:
         grade:
             type: string
             length: 255
+
         headTeacher:
             type: string
             length: 255
+
     lifecycleCallbacks: {  }
 
     manyToOne:

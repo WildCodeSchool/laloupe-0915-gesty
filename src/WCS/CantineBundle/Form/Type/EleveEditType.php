@@ -2,15 +2,23 @@
 
 namespace WCS\CantineBundle\Form\Type;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use WCS\CantineBundle\Entity\Eleve;
+use WCS\CantineBundle\Form\DataTransformer\LunchToStringTransformer;
 
 
 class EleveEditType extends AbstractType
 {
+    private $manager;
 
+    public function __construct(ObjectManager $manager)
+    {
+        $this->manager = $manager;
+    }
 
     /**
      * @param FormBuilderInterface $builder
@@ -35,6 +43,13 @@ class EleveEditType extends AbstractType
                 'multiple' => true,
                 'required'  => false
             ))
+
+            ->add('lunches', 'text', array(
+                'invalid_message' => 'That is not valid dates for lunches',
+            ));
+
+        $builder->get('lunches')
+            ->addModelTransformer(new LunchToStringTransformer($this->manager, $builder->getData()));
         ;
     }
     

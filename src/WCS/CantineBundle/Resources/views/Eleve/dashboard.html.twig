@@ -2,6 +2,7 @@
 
 {% block body %}
 
+    {% if presentChildren == null %}
     <div class="modal fade" tabindex="-1" data-backdrop="show" role="dialog"id="myModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -18,7 +19,7 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-
+        {% endif %}
 
 
         <div class="col-md-8 col-md-offset-2">
@@ -52,14 +53,12 @@
                         <td>Aucune commune renseignée</td><br/>
                         {% endif %}
                     </blockquote>
-                    {% if modeDePaiement %}
-                    {% if modeDePaiement != null and modeDePaiement == 0 %}
+                    {% if  modeDePaiement == 'Cheque' %}
                         <td>Paiement par chèque</td>
-                    {% elseif modeDePaiement == 1 %}
+                    {% elseif modeDePaiement == 'Especes' %}
                         <td>Paiement par espèces</td>
-                    {% else  %}
+                    {% elseif modeDePaiement == 'Prelevements' %}
                         <td>Paiement par prélèvement</td>
-                    {% endif %}
                     {% else  %}
                         <td>Aucun moyen de paiement renseigné</td>
                     {% endif %}

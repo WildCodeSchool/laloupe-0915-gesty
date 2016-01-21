@@ -26,4 +26,15 @@ class LunchRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter(':place', $school)
             ->getResult();
     }
+
+    public function findOneByDateAndEleve($date, $eleve)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT l FROM WCSCantineBundle:Lunch l WHERE l.date = :date AND l.eleve = :eleve'
+            )
+            ->setParameter(':date', $date)
+            ->setParameter(':eleve', $eleve)
+            ->getResult();
+    }
 }

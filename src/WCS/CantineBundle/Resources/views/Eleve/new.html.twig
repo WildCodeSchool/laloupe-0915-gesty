@@ -4,10 +4,10 @@
 
 
 {% block body %}
-
     {% block retour %}
         <a href="{{ path('wcs_cantine_dashboard') }}">Retour</a>
     {% endblock %}
+
     <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
         <center><h1>Inscription de mon enfant</h1></center>
         <center>
@@ -44,6 +44,9 @@
                     {% endif %}
                     {{ form_widget(form.division) }} <br/>
                 </div>
+
+
+
             </div>
 
             <div class="col-md-12"><!-- Calendar -->
@@ -80,6 +83,10 @@
                     <a class="moisecole" href="#" id="linkMonth05">Mai</a>
                     <a class="moisecole" href="#" id="linkMonth06">Jui</a>
                     <a class="moisecole" href="#" id="linkMonth07">Jui</a>
+                </div>
+
+                <div class="hidden">
+                    {{ form_widget(form.dates) }}
                 </div>
 
                 {% for year, months in calendrier %}
@@ -184,7 +191,6 @@
                     <input type="submit" name="commit" value="Inscrire mon enfant" class="btn btn-primary btn-lg btn-block">
                 </div>
             </div>
-
             {{ form_end(form) }}
         </div>
     </div>
@@ -201,7 +207,6 @@
             $('.months a#linkMonth'+currentMonth).addClass('active');
             $('.month').hide();
             $('.month#month'+currentMonth).show();
-
 
             // Onclick the month selected appear and the other is hidden
             $('.months a').click(function(){
@@ -228,9 +233,44 @@
                 //console.log(dates);
             });
 
-
             // Auto select of week checkboxes
             $('.choix input').on('change', function(){
+
+                // Récupère les dates des vacances
+                var finAnnee = '{{ grandesVacances }}';
+                var finAnneeTS = new Date (finAnnee);
+                finAnneeTS.setHours(0); // Désactivation des heures, minutes et secondes
+                finAnneeTS.setMinutes(0);
+                finAnneeTS.setSeconds(0);
+
+                var vacancesHiver = [
+                    {% for dateHiver in vacancesHiver %}
+                    '{{ dateHiver }}',
+                    {% endfor %}
+                ];
+                var vacancesNoel = [
+                    {% for dateNoel in vacancesNoel %}
+                    '{{ dateNoel }}',
+                    {% endfor %}
+                ];
+                var vacancesToussaint = [
+                    {% for dateToussaint in vacancesToussaint %}
+                    '{{ dateToussaint }}',
+                    {% endfor %}
+                ];
+                var vacancesPrintemps = [
+                    {% for datePrintemps in vacancesPrintemps %}
+                    '{{ datePrintemps }}',
+                    {% endfor %}
+                ];
+                var feries = [
+                    {% for key, array in feries %}
+                    {% for jours, dates in array %}
+                    '{{ dates|date('Y-m-d') }}',
+                    {% endfor %}
+                    {% endfor %}
+                ];
+
                 var daySelected = parseInt($(this).attr('id').split('_')[4])+1;
                 if (daySelected >= 3) daySelected++;
                 var dateNow = new Date(); // Date d'aujourd'hui
@@ -246,16 +286,51 @@
                     d.setMinutes(0);
                     d.setSeconds(0);
 
-                    if (d.getTime() > dateNow.getTime())
+                    if (d.getTime() > dateNow.getTime() && d.getTime() < finAnneeTS.getTime())
                     {
                         $(this)[0].checked = checked;
+                        // Désactive les jours fériés fixes
+                        if (getDate.match(/[0-9]{4}-11-01/) || getDate.match(/[0-9]{4}-05-01/) || getDate.match(/[0-9]{4}-01-01/)
+                                || getDate.match(/[0-9]{4}-05-08/) || getDate.match(/[0-9]{4}-11-11/))
+                        {
+                            this.checked = false;
+                            $(this)[0].disabled = true;
+                        }
+
+                        // Désactive les vacances scolaires
+                        for (i = 0; i < vacancesHiver.length; i++) {
+                            if (vacancesHiver[i] == getDate){
+                                this.checked = false;
+                                $(this)[0].disabled = true;
+                            }
+                        }
+                        for (j = 0; j < vacancesNoel.length; j++) {
+                            if (vacancesNoel[j] == getDate){
+                                this.checked = false;
+                                $(this)[0].disabled = true;
+                            }
+                        }
+                        for (k = 0; k < vacancesToussaint.length; k++) {
+                            if (vacancesToussaint[k] == getDate){
+                                this.checked = false;
+                                $(this)[0].disabled = true;
+                            }
+                        }
+                        for (l = 0; l < vacancesPrintemps.length; l++) {
+                            if (vacancesPrintemps[l] == getDate){
+                                this.checked = false;
+                                $(this)[0].disabled = true;
+                            }
+                        }
+                        for (m = 0; m < feries.length; m++) {
+                            if (feries[m] == getDate){
+                                this.checked = false;
+                                $(this)[0].disabled = true;
+                            }
+                        }
                     }
-
                 })
-
-
             });
-
 
             // fonction pour bloquer les jours antérieurs + 7
             function disablePrevDate(){
@@ -264,6 +339,37 @@
                 dateNow.setMinutes(0);
                 dateNow.setSeconds(0);
                 dateNow.setDate(dateNow.getDate() + 7); // Ajout de 7 jours
+
+                // Récupère les dates des vacances
+                var vacancesHiver = [
+                    {% for dateHiver in vacancesHiver %}
+                    '{{ dateHiver }}',
+                    {% endfor %}
+                ];
+                var vacancesNoel = [
+                    {% for dateNoel in vacancesNoel %}
+                    '{{ dateNoel }}',
+                    {% endfor %}
+                ];
+                var vacancesToussaint = [
+                    {% for dateToussaint in vacancesToussaint %}
+                    '{{ dateToussaint }}',
+                    {% endfor %}
+                ];
+                var vacancesPrintemps = [
+                    {% for datePrintemps in vacancesPrintemps %}
+                    '{{ datePrintemps }}',
+                    {% endfor %}
+                ];
+                var feries = [
+                    {% for key, array in feries %}
+                    {% for jours, dates in array %}
+                    '{{ dates|date('Y-m-d') }}',
+                    {% endfor %}
+                    {% endfor %}
+                ];
+                var grandesVacances = '{{ grandesVacances }}';
+
                 $(".calendar-checkbox").each(function(){ // Pour chaque checkbox
                     var allCheckboxes = $(this).attr('name'); // On récupère l'attribut 'name'
                     var currentDate = new Date(allCheckboxes); // On transforme en date (type js)
@@ -271,8 +377,43 @@
                     currentDate.setMinutes(0);
                     currentDate.setSeconds(0);
 
-                    $(this)[0].disabled = (currentDate.getTime() < dateNow.getTime());
+                    // Désactive les jours fériés fixes
+                    $(this)[0].disabled = (currentDate.getTime() < dateNow.getTime()
+                    || allCheckboxes > grandesVacances || allCheckboxes.match(/[0-9]{4}-05-01/) || allCheckboxes.match(/[0-9]{4}-11-01/)
+                    || allCheckboxes.match(/[0-9]{4}-01-01/) || allCheckboxes.match(/[0-9]{4}-05-08/) || allCheckboxes.match(/[0-9]{4}-11-11/));
                     // .disabled = désactive la checkbox, .getTime() = obtenir le timestamp
+
+                    // Désactive les vacances scolaires
+                    for (i = 0; i < vacancesHiver.length; i++) {
+                        if (vacancesHiver[i] == allCheckboxes){
+                            this.checked = false;
+                            $(this)[0].disabled = true;
+                        }
+                    }
+                    for (j = 0; j < vacancesNoel.length; j++) {
+                        if (vacancesNoel[j] == allCheckboxes){
+                            this.checked = false;
+                            $(this)[0].disabled = true;
+                        }
+                    }
+                    for (k = 0; k < vacancesToussaint.length; k++) {
+                        if (vacancesToussaint[k] == allCheckboxes){
+                            this.checked = false;
+                            $(this)[0].disabled = true;
+                        }
+                    }
+                    for (l = 0; l < vacancesPrintemps.length; l++) {
+                        if (vacancesPrintemps[l] == allCheckboxes){
+                            this.checked = false;
+                            $(this)[0].disabled = true;
+                        }
+                    }
+                    for (m = 0; m < feries.length; m++) {
+                        if (feries[m] == allCheckboxes){
+                            this.checked = false;
+                            $(this)[0].disabled = true;
+                        }
+                    }
                 });
             }
 
