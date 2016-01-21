@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+
 class LunchType extends AbstractType
 {
     /**
@@ -15,7 +16,18 @@ class LunchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('date', 'text');
+            ->add('eleve', 'choice', array(
+                'choices' => array(46 => 'test'),
+                'label' => false
+            ))
+            ->add('status', 'choice', array(
+                'choices' => array('0' => 'Non-Inscrit'),
+                'label' => false
+                ))
+            ->add('date', 'text', array(
+                'label' => false
+            ))
+            ->add('Ajouter', 'submit');
     }
     
     /**

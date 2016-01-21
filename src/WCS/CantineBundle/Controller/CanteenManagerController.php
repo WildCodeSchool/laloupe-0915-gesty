@@ -49,7 +49,7 @@ class CanteenManagerController extends Controller
             $em->persist($lunch);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('wcs_gesty_ecoles'));
+            return $this->redirect($this->generateUrl('canteenManager/todayList/'.$schoolId));
         }
 
         return $this->render('WCSCantineBundle:Eleve:todayList.html.twig', array(

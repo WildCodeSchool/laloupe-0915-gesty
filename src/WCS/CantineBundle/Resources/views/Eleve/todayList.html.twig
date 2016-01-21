@@ -4,7 +4,6 @@
 
     <div class="container-fluid">
         <a href="{{ path('wcs_gesty_ecoles') }}" class="btn__retour">Retour</a>
-        {{ form_start(form) }}
         <div class="table-responsive">
             <table class="table">
 
@@ -42,16 +41,16 @@
 
 
                 </tr>
+                {{ form_start(form) }}
                 <tr>
-                    <td class="text-center"><a class="ajouter" href="">Ajouter</a></td>
-                    <td class="text-center"><input name="nom" /></td>
+                    <td class="text-center">{{ form_widget(form.Ajouter) }}</a></td>
+                    <td class="text-center">{{ form_widget(form.eleve) }}</td>
                     <td class="text-center"><input name="prenom" /></td>
-                    <td class="text-center"><input name="allergies" /></td>
+                    <td class="text-center">{{ form_widget(form.status) }}</td>
                     <td class="text-center"><input name="regimesansporc" /></td>
                 </tr>
             </table>
         </div>
-
 
 
         <div class="table-responsive">
@@ -72,12 +71,8 @@
             </table>
         </div>
 
-
-
-        {{ form_widget(form.eleve) }}
-        <div class="text-center">{{ form_widget(form.Valider) }}</div>
-
         {{ form_end(form) }}
+
 
 
 

@@ -196,6 +196,13 @@ class EleveController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
+        /*$lunches = $em->getRepository('WCSCantineBundle:Lunch')->findBy(array(
+            'eleve' => $id,
+        ));
+        $lunchesArray = [];
+        for ($i = 0; $i < count($lunches); $i++){
+            $lunchesArray[$i]['repas'] = $lunches[$i]->getDate();
+        }*/
 
         // Récupère les jours fériés en base de données
         $feries = $em->getRepository('WCSCantineBundle:Feries')->findBy(array('annee' => $dateString));
@@ -277,6 +284,7 @@ class EleveController extends Controller
             'vacancesPrintemps' => $vacancesPrintemps,
             'grandesVacances' => $grandesVacances,
             'feries' => $feriesArray,
+            //'lunches' => $lunchesArray,
         ));
     }
 

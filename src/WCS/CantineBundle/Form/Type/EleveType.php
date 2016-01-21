@@ -2,7 +2,6 @@
 
 namespace WCS\CantineBundle\Form\Type;
 
-use Proxies\__CG__\WCS\CantineBundle\Entity\Etablissement;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
