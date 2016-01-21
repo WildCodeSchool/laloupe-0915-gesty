@@ -76,7 +76,7 @@ class ProfileType extends \Sonata\UserBundle\Form\Type\ProfileType
                 'required'=>true
             ))
             ->add('file_salaire_1', 'file', array('label'=>'Justificatif de revenus*',
-                'required'=>true,
+                'required'=>false,
                 ))
             ->add('file_salaire_2', 'file', array('label'=>'Salaire',
                 'required'=>false

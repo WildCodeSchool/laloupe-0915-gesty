@@ -35,6 +35,7 @@ class User extends BaseUser
         $this->enabled = false;
 
     }
+    //Gestion des uploads
 
     public $file_domicile;
     public $file_prestations;
@@ -50,7 +51,7 @@ class User extends BaseUser
 
     protected function getUploadRootDir()
     {
-        return __DIR__.'/../../../../../app/'.$this->getUploadDir();
+        return __DIR__.'/../../../../../web/bundles/wcscantine/'.$this->getUploadDir();
     }
 
     public function getWebPathDomicile()
@@ -172,10 +173,6 @@ class User extends BaseUser
             unlink($file);
         }
     }
-
-
-
-
 
 
     /** Generate code */
