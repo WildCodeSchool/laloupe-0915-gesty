@@ -19,10 +19,11 @@ class LunchType extends AbstractType
     {
         $builder
             ->add('eleve', 'entity', array(
-                'class' => 'WCSCantineBundle:Eleve'
+                'class' => 'WCSCantineBundle:Eleve',
+                'label' => false
             ))
             ->add('status', 'choice', array(
-                'choices' => array('0' => 'Non-Inscrit'),
+                'choices' => array('1' => 'Non-Inscrit'),
                 'label' => false
                 ))
             ->add('date', 'date', array(

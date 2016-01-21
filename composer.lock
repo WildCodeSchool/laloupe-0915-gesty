@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1a1e310c52984066ca2500a73d651cf1",
-    "content-hash": "55b5e019414d85db192a79b44f3425d9",
+    "hash": "50a2d7fe418277502e732ed4df32f5b3",
+    "content-hash": "970e6ba91e36290b28e75d75aafbacc3",
     "packages": [
         {
             "name": "braincrafted/bootstrap-bundle",

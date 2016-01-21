@@ -259,3 +259,14 @@ a{
 .alert-success{
     text-align:center;
 }
+
+.btnAjouter {
+    margin-bottom: 10px !important;
+    margin-top: -5px !important;
+}
+
+.eleveAjoute {
+    font-family: 'Carter One';
+    text-align: center;
+    color: #5CAB18;
+}

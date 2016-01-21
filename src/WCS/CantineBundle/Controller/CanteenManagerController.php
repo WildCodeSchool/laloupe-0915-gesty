@@ -6,9 +6,13 @@ namespace WCS\CantineBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 use WCS\CantineBundle\Form\Type\LunchType;
 use WCS\CantineBundle\Entity\Lunch;
-use WCS\CantineBundle\Entity\EleveRepository;
+use WCS\CantineBundle\Entity\Eleve;
+use WCS\CantineBundle\Entity\School;
 
 /**
  * List controller.
@@ -47,8 +51,6 @@ class CanteenManagerController extends Controller
 
         if ($form->isValid()) {
             $lunch->setDate($dateNow);
-            $lunch->setStatus('0');
-            $lunch->setEleve('');
             $em->persist($lunch);
             $em->flush();
 
@@ -64,4 +66,19 @@ class CanteenManagerController extends Controller
 
     }
 
+    public function deleteAction($id, $schoolId)
+    {
+        $dateNow = new \DateTime();
+        $em = $this->getDoctrine()->getManager();
+        $lunches = $em->getRepository('WCSCantineBundle:Lunch')->findBy(array(
+            'eleve' => $id,
+            'date' => $dateNow
+        ));
+        foreach ($lunches as $lunch) {
+            $em->remove($lunch);
+        }
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('wcs_cantine_todayList', array('schoolId' => $schoolId)));
+    }
 }

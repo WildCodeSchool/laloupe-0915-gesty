@@ -36,9 +36,7 @@ class AppKernel extends Kernel
             new WCS\CantineBundle\WCSCantineBundle(),
             new WCS\GestyBundle\WCSGestyBundle(),
 
-            new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle()
-
-,
+            new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
 
         );
 
