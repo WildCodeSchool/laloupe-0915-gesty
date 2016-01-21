@@ -425,6 +425,7 @@ class EleveController extends Controller
             $filesArray[$i]['Justificatif de salaire 1'] = $files[$i]->getPathSalaire1();
             $filesArray[$i]['Justificatif de salaire 2'] = $files[$i]->getPathSalaire2();
             $filesArray[$i]['Justificatif de salaire 3'] = $files[$i]->getPathSalaire3();
+
         }
 
 

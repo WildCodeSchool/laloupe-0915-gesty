@@ -46,18 +46,23 @@ Application\Sonata\UserBundle\Entity\User:
         path_domicile:
             type: string
             length: 255
+            nullable: true
         path_prestations:
             type: string
             length: 255
+            nullable: true
         path_salaire_1:
             type: string
             length: 255
+            nullable: true
         path_salaire_2:
             type: string
             length: 255
+            nullable: true
         path_salaire_3:
             type: string
             length: 255
+            nullable: true
 
 
 
