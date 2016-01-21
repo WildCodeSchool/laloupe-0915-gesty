@@ -419,8 +419,21 @@ class EleveController extends Controller
         $moyendepaiement = $user->getmodeDePaiement();
         $children = $user->getEleves();
 
+
         $em = $this->getDoctrine()->getManager();
         $presentChildren = $em->getRepository('WCSCantineBundle:Eleve')->findOneBy(array('user' => $user->getId()));
+        $files = $em->getRepository('ApplicationSonataUserBundle:User')->findBy(array(
+            'id' => $user->getId(),
+        ));
+        $filesArray = [];
+        for ($i = 0; $i < count($files); $i++){
+            $filesArray[$i]['Justificatif de domicile'] = $files[$i]->getPathDomicile();
+            $filesArray[$i]['Justificatif de prestations CAF'] = $files[$i]->getPathPrestations();
+            $filesArray[$i]['Justificatif de salaire 1'] = $files[$i]->getPathSalaire1();
+            $filesArray[$i]['Justificatif de salaire 2'] = $files[$i]->getPathSalaire2();
+            $filesArray[$i]['Justificatif de salaire 3'] = $files[$i]->getPathSalaire3();
+        }
+
 
         if (!$user) {
             throw $this->createNotFoundException('Aucun utilisateur trouvé pour cet id:');
@@ -432,6 +445,8 @@ class EleveController extends Controller
             'children' => $children,
             'modeDePaiement' => $moyendepaiement,
             'presentChildren' => $presentChildren,
+            'files'=>$filesArray,
+
         ));
 
 

@@ -46,10 +46,14 @@ class CanteenManagerController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $lunch->setDate($dateNow);
+            $lunch->setStatus('0');
+            $lunch->setEleve('');
             $em->persist($lunch);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('canteenManager/todayList/'.$schoolId));
+            return $this->redirect($this->generateUrl('wcs_cantine_todayList', array('schoolId' => $schoolId)));
+
         }
 
         return $this->render('WCSCantineBundle:Eleve:todayList.html.twig', array(

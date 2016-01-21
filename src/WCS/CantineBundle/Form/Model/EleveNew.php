@@ -128,7 +128,7 @@ class EleveNew
      *
      * @param string $nom
      *
-     * @return Eleve
+     * @return EleveNew
      */
     public function setNom($nom)
     {
@@ -152,7 +152,7 @@ class EleveNew
      *
      * @param string $prenom
      *
-     * @return Eleve
+     * @return EleveNew
      */
     public function setPrenom($prenom)
     {
@@ -176,7 +176,7 @@ class EleveNew
      *
      * @param \DateTime $dateDeNaissance
      *
-     * @return Eleve
+     * @return EleveNew
      */
     public function setDateDeNaissance($dateDeNaissance)
     {
@@ -200,7 +200,7 @@ class EleveNew
      *
      * @param boolean $regimeSansPorc
      *
-     * @return Eleve
+     * @return EleveNew
      */
     public function setRegimeSansPorc($regimeSansPorc)
     {
@@ -224,7 +224,7 @@ class EleveNew
      *
      * @param string $allergie
      *
-     * @return Eleve
+     * @return EleveNew
      */
     public function setAllergie($allergie)
     {
@@ -248,7 +248,7 @@ class EleveNew
      *
      * @param boolean $atteste
      *
-     * @return Eleve
+     * @return EleveNew
      */
     public function setAtteste($atteste)
     {
@@ -272,7 +272,7 @@ class EleveNew
      *
      * @param boolean $autorise
      *
-     * @return Eleve
+     * @return EleveNew
      */
     public function setAutorise($autorise)
     {
@@ -296,7 +296,7 @@ class EleveNew
      *
      * @param boolean $certifie
      *
-     * @return Eleve
+     * @return EleveNew
      */
     public function setCertifie($certifie)
     {
@@ -320,7 +320,7 @@ class EleveNew
      *
      * @param string $dates
      *
-     * @return Eleve
+     * @return EleveNew
      */
     public function setDates($dates)
     {
@@ -344,7 +344,7 @@ class EleveNew
      *
      * @param array $habits
      *
-     * @return Eleve
+     * @return EleveNew
      */
     public function setHabits($habits)
     {
@@ -368,7 +368,7 @@ class EleveNew
      *
      * @param \Application\Sonata\UserBundle\Entity\User $user
      *
-     * @return Eleve
+     * @return EleveNew
      */
     public function setUser(\Application\Sonata\UserBundle\Entity\User $user = null)
     {
@@ -392,7 +392,7 @@ class EleveNew
      *
      * @param \WCS\CantineBundle\Entity\Division $division
      *
-     * @return Eleve
+     * @return EleveNew
      */
     public function setDivision(\WCS\CantineBundle\Entity\Division $division = null)
     {
@@ -421,7 +421,7 @@ class EleveNew
      *
      * @param \WCS\CantineBundle\Entity\Lunch $lunch
      *
-     * @return Eleve
+     * @return EleveNew
      */
     public function addLunch(\WCS\CantineBundle\Entity\Lunch $lunch)
     {

@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+use WCS\CantineBundle\Entity\Eleve;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class LunchType extends AbstractType
 {
@@ -16,15 +18,15 @@ class LunchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('eleve', 'choice', array(
-                'choices' => array(46 => 'test'),
-                'label' => false
+            ->add('eleve', 'entity', array(
+                'class' => 'WCSCantineBundle:Eleve'
             ))
             ->add('status', 'choice', array(
                 'choices' => array('0' => 'Non-Inscrit'),
                 'label' => false
                 ))
-            ->add('date', 'text', array(
+            ->add('date', 'date', array(
+                'format' => 'yyyy-MMMM-dd',
                 'label' => false
             ))
             ->add('Ajouter', 'submit');
