@@ -141,6 +141,7 @@ sonata_user:
     admin:
         user:
             class:    Application\Sonata\UserBundle\Admin\Model\UserAdmin
+            controller:     ApplicationSonataAdminBundle:CRUD    # Extend CRUDController of SonataAdmin
 
     profile:
         register:

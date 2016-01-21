@@ -71,6 +71,7 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                     'Especes' => 'Espèces',
                     'Prelevements' => 'Prélèvements'
             ))
+            ->add('path_domicile', null, array('label' => 'Pièces jointes','template' => 'WCSCantineBundle:User:files_list.html.twig'))
             ->add('eleves',null,array('label'=>'Nom enfant(s)'))
             ->add('enabled', null, array('editable' => true))
             ->add('_action', 'actions', array('label'=>'Action','actions' => array(
@@ -153,6 +154,7 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                 ->add('phone', null, array('required' => true))
                 ->add('modeDePaiement','choice', array('label'=>'mode de paiement','choices'=>array(''=>'Sélectionnez','Cheque'=>'Chèque','Especes'=>'Espèces','Prelevements'=>'Prélèvements')))
             ->end()
+
                 ->with('Management')
                 ->add('realRoles', 'sonata_security_roles', array(
                     'label'    => 'form.label_roles',

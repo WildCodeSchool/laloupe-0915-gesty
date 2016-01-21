@@ -1,0 +1,22 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{% block field %}
+        {% if object.pathDomicile %}
+                <a href="{{ asset('bundles/wcscantine/uploads/'~ object.pathDomicile) }}" target="_blank">Justif.Domicile</a></br>
+        {% endif %}
+        {% if object.pathPrestations %}
+                <a href="{{ asset('bundles/wcscantine/uploads/'~ object.pathPrestations) }}" target="_blank">Justif.P. CAF</a></br>
+        {% endif %}
+        {% if object.pathSalaire1 %}
+                <a href="{{ asset('bundles/wcscantine/uploads/'~ object.pathSalaire1) }}" target="_blank">Salaire1</a></br>
+        {% endif %}
+        {% if object.pathSalaire2 %}
+                <a href="{{ asset('bundles/wcscantine/uploads/'~ object.pathSalaire2) }}" target="_blank">Salaire2</a></br>
+        {% endif %}
+        {% if object.pathSalaire3 %}
+                <a href="{{ asset('bundles/wcscantine/uploads/'~ object.pathSalaire3) }}" target="_blank">Salaire3</a>
+        {% endif %}
+
+
+
+{% endblock %}
