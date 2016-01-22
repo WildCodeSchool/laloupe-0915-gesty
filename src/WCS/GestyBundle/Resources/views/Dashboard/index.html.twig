@@ -4,8 +4,12 @@
     <div class="jumbotron">
         <h3>Soyez le bienvenue !</h3>
         <a href="{{ path('wcs_cantine_dashboard') }}">
-            <button type="button" class="btn btn-primary">Voir les détails</button>
+            <button type="button" class="btn btn-primary">Voir les détails</button></br>
         </a>
-        <p>Etat de votre inscription : </p>
+        {% if app.user.validation == 0 %}
+            <p class="validation">Etat de votre inscription :  <span class="label label-warning">En attente de validation</span></p>
+            {% else %}
+               <p class="validation">Etat de votre inscription : <span class="label label-success"> Validée</span></p>
+        {% endif %}
     </div>
 {% endblock %}

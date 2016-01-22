@@ -36,7 +36,13 @@
 
 
             <div class="my-home col-md-7">
-                <h1>Mon Foyer <span class="created__at">(Créé le {{ app.user.createdAt|date('d-m-Y') }})</span></h1><br/>
+                <h1>Mon Foyer <span class="created__at">(Créé le {{ app.user.createdAt|date('d-m-Y') }})</span></h1>
+                {% if app.user.validation == 0 %}
+                    <h3 class="validation"><span class="label label-warning">En attente de validation</span></h3></br>
+                {% else %}
+                    <h3 class="validation"><span class="label label-success"> Validé</span></h3></br>
+                {% endif %}
+
                 <p> {{ app.user }} </p><br/>
 
 
@@ -47,7 +53,17 @@
                         <td><i class="fa fa-phone"></i>Aucun numéro de téléphone renseigné</td><br/>
                     {% endif %}
                     <blockquote>
-                        {% if user.commune %}
+                        {% if user.adresse %}
+                            <td>{{ user.adresse }}</td><br/>
+                        {% else %}
+                            <td>Aucune adresse renseignée</td><br/>
+                        {% endif %}
+                        {% if user.codePostal%}
+                            <td>{{ user.codePostal }}</td><br/>
+                        {% else %}
+                            <td>Aucun codePostal renseigné</td><br/>
+                        {% endif %}
+                        {% if user.commune%}
                             <td>{{ user.commune }}</td><br/>
                         {% else %}
                             <td>Aucune commune renseignée</td><br/>

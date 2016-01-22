@@ -177,7 +177,6 @@ class User extends BaseUser
 
     /** Generate code */
 
-
     /**
      * @var string
      */
@@ -217,6 +216,11 @@ class User extends BaseUser
      * @var boolean
      */
     private $mandatActif;
+
+    /**
+     * @var boolean
+     */
+    private $validation;
 
     /**
      * @var string
@@ -439,6 +443,30 @@ class User extends BaseUser
     public function getMandatActif()
     {
         return $this->mandatActif;
+    }
+
+    /**
+     * Set validation
+     *
+     * @param boolean $validation
+     *
+     * @return User
+     */
+    public function setValidation($validation)
+    {
+        $this->validation = $validation;
+
+        return $this;
+    }
+
+    /**
+     * Get validation
+     *
+     * @return boolean
+     */
+    public function getValidation()
+    {
+        return $this->validation;
     }
 
     /**

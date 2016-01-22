@@ -13,10 +13,10 @@ class editProfileListener
         /**
          * SEND MAIL ON PROFILE CHANGES
          */
-        if ( $user->hasChangedField('email') ||
-            $user->hasChangedField('phone') ||
+        if ($user->hasChangedField('phone') ||
             $user->hasChangedField('commune') ||
             $user->hasChangedField('caf'))
+
 
         {
             $em = $user->getObjectManager();
@@ -51,11 +51,9 @@ class editProfileListener
         $result = '<h3>Changements dans le profil de '. $user .'</h3>';
 
         foreach ($changes as $property=>$change) {
-            if ( $property === "email" ||
-                $property === "phone" ||
+            if($property === "phone" ||
                 $property === "commune" ||
                 $property === "caf" )
-
             {
                 $result .= "<strong>".$property." :</strong> ".$change[0]." --> ".$change[1]. '<br/><br/>';
             }

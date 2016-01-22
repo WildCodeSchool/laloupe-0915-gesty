@@ -129,6 +129,8 @@ label {
 p{
     diplay:block;
     text-align: left;
+    color: dimgrey;
+
 }
 .container {
     margin-left: auto;
@@ -269,4 +271,8 @@ a{
     font-family: 'Carter One';
     text-align: center;
     color: #5CAB18;
+}
+.validation{
+    font-family: 'Carter One', cursive;
+    margin-top: 10px;
 }
