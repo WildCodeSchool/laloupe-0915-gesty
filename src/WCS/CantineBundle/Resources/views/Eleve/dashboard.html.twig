@@ -119,7 +119,8 @@
                             <td>{{ child.prenom }}</td><br/>
                         </div>
                         <div class="panel-body-1">
-                            <td>Classe: {{ child.division }}</td><br/>
+                            <td>Né(é) le {{ child.dateDeNaissance|date('d-m-Y') }}</td></br>
+                            <td><strong>Classe:</strong> {{ child.division }}</td><br/>
 
                             {% if child.allergie %}
                             <td>Allergie: {{ child.allergie }}</td>

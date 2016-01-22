@@ -1,0 +1,53 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
+        <a href="{{ path('wcs_gesty_ecoles') }}" class="btn__retour">Retour</a>
+        <center><h1>Nombre d'enfants incrits par semaine</h1></center>
+    </div>
+
+    <div class="container-fluid">
+        <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <td class="text-center welcome schoolname" colspan="4">Enfants inscrits - </td>
+                </tr>
+
+                <tr>
+                    <td class="todayList text-center">Nombre d'enfants présents</td>
+                    <td class="todayList text-center">Nombre de régime sans porc</td>
+                </tr>
+            </table>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <td class="text-center welcome schoolname" colspan="4">Enfants inscrits - </td>
+                </tr>
+                <tr>
+                    <td class="todayList text-center">Nombre d'enfants présents</td>
+                    <td class="todayList text-center">Nombre de régime sans porc</td>
+                </tr>
+            </table>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <td class="text-center welcome schoolname" colspan="4">Enfants inscrits - </td>
+                </tr>
+                <tr>
+                    <td class="todayList text-center">Nombre d'enfants présents</td>
+                    <td class="todayList text-center">Nombre de régime sans porc</td>
+                </tr>
+            </table>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <td class="todayList text-center">Total des enfants inscrits</td>
+                    <td class="todayList text-center">Total des régimes sans porc</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+{% endblock %}

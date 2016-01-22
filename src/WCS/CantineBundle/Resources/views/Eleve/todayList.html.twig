@@ -1,9 +1,12 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
+    <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
+        <a href="{{ path('wcs_gesty_ecoles') }}" class="btn__retour">Retour</a>
+        <center><h1>Liste des enfants inscrits par jour</h1></center>
+    </div>
 
     <div class="container-fluid">
-        <a href="{{ path('wcs_gesty_ecoles') }}" class="btn__retour">Retour</a>
         <div class="table-responsive">
             <table class="table">
 

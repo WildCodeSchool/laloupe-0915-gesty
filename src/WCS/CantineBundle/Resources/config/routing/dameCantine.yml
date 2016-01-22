@@ -12,3 +12,7 @@ delete_pupil:
     path:     /todayList/{schoolId}/{id}
     defaults: { _controller: "WCSCantineBundle:CanteenManager:delete" }
     methods: [GET, DELETE]
+
+reserve_meal:
+    path: /reservation
+    defaults: { _controller: "WCSCantineBundle:CanteenManager:commande" }
