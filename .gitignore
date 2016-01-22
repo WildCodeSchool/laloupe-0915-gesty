@@ -8,7 +8,7 @@
 /bin/
 /vendor/
 /web/bundles/
-/app/uploads/*
+/web/bundles/wcscantine/uploads/*
 .idea/*
 /bash
 composer.lock
