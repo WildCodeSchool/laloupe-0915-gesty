@@ -1,1 +1,13 @@
-plop
+{% block subject %}Changement de votre mot de passe{% endblock %}
+
+{% block body_html %}
+    <div class="lien">
+        <p> Bonjour {{user}}!</p><br/>
+
+        <p>Votre mot de passe a bien été changé, veuillez cliquer sur le lien suivant pour vous reconnecter a Gesty : {{ confirmationUrl }}</p><br/>
+
+    </div>
+
+
+    l'Administrateur de Gesty
+{% endblock %}

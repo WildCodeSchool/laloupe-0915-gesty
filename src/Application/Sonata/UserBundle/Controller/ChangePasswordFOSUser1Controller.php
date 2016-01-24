@@ -66,4 +66,9 @@ class ChangePasswordFOSUser1Controller extends \Sonata\UserBundle\Controller\Cha
             array('form' => $form->createView())
         );
     }
+    protected function getRedirectionUrl(UserInterface $user)
+    {
+        return $this->container->get('router')->generate('sonata_user_security_login');
+    }
+
 }
