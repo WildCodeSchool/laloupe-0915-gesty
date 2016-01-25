@@ -1,10 +1,12 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
+    <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
+        <a href="{{ path('wcs_gesty_ecoles') }}" class="btn__retour">Retour</a>
+        <center><h1>Liste des enfants inscrits par jour</h1></center>
+    </div>
 
     <div class="container-fluid">
-        <a href="{{ path('wcs_gesty_ecoles') }}" class="btn__retour">Retour</a>
-        {{ form_start(form) }}
         <div class="table-responsive">
             <table class="table">
 
@@ -26,7 +28,15 @@
                 {% for lunch in lunches %}
                 {% if lunch.eleve.division.school.id == ecole.id %}
                 <tr>
-                    <td class="text-center"><input type="checkbox" class="eleve" name="eleve" value="{{ lunch.eleve.nom }},{{ lunch.eleve.prenom }}" /></td>
+                    <td class="text-center">
+                        {% if lunch.status == null %}
+                            <input type="checkbox" class="eleve" name="eleve" value="{{ lunch.eleve.id }}" />
+                        {% elseif lunch.status == 1 %}
+                            <p class="eleveAjoute">PRESENT</p>
+                        <a href="{{ path('delete_pupil', {'id': lunch.eleve.id, 'schoolId': ecole.id }) }}">Désinscrire</a>
+                            {% else %}
+                        {% endif %}
+                    </td>
                     <td class="text-center">{{ lunch.eleve.nom |upper}}</td>
                     <td class="text-center">{{ lunch.eleve.prenom }}</td>
                     <td class="text-center">{{ lunch.eleve.allergie }}</td>
@@ -40,18 +50,25 @@
                     {% endif %}
                     {% endfor %}
 
-
-                </tr>
-                <tr>
-                    <td class="text-center"><a class="ajouter" href="">Ajouter</a></td>
-                    <td class="text-center"><input name="nom" /></td>
-                    <td class="text-center"><input name="prenom" /></td>
-                    <td class="text-center"><input name="allergies" /></td>
-                    <td class="text-center"><input name="regimesansporc" /></td>
                 </tr>
             </table>
-        </div>
 
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="text-center col-md-12">
+                    {{ form_widget(form.eleve) }}
+                </div>
+                <div class="btnAjouter text-center col-md-12">
+                    {{ form_widget(form.Ajouter) }}
+                </div>
+            </div>
+            <div class="hidden">
+                {{ form_widget(form.status) }}
+                {{ form_widget(form.date) }}
+            </div>
+            {{ form_end(form) }}
+
+        </div>
 
 
         <div class="table-responsive">
@@ -74,10 +91,6 @@
 
 
 
-        {{ form_widget(form.eleve) }}
-        <div class="text-center">{{ form_widget(form.Valider) }}</div>
-
-        {{ form_end(form) }}
 
 
 
@@ -116,13 +129,9 @@
 
                 $( ".eleve" ).click(function() {
                     var countCheckedCheckboxes = $('input:checkbox:checked').length;
-                    $(".total")[0].innerHTML = countCheckedCheckboxes;
-                });
+                    var countPrensentAdded = $('.eleveAjoute').length;
+                    $(".total")[0].innerHTML = countCheckedCheckboxes + countPrensentAdded;
 
-                $( ".ajouter" ).click(function() {
-                    var name = $('input[name=nom]').val();
-                    $('.nom').val(name);
-                    $('.eleveAdd').val(name);
                 });
 
 

@@ -6,12 +6,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use WCS\CantineBundle\Entity\Eleve;
-use WCS\CantineBundle\Entity\Lunch;
 use WCS\CantineBundle\Form\Handler\EleveHandler;
 use WCS\CantineBundle\Form\Model\EleveNew;
 use WCS\CantineBundle\Form\Type\EleveEditType;
 use WCS\CantineBundle\Form\Type\EleveType;
-use WCS\CantineBundle\Form\Type\LunchType;
 
 /**
  * Eleve controller.
@@ -191,14 +189,20 @@ class EleveController extends Controller
      */
     public function editAction($id)
     {
+        // Récupère la date d'aujourd'hui
         $dateNow = new \DateTime('Y');
-        $dateString = date_format($dateNow, ('Y'));
+        $dateString = date_format($dateNow, ('Y')); // Formate la date d'aujourd'hui en sélectionnant que l'année
 
+        // Récupère les informations de l'élève
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
 
+        // Récupère les jours habituels de cantine
+        $entityHabits = $entity->getHabits();
+
         // Récupère les jours fériés en base de données
         $feries = $em->getRepository('WCSCantineBundle:Feries')->findBy(array('annee' => $dateString));
+        // Boucle sur l'entité $feries pour la transformer en un array
         $feriesArray = [];
         for ($i = 0; $i < count($feries); $i++){
             $feriesArray[$i]['paques'] = $feries[$i]->getPaques();
@@ -211,7 +215,7 @@ class EleveController extends Controller
             throw $this->createNotFoundException('Unable to find Eleve entity.');
         }
 
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createEditForm($entity); // Création du formulaire pour l'inscription d'un élève
 
         // Lancement de la fonction calendrier
         $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
@@ -252,11 +256,13 @@ class EleveController extends Controller
         $printempsEndDT = new \DateTime($printempsEnd);
         $printempsEndFormat = date_format($printempsEndDT, ('Y-m-d'));
 
+        // Récupération de toutes les dates entre deux dates
         $vacancesHiver = $this->getHolidays($hiverStartFormat, $hiverEndFormat);
         $vacancesNoel = $this->getHolidays($noelStartFormat, $noelEndFormat);
         $vacancesToussaint = $this->getHolidays($toussaintStartFormat, $toussaintEndFormat);
         $vacancesPrintemps = $this->getHolidays($printempsStartFormat, $printempsEndFormat);
 
+        // Récupération de la date de fin d'année dans l'ICAL
         $icalVacancesEte = new \DateTime($this->container->get('calendar.holidays')->getYearEnd());
         $grandesVacances = date_format($icalVacancesEte, ('Y-m-d'));
 
@@ -277,6 +283,7 @@ class EleveController extends Controller
             'vacancesPrintemps' => $vacancesPrintemps,
             'grandesVacances' => $grandesVacances,
             'feries' => $feriesArray,
+            'habits' => $entityHabits,
         ));
     }
 
@@ -425,6 +432,7 @@ class EleveController extends Controller
             $filesArray[$i]['Justificatif de salaire 1'] = $files[$i]->getPathSalaire1();
             $filesArray[$i]['Justificatif de salaire 2'] = $files[$i]->getPathSalaire2();
             $filesArray[$i]['Justificatif de salaire 3'] = $files[$i]->getPathSalaire3();
+
         }
 
 

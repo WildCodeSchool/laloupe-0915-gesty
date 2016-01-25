@@ -141,6 +141,7 @@ sonata_user:
     admin:
         user:
             class:    Application\Sonata\UserBundle\Admin\Model\UserAdmin
+            controller:     ApplicationSonataAdminBundle:CRUD    # Extend CRUDController of SonataAdmin
 
     profile:
         register:
@@ -174,7 +175,9 @@ fos_user:
                     sender_name: Gesty
                 # Permet de définir le template de l'email à envoyer (en html)
             template: WCSCantineBundle:User:registrationEmail.html.twig
-
+    resetting:
+        email:
+            template: emails/changePassewordMail.html.twig
 
 sonata_admin:
     title: Gesty Admin

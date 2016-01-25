@@ -277,14 +277,31 @@
 
                         // Get the checkboxes checked in comparison with the database dates
                         var datesArray = $('#WCS_cantinebundle_eleve_lunches').val();
+                        var dateSplit = datesArray.split(';');
                         $('.calendar-checkbox').each(function(){
                             var checkboxesValue = $(this).val();
-                            for (a = 0; a < datesArray.length; a++) {
-                                if (datesArray[a] == checkboxesValue) {
+                            for (a = 0; a < dateSplit.length; a++) {
+                                if (dateSplit[a] == checkboxesValue) {
                                     this.checked = true;
                                 }
                             }
                         });
+
+                        // Habits checked in comparison with database
+                        var habits = [
+                            {% for key, days in habits %}
+                            '{{ days }}',
+                            {% endfor %}
+                        ];
+                        $('.choix').each(function(){
+                            var checkboxesValue = $(this).val();
+                            for (a = 0; a < habits.length; a++) {
+                                if (habits[a] == checkboxesValue) {
+                                    this.checked = true;
+                                }
+                            }
+                        });
+
 
                         // fonction pour bloquer les jours antérieurs + 7
                         function disablePrevDate(){

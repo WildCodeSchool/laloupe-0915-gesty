@@ -129,6 +129,8 @@ label {
 p{
     diplay:block;
     text-align: left;
+    color: dimgrey;
+
 }
 .container {
     margin-left: auto;
@@ -258,4 +260,32 @@ a{
 }
 .alert-success{
     text-align:center;
+}
+
+.btnAjouter {
+    margin-bottom: 10px !important;
+    margin-top: -5px !important;
+}
+
+.eleveAjoute {
+    font-family: 'Carter One';
+    text-align: center;
+    color: #5CAB18;
+}
+.validation{
+    font-family: 'Carter One', cursive;
+    margin-top: 10px;
+}
+.commande button{
+    border-style: ridge;
+    border-radius: 1px;
+    padding:50px;
+    width:350px;
+    height:130px;
+    overflow:visible;
+    text-align:center;
+    white-space:nowrap;
+    margin-bottom: 20px;
+    box-shadow: 0 0 1px 1px rgba(255,255,255,.8) inset, 0 1px 0 ;
+    background: #D2CCDE;
 }

@@ -71,12 +71,14 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                     'Especes' => 'Espèces',
                     'Prelevements' => 'Prélèvements'
             ))
+            ->add('path_domicile', null, array('label' => 'Pièces jointes','template' => 'WCSCantineBundle:User:files_list.html.twig'))
             ->add('eleves',null,array('label'=>'Nom enfant(s)'))
             ->add('enabled', null, array('editable' => true))
             ->add('_action', 'actions', array('label'=>'Action','actions' => array(
                 'edit' => array(),
                 'delete' => array(),
             )))
+            ->add('validation','boolean',array('label'=>'Validation du compte', 'required'=>false, 'editable' => true))
         ;
 
 
@@ -152,7 +154,9 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                 ->add('commune', 'text', array('label'=>'Commune' ))
                 ->add('phone', null, array('required' => true))
                 ->add('modeDePaiement','choice', array('label'=>'mode de paiement','choices'=>array(''=>'Sélectionnez','Cheque'=>'Chèque','Especes'=>'Espèces','Prelevements'=>'Prélèvements')))
+                ->add('validation',null, array('label'=>'Validation du compte', 'required'=>false))
             ->end()
+
                 ->with('Management')
                 ->add('realRoles', 'sonata_security_roles', array(
                     'label'    => 'form.label_roles',
@@ -160,7 +164,7 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                     'multiple' => true,
                     'required' => false
                 ))
-                ->add('enabled', null, array('required' => false, 'label'=>'Validé'))
+                ->add('enabled', null, array('required' => false, 'label'=>'Validé par le parent'))
                 ->end()
             ;
 
