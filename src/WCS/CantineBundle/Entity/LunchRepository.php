@@ -46,7 +46,7 @@ class LunchRepository extends \Doctrine\ORM\EntityRepository
         {
             $res = $this->getEntityManager()
                 ->createQuery(
-                    'SELECT COUNT(d) FROM WCSCantineBundle:Lunch d INNER JOIN WCSCantineBundle:Eleve e WHERE d.date LIKE :day AND e.regimeSansPorc LIKE :pork'
+                    'SELECT COUNT(d) FROM WCSCantineBundle:Lunch d JOIN d.eleve j WHERE d.date LIKE :day AND j.regimeSansPorc LIKE :pork'
                 )
                 ->setParameter(':pork', 0)
                 ->setParameter(':day', "%".$day."%")
@@ -66,7 +66,7 @@ class LunchRepository extends \Doctrine\ORM\EntityRepository
         {
             $res = $this->getEntityManager()
                 ->createQuery(
-                    'SELECT COUNT(d) FROM WCSCantineBundle:Lunch d INNER JOIN WCSCantineBundle:Eleve e WHERE d.date LIKE :day AND e.regimeSansPorc LIKE :pork'
+                    'SELECT COUNT(d) FROM WCSCantineBundle:Lunch d JOIN d.eleve j WHERE d.date LIKE :day AND j.regimeSansPorc LIKE :pork'
                 )
                 ->setParameter(':pork', 1)
                 ->setParameter(':day', "%".$day."%")
