@@ -4,10 +4,9 @@ namespace WCS\CantineBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use WCS\CantineBundle\Entity\Eleve;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 
 class LunchType extends AbstractType
 {
@@ -34,9 +33,9 @@ class LunchType extends AbstractType
     }
     
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'WCS\CantineBundle\Entity\Lunch'

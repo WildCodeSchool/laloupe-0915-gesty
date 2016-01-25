@@ -82,13 +82,13 @@ Application\Sonata\UserBundle\Entity\User:      # le lien pour la doc, http://sy
                 mimeTypes: [application/pdf]
                 mimeTypesMessage: Veuillez télécharger un fichier PDF valide.
 
-        file_salaire_2:
+        file_salaire_1:
             - File:
                 maxSize: 1024k
                 mimeTypes: [application/pdf]
                 mimeTypesMessage: Veuillez télécharger un fichier PDF valide.
 
-        file_salaire_3:
+file_salaire_1:
             - File:
                 maxSize: 1024k
                 mimeTypes: [application/pdf]

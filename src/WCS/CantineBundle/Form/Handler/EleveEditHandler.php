@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use WCS\CantineBundle\Entity\Eleve;
+use WCS\CantineBundle\Entity\EleveRepository;
 use WCS\CantineBundle\Entity\Lunch;
 use WCS\CantineBundle\Form\Model\EleveEdit;
 
@@ -58,11 +59,19 @@ class EleveEditHandler
             // Lunches
             foreach (explode(';', $eleve->getDates()) as $date)
             {
-                if ($date != '') {
-                    $lunch = new Lunch();
-                    $lunch->setDate(new \DateTime($date));
-                    $lunch->setEleve($entity);
-                    $this->em->persist($lunch);
+                $lunches = [];
+                $lunches->getLunchesByDateAndId($eleve->getId(), $date);
+
+                foreach ($lunches as $lunch) {
+                    if ($lunch != '') {
+                        $this->em->remove($lunch);
+                        $this->em->flush();
+                    } else {
+                        $lunch = new Lunch();
+                        $lunch->setDate(new \DateTime($eleve->getDates()));
+                        $lunch->setEleve($entity);
+                        $this->em->persist($lunch);
+                    }
                 }
             }
 

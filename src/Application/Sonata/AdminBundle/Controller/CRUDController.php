@@ -218,7 +218,6 @@ class CRUDController extends \Sonata\AdminBundle\Controller\CRUDController
             'action'     => 'list',
             'form'       => $formView,
             'datagrid'   => $datagrid,
-            'files'=>$filesArray,
             'csrf_token' => $this->getCsrfToken('sonata.batch'),
 
 

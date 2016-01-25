@@ -5,7 +5,7 @@ namespace Application\Sonata\UserBundle\Controller;
 use Application\Sonata\UserBundle\Form\Type\ProfileType;
 use Sonata\UserBundle\Controller\ProfileFOSUser1Controller as BaseController;
 use Symfony\Component\HttpFoundation\Request;
-use WCS\GestyBundle\Form\JustificatifType;
+
 
 class ProfileController extends BaseController
 {

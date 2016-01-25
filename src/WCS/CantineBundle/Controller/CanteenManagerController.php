@@ -81,4 +81,25 @@ class CanteenManagerController extends Controller
 
         return $this->redirect($this->generateUrl('wcs_cantine_todayList', array('schoolId' => $schoolId)));
     }
+
+    public function commandeAction(Request $request)
+    {
+        $date = new \DateTime();
+
+        $em = $this->getDoctrine()->getManager();
+        $school = $em->getRepository('WCSCantineBundle:School')->findAll();
+        $lunches = $em->getRepository('WCSCantineBundle:Lunch')->findBy(array(
+                'date' => $date,
+            )
+        );
+
+        $lunch = new Lunch();
+        $form = $this->createForm(new LunchType(), $lunch);
+        $form->handleRequest($request);
+
+        return $this->render('WCSCantineBundle:Eleve:commande.html.twig', array(
+            'ecole'=> $school,
+            'lunches' => $lunches,
+        ));
+    }
 }

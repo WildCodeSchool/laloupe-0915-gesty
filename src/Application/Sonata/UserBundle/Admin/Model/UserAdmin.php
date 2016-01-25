@@ -78,6 +78,7 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                 'edit' => array(),
                 'delete' => array(),
             )))
+            ->add('validation','boolean',array('label'=>'Validation du compte', 'required'=>false, 'editable' => true))
         ;
 
 
@@ -153,6 +154,7 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                 ->add('commune', 'text', array('label'=>'Commune' ))
                 ->add('phone', null, array('required' => true))
                 ->add('modeDePaiement','choice', array('label'=>'mode de paiement','choices'=>array(''=>'Sélectionnez','Cheque'=>'Chèque','Especes'=>'Espèces','Prelevements'=>'Prélèvements')))
+                ->add('validation',null, array('label'=>'Validation du compte', 'required'=>false))
             ->end()
 
                 ->with('Management')
@@ -162,7 +164,7 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                     'multiple' => true,
                     'required' => false
                 ))
-                ->add('enabled', null, array('required' => false, 'label'=>'Validé'))
+                ->add('enabled', null, array('required' => false, 'label'=>'Validé par le parent'))
                 ->end()
             ;
 

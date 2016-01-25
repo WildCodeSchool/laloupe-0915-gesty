@@ -46,7 +46,13 @@ class EleveHandler
         if ($this->form->isValid()) {
 
             if (!($eleve->getAtteste() && $eleve->getAutorise() && $eleve->getCertifie()))
-                throw new \Exception('All checkboxes have to be checked');
+                throw new \Exception('Toutes les autorisations doivent être cochées !');
+
+            if (!($eleve->getNom() && $eleve->getPrenom()))
+                throw new \Exception('Vous devez remplir le champ nom et prénom');
+
+            if (!($eleve->getDateDeNaissance()))
+                throw new \Exception('Vous devez renseigner la date de naissance de votre enfant !');
 
             $entity = new Eleve();
             $entity->setNom($eleve->getNom());

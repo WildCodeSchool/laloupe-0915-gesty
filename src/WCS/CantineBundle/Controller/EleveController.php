@@ -151,7 +151,7 @@ class EleveController extends Controller
      * Displays a form to create a new Eleve entity.
      *
      */
-    public function newAction()
+    /*public function newAction()
     {
         $entity = new Eleve();
         $form = $this->createCreateForm($entity);
@@ -160,7 +160,7 @@ class EleveController extends Controller
             'entity' => $entity,
             'form' => $form->createView(),
         ));
-    }
+    }*/
 
     /**
      * Finds and displays a Eleve entity.
@@ -196,6 +196,9 @@ class EleveController extends Controller
         // Récupère les informations de l'élève
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Eleve entity.');
+        }
 
         // Récupère les jours habituels de cantine
         $entityHabits = $entity->getHabits();
@@ -211,11 +214,7 @@ class EleveController extends Controller
         }
         // Fin //
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Eleve entity.');
-        }
-
-        $editForm = $this->createEditForm($entity); // Création du formulaire pour l'inscription d'un élève
+        $editForm = $this->createEditForm($entity);
 
         // Lancement de la fonction calendrier
         $calendrier = $this->generateCalendar(new \DateTime('2015-09-01'), new \DateTime('2016-07-31'));
@@ -298,7 +297,7 @@ class EleveController extends Controller
     {
         $form = $this->createForm(new EleveEditType($this->getDoctrine()->getManager()), $entity, array(
             'action' => $this->generateUrl('eleve_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
+            'method' => 'POST',
         ));
 
         return $form;

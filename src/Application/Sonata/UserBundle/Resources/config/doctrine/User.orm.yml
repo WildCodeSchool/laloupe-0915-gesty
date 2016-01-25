@@ -43,6 +43,9 @@ Application\Sonata\UserBundle\Entity\User:
             type: boolean
             column: mandat_actif
             nullable: true
+        validation:
+            type: boolean
+            column: validation
         path_domicile:
             type: string
             length: 255
