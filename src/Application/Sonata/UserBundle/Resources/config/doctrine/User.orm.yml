@@ -46,6 +46,7 @@ Application\Sonata\UserBundle\Entity\User:
         validation:
             type: boolean
             column: validation
+            nullable: true
         path_domicile:
             type: string
             length: 255
