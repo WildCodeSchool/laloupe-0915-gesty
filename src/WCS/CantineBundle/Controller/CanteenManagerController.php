@@ -11,7 +11,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 use WCS\CantineBundle\Form\Type\LunchType;
 use WCS\CantineBundle\Entity\Lunch;
-use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Entity\School;
 
 /**
@@ -87,19 +86,26 @@ class CanteenManagerController extends Controller
         $date = new \DateTime();
 
         $em = $this->getDoctrine()->getManager();
-        $school = $em->getRepository('WCSCantineBundle:School')->findAll();
-        $lunches = $em->getRepository('WCSCantineBundle:Lunch')->findBy(array(
-                'date' => $date,
-            )
-        );
+
+        $getNextWeekMealsNumber = $em->getRepository('WCSCantineBundle:Lunch')->getNextWeekMealsNumber();
+        $mealsNumber = array_sum($getNextWeekMealsNumber);
+
+        $getNextWeekMealsNumberWithoutPork = $em->getRepository('WCSCantineBundle:Lunch')->getNextWeekMealsNumberWithoutPork();
+        $mealsNumberWithoutPork = array_sum($getNextWeekMealsNumberWithoutPork);
+
+        $firstDay = date('Y-m-d', strtotime('next monday')); //by default strtotime('last monday') returns the current day on mondays
+        $lastDay = date('Y-m-d', strtotime($firstDay.'+ 4 DAY'));
 
         $lunch = new Lunch();
         $form = $this->createForm(new LunchType(), $lunch);
         $form->handleRequest($request);
 
         return $this->render('WCSCantineBundle:Eleve:commande.html.twig', array(
-            'ecole'=> $school,
-            'lunches' => $lunches,
+            'mealsNumber' => $mealsNumber,
+            'mealsNumberWithoutPork' => $mealsNumberWithoutPork,
+            'firstDay' => $firstDay,
+            'lastDay' => $lastDay,
+
         ));
     }
 }

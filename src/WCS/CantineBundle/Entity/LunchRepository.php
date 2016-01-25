@@ -37,4 +37,45 @@ class LunchRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter(':eleve', $eleve)
             ->getResult();
     }
+
+    public function getNextWeekMealsNumber()
+    {
+        $day = date('Y-m-d', strtotime('next monday')); //by default strtotime('last monday') returns the current day on mondays
+        $result = []; // Initialisation de l'array vide
+        for ($i=0;$i<=4;$i++)
+        {
+            $res = $this->getEntityManager()
+                ->createQuery(
+                    'SELECT COUNT(d) FROM WCSCantineBundle:Lunch d JOIN d.eleve j WHERE d.date LIKE :day AND j.regimeSansPorc LIKE :pork'
+                )
+                ->setParameter(':pork', 0)
+                ->setParameter(':day', "%".$day."%")
+                ->getResult();
+            array_push($result, $res[0][1]); // On push le résultat dans l'array
+            $day = date('Y-m-d', strtotime($day.' + 1 DAY')); // On ajoute un jour à la date initiale
+        }
+
+        return $result;
+    }
+
+    public function getNextWeekMealsNumberWithoutPork()
+    {
+        $day = date('Y-m-d', strtotime('next monday')); //by default strtotime('last monday') returns the current day on mondays
+        $result = []; // Initialisation de l'array vide
+        for ($i=0;$i<=4;$i++)
+        {
+            $res = $this->getEntityManager()
+                ->createQuery(
+                    'SELECT COUNT(d) FROM WCSCantineBundle:Lunch d JOIN d.eleve j WHERE d.date LIKE :day AND j.regimeSansPorc LIKE :pork'
+                )
+                ->setParameter(':pork', 1)
+                ->setParameter(':day', "%".$day."%")
+                ->getResult();
+            array_push($result, $res[0][1]); // On push le résultat dans l'array
+            $day = date('Y-m-d', strtotime($day.' + 1 DAY')); // On ajoute un jour à la date initiale
+        }
+
+        return $result;
+    }
+
 }

@@ -1,5 +1,5 @@
 <?php
-//src/WCS/CantineBundle/Form/Handler/EleveHandler
+//src/WCS/CantineBundle/Form/Handler/EleveEditHandler
 
 namespace WCS\CantineBundle\Form\Handler;
 
@@ -9,11 +9,12 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use WCS\CantineBundle\Entity\Eleve;
+use WCS\CantineBundle\Entity\EleveRepository;
 use WCS\CantineBundle\Entity\Lunch;
-use WCS\CantineBundle\Form\Model\EleveNew;
+use WCS\CantineBundle\Form\Model\EleveEdit;
 
 
-class EleveHandler
+class EleveEditHandler
 {
     protected $request;
     protected $form;
@@ -40,19 +41,10 @@ class EleveHandler
     /**
      * @param boolean $confirmation
      */
-    public function process(EleveNew $eleve)
+    public function process(EleveEdit $eleve)
     {
         $this->form->handleRequest($this->request);
         if ($this->form->isValid()) {
-
-            if (!($eleve->getAtteste() && $eleve->getAutorise() && $eleve->getCertifie()))
-                throw new \Exception('Toutes les autorisations doivent être cochées !');
-
-            if (!($eleve->getNom() && $eleve->getPrenom()))
-                throw new \Exception('Vous devez remplir le champ nom et prénom');
-
-            if (!($eleve->getDateDeNaissance()))
-                throw new \Exception('Vous devez renseigner la date de naissance de votre enfant !');
 
             $entity = new Eleve();
             $entity->setNom($eleve->getNom());
@@ -67,11 +59,19 @@ class EleveHandler
             // Lunches
             foreach (explode(';', $eleve->getDates()) as $date)
             {
-                if ($date != '') {
-                    $lunch = new Lunch();
-                    $lunch->setDate(new \DateTime($date));
-                    $lunch->setEleve($entity);
-                    $this->em->persist($lunch);
+                $lunches = [];
+                $lunches->getLunchesByDateAndId($eleve->getId(), $date);
+
+                foreach ($lunches as $lunch) {
+                    if ($lunch != '') {
+                        $this->em->remove($lunch);
+                        $this->em->flush();
+                    } else {
+                        $lunch = new Lunch();
+                        $lunch->setDate(new \DateTime($eleve->getDates()));
+                        $lunch->setEleve($entity);
+                        $this->em->persist($lunch);
+                    }
                 }
             }
 

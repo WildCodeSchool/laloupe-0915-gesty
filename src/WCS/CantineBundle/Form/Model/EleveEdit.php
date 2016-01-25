@@ -3,9 +3,9 @@
 namespace WCS\CantineBundle\Form\Model;
 
 /**
- * EleveNew
+ * EleveEdit
  */
-class EleveNew
+class EleveEdit
 {
     /**
      * @return string
