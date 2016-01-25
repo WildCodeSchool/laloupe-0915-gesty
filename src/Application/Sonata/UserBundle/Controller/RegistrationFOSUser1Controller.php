@@ -89,7 +89,7 @@ class RegistrationFOSUser1Controller extends \Sonata\UserBundle\Controller\Regis
         ));
     }
 
-    public function sendMailAction($user)
+    /*public function sendMailAction($user)
     {
         $message = \Swift_Message::newInstance()
             ->setSubject('Bienvenue sur Gesty')
@@ -106,7 +106,7 @@ class RegistrationFOSUser1Controller extends \Sonata\UserBundle\Controller\Regis
 
         return new RedirectResponse($this->getRedirectionUrl($user));
 
-    }
+    }*/
 
 
 }

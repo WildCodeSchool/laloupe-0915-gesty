@@ -15,7 +15,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ResettingFormType extends \Sonata\UserBundle\Form\Type\ResettingFormType
+class ResettingFormType extends \FOS\UserBundle\Form\Type\ResettingFormType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

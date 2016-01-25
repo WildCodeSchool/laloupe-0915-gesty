@@ -19,10 +19,10 @@ class emailListener
         $this->mailer = $mailer;
     }
 
-    public function onemail(User $user)
+    public function oneSendMail(User $user)
     {
         $message = \Swift_Message::newInstance()
-            ->setSubject('Hello Email')
+            ->setSubject('Inscription')
             ->setFrom('cryptyo@gmail.com')
             ->setTo('bruchonsev@gmail.com')
             ->setBody(

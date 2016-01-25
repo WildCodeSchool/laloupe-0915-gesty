@@ -183,7 +183,7 @@ sonata_admin:
     title: Gesty Admin
     title_logo: /bundles/wcscantine/images/favicon.ico
     templates:
-        layout:       'WCSCantineBundle:Admin:standard_layout.html.twig'
+        layout:  'WCSCantineBundle:Admin:standard_layout.html.twig'
 
 
     dashboard:
