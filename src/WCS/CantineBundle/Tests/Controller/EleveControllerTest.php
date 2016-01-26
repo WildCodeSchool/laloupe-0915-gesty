@@ -129,10 +129,10 @@ class EleveControllerTest extends WebTestCase
         $this->fixtures = $this->loadFixtures($fixtures, null, 'doctrine', true)->getReferenceRepository();
 
         $client = static::createClient();
-
         $crawler = $client->request('GET', '/dashboard');
         $this->assertEquals('WCS\CantineBundle\Controller\EleveController::dashboardAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
         $link = $crawler
             ->filter('a:contains("Modifier mes informations")')
             ->eq(0)
@@ -142,6 +142,29 @@ class EleveControllerTest extends WebTestCase
             //suivre redirection vers page profile
 
         $this->assertEquals('Sonata\UserBundle\Controller\ProfileController::setProfileAction', $client->getRequest()->attributes->get('_controller'));
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+
+        //test bouton 'Inscrire mon enfant'
+
+        $fixtures = array(
+            'WCS\CantineBundle\DataFixtures\ORM\LoadUserData'
+        );
+        $this->fixtures = $this->loadFixtures($fixtures, null, 'doctrine', true)->getReferenceRepository();
+
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/dashboard');
+        $this->assertEquals('WCS\CantineBundle\Controller\EleveController::dashboardAction', $client->getRequest()->attributes->get('_controller'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $link = $crawler
+            ->filter('a:contains("Inscrire mon enfant")')
+            ->eq(0)
+            ->link();
+        $crawler = $client->click($link);
+
+            //suivre redirection vers page create
+
+        $this->assertEquals('Sonata\UserBundle\Controller\ProfileController::createAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
         //test bouton 'logout'
@@ -185,7 +208,7 @@ class EleveControllerTest extends WebTestCase
         $form = $crawler->selectButton('Inscrire mon enfant')->form();
 
 
-// submit the form
+            // submit the form
         $crawler = $client->submit($form);
 
     }

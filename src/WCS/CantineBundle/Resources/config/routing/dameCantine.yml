@@ -7,6 +7,7 @@ wcs_cantine_todayList:
     defaults: { _controller: "WCSCantineBundle:CanteenManager:todayList" }
     requirements:
         schoolId: \d+
+    methods: [POST, GET]
 
 delete_pupil:
     path:     /todayList/{schoolId}/{id}

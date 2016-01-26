@@ -24,17 +24,16 @@
                 </tr>
 
 
-
                 {% for lunch in lunches %}
                 {% if lunch.eleve.division.school.id == ecole.id %}
                 <tr>
                     <td class="text-center">
-                        {% if lunch.status == null %}
-                            <input type="checkbox" class="eleve" name="eleve" value="{{ lunch.eleve.id }}" />
+                        {% if lunch.status == 0 %}
+                            <input type="checkbox" class="eleve" name="eleve" value= {{ lunch.id }} />
                         {% elseif lunch.status == 1 %}
                             <p class="eleveAjoute">PRESENT</p>
-                        <a href="{{ path('delete_pupil', {'id': lunch.eleve.id, 'schoolId': ecole.id }) }}">Désinscrire</a>
-                            {% else %}
+                            <a href="{{ path('delete_pupil', {'id': lunch.eleve.id, 'schoolId': ecole.id }) }}">Désinscrire</a>
+                        {% else %}
                         {% endif %}
                     </td>
                     <td class="text-center">{{ lunch.eleve.nom |upper}}</td>
@@ -89,10 +88,12 @@
             </table>
         </div>
 
-
-
-
-
+        <form action="{{ path('wcs_cantine_todayList', {'schoolId' : ecole.id}) }}" method="POST" {{ form_enctype(statusForm) }}>
+            <div class="hidden">
+                {{ form_widget(statusForm.status, {'attr' : {'class' : 'idElevesPresents'}})}}
+            </div>
+            <input type="submit" class="submit btn btn-primary" name="login" value="Valider"/>
+        </form>
 
 
         {% block javascripts %}
@@ -108,34 +109,23 @@
                 $(".test")[0].innerHTML = totalEleves;
                 $(".porc")[0].innerHTML = $('.sansporc:contains("OUI")').length;
 
-                $('form[name="wcs_cantinebundle_lunch"]').submit(function(e){
-                    e.preventDefault();
-                    var pupils = '';
-                    $('input:checkbox:checked').each(function(){
-                        pupils += this.value + ';';
-                    });
-                    var registrated = '';
-                    $('input:checkbox').each(function(){
-                        registrated += this.value + ';';
-                    });
-                    var school = $('.schoolname').attr('id');
-                    var dateNow = $('.dateNow').attr('id'); // On récupère l'attribut 'id'
-                    $('#wcs_cantinebundle_lunch_date').val(dateNow);
-                    $('#wcs_cantinebundle_lunch_schoolId').val(school);
-                    $('#wcs_cantinebundle_lunch_presents').val(pupils);
-                    $('#wcs_cantinebundle_lunch_inscrits').val(registrated);
-                    this.submit();
-                });
-
-                $( ".eleve" ).click(function() {
+                $(".eleve").click(function () {
                     var countCheckedCheckboxes = $('input:checkbox:checked').length;
                     var countPrensentAdded = $('.eleveAjoute').length;
                     $(".total")[0].innerHTML = countCheckedCheckboxes + countPrensentAdded;
-
                 });
 
+                var dates = '';
+                $('.eleve').change(function() {
+                    if(this.checked) {
+                        $(".idElevesPresents").val(dates += this.value + ';');
+                    }
+                    else {
 
-            };
+                    }
+                });
+            }
+
         </script>
     </div>
 

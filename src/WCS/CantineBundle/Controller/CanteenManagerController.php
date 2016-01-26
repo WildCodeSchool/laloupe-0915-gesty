@@ -9,9 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
+use WCS\CantineBundle\Form\Type\StatusType;
 use WCS\CantineBundle\Form\Type\LunchType;
 use WCS\CantineBundle\Entity\Lunch;
-use WCS\CantineBundle\Entity\School;
 
 /**
  * List controller.
@@ -46,6 +46,7 @@ class CanteenManagerController extends Controller
 
         $lunch = new Lunch();
         $form = $this->createForm(new LunchType(), $lunch);
+        $statusForm = $this->createForm(new StatusType(), $lunch);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -54,13 +55,29 @@ class CanteenManagerController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('wcs_cantine_todayList', array('schoolId' => $schoolId)));
-
         }
+
+        if ($request->getMethod() == 'POST') {
+            $statusForm->handleRequest($request);
+            $datas = $statusForm["status"]->getData();
+            foreach (explode(';', $datas) as $id)
+            {
+                if ($id != '') {
+                    $em = $this->getDoctrine()->getManager();
+                    $lunches = $em->getRepository('WCSCantineBundle:Lunch')->find($id);
+                    $lunches->setStatus('2');
+                    $em->flush();
+                }
+            }
+            return $this->redirect($this->generateUrl('wcs_cantine_todayList', array('schoolId' => $schoolId)));
+        }
+
 
         return $this->render('WCSCantineBundle:Eleve:todayList.html.twig', array(
             'lunches' => $lunches,
             'ecole' => $school,
             'form' => $form->createView(),
+            'statusForm' => $statusForm->createView(),
         ));
 
     }
@@ -83,8 +100,6 @@ class CanteenManagerController extends Controller
 
     public function commandeAction(Request $request)
     {
-        $date = new \DateTime();
-
         $em = $this->getDoctrine()->getManager();
 
         $getNextWeekMealsNumber = $em->getRepository('WCSCantineBundle:Lunch')->getNextWeekMealsNumber();
