@@ -89,9 +89,9 @@
         </div>
 
         <form action="{{ path('wcs_cantine_todayList', {'schoolId' : ecole.id}) }}" method="POST" {{ form_enctype(statusForm) }}>
-
+            <div class="hidden">
                 {{ form_widget(statusForm.status, {'attr' : {'class' : 'idElevesPresents'}})}}
-
+            </div>
             <input type="submit" class="submit btn btn-primary" name="login" value="Valider"/>
         </form>
 
