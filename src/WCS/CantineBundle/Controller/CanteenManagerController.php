@@ -60,7 +60,7 @@ class CanteenManagerController extends Controller
         if ($request->getMethod() == 'POST') {
             $statusForm->handleRequest($request);
             $datas = $statusForm["status"]->getData();
-            foreach (explode(';', $datas) as $id)
+            foreach (explode(',', $datas) as $id)
             {
                 if ($id != '') {
                     $em = $this->getDoctrine()->getManager();

@@ -115,15 +115,30 @@
                     $(".total")[0].innerHTML = countCheckedCheckboxes + countPrensentAdded;
                 });
 
-                var dates = '';
-                $('.eleve').change(function() {
-                    if(this.checked) {
-                        $(".idElevesPresents").val(dates += this.value + ';');
-                    }
-                    else {
+                var $choiceDisplay = $(".idElevesPresents"), //jquery selector for the display box
+                        $choice = $(".eleve");
 
+                $choice.on("change", function () {
+                    var $this = $(this), //jquery selector for the changed input
+                            isThisChecked = $this.prop("checked"), //boolean true if the box is checked
+                            choiceSelectionsArray = $choiceDisplay.val().split(",").filter(function(e){return e !== ""}), //array of values that are checked
+                            isThisValueInDisplayedSelection = $.inArray($this.val(), choiceSelectionsArray) !== -1; //boolean true when $this value displayed
+
+                    if (isThisChecked) {
+                        if (isThisValueInDisplayedSelection) {
+                            return false; //odd, the value is already displayed.  No work to do.
+                        } else {
+                            choiceSelectionsArray.push($this.val());
+                            $choiceDisplay.val(choiceSelectionsArray.join());
+                        }
+                    } else { //box has been unchecked
+                        if (isThisValueInDisplayedSelection) {
+                            choiceSelectionsArray = choiceSelectionsArray.filter(function(e){return e !== $this.val()})
+                            $choiceDisplay.val(choiceSelectionsArray.join());
+                        }
                     }
                 });
+
             }
 
         </script>
