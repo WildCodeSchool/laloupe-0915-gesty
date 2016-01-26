@@ -77,5 +77,14 @@ class LunchRepository extends \Doctrine\ORM\EntityRepository
 
         return $result;
     }
-
+        //Delete all lunches for one pupil
+    public function removeByEleve(Eleve $eleve)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'DELETE WCSCantineBundle:Lunch l WHERE l.eleve = :eleve'
+            )
+            ->setParameter(':eleve', $eleve)
+            ->execute();
+    }
 }

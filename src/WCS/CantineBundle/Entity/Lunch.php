@@ -12,10 +12,16 @@ class Lunch
     {
         return (string) $this->getEleve();
     }
+
+    public function getStringDate()
+    {
+        return $this->date->format('Y-m-d');
+    }
+
     // GENERATED CODE
 
 
- 
+
     /**
      * @var integer
      */

@@ -94,7 +94,7 @@
                     <a class="moisecole" href="#" id="linkMonth07">Jui</a>
                 </div>
 
-                <div class="">
+                <div class="hidden">
                 {{ form_widget(edit_form.lunches) }}
                 </div>
 
@@ -359,36 +359,53 @@
                                     if (vacancesHiver[i] == allCheckboxes){
                                         this.checked = false;
                                         $(this)[0].disabled = true;
+                                        $(this).attr('title', 'Vacances d\'hiver');
                                     }
                                 }
                                 for (j = 0; j < vacancesNoel.length; j++) {
                                     if (vacancesNoel[j] == allCheckboxes){
                                         this.checked = false;
                                         $(this)[0].disabled = true;
+                                        $(this).attr('title', 'Vacances de noël');
                                     }
                                 }
                                 for (k = 0; k < vacancesToussaint.length; k++) {
                                     if (vacancesToussaint[k] == allCheckboxes){
                                         this.checked = false;
                                         $(this)[0].disabled = true;
+                                        $(this).attr('title', 'Vacances de Toussaint');
                                     }
                                 }
                                 for (l = 0; l < vacancesPrintemps.length; l++) {
                                     if (vacancesPrintemps[l] == allCheckboxes){
                                         this.checked = false;
                                         $(this)[0].disabled = true;
+                                        $(this).attr('title', 'Vacances de Printemps');
                                     }
                                 }
                                 for (m = 0; m < feries.length; m++) {
                                     if (feries[m] == allCheckboxes){
                                         this.checked = false;
                                         $(this)[0].disabled = true;
+                                        $(this).attr('title', 'Jour férié');
                                     }
                                 }
                             });
                         }
 
                         disablePrevDate(); // rappel de la fonction qui bloque les jours précédents + 7
+
+                        // Format date when sumbitting the form
+                        $('form[name="WCS_cantinebundle_eleve"]').submit(function(e){
+                            e.preventDefault();
+                            var dates = '';
+                            $('.calendar-checkbox:checked').each(function(){
+                                dates += this.value + ';';
+                            });
+                            $('#WCS_cantinebundle_eleve_lunches').val(dates);
+                            this.submit();
+                            //console.log(dates);
+                        });
                     }
                 </script>
             </div>

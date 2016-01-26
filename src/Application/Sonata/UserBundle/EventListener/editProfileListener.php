@@ -10,7 +10,6 @@ class editProfileListener
 
     public function preUpdate(\Doctrine\ORM\Event\PreUpdateEventArgs $user)
     {
-        if ($user->getEntity() === null) {
             /**
              * SEND MAIL ON PROFILE CHANGES
              */
@@ -25,9 +24,6 @@ class editProfileListener
                     $mailsArray[] = $admin->getEmail();
                 }
 
-                /**
-                 * TODO setFrom
-                 */
                 $message = \Swift_Message::newInstance()
                     ->setSubject('Changements dans le profil de ' . $user->getEntity())
                     ->setFrom('cryptyo@gmail.com')
@@ -39,7 +35,7 @@ class editProfileListener
                 $this->mailer->send($message);
             }
         }
-    }
+
 
     public function __construct($mailer)
     {

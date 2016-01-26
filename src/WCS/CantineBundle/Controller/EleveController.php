@@ -323,6 +323,13 @@ class EleveController extends Controller
 
 
         if ($editForm->isValid()) {
+            $oldLunches = $em->getRepository('WCSCantineBundle:Lunch')->findByEleve($entity);
+            foreach($oldLunches as $lunch)
+            {
+                if (!$entity->getLunches()->contains($lunch))
+                    $em->remove($lunch);
+            }
+            $em->persist($entity);
             $em->flush();
 
             return $this->redirect($this->generateUrl('wcs_cantine_dashboard', array('id' => $id)));

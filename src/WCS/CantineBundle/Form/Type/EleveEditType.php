@@ -45,13 +45,14 @@ class EleveEditType extends AbstractType
 
             ->add('lunches', 'text', array(
                 'invalid_message' => 'That is not valid dates for lunches',
+                'required'  => false
             ));
 
         $builder->get('lunches')
             ->addModelTransformer(new LunchToStringTransformer($this->manager, $builder->getData()));
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
