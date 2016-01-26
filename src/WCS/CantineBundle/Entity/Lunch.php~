@@ -8,6 +8,10 @@ namespace WCS\CantineBundle\Entity;
 class Lunch
 {
 
+    public function __toString()
+    {
+        return (string) $this->getEleve();
+    }
     // GENERATED CODE
 
 

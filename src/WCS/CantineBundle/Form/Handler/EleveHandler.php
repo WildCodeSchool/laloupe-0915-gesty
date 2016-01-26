@@ -71,6 +71,7 @@ class EleveHandler
                     $lunch = new Lunch();
                     $lunch->setDate(new \DateTime($date));
                     $lunch->setEleve($entity);
+                    $lunch->setStatus('O');
                     $this->em->persist($lunch);
                 }
             }

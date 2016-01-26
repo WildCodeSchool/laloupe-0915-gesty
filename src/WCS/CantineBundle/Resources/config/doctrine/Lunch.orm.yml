@@ -11,6 +11,7 @@ WCS\CantineBundle\Entity\Lunch:
     fields:
         date:
             type: date
+            nullable: true
         status:
             type: integer
             length: 1
