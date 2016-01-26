@@ -63,9 +63,8 @@ class EleveAdmin extends Admin
             ->add('allergie', 'text')
             ->add('regimeSansPorc', 'boolean')
             ->add('date',null, array('label'=>'Nbre de repas/mois'))
-            ->add('habits',null,array(
-                'label'=>'Jours habituels',
-                ))
+            ->add('Jours présents')
+            ->add('Jours absents')
 
         ;
     }
