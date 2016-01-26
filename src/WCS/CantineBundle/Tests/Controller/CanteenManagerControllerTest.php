@@ -59,7 +59,7 @@ class CanteenManagerControllerCTest extends WebTestCase
             ->link();
         $crawler = $client->click($link);
 
-        //suivre redirection vers page todaylist
+            //suivre redirection vers page todaylist
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::todayListAction', $client->getRequest()->attributes->get('_controller'));
@@ -80,7 +80,7 @@ class CanteenManagerControllerCTest extends WebTestCase
             ->link();
         $crawler = $client->click($link);
 
-        //suivre redirection vers page todaylist
+            //suivre redirection vers page todaylist
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::todayListAction', $client->getRequest()->attributes->get('_controller'));
@@ -101,10 +101,31 @@ class CanteenManagerControllerCTest extends WebTestCase
             ->link();
         $crawler = $client->click($link);
 
-        //suivre redirection vers page todaylist
+            //suivre redirection vers page todaylist
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::todayListAction', $client->getRequest()->attributes->get('_controller'));
+
+        //test bouton "Commande des repas"
+
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'damedecantine@email.com',
+            'PHP_AUTH_PW' => 'aaa',
+        ));
+        $crawler = $client->request('GET', '/canteenManager/');
+        $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::indexAction', $client->getRequest()->attributes->get('_controller'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $link = $crawler
+            ->filter('a:contains("Commande des repas")')
+            ->eq(0)
+            ->link();
+        $crawler = $client->click($link);
+
+            //suivre redirection vers page reservation
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::commandeAction', $client->getRequest()->attributes->get('_controller'));
 
 
     }
