@@ -13,9 +13,9 @@ class editProfileListener
             /**
              * SEND MAIL ON PROFILE CHANGES
              */
-            if ($user->hasChangedField('phone') ||
-                $user->hasChangedField('commune') ||
-                $user->hasChangedField('caf')
+            if (($user->hasChangedField('phone') && $user->getOldValue('phone') != NULL ) ||
+                $user->hasChangedField('commune') && $user->getOldValue('commune') != NULL  ||
+                $user->hasChangedField('caf')&& $user->getOldValue('caf') != NULL
             ) {
                 $em = $user->getObjectManager();
                 $admins = $em->getRepository('Application\Sonata\UserBundle\Entity\User')->findAll();
