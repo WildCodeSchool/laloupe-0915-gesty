@@ -49,6 +49,11 @@ class Eleve
         return array_keys(self::getHabitDays());
     }
 
+    public function getNombreDeRepasParMois()
+    {
+
+    }
+
 
 
     // GENERATED CODE

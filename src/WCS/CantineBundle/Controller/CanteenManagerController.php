@@ -69,7 +69,7 @@ class CanteenManagerController extends Controller
                     $em->flush();
                 }
             }
-            return $this->redirect($this->generateUrl('wcs_cantine_todayList', array('schoolId' => $schoolId)));
+            return $this->redirect($this->generateUrl('wcs_gesty_ecoles', array('schoolId' => $schoolId)));
         }
 
 
