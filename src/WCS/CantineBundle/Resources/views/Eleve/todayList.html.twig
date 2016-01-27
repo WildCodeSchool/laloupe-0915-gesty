@@ -33,6 +33,8 @@
                         {% elseif lunch.status == 1 %}
                             <p class="eleveAjoute">PRESENT</p>
                             <a href="{{ path('delete_pupil', {'id': lunch.eleve.id, 'schoolId': ecole.id }) }}">Désinscrire</a>
+                        {% elseif lunch.status == 2 %}
+                            <p class="eleveAjoute">PRESENT</p>
                         {% else %}
                         {% endif %}
                     </td>
@@ -92,7 +94,7 @@
             <div class="hidden">
                 {{ form_widget(statusForm.status, {'attr' : {'class' : 'idElevesPresents'}})}}
             </div>
-            <input type="submit" class="submit btn btn-primary" name="login" value="Valider"/>
+            <input type="submit" class="submit btn btn-primary text-center col-md-offset-4 col-md-4" name="login" value="Valider"/>
         </form>
 
 

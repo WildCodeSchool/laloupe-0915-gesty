@@ -66,5 +66,4 @@ class EleveRepository extends EntityRepository
 
     }
 
-
 }
