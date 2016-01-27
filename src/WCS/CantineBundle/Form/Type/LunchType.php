@@ -6,7 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use WCS\CantineBundle\Entity\LunchRepository;
+use WCS\CantineBundle\Entity\EleveRepository;
+
 
 
 class LunchType extends AbstractType
@@ -19,13 +20,12 @@ class LunchType extends AbstractType
     {
         $builder
             ->add('eleve', 'entity', array(
-                'class' => 'WCSCantineBundle:Eleve',
-                /*'query_builder' => function(LunchRepository $repository) {
-                    return $repository->createQueryBuilder('l')
-                        ->where('l.eleve = :date')
-                        ->setParameter('date', '2016-01-26');
-                },*/
-            ))
+                'class'         => 'WCSCantineBundle:Eleve',
+                'query_builder' => function(EleveRepository $er ) {
+                    return $er->createQueryBuilder('e')
+                        ->orderBy('e.nom', 'ASC');
+                        }
+                ))
             ->add('status', 'choice', array(
                 'choices' => array('1' => 'Non-Inscrit'),
                 'label' => false

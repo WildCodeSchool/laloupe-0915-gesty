@@ -10,7 +10,7 @@ class Lunch
 
     public function __toString()
     {
-        return (string) $this->getEleve()->getNom().' '.$this->getEleve()->getPrenom();
+        return (string) $this->getEleve();
     }
 
     public function getStringDate()

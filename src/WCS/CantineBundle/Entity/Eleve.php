@@ -13,7 +13,7 @@ class Eleve
 
     public function __toString()
     {
-        return $this->nom;
+        return (string) $this->getNom().' '.$this->getPrenom().' - '.$this->getDivision()->getSchool();
 
     }
 

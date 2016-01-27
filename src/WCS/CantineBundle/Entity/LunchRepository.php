@@ -89,25 +89,4 @@ class LunchRepository extends \Doctrine\ORM\EntityRepository
             ->execute();
     }
 
-    public function getPupilsNotRegistrated()
-    {
-        $dateNow = new DateTime();
-        //$dateFormat = date_format($dateNow, ('Y-m-d'));
-
-         /*$qb = $this->getEntityManager()
-            ->createQuery(
-                'SELECT e FROM WCSCantineBundle:Lunch e WHERE e.date = :date'
-            )
-            ->setParameter(':date', '2016-01-26')
-            ->getResult();
-        return $qb;*/
-
-        return $qb = $this->createQueryBuilder('a');
-
-        $qb->where('a.date = :date')
-            ->setParameter('date', '2016-01-26');
-
-        $qb->getQuery()->getResult();
-
-    }
 }
