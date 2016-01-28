@@ -88,21 +88,4 @@ class LunchRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter(':eleve', $eleve)
             ->execute();
     }
-
-    public function getNumberOfMealsByMonth()
-    {
-        /*$month = new DateTime();
-        $monthFormat = date_format($month, ('m'));
-        $res = $this->getEntityManager()
-            ->createQuery(
-                'SELECT COUNT(d) FROM WCSCantineBundle:Lunch d WHERE d.date LIKE :day AND d.status LIKE :status AND d.eleve LIKE :id'
-            )
-            ->setParameter(':status', 2)
-            ->setParameter(':day', "%".$monthFormat."%")
-            ->setParameter(':id', 1)
-            ->getResult();
-
-        return $res;*/
-    }
-
 }
