@@ -217,6 +217,9 @@ sonata_admin:
             wcs.group.division:
                 icon: '<i class="fa fa-home"></i>'
                 label: Ecoles
+            wcs.group.lunches:
+                icon: '<i class="fa fa-cutlery"></i>'
+                label: Liste des repas
             wcs.group.feries:
                 icon: '<i class="fa fa-calendar"></i>'
                 label: Jours fériés
@@ -231,4 +234,4 @@ braincrafted_bootstrap:
         twig: true
         knp_menu: true
         knp_paginator: true
-    less_filter: lessphp
+    css_preprocessor: lessphp

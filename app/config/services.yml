@@ -31,6 +31,15 @@ services:
                - WCS\CantineBundle\Entity\Feries
                - ~
 
+      sonata.admin.lunch:
+                 class: WCS\CantineBundle\Admin\LunchAdmin
+                 tags:
+                     - { name: sonata.admin, manager_type: orm, group: "wcs.group.lunches", label: "Liste des repas" }
+                 arguments:
+                     - ~
+                     - WCS\CantineBundle\Entity\Lunch
+                     - ~
+
       sonata.user.profile.form.type:
             class: Application\Sonata\UserBundle\Form\Type\ProfileType
             arguments: [ "Application\Sonata\UserBundle\Entity\User" ]

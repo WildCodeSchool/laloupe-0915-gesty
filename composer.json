@@ -22,6 +22,7 @@
         "sonata-project/doctrine-orm-admin-bundle": "2.3.*",
         "sonata-project/easy-extends-bundle": "^2.1",
         "sonata-project/user-bundle": "2.2.*@dev",
+        "sonata-project/core-bundle": "dev-master",
         "knplabs/knp-menu-bundle": "~1.1",
         "twitter/bootstrap": "2.3.*",
         "friendsofsymfony/user-bundle": "~1.3",
