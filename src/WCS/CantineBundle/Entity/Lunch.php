@@ -18,6 +18,7 @@ class Lunch
         return $this->date->format('Y-m-d');
     }
 
+
     // GENERATED CODE
 
 

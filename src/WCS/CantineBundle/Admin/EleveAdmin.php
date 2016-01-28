@@ -9,7 +9,9 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
 use Symfony\Component\Validator\Constraints\DateTime;
+use WCS\CantineBundle\Entity\EleveRepository;
 use WCS\CantineBundle\Entity\LunchRepository;
+use WCS\CantineBundle\Entity\Eleve;
 
 class EleveAdmin extends Admin
 {
@@ -62,9 +64,6 @@ class EleveAdmin extends Admin
             )))
             ->add('allergie', 'text')
             ->add('regimeSansPorc', 'boolean')
-            ->add('date',null, array('label'=>'Nbre de repas/mois'))
-            ->add('Jours présents')
-            ->add('Jours absents')
 
         ;
     }

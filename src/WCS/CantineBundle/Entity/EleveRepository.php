@@ -27,19 +27,18 @@ class EleveRepository extends EntityRepository
 
     public function getCurrentWeekMeals()
     {
-        $day = date('Y-m-d', strtotime('last monday', strtotime('tomorrow'))); //by default strtotime('last monday') returns the current day on mondays
-        $result = [];
-        for ($i=1;$i<=4;$i++)
+        $day = date('Y-m-d', strtotime('last monday')); //by default strtotime('last monday') returns the current day on mondays
+        $result = []; // Initialisation de l'array vide
+        for ($i=1;$i<=5;$i++)
         {
-            /*$res = $this->getEntityManager()
+            $res = $this->getEntityManager()
                 ->createQuery(
                     'SELECT COUNT(d) FROM WCSCantineBundle:Lunch d WHERE d.date LIKE :day'
                 )
                 ->setParameter(':day', "%".$day."%")
                 ->getResult();
-            array_push($result, $res[0][1]);
-            if ($i===2) $day = date('Y-m-d', strtotime($day.' + 2 DAY')); // Jump Wednesday off
-            else $day = date('Y-m-d', strtotime($day.' + 1 DAY'));*/
+            array_push($result, $res[0][1]); // On push le résultat dans l'array
+            $day = date('Y-m-d', strtotime($day.' + 1 DAY')); // On ajoute un jour à la date initiale
         }
 
         return $result;

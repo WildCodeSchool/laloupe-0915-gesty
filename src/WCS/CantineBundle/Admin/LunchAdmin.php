@@ -40,8 +40,9 @@ class LunchAdmin extends Admin
     {
         $datagridMapper
             ->add('eleve', null)
-            ->add('date', 'doctrine_orm_date', array(
-                'field_type' => 'sonata_type_date_picker',
+            ->add('date', 'doctrine_orm_date_range', array(
+                'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd',
             ))
         ;
 
