@@ -26,9 +26,9 @@ class LunchAdmin extends Admin
             ->add('status', 'choice', array(
                 'choices' => array(
                     null => 'Choisissez le statut',
-                    '0' => 'Inscrit',
+                    '0' => 'Inscrit mais absent',
                     '1' => 'Non-Inscrit',
-                    '2' => 'Inscrit et Présent',
+                    '2' => 'Inscrit et présent',
                 ),
                 'label' => false
             ))
@@ -60,12 +60,16 @@ class LunchAdmin extends Admin
             ->add('status', 'choice', array(
                 'choices' => array(
                     null => 'Choisissez le statut',
-                    '0' => 'Inscrit',
+                    '0' => 'Inscrit mais absent',
                     '1' => 'Non-Inscrit',
-                    '2' => 'Inscrit et Présent',
+                    '2' => 'Inscrit et présent',
                 ),
                 'label' => false
             ))
+            ->add('_action', 'actions', array('label' => 'Action', 'actions' => array(
+                'edit' => array(),
+                'delete' => array()
+            )));
 
         ;
     }
