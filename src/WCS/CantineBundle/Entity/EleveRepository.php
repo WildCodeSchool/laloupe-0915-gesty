@@ -57,7 +57,7 @@ class EleveRepository extends EntityRepository
             ->getResult();
 
         $count = '';
-        foreach ($dates as $date){
+        foreach ($dates as $date){ 
             if (preg_match('#^'.$dateNowFormat.'#', $date) === 1) {
                 $count = count($date);
             }
