@@ -12,13 +12,18 @@
                         <tr class="success">
                             <th>lundi</th>
                             <th>mardi</th>
+                            <th class="hidden">mercredi</th>
                             <th>jeudi</th>
                             <th>vendredi</th>
                         </tr>
                         </thead>
                         <tr>
-                            {% for meal in currentWeekMeals %}
-                                <td>{{ meal }}</td>
+                            {% for key,meal in currentWeekMeals %}
+                                {% if key == 2 %}
+                                    <td class='hidden'>{{ meal }}</td>
+                                {% else %}
+                                    <td class={{ key }}>{{ meal }}</td>
+                                {% endif %}
                             {% endfor %}
                         </tr>
                     </table>
