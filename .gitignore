@@ -11,5 +11,4 @@
 /web/bundles/wcscantine/uploads/*
 .idea/*
 /bash
-composer.lock
 .bash_profile
