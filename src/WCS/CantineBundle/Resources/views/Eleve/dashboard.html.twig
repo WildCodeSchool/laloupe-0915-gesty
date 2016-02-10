@@ -11,7 +11,11 @@
                         <h4 class="modal-title" style="color:red;">Attention</h4>
                     </div>
                     <div class="modal-body">
-                        <p style="color:red;">En cas de 1ère inscription merci de ne pas oublier d'enregistrer votre(vos) enfant(s) en cliquant sur le bouton suivant :  <a href="{{ path('eleve_create') }}"><input type="button" value="Inscrire mon enfant"class="btn btn-primary"></a></p>
+                        <p style="color:red;">En cas de 1ère inscription merci de ne pas oublier d'enregistrer votre(vos) enfant(s) en cliquant sur le bouton suivant :
+                            <a href="{{ path('eleve_create') }}" class="btn btn-primary">
+                                Inscrire mon enfant
+                            </a>
+                        </p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
@@ -106,7 +110,7 @@
                 </div>
             {% endif %}
             <a href="{{ path('sonata_user_profile_show') }}"><input type="button" value="Modifier mes informations"class="btn btn-primary"></a>
-            <a href="{{ path('eleve_create') }}"><input type="button" value="Inscrire mon enfant"class="btn btn-primary"></a>
+            <a href="{{ path('eleve_create') }}" class="btn btn-primary">Inscrire mon enfant</a>
         </div>
         <div class="children-list">
             <h3>Mes enfants</h3>

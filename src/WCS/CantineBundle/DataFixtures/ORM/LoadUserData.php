@@ -45,6 +45,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $user2->setLastname('Aaa');
         $user2->setPhone('0768298272');
         $user2->setModeDePaiement('Cheque');
+        $user2->setValidation(true);
         $userManager->updateUser($user2, true);
         $this->addReference('user', $user1);
 

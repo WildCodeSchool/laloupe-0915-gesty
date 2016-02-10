@@ -12,3 +12,4 @@
 .idea/*
 /bash
 .bash_profile
+/app/uploads/*
