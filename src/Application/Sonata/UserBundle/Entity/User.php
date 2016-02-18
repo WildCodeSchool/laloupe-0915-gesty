@@ -29,11 +29,11 @@ class User extends BaseUser
         parent::setUsername($email);
     }
 
-    public function __construct()
+    public function __construct($id=null)
     {
         parent::__construct();
         $this->enabled = false;
-
+        if ($id) $this->id = $id;
     }
     //Gestion des uploads
 
