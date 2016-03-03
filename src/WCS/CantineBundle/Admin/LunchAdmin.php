@@ -30,7 +30,8 @@ class LunchAdmin extends Admin
                     '1' => 'Non-Inscrit',
                     '2' => 'Inscrit et présent',
                 ),
-                'label' => false
+                'label' => false,
+                'required' => false
             ))
         ;
     }

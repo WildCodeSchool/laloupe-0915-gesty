@@ -19,8 +19,8 @@ use Doctrine\ORM\EntityManager;
 class StatElevesBlockService extends BaseBlockService
 {
     /**
-    * @var SecurityContextInterface
-    */
+     * @var SecurityContextInterface
+     */
     protected $securityContext;
 
     /**
@@ -51,19 +51,34 @@ class StatElevesBlockService extends BaseBlockService
      */
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
+        // Totals stats
+        $tots = array(
+            'users' => $this->em->getRepository('ApplicationSonataUserBundle:User')->count(),
+            'children' => $this->em->getRepository('WCSCantineBundle:Eleve')->count(),
+            'meals' => $this->em->getRepository('WCSCantineBundle:Lunch')->count(),
+            'schools' => $this->em->getRepository('WCSCantineBundle:School')->count()
+        );
+
         //eleves stats
 
-       $this->em
+        $this->em
             ->getRepository('WCSCantineBundle:Eleve')
             ->findAll();
 
-        $currentWeekMeals = $this->em->getRepository('WCSCantineBundle:Eleve')->getCurrentWeekMeals();
+        $currentWeekMealsNoPork = $this->em->getRepository('WCSCantineBundle:Lunch')->getCurrentWeekMealsWithoutPork();
+        $currentWeekMeals = $this->em->getRepository('WCSCantineBundle:Lunch')->getCurrentWeekMeals();
+        $nextWeekMealsNoPork = $this->em->getRepository('WCSCantineBundle:Lunch')->getNextWeekMealsWithoutPork();
+        $nextWeekMeals = $this->em->getRepository('WCSCantineBundle:Lunch')->getNextWeekMeals();
 
         return $this->renderResponse($blockContext->getTemplate(), array(
             'block'     => $blockContext->getBlock(),
             'base_template' => $this->pool->getTemplate('WCSCantineBundle:Block:stateleves.html.twig'),
             'settings'  => $blockContext->getSettings(),
-            'currentWeekMeals'    => $currentWeekMeals
+            'currentWeekMeals'    => $currentWeekMeals,
+            'currentWeekMealsNoPork'    => $currentWeekMealsNoPork,
+            'nextWeekMeals'    => $nextWeekMeals,
+            'nextWeekMealsNoPork'    => $nextWeekMealsNoPork,
+            'tots' => $tots
 
         ), $response);
     }

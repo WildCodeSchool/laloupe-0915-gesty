@@ -1,6 +1,7 @@
 Application\Sonata\UserBundle\Entity\User:
     type: entity
     table: fos_user_user
+    repositoryClass: Application\Sonata\UserBundle\Entity\UserRepository
 
     id:
         id:

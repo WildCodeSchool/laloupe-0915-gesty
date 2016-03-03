@@ -39,13 +39,12 @@ class CanteenManagerController extends Controller
         $dateNow = new \DateTime();
 
         $em = $this->getDoctrine()->getManager();
-        $lunches = $em->getRepository('WCSCantineBundle:Lunch')->findBy(array(
-            'date' => $dateNow,
-        ));
+        $lunches = $em->getRepository('WCSCantineBundle:Lunch')->getTodayList($schoolId);
+
         $school = $em->getRepository('WCSCantineBundle:School')->find($schoolId);
 
         $lunch = new Lunch();
-        $form = $this->createForm(new LunchType(), $lunch);
+        $form = $this->createForm(new LunchType(), $lunch, array('schoolId' => $schoolId));
         $statusForm = $this->createForm(new StatusType(), $lunch);
         $form->handleRequest($request);
 
@@ -66,46 +65,47 @@ class CanteenManagerController extends Controller
                     $em = $this->getDoctrine()->getManager();
                     $lunches = $em->getRepository('WCSCantineBundle:Lunch')->find($id);
                     $lunches->setStatus('2');
-                    $em->flush();
                 }
             }
+            $em->flush();
             return $this->redirect($this->generateUrl('wcs_gesty_ecoles', array('schoolId' => $schoolId)));
         }
 
 
         return $this->render('WCSCantineBundle:Eleve:todayList.html.twig', array(
             'lunches' => $lunches,
-            'ecole' => $school,
             'form' => $form->createView(),
             'statusForm' => $statusForm->createView(),
+            'school' => $school
         ));
 
     }
 
-    public function deleteAction($id, $schoolId)
+    public function getDefaultOptions(array $options)
     {
-        $dateNow = new \DateTime();
+        return array(
+            'schoolId' => 0
+        );
+    }
+
+    public function deleteAction($id)
+    {
         $em = $this->getDoctrine()->getManager();
-        $lunches = $em->getRepository('WCSCantineBundle:Lunch')->findBy(array(
-            'eleve' => $id,
-            'date' => $dateNow
-        ));
-        foreach ($lunches as $lunch) {
-            $em->remove($lunch);
-        }
+        $lunch = $em->getRepository('WCSCantineBundle:Lunch')->find($id);
+        $em->remove($lunch);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('wcs_cantine_todayList', array('schoolId' => $schoolId)));
+        return $this->redirect($this->generateUrl('wcs_cantine_todayList', array('schoolId' => $lunch->getEleve()->getDivision()->getSchool()->getId())));
     }
 
     public function commandeAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $getNextWeekMealsNumber = $em->getRepository('WCSCantineBundle:Lunch')->getNextWeekMealsNumber();
+        $getNextWeekMealsNumber = $em->getRepository('WCSCantineBundle:Lunch')->getNextWeekMeals();
         $mealsNumber = array_sum($getNextWeekMealsNumber);
 
-        $getNextWeekMealsNumberWithoutPork = $em->getRepository('WCSCantineBundle:Lunch')->getNextWeekMealsNumberWithoutPork();
+        $getNextWeekMealsNumberWithoutPork = $em->getRepository('WCSCantineBundle:Lunch')->getNextWeekMealsWithoutPork();
         $mealsNumberWithoutPork = array_sum($getNextWeekMealsNumberWithoutPork);
 
         $firstDay = date('Y-m-d', strtotime('next monday')); //by default strtotime('last monday') returns the current day on mondays

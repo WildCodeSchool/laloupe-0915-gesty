@@ -42,10 +42,9 @@
 }
 .panel  {
     border: transparent;
-    margin-bottom: 150px;
-    height: 200px;
+    margin-bottom: 50px;
+    /* height: 200px; */
     box-shadow: none!important;
-
 }
 .panel-info>.panel-heading,
 .panel-success>.panel-heading{

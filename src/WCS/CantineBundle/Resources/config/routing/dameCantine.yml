@@ -9,8 +9,8 @@ wcs_cantine_todayList:
         schoolId: \d+
     methods: [POST, GET]
 
-delete_pupil:
-    path:     /todayList/{schoolId}/{id}
+delete_lunch:
+    path:     /todayList/{id}/remove
     defaults: { _controller: "WCSCantineBundle:CanteenManager:delete" }
     methods: [GET, DELETE]
 

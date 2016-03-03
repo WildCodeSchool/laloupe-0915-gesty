@@ -14,21 +14,21 @@ class LunchRepository extends \Doctrine\ORM\EntityRepository
     public function getTodayList($school)
     {
         // Format the date
-        $date = new \DateTime('');
+        $date = new \DateTime();
         $day = $date->format('Y-m-d');
 
         // Request pupils to the database from a certain date
         // lien : http://symfony.com/doc/current/book/doctrine.html (src/AppBundle/Entity/ProductRepository.php)
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT l FROM WCSCantineBundle:Lunch l JOIN l.eleve e JOIN e.division d WHERE l.date = :day AND d.school = :place ORDER BY e.nom'
+                'SELECT l FROM WCSCantineBundle:Lunch l JOIN l.eleve e JOIN e.division d WHERE l.date LIKE :day AND d.school = :place ORDER BY e.nom'
             )
             ->setParameter(':day', "%".$day."%")
             ->setParameter(':place', $school)
             ->getResult();
     }
 
-    public function findOneByDateAndEleve($date, $eleve)
+    public function findByDateAndEleve($date, $eleve)
     {
         return $this->getEntityManager()
             ->createQuery(
@@ -39,17 +39,16 @@ class LunchRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
     }
 
-    public function getNextWeekMealsNumber()
+    public function getCurrentWeekMeals()
     {
-        $day = date('Y-m-d', strtotime('next monday')); //by default strtotime('last monday') returns the current day on mondays
+        $day = date('Y-m-d', strtotime('last monday')); //by default strtotime('last monday') returns the current day on mondays
         $result = []; // Initialisation de l'array vide
         for ($i=0;$i<=4;$i++)
         {
             $res = $this->getEntityManager()
                 ->createQuery(
-                    'SELECT COUNT(d) FROM WCSCantineBundle:Lunch d JOIN d.eleve j WHERE d.date LIKE :day AND j.regimeSansPorc LIKE :pork'
+                    'SELECT COUNT(d) FROM WCSCantineBundle:Lunch d WHERE d.date LIKE :day'
                 )
-                ->setParameter(':pork', 0)
                 ->setParameter(':day', "%".$day."%")
                 ->getResult();
             array_push($result, $res[0][1]); // On push le résultat dans l'array
@@ -59,7 +58,46 @@ class LunchRepository extends \Doctrine\ORM\EntityRepository
         return $result;
     }
 
-    public function getNextWeekMealsNumberWithoutPork()
+    public function getCurrentWeekMealsWithoutPork()
+    {
+        $day = date('Y-m-d', strtotime('last monday')); //by default strtotime('last monday') returns the current day on mondays
+        $result = []; // Initialisation de l'array vide
+        for ($i=0;$i<=4;$i++)
+        {
+            $res = $this->getEntityManager()
+                ->createQuery(
+                    'SELECT COUNT(d) FROM WCSCantineBundle:Lunch d JOIN d.eleve j WHERE d.date LIKE :day AND j.regimeSansPorc LIKE :pork'
+                )
+                ->setParameter(':pork', 1)
+                ->setParameter(':day', "%".$day."%")
+                ->getResult();
+            array_push($result, $res[0][1]); // On push le résultat dans l'array
+            $day = date('Y-m-d', strtotime($day.' + 1 DAY')); // On ajoute un jour à la date initiale
+        }
+
+        return $result;
+    }
+
+    public function getNextWeekMeals()
+    {
+        $day = date('Y-m-d', strtotime('next monday')); //by default strtotime('last monday') returns the current day on mondays
+        $result = []; // Initialisation de l'array vide
+        for ($i=0;$i<=4;$i++)
+        {
+            $res = $this->getEntityManager()
+                ->createQuery(
+                    'SELECT COUNT(d) FROM WCSCantineBundle:Lunch d WHERE d.date LIKE :day'
+                )
+                ->setParameter(':day', "%".$day."%")
+                ->getResult();
+            array_push($result, $res[0][1]); // On push le résultat dans l'array
+            $day = date('Y-m-d', strtotime($day.' + 1 DAY')); // On ajoute un jour à la date initiale
+        }
+
+        return $result;
+    }
+
+    public function getNextWeekMealsWithoutPork()
     {
         $day = date('Y-m-d', strtotime('next monday')); //by default strtotime('last monday') returns the current day on mondays
         $result = []; // Initialisation de l'array vide
@@ -78,6 +116,7 @@ class LunchRepository extends \Doctrine\ORM\EntityRepository
 
         return $result;
     }
+
     //Delete all lunches for one pupil
     public function removeByEleve(Eleve $eleve)
     {
@@ -87,5 +126,13 @@ class LunchRepository extends \Doctrine\ORM\EntityRepository
             )
             ->setParameter(':eleve', $eleve)
             ->execute();
+    }
+
+    public function count()
+    {
+        return $this->createQueryBuilder('a')
+            ->select('COUNT(a)')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

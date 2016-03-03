@@ -3,7 +3,7 @@
 {% block body %}
     <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
         <a href="{{ path('wcs_gesty_ecoles') }}" class="btn__retour">Retour</a>
-        <center><h1>Liste des enfants inscrits par jour</h1></center>
+        <center><h1>Liste des enfants inscrits aujourd'hui</h1></center>
     </div>
 
     <div class="container-fluid">
@@ -12,7 +12,7 @@
 
                 <tr>
                     <td class="text-center welcome dateNow" id="{{ "now"|date("Y-m-d") }}">{{ "now"|date("d/m/Y") }}</td>
-                    <td class="text-center welcome schoolname" colspan="4" id="{{ ecole.id }}">Enfants inscrits - {{ ecole.name }}</td>
+                    <td class="text-center welcome schoolname" colspan="4" id="{{ school.id }}">Enfants inscrits - {{ school.name }}</td>
                 </tr>
 
                 <tr>
@@ -25,14 +25,13 @@
 
 
                 {% for lunch in lunches %}
-                {% if lunch.eleve.division.school.id == ecole.id %}
                 <tr>
                     <td class="text-center">
                         {% if lunch.status == 0 %}
                             <input type="checkbox" class="eleve" name="eleve" value= {{ lunch.id }} />
                         {% elseif lunch.status == 1 %}
                             <p class="eleveAjoute">PRESENT</p>
-                            <a href="{{ path('delete_pupil', {'id': lunch.eleve.id, 'schoolId': ecole.id }) }}">Désinscrire</a>
+                            <a href="{{ path('delete_lunch', {'id': lunch.id }) }}">Désinscrire</a>
                         {% elseif lunch.status == 2 %}
                             <p class="eleveAjoute">PRESENT</p>
                         {% else %}
@@ -48,9 +47,7 @@
                             NON
                         {% endif %}
                     </td>
-                    {% endif %}
                     {% endfor %}
-
                 </tr>
             </table>
 
@@ -90,64 +87,66 @@
             </table>
         </div>
 
-        <form action="{{ path('wcs_cantine_todayList', {'schoolId' : ecole.id}) }}" method="POST" {{ form_enctype(statusForm) }}>
+        <form action="{{ path('wcs_cantine_todayList', {'schoolId' : school.id}) }}" method="POST" {{ form_enctype(statusForm) }}>
             <div class="hidden">
                 {{ form_widget(statusForm.status, {'attr' : {'class' : 'idElevesPresents'}})}}
             </div>
             <input type="submit" class="submit btn btn-primary text-center col-md-offset-4 col-md-4" name="login" value="Valider"/>
         </form>
 
-
-        {% block javascripts %}
-            <script src="{{ asset('bundles/wcscantine/js/jquery.min.js') }}"></script>
-            <script src="{{ asset('bundles/wcscantine/js/bootstrap.min.js') }}"></script>
-        {% endblock %}
-        <script>
-            var totalCheckboxes = $('input:checkbox');
-            var totalSansPorc = $('.sansporc');
-            var totalEleves = totalCheckboxes.length;
-            window.onload = function () {
-                $(".total")[0].innerHTML = 0;
-                $(".test")[0].innerHTML = totalEleves;
-                $(".porc")[0].innerHTML = $('.sansporc:contains("OUI")').length;
-
-                $(".eleve").click(function () {
-                    var countCheckedCheckboxes = $('input:checkbox:checked').length;
-                    var countPrensentAdded = $('.eleveAjoute').length;
-                    $(".total")[0].innerHTML = countCheckedCheckboxes + countPrensentAdded;
-                });
-
-                var $choiceDisplay = $(".idElevesPresents"), //jquery selector for the display box
-                        $choice = $(".eleve");
-
-                $choice.on("change", function () {
-                    var $this = $(this), //jquery selector for the changed input
-                            isThisChecked = $this.prop("checked"), //boolean true if the box is checked
-                            choiceSelectionsArray = $choiceDisplay.val().split(",").filter(function(e){return e !== ""}), //array of values that are checked
-                            isThisValueInDisplayedSelection = $.inArray($this.val(), choiceSelectionsArray) !== -1; //boolean true when $this value displayed
-
-                    if (isThisChecked) {
-                        if (isThisValueInDisplayedSelection) {
-                            return false; //odd, the value is already displayed.  No work to do.
-                        } else {
-                            choiceSelectionsArray.push($this.val());
-                            $choiceDisplay.val(choiceSelectionsArray.join());
-                        }
-                    } else { //box has been unchecked
-                        if (isThisValueInDisplayedSelection) {
-                            choiceSelectionsArray = choiceSelectionsArray.filter(function(e){return e !== $this.val()})
-                            $choiceDisplay.val(choiceSelectionsArray.join());
-                        }
-                    }
-                });
-
-            }
-
-        </script>
     </div>
 
 
 
+{% endblock %}
+
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/wcscantine/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('bundles/wcscantine/js/bootstrap.min.js') }}"></script>
+
+    <script>
+        var totalCheckboxes = $('input:checkbox');
+        var totalSansPorc = $('.sansporc');
+        var totalEleves = totalCheckboxes.length;
+        window.onload = function () {
+            $(".total")[0].innerHTML = 0;
+            $(".test")[0].innerHTML = totalEleves;
+            $(".porc")[0].innerHTML = $('.sansporc:contains("OUI")').length;
+
+            $(".eleve").click(function () {
+                var countCheckedCheckboxes = $('input:checkbox:checked').length;
+                var countPrensentAdded = $('.eleveAjoute').length;
+                $(".total")[0].innerHTML = countCheckedCheckboxes + countPrensentAdded;
+            });
+
+            var $choiceDisplay = $(".idElevesPresents"), //jquery selector for the display box
+                    $choice = $(".eleve");
+
+            $choice.on("change", function () {
+                var $this = $(this), //jquery selector for the changed input
+                        isThisChecked = $this.prop("checked"), //boolean true if the box is checked
+                        choiceSelectionsArray = $choiceDisplay.val().split(",").filter(function(e){return e !== ""}), //array of values that are checked
+                        isThisValueInDisplayedSelection = $.inArray($this.val(), choiceSelectionsArray) !== -1; //boolean true when $this value displayed
+
+                if (isThisChecked) {
+                    if (isThisValueInDisplayedSelection) {
+                        return false; //odd, the value is already displayed.  No work to do.
+                    } else {
+                        choiceSelectionsArray.push($this.val());
+                        $choiceDisplay.val(choiceSelectionsArray.join());
+                    }
+                } else { //box has been unchecked
+                    if (isThisValueInDisplayedSelection) {
+                        choiceSelectionsArray = choiceSelectionsArray.filter(function(e){return e !== $this.val()})
+                        $choiceDisplay.val(choiceSelectionsArray.join());
+                    }
+                }
+            });
+
+        }
+
+    </script>
 {% endblock %}
 
 

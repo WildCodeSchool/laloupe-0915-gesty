@@ -28,8 +28,19 @@ class DivisionAdmin extends Admin
         $datagridMapper
             ->add('grade',null,(array('label'=>'Classe')))
             ->add('headTeacher',null,(array('label'=>'Instituteur')))
-            ->add('school',null,(array('label'=>'Ecole')));
-            //->add('eleves');
+            ->add('school',null,(array('label'=>'Ecole')))
+        ;
+
+    }
+
+    protected function configureShowFields(ShowMapper $datagridMapper)
+    {
+        $datagridMapper
+            ->add('grade',null,(array('label'=>'Classe')))
+            ->add('headTeacher',null,(array('label'=>'Instituteur')))
+            ->add('school',null,(array('label'=>'Ecole')))
+            ->add('eleves')
+        ;
 
     }
 

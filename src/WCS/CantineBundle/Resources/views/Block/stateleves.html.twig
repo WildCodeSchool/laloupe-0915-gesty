@@ -2,33 +2,124 @@
 
 {% block block %}
     <div id="stats" class="container">
-        <div class="col-md-12">
-            <h3>Eleves inscrits :</h3>
-            <div class="row">
-                <div id="block__stateleves" class="col-md-6 blocks__statuser">
-                    <h3><i class="fa fa-cutlery"></i> Repas de la semaine</h3>
-                    <table id="userTable" class="table table-hover tablesorter table-bordered">
-                        <thead>
-                        <tr class="success">
-                            <th>lundi</th>
-                            <th>mardi</th>
-                            <th class="hidden">mercredi</th>
-                            <th>jeudi</th>
-                            <th>vendredi</th>
-                        </tr>
-                        </thead>
-                        <tr>
-                            {% for key,meal in currentWeekMeals %}
-                                {% if key == 2 %}
-                                    <td class='hidden'>{{ meal }}</td>
-                                {% else %}
-                                    <td class={{ key }}>{{ meal }}</td>
-                                {% endif %}
-                            {% endfor %}
-                        </tr>
-                    </table>
-                </div>
+        <div class="row">
+            <h3>Stat Générales</h3>
+            <table class="table table-hover tablesorter table-bordered">
+                <thead>
+                <tr class="success">
+                    <th>Total utilisateurs</th>
+                    <th>Total enfants</th>
+                    <th>Total repas</th>
+                    <th>Total ecoles</th>
+                </tr>
+                </thead>
+                <tr>
+                     <td>{{ tots.users }}</td>
+                     <td>{{ tots.children }}</td>
+                     <td>{{ tots.meals }}</td>
+                     <td>{{ tots.schools }}</td>
+                </tr>
+            </table>
+        </div>
 
+        <div class="row">
+            <div id="block__stateleves" class="col-md-6 blocks__statuser">
+                <h3><i class="fa fa-cutlery"></i> Repas de la semaine</h3>
+                <table id="userTable" class="table table-hover tablesorter table-bordered">
+                    <thead>
+                    <tr class="success">
+                        <th></th>
+                        <th>lundi</th>
+                        <th>mardi</th>
+                        <th>jeudi</th>
+                        <th>vendredi</th>
+                        <th>Total</th>
+                    </tr>
+                    </thead>
+                    <tr>
+                        <td>Repas sans porc</td>
+                        {% set total = 0 %}
+                        {% for key,meal in currentWeekMealsNoPork %}
+                            {% if key != 2 %}
+                                {% set total = total+meal %}
+                                <td class={{ key }}>{{ meal }}</td>
+                            {% endif %}
+                        {% endfor %}
+                        <td>{{ total }}</td>
+                    </tr>
+                    <tr>
+                        <td>Repas avec porc</td>
+                        {% set total = 0 %}
+                        {% for key,value in currentWeekMeals %}
+                            {% set meal = value-currentWeekMealsNoPork[loop.index-1] %}
+                            {% if key != 2 %}
+                                {% set total = total+meal %}
+                                <td class={{ key }}>{{ meal }}</td>
+                            {% endif %}
+                        {% endfor %}
+                        <td>{{ total }}</td>
+                    </tr>
+                    <tr>
+                        <td>Repas</td>
+                        {% set total = 0 %}
+                        {% for key,meal in currentWeekMeals %}
+                            {% if key != 2 %}
+                                {% set total = total+meal %}
+                                <td class={{ key }}>{{ meal }}</td>
+                            {% endif %}
+                        {% endfor %}
+                        <td>{{ total }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6 blocks__statuser">
+                <h3><i class="fa fa-cutlery"></i> Repas de la semaine prochaine</h3>
+                <table class="table table-hover tablesorter table-bordered">
+                    <thead>
+                    <tr class="success">
+                        <th></th>
+                        <th>lundi</th>
+                        <th>mardi</th>
+                        <th>jeudi</th>
+                        <th>vendredi</th>
+                        <th>Total</th>
+                    </tr>
+                    </thead>
+                    <tr>
+                        <td>Repas sans porc</td>
+                        {% set total = 0 %}
+                        {% for key,meal in nextWeekMealsNoPork %}
+                            {% if key != 2 %}
+                                {% set total = total+meal %}
+                                <td class={{ key }}>{{ meal }}</td>
+                            {% endif %}
+                        {% endfor %}
+                        <td>{{ total }}</td>
+                    </tr>
+                    <tr>
+                        <td>Repas avec porc</td>
+                        {% set total = 0 %}
+                        {% for key,value in nextWeekMeals %}
+                            {% set meal = value-nextWeekMealsNoPork[loop.index-1] %}
+                            {% if key != 2 %}
+                                {% set total = total+meal %}
+                                <td class={{ key }}>{{ meal }}</td>
+                            {% endif %}
+                        {% endfor %}
+                        <td>{{ total }}</td>
+                    </tr>
+                    <tr>
+                        <td>Repas</td>
+                        {% set total = 0 %}
+                        {% for key,meal in nextWeekMeals %}
+                            {% if key != 2 %}
+                                {% set total = total+meal %}
+                                <td class={{ key }}>{{ meal }}</td>
+                            {% endif %}
+                        {% endfor %}
+                        <td>{{ total }}</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

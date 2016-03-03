@@ -12,13 +12,11 @@
 namespace Application\Sonata\UserBundle\Admin\Model;
 
 
-use Application\Sonata\UserBundle\Entity\User;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use FOS\UserBundle\Model\UserManagerInterface;
-use Symfony\Component\Validator\Tests\Fixtures\Entity;
 
 class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
 {

@@ -56,30 +56,30 @@ assetic:
             file: %kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php
             apply_to: "\.less$"
     assets:
-            bootstrap_css:
-                inputs:
-                    - %kernel.root_dir%/../vendor/twitter/bootstrap/less/bootstrap.less
-                    - %kernel.root_dir%/../vendor/twitter/bootstrap/less/responsive.less
-                filters:
-                    - less
-                    - cssrewrite
-                output: css/bootstrap.css
-            bootstrap_js:
-                inputs:
-                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-transition.js
-                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-alert.js
-                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-button.js
-                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-carousel.js
-                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-collapse.js
-                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-dropdown.js
-                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-modal.js
-                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-tooltip.js
-                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-popover.js
-                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-scrollspy.js
-                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-tab.js
-                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-typeahead.js
-                    - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-affix.js
-                output: js/bootstrap.js
+        bootstrap_css:
+            inputs:
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/less/bootstrap.less
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/less/responsive.less
+            filters:
+                - less
+                - cssrewrite
+            output: css/bootstrap.css
+        bootstrap_js:
+            inputs:
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-transition.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-alert.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-button.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-carousel.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-collapse.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-dropdown.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-modal.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-tooltip.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-popover.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-scrollspy.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-tab.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-typeahead.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-affix.js
+            output: js/bootstrap.js
 
 # Doctrine Configuration
 doctrine:
@@ -189,11 +189,6 @@ sonata_admin:
     dashboard:
         blocks:
             -
-                position: left
-                type: sonata.admin.block.admin_list
-                class: col-md-12
-
-            -
                 position: top
                 type: sonata.block.service.text
                 class: col-md-12
@@ -211,18 +206,19 @@ sonata_admin:
                 label: Foyer
                 items:
                     - sonata.user.admin.user
-            wcs.group.eleve:
-                icon: '<i class="fa fa-user"></i>'
-                label: Eleves
-            wcs.group.division:
+                    - sonata.admin.eleve
+            wcs.group.school:
                 icon: '<i class="fa fa-home"></i>'
                 label: Ecoles
+                items:
+                    - sonata.admin.school
+                    - sonata.admin.division
             wcs.group.lunches:
                 icon: '<i class="fa fa-cutlery"></i>'
-                label: Liste des repas
+                label: Cantine
             wcs.group.feries:
-                icon: '<i class="fa fa-calendar"></i>'
-                label: Jours fériés
+                icon: '<i class="fa fa-cogs"></i>'
+                label: Paramètres
 
 
 braincrafted_bootstrap:

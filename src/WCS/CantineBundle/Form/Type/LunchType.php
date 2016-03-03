@@ -21,8 +21,12 @@ class LunchType extends AbstractType
         $builder
             ->add('eleve', 'entity', array(
                 'class'         => 'WCSCantineBundle:Eleve',
-                'query_builder' => function(EleveRepository $er ) {
+                'query_builder' => function(EleveRepository $er ) use ($options) {
                     return $er->createQueryBuilder('e')
+                        ->join('e.division', 'd')
+                        ->join('d.school', 's')
+                        ->where('s.id = :id')
+                        ->setParameter('id', $options['schoolId'])
                         ->orderBy('e.nom', 'ASC');
                         }
                 ))
@@ -44,7 +48,7 @@ class LunchType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'WCS\CantineBundle\Entity\Lunch'
+            'schoolId' => 0
         ));
     }
 

@@ -1,5 +1,6 @@
 WCS\CantineBundle\Entity\School:
     type: entity
+    repositoryClass: WCS\CantineBundle\Entity\SchoolRepository
     id:
         id:
             type: integer
