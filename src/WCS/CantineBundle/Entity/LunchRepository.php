@@ -41,7 +41,7 @@ class LunchRepository extends \Doctrine\ORM\EntityRepository
 
     public function getCurrentWeekMeals()
     {
-        $day = date('Y-m-d', strtotime('last monday')); //by default strtotime('last monday') returns the current day on mondays
+        $day = date('Y-m-d', strtotime('Monday this week')); //by default strtotime('last monday') returns the current day on mondays
         $result = []; // Initialisation de l'array vide
         for ($i=0;$i<=4;$i++)
         {
@@ -60,7 +60,7 @@ class LunchRepository extends \Doctrine\ORM\EntityRepository
 
     public function getCurrentWeekMealsWithoutPork()
     {
-        $day = date('Y-m-d', strtotime('last monday')); //by default strtotime('last monday') returns the current day on mondays
+        $day = date('Y-m-d', strtotime('Monday this week')); //by default strtotime('last monday') returns the current day on mondays
         $result = []; // Initialisation de l'array vide
         for ($i=0;$i<=4;$i++)
         {
