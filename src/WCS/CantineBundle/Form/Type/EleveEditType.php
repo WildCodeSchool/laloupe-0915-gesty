@@ -26,11 +26,17 @@ class EleveEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom', 'text')
-            ->add('prenom', 'text')
+            ->add('nom', 'text', array(
+                'disabled' => true
+            ))
+            ->add('prenom', 'text', array(
+                'disabled' => true
+            ))
             ->add('dateDeNaissance', 'date', array(
-            'format' => 'dd-MMMM-yyyy',
-            'years' =>  range(\date("Y") - 11, \date("Y") - 2),))
+                'format' => 'dd-MMMM-yyyy',
+                'years' =>  range(\date("Y") - 11, \date("Y") - 2),
+                'disabled' => true
+            ))
             ->add('division', 'entity', array(
                 'class' => 'WCSCantineBundle:Division'))
             ->add('regimeSansPorc', 'checkbox', array('required'=>false))

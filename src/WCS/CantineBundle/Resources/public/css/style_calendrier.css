@@ -26,12 +26,15 @@
 	font-family: 'Open Sans', sans-serif;
 	font-weight: bold;
 	font-size: 1.2em;
-	margin: 30px 160px 30px 160px;
+	margin: 20px 160px 50px 160px;
 }
 
 .choix {
 	display: inline;
-	padding: 20px 10px 20px 10px;
+	padding: 10px 5px;
+	border: solid #F6773D 3px;
+	border-radius: 10px;
+	margin: 0 5px;
 }
 
 .wd {
@@ -57,7 +60,7 @@
 }
 
 table {
-	border-collapse: collapse;
+	/* border-collapse: collapse; */
 	margin: auto;
 }
 
@@ -65,10 +68,10 @@ td {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 1em;
 	border: 1px solid #7A2903;
-	width: 80px;
+	/* width: 80px; */
 	text-align: right;
-	padding-right: 20px;
-	padding-left: 20px;
+	padding: 5px 40px;
+	/* padding-left: 20px; */
 }
 
 thead {
@@ -78,13 +81,22 @@ thead {
 	color: #333;
 }
 
-.calendar-checkbox {
+input[type=checkbox].calendar-checkbox {
 	display: inline;
 	float: left;
+	margin-right: 5px;
 }
 
 .inactif{
 	background-color: #C5BDB5;
+}
+
+.calendar-reservation-over {
+    background-color: #f4550c;
+}
+
+.calendar-reserved {
+    background-color: #5CAB18;
 }
 
 .months a {
@@ -107,4 +119,16 @@ thead {
 
 .jourecole {
 	text-align: center;
+}
+
+.calendar-legend {
+    margin: 40px 15%;
+}
+
+.calendar-legend-square {
+    border: solid black 2px;
+    width: 15px;
+    height: 15px;
+    margin: 0 10px;
+    display: inline-block;
 }

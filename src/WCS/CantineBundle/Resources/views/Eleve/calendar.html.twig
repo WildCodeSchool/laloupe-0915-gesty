@@ -1,0 +1,348 @@
+<div class="anneescolaire">
+    {% for key,value in calendrier %}
+        {{ key }}
+    {% endfor %}
+</div>
+
+<div class="semaine">
+    {% for day in form.habits %}
+        <div class="choix">
+            {{ form_widget(day) }}
+            {{ form_label(day) }}
+        </div>
+    {% endfor %}
+</div>
+
+<div class="months col-md-12 text-center">
+    <a class="moisecole" href="#" id="linkMonth09">Sep</a>
+    <a class="moisecole" href="#" id="linkMonth10">Oct</a>
+    <a class="moisecole" href="#" id="linkMonth11">Nov</a>
+    <a class="moisecole" href="#" id="linkMonth12">Déc</a>
+    <a class="moisecole" href="#" id="linkMonth01">Jan</a>
+    <a class="moisecole" href="#" id="linkMonth02">Fév</a>
+    <a class="moisecole" href="#" id="linkMonth03">Mar</a>
+    <a class="moisecole" href="#" id="linkMonth04">Avr</a>
+    <a class="moisecole" href="#" id="linkMonth05">Mai</a>
+    <a class="moisecole" href="#" id="linkMonth06">Jui</a>
+    <a class="moisecole" href="#" id="linkMonth07">Jui</a>
+</div>
+
+<div class="hidden">
+    {{ form_widget(form.dates) }}
+</div>
+
+{% for year, months in calendrier %}
+    {% for month, days in months %}
+        <div class="month" id="month{{ month }}">
+            <table>
+                <thead>
+                <tr>
+                    {% for days in jours %}
+                        <th class="jourecole">{{ days }}</th>
+                    {% endfor %}
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr>
+
+                    {% for day,day_week in days %}
+                    {% if day == 1 %}
+                        {% if day_week != 1 %}
+                            <td colspan="{{ day_week - 1 }}"></td>
+                        {% endif %}
+                    {% endif %}
+
+                    {% if day_week == 3 or day_week == 6 or day_week == 7 or date(year ~ '-' ~ month ~ '-' ~ day).timestamp > finAnnee %}
+
+                    <td class="inactif">
+
+                        {% elseif date(year ~ '-' ~ month ~ '-' ~ day).timestamp < dateLimit %}
+
+                        <td class="calendar-reservation-over">
+
+                        {% else %}
+                    <td>
+                        {% endif %}
+
+
+                        {% if day_week != 3 and day_week != 6 and day_week != 7 %}
+
+                            <input class="calendar-checkbox {{ 'day' ~ day_week }}" type="checkbox" value="{{ year }}-{{ month }}-{{ day }}" name="{{ year }}-{{ month }}-{{ day }}">
+
+                        {% endif %}
+
+                        {{ day }}
+
+                        {% if (day_week == 7) %}
+                </tr><tr>
+                    {% endif %}
+
+                    {% endfor %}
+
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+{% endfor %}
+
+
+<div class="calendar-legend">
+    <div class="row">
+        <div class="col-md-4">
+            <span class="calendar-legend-square calendar-reserved"></span>
+            Repas réservé
+        </div>
+        <div class="col-md-4">
+            <span class="calendar-legend-square calendar-reservation-over"></span>
+            Date dépassée
+        </div>
+        <div class="col-md-4">
+            <span class="calendar-legend-square inactif"></span>
+            Pas de cantine ce jour
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    window.onload = function () {
+        // Show the current month and hide the others
+        var today = new Date();
+        var currentMonth = today.getMonth()+1;
+        if (currentMonth<10) currentMonth = ''+0+currentMonth;
+        $('.months a#linkMonth'+currentMonth).addClass('active');
+        $('.month').hide();
+        $('.month#month'+currentMonth).show();
+
+        // Onclick the month selected appear and the other is hidden
+        $('.months a').click(function(){
+            var month = $(this).attr('id').replace('linkMonth', '');
+            var current = $('.months a.active').attr('id').replace('linkMonth', '');
+            if (month != current){
+                $('#month'+current).hide();
+                $('#month'+month).show();
+                $('.months a').removeClass('active');
+                $('.months a#linkMonth' + month).addClass('active');
+            }
+            return false;
+        });
+
+        // Format date when sumbitting the form
+        $('form[name="WCS_cantinebundle_eleve"]').submit(function(e){
+            e.preventDefault();
+            var dates = '';
+            $('.calendar-checkbox:checked').each(function(){
+                dates += this.value + ';';
+            });
+            $('#WCS_cantinebundle_eleve_dates').val(dates);
+            this.submit();
+            //console.log(dates);
+        });
+
+        // Auto select of week checkboxes
+        $('.choix input').on('change', function(){
+
+            // Récupère les dates des vacances
+            var finAnnee = '{{ grandesVacances }}';
+            var finAnneeTS = new Date (finAnnee);
+            finAnneeTS.setHours(0); // Désactivation des heures, minutes et secondes
+            finAnneeTS.setMinutes(0);
+            finAnneeTS.setSeconds(0);
+
+            var vacancesHiver = [
+                {% for dateHiver in vacancesHiver %}
+                '{{ dateHiver }}',
+                {% endfor %}
+            ];
+            var vacancesNoel = [
+                {% for dateNoel in vacancesNoel %}
+                '{{ dateNoel }}',
+                {% endfor %}
+            ];
+            var vacancesToussaint = [
+                {% for dateToussaint in vacancesToussaint %}
+                '{{ dateToussaint }}',
+                {% endfor %}
+            ];
+            var vacancesPrintemps = [
+                {% for datePrintemps in vacancesPrintemps %}
+                '{{ datePrintemps }}',
+                {% endfor %}
+            ];
+            var feries = [
+                {% for key, array in feries %}
+                {% for jours, dates in array %}
+                '{{ dates|date('Y-m-d') }}',
+                {% endfor %}
+                {% endfor %}
+            ];
+
+            var daySelected = parseInt($(this).attr('id').split('_')[4])+1;
+            if (daySelected >= 3) daySelected++;
+            var dateNow = new Date(); // Date d'aujourd'hui
+            dateNow.setHours(0); // Désactivation des heures, minutes et secondes
+            dateNow.setMinutes(0);
+            dateNow.setSeconds(0);
+            dateNow.setDate(dateNow.getDate() + 7);
+            var checked = $(this).is(':checked');
+            $('div.month td input.day' + daySelected).each(function() {
+                var getDate = $(this).attr('name');
+                var d = new Date (getDate);
+                d.setHours(0); // Désactivation des heures, minutes et secondes
+                d.setMinutes(0);
+                d.setSeconds(0);
+
+                if (d.getTime() > dateNow.getTime() && d.getTime() < finAnneeTS.getTime())
+                {
+                    $(this)[0].checked = checked;
+                    // Désactive les jours fériés fixes
+                    if (getDate.match(/[0-9]{4}-11-01/) || getDate.match(/[0-9]{4}-05-01/) || getDate.match(/[0-9]{4}-01-01/)
+                            || getDate.match(/[0-9]{4}-05-08/) || getDate.match(/[0-9]{4}-11-11/))
+                    {
+                        this.checked = false;
+                        $(this)[0].disabled = true;
+                        $(this).parent('td').addClass('inactif');
+                    }
+
+                    // Désactive les vacances scolaires
+                    for (i = 0; i < vacancesHiver.length; i++) {
+                        if (vacancesHiver[i] == getDate){
+                            this.checked = false;
+                            $(this)[0].disabled = true;
+                            $(this).parent('td').addClass('inactif');
+                        }
+                    }
+                    for (j = 0; j < vacancesNoel.length; j++) {
+                        if (vacancesNoel[j] == getDate){
+                            this.checked = false;
+                            $(this)[0].disabled = true;
+                            $(this).parent('td').addClass('inactif');
+                        }
+                    }
+                    for (k = 0; k < vacancesToussaint.length; k++) {
+                        if (vacancesToussaint[k] == getDate){
+                            this.checked = false;
+                            $(this)[0].disabled = true;
+                            $(this).parent('td').addClass('inactif');
+                        }
+                    }
+                    for (l = 0; l < vacancesPrintemps.length; l++) {
+                        if (vacancesPrintemps[l] == getDate){
+                            this.checked = false;
+                            $(this)[0].disabled = true;
+                            $(this).parent('td').addClass('inactif');
+                        }
+                    }
+                    for (m = 0; m < feries.length; m++) {
+                        if (feries[m] == getDate){
+                            this.checked = false;
+                            $(this)[0].disabled = true;
+                            $(this).parent('td').addClass('inactif');
+                        }
+                    }
+                }
+            })
+        });
+
+        // fonction pour bloquer les jours antérieurs + 7
+        function disablePrevDate(){
+            var dateNow = new Date(); // Date d'aujourd'hui
+            dateNow.setHours(0); // Désactivation des heures, minutes et secondes
+            dateNow.setMinutes(0);
+            dateNow.setSeconds(0);
+            dateNow.setDate(dateNow.getDate() + 7); // Ajout de 7 jours
+
+            // Récupère les dates des vacances
+            var vacancesHiver = [
+                {% for dateHiver in vacancesHiver %}
+                '{{ dateHiver }}',
+                {% endfor %}
+            ];
+            var vacancesNoel = [
+                {% for dateNoel in vacancesNoel %}
+                '{{ dateNoel }}',
+                {% endfor %}
+            ];
+            var vacancesToussaint = [
+                {% for dateToussaint in vacancesToussaint %}
+                '{{ dateToussaint }}',
+                {% endfor %}
+            ];
+            var vacancesPrintemps = [
+                {% for datePrintemps in vacancesPrintemps %}
+                '{{ datePrintemps }}',
+                {% endfor %}
+            ];
+            var feries = [
+                {% for key, array in feries %}
+                {% for jours, dates in array %}
+                '{{ dates|date('Y-m-d') }}',
+                {% endfor %}
+                {% endfor %}
+            ];
+            var grandesVacances = '{{ grandesVacances }}';
+
+            $(".calendar-checkbox").each(function(){ // Pour chaque checkbox
+                var allCheckboxes = $(this).attr('name'); // On récupère l'attribut 'name'
+                var currentDate = new Date(allCheckboxes); // On transforme en date (type js)
+                currentDate.setHours(0); // Désactivation des heures, minutes et secondes
+                currentDate.setMinutes(0);
+                currentDate.setSeconds(0);
+
+                // Désactive les jours fériés fixes
+                $(this)[0].disabled = (currentDate.getTime() < dateNow.getTime()
+                || allCheckboxes > grandesVacances || allCheckboxes.match(/[0-9]{4}-05-01/) || allCheckboxes.match(/[0-9]{4}-11-01/)
+                || allCheckboxes.match(/[0-9]{4}-01-01/) || allCheckboxes.match(/[0-9]{4}-05-08/) || allCheckboxes.match(/[0-9]{4}-11-11/));
+                // .disabled = désactive la checkbox, .getTime() = obtenir le timestamp
+
+                // Désactive les vacances scolaires
+                for (i = 0; i < vacancesHiver.length; i++) {
+                    if (vacancesHiver[i] == allCheckboxes){
+                        this.checked = false;
+                        $(this)[0].disabled = true;
+                        $(this).attr('title', 'Vacances d\'hiver');
+                        $(this).parent('td').addClass('inactif');
+                    }
+                }
+                for (j = 0; j < vacancesNoel.length; j++) {
+                    if (vacancesNoel[j] == allCheckboxes){
+                        this.checked = false;
+                        $(this)[0].disabled = true;
+                        $(this).attr('title', 'Vacances de noël');
+                        $(this).parent('td').addClass('inactif');
+                    }
+                }
+                for (k = 0; k < vacancesToussaint.length; k++) {
+                    if (vacancesToussaint[k] == allCheckboxes){
+                        this.checked = false;
+                        $(this)[0].disabled = true;
+                        $(this).attr('title', 'Vacances de Toussaint');
+                        $(this).parent('td').addClass('inactif');
+                    }
+                }
+                for (l = 0; l < vacancesPrintemps.length; l++) {
+                    if (vacancesPrintemps[l] == allCheckboxes){
+                        this.checked = false;
+                        $(this)[0].disabled = true;
+                        $(this).attr('title', 'Vacances de Printemps');
+                        $(this).parent('td').addClass('inactif');
+                    }
+                }
+                for (m = 0; m < feries.length; m++) {
+                    if (feries[m] == allCheckboxes){
+                        this.checked = false;
+                        $(this)[0].disabled = true;
+                        $(this).attr('title', 'Jour férié');
+                        $(this).parent('td').addClass('inactif');
+                    }
+                }
+            });
+        }
+
+        disablePrevDate(); // rappel de la fonction qui bloque les jours précédents + 7
+    }
+</script>

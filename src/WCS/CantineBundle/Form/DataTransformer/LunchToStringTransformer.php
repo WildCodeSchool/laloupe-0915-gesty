@@ -54,7 +54,7 @@ class LunchToStringTransformer implements DataTransformerInterface
             if ($date != '') {
                 $lunch = $this->manager
                     ->getRepository('WCSCantineBundle:Lunch')
-                    ->findOneByDateAndEleve($date, $this->eleve)
+                    ->findByDateAndEleve($date, $this->eleve)
                 ;
                 if ($lunch)
                 {

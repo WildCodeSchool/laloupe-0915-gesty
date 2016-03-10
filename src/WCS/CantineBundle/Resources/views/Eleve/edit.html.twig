@@ -120,9 +120,17 @@
                                         {% endif %}
                                     {% endif %}
 
-                                    {% if day_week == 3 or day_week == 6 or day_week == 7 or date(year ~ '-' ~ month ~ '-' ~ day).timestamp < dateLimit or date(year ~ '-' ~ month ~ '-' ~ day).timestamp > finAnnee %}
+                                    {% if day_week == 3 or day_week == 6 or day_week == 7 or date(year ~ '-' ~ month ~ '-' ~ day).timestamp > finAnnee %}
 
                                     <td class="inactif">
+
+                                        {% elseif year ~ '-' ~ month ~ '-' ~ day in lunchDates %}
+
+                                        <td class="calendar-reserved">
+
+                                        {% elseif date(year ~ '-' ~ month ~ '-' ~ day).timestamp < dateLimit %}
+
+                                    <td class="calendar-reservation-over">
 
                                         {% else %}
                                     <td>
@@ -149,6 +157,23 @@
                         </div>
                     {% endfor %}
                 {% endfor %}
+
+                <div class="calendar-legend">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <span class="calendar-legend-square calendar-reserved"></span>
+                            Repas réservé
+                        </div>
+                        <div class="col-md-4">
+                            <span class="calendar-legend-square calendar-reservation-over"></span>
+                            Date dépassée
+                        </div>
+                        <div class="col-md-4">
+                            <span class="calendar-legend-square inactif"></span>
+                            Pas de cantine ce jour
+                        </div>
+                    </div>
+                </div>
 
 
 
@@ -360,6 +385,7 @@
                                         this.checked = false;
                                         $(this)[0].disabled = true;
                                         $(this).attr('title', 'Vacances d\'hiver');
+                                        $(this).parent('td').addClass('inactif');
                                     }
                                 }
                                 for (j = 0; j < vacancesNoel.length; j++) {
@@ -367,6 +393,7 @@
                                         this.checked = false;
                                         $(this)[0].disabled = true;
                                         $(this).attr('title', 'Vacances de noël');
+                                        $(this).parent('td').addClass('inactif');
                                     }
                                 }
                                 for (k = 0; k < vacancesToussaint.length; k++) {
@@ -374,6 +401,7 @@
                                         this.checked = false;
                                         $(this)[0].disabled = true;
                                         $(this).attr('title', 'Vacances de Toussaint');
+                                        $(this).parent('td').addClass('inactif');
                                     }
                                 }
                                 for (l = 0; l < vacancesPrintemps.length; l++) {
@@ -381,6 +409,7 @@
                                         this.checked = false;
                                         $(this)[0].disabled = true;
                                         $(this).attr('title', 'Vacances de Printemps');
+                                        $(this).parent('td').addClass('inactif');
                                     }
                                 }
                                 for (m = 0; m < feries.length; m++) {
@@ -388,6 +417,7 @@
                                         this.checked = false;
                                         $(this)[0].disabled = true;
                                         $(this).attr('title', 'Jour férié');
+                                        $(this).parent('td').addClass('inactif');
                                     }
                                 }
                             });
@@ -411,7 +441,6 @@
             </div>
 
             <div class="col-md-6 col-md-offset-3">
-                <h6 id="champs">* champs obligatoire</h6><br>
                 <input type="submit" name="commit" value="Modifier" class="btn btn-primary btn-lg btn-block">
             </div>
         </div>

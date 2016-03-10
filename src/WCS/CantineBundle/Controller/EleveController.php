@@ -148,21 +148,6 @@ class EleveController extends Controller
     }
 
     /**
-     * Displays a form to create a new Eleve entity.
-     *
-     */
-    /*public function newAction()
-    {
-        $entity = new Eleve();
-        $form = $this->createCreateForm($entity);
-
-        return $this->render('WCSCantineBundle:Eleve:new.html.twig', array(
-            'entity' => $entity,
-            'form' => $form->createView(),
-        ));
-    }*/
-
-    /**
      * Finds and displays a Eleve entity.
      *
      */
@@ -269,6 +254,13 @@ class EleveController extends Controller
         $date = date_timestamp_get($limit) + 168*60*60;
         $finAnnee = date_timestamp_get($vacancesEte);
 
+        // lunch dates as string
+        $lunchDates = '';
+        foreach ($entity->getLunches() as $lunch)
+        {
+            $lunchDates .= $lunch->getStringDate();
+        }
+
         return $this->render('WCSCantineBundle:Eleve:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
@@ -283,6 +275,7 @@ class EleveController extends Controller
             'grandesVacances' => $grandesVacances,
             'feries' => $feriesArray,
             'habits' => $entityHabits,
+            'lunchDates' => $lunchDates
         ));
     }
 

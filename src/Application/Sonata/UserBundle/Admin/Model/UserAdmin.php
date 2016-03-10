@@ -64,10 +64,10 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
             ->add('firstname')
             ->add('createdAt','date', array('format'=>'d/m/Y',))
             ->add('modeDePaiement',null, array(
-                    'label'=>'moyen de paiement'),array(
-                    'Cheque' => 'Chèque',
-                    'Especes' => 'Espèces',
-                    'Prelevements' => 'Prélèvements'
+                'label'=>'moyen de paiement'),array(
+                'Cheque' => 'Chèque',
+                'Especes' => 'Espèces',
+                'Prelevements' => 'Prélèvements'
             ))
             ->add('path_domicile', null, array('label' => 'Pièces jointes','template' => 'WCSCantineBundle:User:files_list.html.twig'))
             ->add('eleves',null,array('label'=>'Nom enfant(s)'))
@@ -109,18 +109,18 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
     {
         $showMapper
             ->with('General')
-                ->add('username')
-                ->add('email')
+            ->add('username')
+            ->add('email')
             ->end()
             ->with('Profile')
-                ->add('dateOfBirth','date', array('format' => 'd/m/Y',))
-                ->add('lastname')
-                ->add('gender')
-                ->add('phone')
+            ->add('dateOfBirth','date', array('format' => 'd/m/Y',))
+            ->add('lastname')
+            ->add('gender')
+            ->add('phone')
             ->end()
             ->with('Security')
-                ->add('token')
-                ->add('twoStepVerificationCode')
+            ->add('token')
+            ->add('twoStepVerificationCode')
             ->end()
         ;
     }
@@ -132,39 +132,49 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
     {
         $formMapper
             ->with('General')
-                ->add('email')
-                ->add('plainPassword', 'text', array(
-                    'required' => (!$this->getSubject() || is_null($this->getSubject()->getId()))
-                ))
+            ->add('email')
+            ->add('plainPassword', 'text', array(
+                'required' => (!$this->getSubject() || is_null($this->getSubject()->getId()))
+            ))
             ->end()
             ->with('Profile')
-                ->add('firstname', null, array('required' => false))
-                ->add('lastname', null, array('required' => false))
-                ->add('gender', 'sonata_user_gender', array(
-                    'required' => true,
-                    'translation_domain' => $this->getTranslationDomain()
-                ))
+            ->add('firstname', null, array('required' => false))
+            ->add('lastname', null, array('required' => false))
+            ->add('gender', 'sonata_user_gender', array(
+                'required' => false,
+                'translation_domain' => $this->getTranslationDomain()
+            ))
             ->end()
             ->With('Contact')
-                ->add('codePostal','text', array(
-                    'label' => 'Code postal',
-                    'required' => true))
-                ->add('commune', 'text', array('label'=>'Commune' ))
-                ->add('phone', null, array('required' => true))
-                ->add('modeDePaiement','choice', array('label'=>'mode de paiement','choices'=>array(''=>'Sélectionnez','Cheque'=>'Chèque','Especes'=>'Espèces','Prelevements'=>'Prélèvements')))
-                ->add('validation',null, array('label'=>'Validation du compte', 'required'=>false))
+            ->add('codePostal','text', array(
+                'label' => 'Code postal',
+                'required' => false
+            ))
+            ->add('commune', 'text', array(
+                'label'=>'Commune',
+                'required'=>false
+            ))
+            ->add('phone', null, array('required' => false))
+            ->add('modeDePaiement','choice', array(
+                'label'=>'mode de paiement',
+                'required'=>false,
+                'choices'=>array(
+                    ''=>'Sélectionnez','Cheque'=>'Chèque','Especes'=>'Espèces','Prelevements'=>'Prélèvements'
+                )
+            ))
+            ->add('validation',null, array('label'=>'Validation du compte', 'required'=>false))
             ->end()
 
-                ->with('Management')
-                ->add('realRoles', 'sonata_security_roles', array(
-                    'label'    => 'form.label_roles',
-                    'expanded' => true,
-                    'multiple' => true,
-                    'required' => false
-                ))
-                ->add('enabled', null, array('required' => false, 'label'=>'Validé par le parent'))
-                ->end()
-            ;
+            ->with('Management')
+            ->add('realRoles', 'sonata_security_roles', array(
+                'label'    => 'form.label_roles',
+                'expanded' => true,
+                'multiple' => true,
+                'required' => false
+            ))
+            ->add('enabled', null, array('required' => false, 'label'=>'Validé par le parent'))
+            ->end()
+        ;
 
     }
 
