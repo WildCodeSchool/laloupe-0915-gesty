@@ -170,9 +170,9 @@ fos_user:
             enabled: true
             from_email:
                 # Adresse de l'expediteur
-                    address: cryptyo@gmail.com
+                address: robot@gesty.fr
                 # Nom de l'expediteur
-                    sender_name: Gesty
+                sender_name: Gesty
                 # Permet de définir le template de l'email à envoyer (en html)
             template: WCSCantineBundle:User:registrationEmail.html.twig
     resetting:
