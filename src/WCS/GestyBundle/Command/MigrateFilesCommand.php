@@ -1,13 +1,31 @@
 <?php
+
 /*######################################################################################
 
+This command import attachments files from a directory (of the previous version of the website)
+and link them to the concerning users in the database by the means of the PostgreSQL file.
+
+Note : the users must already exist in the database from a previous migration
+with "gesty:db:migrate" command.
+
+In details, the script performs the following operations :
+
+- Move files from the web/.../uploads to app/uploads
+- Clean up previous migration (only files with a name starting with the prefix 'mig_')
+- Load all users found in the PostgreSQL file passed in argument of this command.
+- Load users' homes data (in which all original filenames are present)
+- Retrieve the files in the directory passed in argument of this command
+- Copy all those files in the app/uploads directory and rename them properly
+- Update the database with the appropriate filenames.
 
 ######################################################################################*/
 
+
+
 namespace WCS\GestyBundle\Command;
 
-use Application\Sonata\UserBundle\Entity\User;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\ORM\EntityManager;
 use Sonata\UserBundle\Model\UserManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -15,9 +33,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use WCS\CantineBundle\Entity\Division;
-use WCS\CantineBundle\Entity\Eleve;
-use WCS\CantineBundle\Entity\School;
+use Symfony\Component\Console\Helper\ProgressBar;
+use Application\Sonata\UserBundle\Entity\User;
+
+
 
 class MigrateFilesCommand extends ContainerAwareCommand
 {
@@ -51,330 +70,425 @@ class MigrateFilesCommand extends ContainerAwareCommand
     const mh_salary_evidence_5      = 23;
     const mh_salary_evidence_6      = 24;
 
-    private $path_original          = "";
+    private $path_original          = '';
+    private $path_target            = User::PATH_ROOT_UPLOAD;
     private $userManager            = null;
     private $stats                  = array(
-                                        "nb_users_load" => 0,
-                                        "nb_homes_load" => 0,
-                                        "nb_files_unprocessed" => 0
+                                        'nb_users_load' => 0,
+                                        'nb_homes_load' => 0,
+                                        'nb_files_unprocessed' => 0
                                         );
  
+
+    /**
+    * Configure the command
+    * - set the command name, its description
+    * - expected :
+    *   - 1) Filename or path of the SQL file to import
+    *   - 2) Path of the directory containing the attached files to import
+    */
     protected function configure()
     {
-        $this
-            ->setName('gesty:db:migratefiles')
-            ->setDescription('migrate version 1 attached files in the database')
-            ->addArgument(
-                'file',
-                InputArgument::REQUIRED,
-                'postgres dump file to read data from'
-            )
-            ->addArgument(
-                'original_files_path',
-                InputArgument::REQUIRED,
-                'path of the original attached files'
-            )
-        ;
+            $this->setName('gesty:db:migratefiles')
+                 ->setDescription('migrate version 1 attached files in the database')
+                 ->addArgument(
+                    'file',
+                    InputArgument::REQUIRED,
+                    'postgres dump file to read data from'
+                 )
+                 ->addArgument(
+                    'original_files_path',
+                    InputArgument::REQUIRED,
+                    'path of the original attached files'
+                 );
     }
 
+
+
+    /**
+    * Execute the command
+    *
+    * @param InputInterface
+    */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        //---------------------------------------------------------------
-        // Set up the processing
-        //---------------------------------------------------------------
+            // IMPORTANT !!!! Respect the sequence ordering inside this method
 
-        // declare local variables
-        $users = array();
-        $targetRootDir = "";
+            // will contains all users present in the SQL file and in the database
+            $users = array();
 
-        // get arguments : get the file name to import, get the path of the attached files
-        $file                   = $input->getArgument('file');
-        $this->path_original    = $input->getArgument('original_files_path');
+            // get arguments : get the file name to import, get the path of the attached files
+            $file                   = $input->getArgument('file');
+            $this->path_original    = $input->getArgument('original_files_path');
 
-        // get managers
-        $em = $this->getContainer()->get('doctrine')->getManager();
+            // load Doctrine service
+            $em = $this->getContainer()->get('doctrine')->getManager();
 
-        if (!$this->askConfirmation($input, $output, '<question>Careful, all paths to attached files will be updated. Do you want to continue y/N ?</question>', false)) {
-            return;
-        }
-
-        // open the file to import
-        $stream = fopen($file, 'r');
-
-        //---------------------------------------------------------------
-        // Load users of the table 'multipass_users' from the file
-        // Build an associative array in which :
-        // - key : the id of the user
-        // - value : the ORM object 'User' load with the corresponding user data
-        //---------------------------------------------------------------
-        while ($line = fgets($stream))
-            if (strpos($line, 'COPY multipass_users (id') !== FALSE)
-                break;
-
-        while ($line = fgets($stream)) {
-            $data = explode('	', $line);
-            if ($data[0]=="\\.\n") break;
-
-            $users[$data[self::mu_id]] = $this->getUserManager()->findUserByEmail( $data[self::mu_email] );
-            if (empty($targetRootDir)) {
-                $targetRootDir = $users[$data[self::mu_id]]->getUploadRootDir();
+            // ask for confirmation before process
+            if (!$this->askConfirmation($input, $output, '<question>Careful, all paths to attached files will be updated. Do you want to continue y/N ?</question>')) {
+                return;
             }
-        }
 
-        $this->stats["nb_users_load"] = count($users);
-        $output->writeln(
-            sprintf('  <comment>></comment> <info>%s users loaded</info>', $this->stats["nb_users_load"])
-            );
+            $stream = null;
+            try {
 
-        //---------------------------------------------------------------
-        // delete all files starting with the prefix
-        //---------------------------------------------------------------
-        foreach (glob($targetRootDir.'/'.self::filename_prefix."*") as $absoluteFilePath) {
-            unlink($absoluteFilePath);
-        }
+                // 0 - Create the app/uploads folder if it does not exist.
+                $output->writeln('  <comment>></comment> <info>0. Create app/uploads if missing.</info>');
+                if (!is_dir($this->path_target)) {
+                    if (!mkdir($this->path_target)) {
+                        throw new \Exception("Failed to create the app/uploads directory.\n
+                            Please create the folder 'uploads' in app/ manually then run this command again.
+                            ");
+                    }
+                    $output->writeln('  <comment>></comment> <warning>  Don\'t forget to make this folder accessible for Apache, otherwise uploads from the website won\'t work.</info>');
+                }
+                else {
+                    $output->writeln('  <comment>></comment> <info>   The folder already exists. OK.</info>');
+                }
+                
+                // 1 - Migrate web upload files to the secure app upload files
+                $output->writeln('  <comment>></comment> <info>1. Moving files from web/../uploads to app/uploads.</info>');
+                
+                $this->moveWebUploadFiles();
+
+                // 2 - Delete any files copied from a previous import 
+                //    (does delete moved web upload files )
+                $output->writeln('  <comment>></comment> <info>2. Cleaning up any previous files migration.</info>');
+                
+                $this->deleteAnyPreviousImport();
+
+                // 3 - import files
+                $output->writeln('  <comment>></comment> <info>3. Importing files and updating users info.</info>');
+                
+                $stream = fopen($file, 'r');
+                if (!$stream) {
+                    throw new \Exception("Failed to open the file : $file");
+                }
+
+                if (!$this->loadUsers($stream, $users)) {
+                    throw new \Exception('No users found in the file');
+                }
+
+                if (!$this->importUsersFiles($stream, $users, $em, $output)) {
+                    throw new \Exception('file import failed.');   
+                }
+
+                // 4. save all users updated data in the database
+                $output->writeln('  <comment>></comment> <info>4. Updating the database.</info>');
+                $em->flush();
+
+                // display the stats
+                $output->writeln('    <comment>></comment> <info>'.$this->stats["nb_users_load"].' users loaded</info>');
+                $output->writeln('    <comment>></comment> <info>'.$this->stats["nb_homes_load"].' users updated</info>' );
+                $output->writeln('  <info>done</info>');
+            }
+            catch(\Exception $e) {
+                $output->writeln(sprintf('  <comment>></comment> <error>%s</error>', $e->getMessage()));
+            }
+
+            // 7. close the file
+            if ($stream) {
+                fclose($stream);
+            }        
+    }
 
 
-        //---------------------------------------------------------------
-        // Load users of the table 'multipass_users' from the file
-        // Get the filenames of attached files from this table
-        // TO COMPLETE...
-        //---------------------------------------------------------------
-        rewind($stream);
-        while ($line = fgets($stream))
-            if (strpos($line, 'COPY multipass_homes (id') !== FALSE)
-                break;
 
-        while ($line = fgets($stream)) {
-            $data = explode('	', $line);
-            if ($data[0] == "\\.\n") break;
+    /**
+    * Move all current files from web/.../upload to app/uploads
+    */
+    private function moveWebUploadFiles()
+    {
+            $path_web_upload =  __DIR__.'/../../../../web/bundles/wcscantine/uploads';
 
-            // get the associated user data from the home foreign key user id
-            $user = &$users[$data[self::mh_user_id]];
+            foreach (glob($path_web_upload.'/*') as $current_web_file_path) {
+                
+                $filename = pathinfo($current_web_file_path, PATHINFO_BASENAME);
 
-            // process the import itself
-            $this->importRow($data, $user, $output);
-            
-            // add in the database transaction
-            $em->persist($user);
-
-            // get rid of the processed user object
-            unset($users[$data[self::mh_user_id]]);
-
-            $this->stats["nb_homes_load"]++;
-        }
-
-        // save all users updated data in the database
-        try {
-            $em->flush();
-            $output->writeln(
-                sprintf('  <comment>></comment> <info>%s users updated</info>', $this->stats["nb_homes_load"])
-                );            
-        }
-        catch(Exception $e) {
-            $output->writeln(sprintf('  <comment>></comment> <error>Error during the database updating. Import not done. Error returned : %s</error>', $e));            
-        }
-
-        // close the file        
-        fclose($stream);
-/*
-        $output->writeln(
-            sprintf('  <comment>></comment> <info>%s files not processed</info>', $this->stats["nb_files_unprocessed"])
-            );            
-
-        // display the list of not imported users
-        foreach ($users as &$user) {
-            $output->writeln(sprintf('  <comment>></comment> <error>not loaded : %s </error>', $user->getEmail()));
-        }
-*/
-        $output->writeln(sprintf('<info>done</info>'));
-
+                rename($current_web_file_path, $this->path_target .'/'. $filename);
+            }
     }
 
 
     /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     * @param string          $question
-     * @param bool            $default
-     *
-     * @return bool
-     */
-    private function askConfirmation(InputInterface $input, OutputInterface $output, $question, $default)
+    * Clean up any previous import done with this script
+    */
+    private function deleteAnyPreviousImport()
     {
-        if (!class_exists('Symfony\Component\Console\Question\ConfirmationQuestion')) {
-            $dialog = $this->getHelperSet()->get('dialog');
-
-            return $dialog->askConfirmation($output, $question, $default);
-        }
-
-        $questionHelper = $this->getHelperSet()->get('question');
-        $question = new ConfirmationQuestion($question, $default);
-
-        return $questionHelper->ask($input, $output, $question);
+            foreach (glob($this->path_target.'/'.self::filename_prefix."*") as $absoluteFilePath) {
+                unlink($absoluteFilePath);
+            }
     }
+
+
+
+   /**
+    * Load users of the table 'multipass_users' from the file
+    * Build an associative array in which :
+    * - key : the id of the user
+    * - value : the ORM object 'User' load with the corresponding user data
+    *
+    * @param file stream - the opened SQL file stream
+    * @param array - users associative array that will be populated by this method.
+    *
+    * @return number return the number of loaded users.
+    */
+    public function loadUsers($stream, &$users)
+    {
+            if (!$stream) {
+                return 0;
+            }
+
+            rewind($stream);
+            while ($line = fgets($stream))
+                if (strpos($line, 'COPY multipass_users (id') !== FALSE)
+                    break;
+
+            while ($line = fgets($stream)) {
+                $data = explode("\t", $line);
+                if ($data[0]=="\\.\n") break;
+
+                $user = $this->getUserManager()->findUserByEmail( $data[self::mu_email] );
+
+                // if any user is not found, don't go further
+                if (!$user) {
+                    $this->stats['nb_users_load'] = 0;
+                    break;
+                }
+
+                $users[$data[self::mu_id]] = $user;
+
+                $this->stats['nb_users_load']++;
+            }
+
+            return $this->stats['nb_users_load'];
+    }
+
+
+
+    /**
+    * import every files beloning to users, update the array users with the new filenames
+    * 
+    * @param file stream - the opened PostgreSQL file
+    * @param array - users associative array that will be updated by this method.
+    * @param \Doctrine\ORM\EntityManager - entity manager
+    * @param OutputInterface - console output object
+    *
+    * @return number return the number of updated users.
+    */
+    public function importUsersFiles($stream, &$users, EntityManager $entityManager, OutputInterface $output)
+    {
+            if (!$stream || !$entityManager) {
+                return 0;
+            }
+
+            $progress = new ProgressBar($output, count($users));
+            $progress->setMessage('Import in progress...');
+            $progress->setFormat('    <comment>>></comment> <info>%message% (%current% / %max% users)</info>');
+            $progress->start();
+
+            rewind($stream);
+            while ($line = fgets($stream))
+                if (strpos($line, 'COPY multipass_homes (id') !== FALSE)
+                    break;
+
+            while ($line = fgets($stream)) {
+                $data = explode("\t", $line);
+                if ($data[0] == "\\.\n") break;
+
+                // get the associated user data from the home foreign key user id
+                $user = &$users[$data[self::mh_user_id]];
+
+                // process the import itself
+                if (!$this->importRow($data, $user)) {
+                    $this->stats['nb_homes_load'] = 0;
+                    break;
+                }
+                
+                // add in the database transaction
+                $entityManager->persist($user);
+
+                $this->stats['nb_homes_load']++;
+
+                $progress->advance();
+            }
+
+            if ($this->stats['nb_homes_load']) {
+                $progress->setMessage('Files migration done.');
+            }
+            else {
+                $progress->setMessage('Files migration failed.');
+            }
+            $progress->finish();
+            $output->writeln('');
+
+            return $this->stats['nb_homes_load'];       
+    }
+
+
+
+    /**
+    * Import the row into the user object
+    *
+    * @param array - associative array containing all columns for one row
+    * @param User - the user that will be updated and for whom the files will be imported
+    */
+    private function importRow($row, User $user)
+    {
+            $success = true;
+
+            // replace every item of an associative array that contain "\\N" (NULL) by "".
+            foreach($row as &$d) {
+                if ($d == "\\N" ) {
+                    $d = "";    
+                }
+            }
+
+            // import files in the appropriate directory and in the database
+            $subdirs_to_import = array(
+                self::mh_address_evidence   => 'address_evidence/'.$row[self::mh_id],
+                self::mh_caf_evidence       => 'caf_evidence/'.$row[self::mh_id],
+                self::mh_salary_evidence    => 'salary_evidence/'.$row[self::mh_id],
+                self::mh_salary_evidence_2  => 'salary_evidence_2/'.$row[self::mh_id],
+                self::mh_salary_evidence_3  => 'salary_evidence_3/'.$row[self::mh_id]
+                );
+
+            $filenames_to_import = array(
+                self::mh_address_evidence   => $row[self::mh_address_evidence],
+                self::mh_caf_evidence       => $row[self::mh_caf_evidence],
+                self::mh_salary_evidence    => $row[self::mh_salary_evidence],
+                self::mh_salary_evidence_2  => $row[self::mh_salary_evidence_2],
+                self::mh_salary_evidence_3  => $row[self::mh_salary_evidence_3]
+                );
+
+            $filenames_currently_in_db = array(
+                self::mh_address_evidence   => $user->getPathDomicile(),
+                self::mh_caf_evidence       => $user->getPathPrestations(),
+                self::mh_salary_evidence    => $user->getPathSalaire1(),
+                self::mh_salary_evidence_2  => $user->getPathSalaire2(),
+                self::mh_salary_evidence_3  => $user->getPathSalaire3()
+                );
+
+            $user_method_set_paths = array(
+                self::mh_address_evidence   => 'setPathDomicile',
+                self::mh_caf_evidence       => 'setPathPrestations',
+                self::mh_salary_evidence    => 'setPathSalaire1',
+                self::mh_salary_evidence_2  => 'setPathSalaire2',
+                self::mh_salary_evidence_3  => 'setPathSalaire3'
+                );
+
+            foreach($user_method_set_paths as $key => $user_method_set_path) {
+
+                $newFilename = $this->copyFile( array(
+                                'subdir_to_import'           => $subdirs_to_import[$key],
+                                'filename_to_import'         => $filenames_to_import[$key],
+                                'filename_currently_in_db'   => $filenames_currently_in_db[$key]
+                                ));
+
+                // on success, update the filename in the User instance with the appropriate setter method
+                if (!empty($newFilename)) {
+                    $user->{$user_method_set_path}( $newFilename );
+                }
+            }
+            return $success;
+    }    
+
+
+
+    /**
+    * Import a file into :
+    * - the corresponding column in the database for a given user. 
+    *   This data will not be updated if there is an existing
+    *   file already recorded and if this file was not imported by this script.
+    * - the app/uploads directory
+    *
+    * @param array. row is an array containing the data from one line of the file.
+    * @param User. instance of the user to update
+    * @param array. params is an associatif array that must contains the following key / value :
+    *        'subdir_to_import'          => the sub directory where the file to import is stored,
+    *        'filename_to_import'        => the filename of the file to import (not the path),
+    *        'filename_currently_in_db'  => the current stored filename from database.
+    */
+    private function copyFile($params)
+    {
+            // we must ensure there is no previously imported file already 
+            // present in the database and in the target directory.
+            $filename       = $params['filename_currently_in_db'];
+            
+            if (!empty($filename) && 
+                !preg_match('/^'.(self::filename_prefix).'/', $filename) &&
+                is_file($this->path_target."/".$filename)) {
+                    return;
+            }
+          
+            // build the original path
+            $originalPath = $this->path_original .'/'. $params['subdir_to_import'] .'/'. $params['filename_to_import'];
+
+            // ensure the file exists        
+            if (!is_file($originalPath)) {
+                return '';
+            }
+
+            // create the new filename
+            $newFilename  = $this->createUniqueName( $params['filename_to_import'] );
+
+            // copy the file
+            return copy( $originalPath, $this->path_target .'/'. $newFilename ) ? $newFilename : '';
+    }
+
+
+
+    /**
+    * Create a unique filename
+    * It "repeats" the method from Application\Sonata\UserBundle\Entity\User
+    * Moreover, in this method, we add a prefix to the filename in order to
+    * distinguish files uploaded by the means of the parent website
+    * and files copied by this script.
+    *
+    * @param string filename - a path or a filename
+    *
+    * @return string the unique filename with prefix
+    */
+    private function createUniqueName($filename)
+    {
+        if (!empty($filename)) {
+            return self::filename_prefix . uniqid() .'.'. pathinfo($filename, PATHINFO_EXTENSION);
+        }
+        return '';
+    }
+
+
+    /**
+     * Ask for confirmation
+     *
+     * @param InputInterface  this command input object
+     * @param OutputInterface this command output object
+     * @param string          the question to display
+     *
+     * @return bool return true if the user of this command has confirmed.
+     */
+    private function askConfirmation(InputInterface $input, OutputInterface $output, $question)
+    {
+            if (!class_exists('Symfony\Component\Console\Question\ConfirmationQuestion')) {
+                $dialog = $this->getHelperSet()->get('dialog');
+
+                return $dialog->askConfirmation($output, $question, false);
+            }
+
+            $questionHelper = $this->getHelperSet()->get('question');
+            $question = new ConfirmationQuestion($question, false);
+
+            return $questionHelper->ask($input, $output, $question);
+    }
+
+
 
     /**
      * @return UserManagerInterface
      */
     public function getUserManager()
     {
-        return $this->getContainer()->get('fos_user.user_manager');
+            return $this->getContainer()->get('fos_user.user_manager');
     }
 
-    /**
-    * replace every item of an associative array 
-    * that contain "\\N" (NULL) by "".
-    *
-    * @param array an associative array row
-    */
-    public function escapeNulls(&$row)
-    {
-        foreach($row as &$d) {
-            if ($d == "\\N" ) {
-                $d = "";    
-            }
-        }
-    }
-
-    /**
-    * concat a subdirectory to a filename 
-    *
-    * @param string subdirectory
-    * @param string filename
-    *
-    * @return string return the subpath (subdirectory + filename)
-    */
-    public function buildSubPath($subdirectory, $filename)
-    {
-        if (!empty($filename)) {
-            $filename = $subdirectory . "/" . $filename;
-        }
-        return $filename;
-    }
-
-    /**
-    * @param string subpath, the subpath of a file in the "path_original" location
-    * @return number return 1 if the file exist, 0 otherwise
-    */
-    public function doesOriginalFileExist($subpath)
-    {
-        $nb = 0;
-        if (!empty($subpath)) {
-            $nb = file_exists($this->path_original . "/" . $subpath)?1:0;
-        }
-        return $nb;
-    }
-
-    /**
-    * Create a unique filename
-    * It "repeats" the method 
-    * Moreover, in this method, we add a prefix to the filename in order to be
-    * distinguish files uploaded by the means of the parent website
-    * and files copied by this script.
-    *
-    * @param string originalFilename - the path or the filename of the original file
-    * @return string the unique filename with prefix generated
-    */
-    public function createUniqueName($originalFilename)
-    {
-        if (!empty($originalFilename)) {
-            return self::filename_prefix . uniqid() . "." . pathinfo($originalFilename)["extension"];
-        }
-        return '';
-    }
-
-    /**
-    * TO COMMENT
-    */
-    public function importFile($user, $row, $params)
-    {
-        $filename       = call_user_func( array($user, $params["user_get_path"]) );
-        $absolutePath   = call_user_func( array($user, $params["user_get_absolute_path"]) );
-
-        // first of all, we check if a user has already uploaded a file, if it exists 
-        // in the target directory and if this file is not one of the files copied by this script
-        //if (FALSE == strpos($filename, self::filename_prefix)) {
-        if (!empty($filename) && 
-            !preg_match('/^'.(self::filename_prefix).'/', $filename) &&
-            is_file($absolutePath)) {
-                return;
-        }
-
-        $sourceSubPath =  $this->buildSubPath( 
-                                    $params['original_subdir'] .'/'.$row[self::mh_id], 
-                                    $params['original_filename'] 
-                                    );
-
-        $targetFilename = $this->createUniqueName($params['original_filename']);
-
-        // update the attached file path of the current user
-        call_user_func_array( 
-            array($user, $params["user_set_path"]),
-            array($targetFilename)
-            );
-
-        // copy the user file to the final upload directory
-        $sourcePath = $this->path_original . "/" .$sourceSubPath;
-        $targetPath = $user->getUploadRootDir() . "/" . $targetFilename;
-
-        if (is_file($sourcePath)) {
-            copy( $sourcePath, $targetPath );
-        }
-    }
- 
-    /**
-    * Import the row into the user object
-    * @param array associative array containing all columns
-    * @param User user ORM
-    */
-    public function importRow($row, $user, OutputInterface $output)
-    {
-        // clean the "null" indication of empty values
-        $this->escapeNulls( $row );
-
-        $params = array(
-            'original_subdir'           => 'address_evidence',
-            'original_filename'         => $row[self::mh_address_evidence],
-            'user_get_path'             => 'getPathDomicile',
-            'user_get_absolute_path'    => 'getAbsolutePathDomicile',
-            'user_set_path'             => 'setPathDomicile'
-            );
-        $this->importFile( $user, $row, $params );
-
-        $params = array(
-            'original_subdir'           => 'caf_evidence',
-            'original_filename'         => $row[self::mh_caf_evidence],
-            'user_get_path'             => 'getPathPrestations',
-            'user_get_absolute_path'    => 'getAbsolutePathPrestations',
-            'user_set_path'             => 'setPathPrestations'
-            );
-        $this->importFile( $user, $row, $params );
-
-        $params = array(
-            'original_subdir'           => 'salary_evidence',
-            'original_filename'         => $row[self::mh_salary_evidence],
-            'user_get_path'             => 'getPathSalaire1',
-            'user_get_absolute_path'    => 'getAbsolutePathSalaire1',
-            'user_set_path'             => 'setPathSalaire1'
-            );
-        $this->importFile( $user, $row, $params );
-
-        $params = array(
-            'original_subdir'           => 'salary_evidence_2',
-            'original_filename'         => $row[self::mh_salary_evidence_2],
-            'user_get_path'             => 'getPathSalaire2',
-            'user_get_absolute_path'    => 'getAbsolutePathSalaire2',
-            'user_set_path'             => 'setPathSalaire2'
-            );
-        $this->importFile( $user, $row, $params );
-
-        $params = array(
-            'original_subdir'           => 'salary_evidence_3',
-            'original_filename'         => $row[self::mh_salary_evidence_3],
-            'user_get_path'             => 'getPathSalaire3',
-            'user_get_absolute_path'    => 'getAbsolutePathSalaire3',
-            'user_set_path'             => 'setPathSalaire3'
-            );
-        $this->importFile( $user, $row, $params );
-    }    
 }

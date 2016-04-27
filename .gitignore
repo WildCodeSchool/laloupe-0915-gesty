@@ -13,3 +13,4 @@
 /bash
 .bash_profile
 /app/uploads/*
+/src/WCS/CantineBundle/Resources/public/uploads/*

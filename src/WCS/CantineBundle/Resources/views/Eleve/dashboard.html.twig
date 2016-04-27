@@ -1,5 +1,4 @@
 {% extends '::base.html.twig' %}
-
 {% block body %}
 
     {% if presentChildren == null %}
@@ -91,10 +90,11 @@
                     <h3>Mes justificatifs</h3>
                     <td>
                         {% for key,array in files %}
-                            {% for justificatifs,link in array %}
-                                {% if justificatifs and link%}
-                                    <a href="{{ asset("bundles/wcscantine/uploads/" ~ link ) }}" target="_blank">{{ justificatifs }}</a></br>
+                            {% for type_file, libelle_justif in array %}
+                                {% if type_file and libelle_justif %}
+                                    <a href="{{ path("gesty_parent_download", {'type_file':type_file} ) }}" target="_blank">{{libelle_justif }}</a></br>
                                 {% endif %}
+
                             {% endfor %}
                         {% endfor %}
 

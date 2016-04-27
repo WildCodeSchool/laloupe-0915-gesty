@@ -13,3 +13,11 @@ gesty_cantine_dame:
 wcs_cantine_dashboard:
     path: /dashboard
     defaults: { _controller: "WCSCantineBundle:Eleve:dashboard"  }
+
+gesty_parent_download:
+    path: /download/{type_file}
+    defaults: { _controller: "WCSCantineBundle:Download:downloadParent"  }
+
+gesty_comptable_download:
+    path: /download/{type_file}/{id_user}
+    defaults: { _controller: "WCSCantineBundle:Download:downloadComptable"  }

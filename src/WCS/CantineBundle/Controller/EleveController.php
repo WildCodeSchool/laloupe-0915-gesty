@@ -3,8 +3,10 @@
 namespace WCS\CantineBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+use Application\Sonata\UserBundle\Entity\User;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Form\Handler\EleveHandler;
 use WCS\CantineBundle\Form\Model\EleveNew;
@@ -17,7 +19,6 @@ use WCS\CantineBundle\Form\Type\EleveType;
  */
 class EleveController extends Controller
 {
-
     /**
      * Lists all Eleve entities.
      *
@@ -425,6 +426,7 @@ class EleveController extends Controller
             'id' => $user->getId(),
         ));
         $filesArray = [];
+/*
         for ($i = 0; $i < count($files); $i++){
             $filesArray[$i]['Justificatif de domicile'] = $files[$i]->getPathDomicile();
             $filesArray[$i]['Justificatif de prestations CAF'] = $files[$i]->getPathPrestations();
@@ -433,7 +435,15 @@ class EleveController extends Controller
             $filesArray[$i]['Justificatif de salaire 3'] = $files[$i]->getPathSalaire3();
 
         }
+*/        
 
+        for ($i = 0; $i < count($files); $i++){
+            $filesArray[$i][User::type_Domicile]                = 'Justificatif de domicile';
+            $filesArray[$i][User::type_Prestations]             = 'Justificatif de prestations CAF';
+            $filesArray[$i][User::type_Salaire1]                = 'Justificatif de salaire 1';
+            $filesArray[$i][User::type_Salaire2]                = 'Justificatif de salaire 2';
+            $filesArray[$i][User::type_Salaire3]                = 'Justificatif de salaire 3';
+        }
 
         if (!$user) {
             throw $this->createNotFoundException('Aucun utilisateur trouvé pour cet id:');
@@ -451,6 +461,7 @@ class EleveController extends Controller
 
 
     }
+
 
     public function updateDate($query)
     {

@@ -24,6 +24,12 @@ use Sonata\UserBundle\Entity\BaseUser as BaseUser;
  */
 class User extends BaseUser
 {
+    const type_Domicile     = 1;
+    const type_Prestations  = 2;
+    const type_Salaire1     = 3;
+    const type_Salaire2     = 4;
+    const type_Salaire3     = 5;
+
     public function setEmail($email){
         parent::setEmail($email);
         parent::setUsername($email);
@@ -35,6 +41,7 @@ class User extends BaseUser
         $this->enabled = false;
         if ($id) $this->id = $id;
     }
+
     //Gestion des uploads
 
     public $file_domicile;
@@ -43,15 +50,17 @@ class User extends BaseUser
     public $file_salaire_2;
     public $file_salaire_3;
 
+    const PATH_DIR_UPLOAD   = 'uploads';
+    const PATH_ROOT_UPLOAD  = __DIR__.'/../../../../../app/'.self::PATH_DIR_UPLOAD;
 
     protected function getUploadDir()
     {
-        return 'uploads';
+        return self::PATH_DIR_UPLOAD;
     }
 
     protected function getUploadRootDir()
     {
-        return __DIR__.'/../../../../../web/bundles/wcscantine/'.$this->getUploadDir();
+        return self::PATH_ROOT_UPLOAD;
     }
 
     public function getWebPathDomicile()
