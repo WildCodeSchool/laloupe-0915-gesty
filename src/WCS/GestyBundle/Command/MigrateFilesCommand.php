@@ -34,6 +34,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Question\Question;
 use Application\Sonata\UserBundle\Entity\User;
 
 
@@ -70,9 +72,12 @@ class MigrateFilesCommand extends ContainerAwareCommand
     const mh_salary_evidence_5      = 23;
     const mh_salary_evidence_6      = 24;
 
+    const path_application          = '/app';
+
     private $path_original          = '';
-    private $path_target            = User::PATH_ROOT_UPLOAD;
+    private $path_target            = '';
     private $userManager            = null;
+    private $sql_file               = '';
     private $stats                  = array(
                                         'nb_users_load' => 0,
                                         'nb_homes_load' => 0,
@@ -93,14 +98,16 @@ class MigrateFilesCommand extends ContainerAwareCommand
                  ->setDescription('migrate version 1 attached files in the database')
                  ->addArgument(
                     'file',
-                    InputArgument::REQUIRED,
+                    InputArgument::OPTIONAL,
                     'postgres dump file to read data from'
                  )
                  ->addArgument(
                     'original_files_path',
-                    InputArgument::REQUIRED,
+                    InputArgument::OPTIONAL,
                     'path of the original attached files'
                  );
+                 
+
     }
 
 
@@ -112,14 +119,39 @@ class MigrateFilesCommand extends ContainerAwareCommand
     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+            $this->path_target = User::getPathRootUpload();
+            
             // IMPORTANT !!!! Respect the sequence ordering inside this method
 
             // will contains all users present in the SQL file and in the database
             $users = array();
 
             // get arguments : get the file name to import, get the path of the attached files
-            $file                   = $input->getArgument('file');
+            $helper = $this->getHelper('question');
+
+            $this->sql_file         = $input->getArgument('file');
             $this->path_original    = $input->getArgument('original_files_path');
+            if (empty($this->sql_file)) {
+                $q1 = new Question('Please enter the path of the SQL file :');
+                $this->sql_file = $helper->ask( $input, $output, $q1 );
+            }
+
+            if (empty($this->path_original)) {
+                $q2 = new Question('Please enter the path of the directory that contains the files to import :');
+                $this->path_original = $helper->ask( $input, $output, $q2 );
+            }
+
+            if (!is_file($this->sql_file)) {
+                $output->writeln(sprintf('  <comment>></comment> <error>SQL file not found. Path entered may be wrong. Try again.</error>'
+                    ));
+                return;
+            }
+
+            if (!is_dir($this->path_original)) {
+                $output->writeln(sprintf('  <comment>></comment> <error>Directory with the files to import not found. Path entered may be wrong. Try again.</error>'
+                    ));
+                return;
+            }
 
             // load Doctrine service
             $em = $this->getContainer()->get('doctrine')->getManager();
@@ -134,17 +166,8 @@ class MigrateFilesCommand extends ContainerAwareCommand
 
                 // 0 - Create the app/uploads folder if it does not exist.
                 $output->writeln('  <comment>></comment> <info>0. Create app/uploads if missing.</info>');
-                if (!is_dir($this->path_target)) {
-                    if (!mkdir($this->path_target)) {
-                        throw new \Exception("Failed to create the app/uploads directory.\n
-                            Please create the folder 'uploads' in app/ manually then run this command again.
-                            ");
-                    }
-                    $output->writeln('  <comment>></comment> <warning>  Don\'t forget to make this folder accessible for Apache, otherwise uploads from the website won\'t work.</info>');
-                }
-                else {
-                    $output->writeln('  <comment>></comment> <info>   The folder already exists. OK.</info>');
-                }
+
+                $this->createUploadsDir($output);
                 
                 // 1 - Migrate web upload files to the secure app upload files
                 $output->writeln('  <comment>></comment> <info>1. Moving files from web/../uploads to app/uploads.</info>');
@@ -160,18 +183,13 @@ class MigrateFilesCommand extends ContainerAwareCommand
                 // 3 - import files
                 $output->writeln('  <comment>></comment> <info>3. Importing files and updating users info.</info>');
                 
-                $stream = fopen($file, 'r');
+                $stream = fopen($this->sql_file, 'r');
                 if (!$stream) {
                     throw new \Exception("Failed to open the file : $file");
                 }
 
-                if (!$this->loadUsers($stream, $users)) {
-                    throw new \Exception('No users found in the file');
-                }
-
-                if (!$this->importUsersFiles($stream, $users, $em, $output)) {
-                    throw new \Exception('file import failed.');   
-                }
+                $this->loadUsers( $stream, $users, $output );
+                $this->importUsersFiles( $stream, $users, $em, $output );
 
                 // 4. save all users updated data in the database
                 $output->writeln('  <comment>></comment> <info>4. Updating the database.</info>');
@@ -192,6 +210,30 @@ class MigrateFilesCommand extends ContainerAwareCommand
             }        
     }
 
+
+
+    /**
+    * Create the app/uploads directory
+    */
+    private function createUploadsDir(OutputInterface $output)
+    {
+            if (!is_writable(__DIR__.'/../../../..'.self::path_application)) {
+                $output->writeln("  <comment>></comment> Please create the folder 'uploads' in app/ manually with the permissions for Apache then run this command again.");
+                return;
+            }
+
+            if (is_dir($this->path_target)) {
+                $output->writeln('  <comment>></comment> <info>   The folder already exists. OK.</info>');
+                return;
+            }
+
+            if (!mkdir($this->path_target)) {
+                throw new \Exception("Failed to create the app/uploads directory.\n
+                    Please create the folder 'uploads' in app/ manually then run this command again.
+                    ");
+            }
+            $output->writeln('  <comment>></comment> Don\'t forget to make this folder accessible for Apache, otherwise uploads from the website won\'t work.');
+    }
 
 
     /**
@@ -231,13 +273,11 @@ class MigrateFilesCommand extends ContainerAwareCommand
     * @param file stream - the opened SQL file stream
     * @param array - users associative array that will be populated by this method.
     *
-    * @return number return the number of loaded users.
+    * @throws an exception in case no users have been found in the database or the file
     */
-    public function loadUsers($stream, &$users)
+    public function loadUsers($stream, &$users, OutputInterface $output)
     {
-            if (!$stream) {
-                return 0;
-            }
+            $nbLineRead = 0;
 
             rewind($stream);
             while ($line = fgets($stream))
@@ -251,17 +291,25 @@ class MigrateFilesCommand extends ContainerAwareCommand
                 $user = $this->getUserManager()->findUserByEmail( $data[self::mu_email] );
 
                 // if any user is not found, don't go further
-                if (!$user) {
-                    $this->stats['nb_users_load'] = 0;
-                    break;
+                if ($user) {
+                    $users[$data[self::mu_id]] = $user;
+                    $this->stats['nb_users_load']++;
                 }
 
-                $users[$data[self::mu_id]] = $user;
-
-                $this->stats['nb_users_load']++;
+                $nbLineRead++;
             }
 
-            return $this->stats['nb_users_load'];
+            if (!$this->stats['nb_users_load']) {
+                throw new \Exception(
+                    "Users from the file don't exist in the database.\n".
+                    "Maybe you should import the database first with the following command :\n".
+                    "\tapp/console gesty:db:migrate '".$this->sql_file."'\n".
+                    "then run the 'migratefiles' command again");
+            }
+
+            if (!$nbLineRead) {
+                throw new \Exception('No users found in the SQL file.');
+            }
     }
 
 
@@ -274,14 +322,10 @@ class MigrateFilesCommand extends ContainerAwareCommand
     * @param \Doctrine\ORM\EntityManager - entity manager
     * @param OutputInterface - console output object
     *
-    * @return number return the number of updated users.
+    * @throws an exception if this method failed in importing the files.
     */
     public function importUsersFiles($stream, &$users, EntityManager $entityManager, OutputInterface $output)
     {
-            if (!$stream || !$entityManager) {
-                return 0;
-            }
-
             $progress = new ProgressBar($output, count($users));
             $progress->setMessage('Import in progress...');
             $progress->setFormat('    <comment>>></comment> <info>%message% (%current% / %max% users)</info>');
@@ -322,7 +366,9 @@ class MigrateFilesCommand extends ContainerAwareCommand
             $progress->finish();
             $output->writeln('');
 
-            return $this->stats['nb_homes_load'];       
+            if (!$this->stats['nb_homes_load']) {
+                throw new \Exception('file import failed.'); 
+            }
     }
 
 

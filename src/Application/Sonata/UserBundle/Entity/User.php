@@ -51,16 +51,26 @@ class User extends BaseUser
     public $file_salaire_3;
 
     const PATH_DIR_UPLOAD   = 'uploads';
-    const PATH_ROOT_UPLOAD  = __DIR__.'/../../../../../app/'.self::PATH_DIR_UPLOAD;
+    const PATH_ROOT_UPLOAD  = '/../../../../../app/';
 
-    protected function getUploadDir()
+    static function getPathDirUpload()
     {
         return self::PATH_DIR_UPLOAD;
     }
 
+    static function getPathRootUpload()
+    {
+        return __DIR__ . self::PATH_ROOT_UPLOAD . self::PATH_DIR_UPLOAD;
+    }
+
+    protected function getUploadDir()
+    {
+        return self::getPathDirUpload();
+    }
+
     protected function getUploadRootDir()
     {
-        return self::PATH_ROOT_UPLOAD;
+        return self::getPathRootUpload();
     }
 
     public function getWebPathDomicile()
