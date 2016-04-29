@@ -275,7 +275,7 @@ class MigrateFilesCommand extends ContainerAwareCommand
     *
     * @throws an exception in case no users have been found in the database or the file
     */
-    public function loadUsers($stream, &$users, OutputInterface $output)
+    private function loadUsers($stream, &$users, OutputInterface $output)
     {
             $nbLineRead = 0;
 
@@ -324,7 +324,7 @@ class MigrateFilesCommand extends ContainerAwareCommand
     *
     * @throws an exception if this method failed in importing the files.
     */
-    public function importUsersFiles($stream, &$users, EntityManager $entityManager, OutputInterface $output)
+    private function importUsersFiles($stream, &$users, EntityManager $entityManager, OutputInterface $output)
     {
             $progress = new ProgressBar($output, count($users));
             $progress->setMessage('Import in progress...');
@@ -532,7 +532,7 @@ class MigrateFilesCommand extends ContainerAwareCommand
     /**
      * @return UserManagerInterface
      */
-    public function getUserManager()
+    private function getUserManager()
     {
             return $this->getContainer()->get('fos_user.user_manager');
     }
