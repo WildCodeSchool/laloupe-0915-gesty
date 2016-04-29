@@ -472,4 +472,13 @@ class EleveController extends Controller
             ->getResult();
     }
 
+    public function createInscriptionVoyageAction()
+    {
+        return $this->render('WCSCantineBundle:Eleve:new-inscr-voy.html.twig');
+    }
+
+    public function createInscriptionTapGarderieAction()
+    {
+        return $this->render('WCSCantineBundle:Eleve:new-inscr-tapgarderie.html.twig');
+    }
 }
