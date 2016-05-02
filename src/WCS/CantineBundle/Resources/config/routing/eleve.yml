@@ -24,3 +24,11 @@ eleve_delete:
 eleve_show:
     path:     /{id}/show
     defaults: { _controller: "WCSCantineBundle:Eleve:show" }
+
+eleve_create_inscr_voy:
+    path:     /createvoy
+    defaults: { _controller: "WCSCantineBundle:Eleve:createInscriptionVoyage" }
+
+eleve_create_inscr_tapgarderie:
+    path:     /createtapgarderie
+    defaults: { _controller: "WCSCantineBundle:Eleve:createInscriptionTapGarderie" }

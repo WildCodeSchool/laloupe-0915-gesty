@@ -1,0 +1,60 @@
+<div class="anneescolaire">
+    Période du : 18 Avril 2016 au 5 juillet 2016
+</div>
+<div class="month" id="month4">
+    <table>
+        <thead>
+            <tr>
+                <th class="jourecole">&nbsp;</th>
+                <th class="jourecole">Lun</th>
+                <th class="jourecole">Mar</th>
+                <th class="jourecole">Mer</th>
+                <th class="jourecole">Jeu</th>
+                <th class="jourecole">Ven</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Garderie - matin</td>
+                <td class="calendar-reservation-over">&nbsp;</td>
+                <td class="calendar-reservation-over">&nbsp;</td>
+                <td><input type="checkbox" /></td>
+                <td><input type="checkbox" /></td>
+                <td><input type="checkbox" /></td>
+            </tr>
+            <tr>
+                <td>TAP - après-midi</td>
+                <td class="inactif">&nbsp;</td>
+                <td class="calendar-reservation-over">&nbsp;</td>
+                <td class="inactif">&nbsp;</td>
+                <td><input type="checkbox" /></td>
+                <td class="inactif">&nbsp;</td>
+            </tr>
+            <tr>
+                <td>Garderie - après-midi</td>
+                <td class="calendar-reservation-over">&nbsp;</td>
+                <td class="calendar-reservation-over">&nbsp;</td>
+                <td class="inactif">&nbsp;</td>
+                <td><input type="checkbox" /></td>
+                <td><input type="checkbox" /></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="calendar-legend">
+    <div class="row">
+        <div class="col-md-4">
+            <span class="calendar-legend-square calendar-reservation-over"></span>
+            Date dépassée
+        </div>
+        <div class="col-md-8">
+            <span class="calendar-legend-square inactif"></span>
+            Pas de TAP ou de Garderie
+        </div>
+    </div>
+</div>
+<script>
+    window.addEventListener('load', function () {
+        console.log("calendar - TAP/Garderie");
+    });
+</script>
