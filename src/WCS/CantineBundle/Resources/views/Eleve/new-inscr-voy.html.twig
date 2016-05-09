@@ -55,28 +55,29 @@
                     <div class="anneescolaire">
                         2015
                         2016
+                        <br />
+                        {{ test }}
+                        <br />
+                        {{ libelle_maison }}
                     </div>
 
                     <div class="row">
                         &nbsp;
                     </div>
+
+                    {# {% for voyage in voys %}
                     <div class="row">
                         <div class="col-md-offset-1  col-md-8">
                             <input type="checkbox">
                             <label style="display:inline">
-                                Sortie au chateau de Versailles (le 15 avril 2016)
+                                {{ voyage.libelle }}
                             </label>
 
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-offset-1  col-md-8">
-                        <input type="checkbox">
-                            <label style="display:inline">
-                                Classe de neige CM1 (11 nov 2015 au 18 nov 2015)
-                            </label>
-                        </div>
-                    </div>
+                    {% endfor %}
+                    #}
+
                     <div class="row">
                         &nbsp;
                     </div>

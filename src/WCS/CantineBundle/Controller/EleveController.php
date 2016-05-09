@@ -67,6 +67,7 @@ class EleveController extends Controller
             $feriesArray[$i]['paques'] = $feries[$i]->getPaques();
             $feriesArray[$i]['pentecote'] = $feries[$i]->getPentecote();
             $feriesArray[$i]['ascension'] = $feries[$i]->getAscension();
+            // pensez a rajouter le vendredi de l'ascension //
         }
         // fin //
 
@@ -472,10 +473,49 @@ class EleveController extends Controller
             ->getResult();
     }
 
+
+
     public function createInscriptionVoyageAction()
     {
-        return $this->render('WCSCantineBundle:Eleve:new-inscr-voy.html.twig');
+        return $this->render(
+            'WCSCantineBundle:Eleve:new-inscr-voy.html.twig',
+            array("test" => "test bidon",
+                  "libelle_maison" => "y a rien à voir")
+        );
+
+        /*
+        $voyage = new \WCS\CantineBundle\Entity\Voyage();
+        $voyage->setLibelle("Ttototototo");
+
+        $voyage2 = new \WCS\CantineBundle\Entity\Voyage();
+        $voyage2->setLibelle("Machin");
+
+        $voyages = array();
+        $voyages[0] = $voyage;
+        $voyages[1] = $voyage2;
+
+        return $this->render('WCSCantineBundle:Eleve:new-inscr-voy.html.twig',
+            array("voys" => $voyages,
+                  "test" => "Rien du tout"));
+        */
+
+
+        /*
+        // récupère une instance de Doctrine
+        $em = $this->getDoctrine()->getManager();
+
+        // récupère la liste des voyages, classés par ordre alphabétique
+        $voyages = $em->getRepository("WCSCantineBundle:Voyage")->findBy(array(), array("libelle"=>"ASC"));
+
+        // génère la vue, en passant le tableau d'objets "Voyage" comme paramètre
+        return $this->render(
+                        'WCSCantineBundle:Eleve:new-inscr-voy.html.twig',
+                        array("voyages" => $voyages)
+                        );
+        */
     }
+
+
 
     public function createInscriptionTapGarderieAction()
     {

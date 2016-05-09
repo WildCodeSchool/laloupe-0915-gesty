@@ -41,6 +41,24 @@ WCS\CantineBundle\Entity\Eleve:
             joinColumn:
                 name: date
                 referencedColumnName: date
+        taps:
+            targetEntity: WCS\CantineBundle\Entity\Tap
+            mappedBy: eleve
+            joinColumn:
+                name: date
+                referencedcolumnName: date
 
+        garderies:
+            targetEntity: WCS\CantineBundle\Entity\Garderie
+            mappedBy: eleve
+            joinColumn:
+                name: date
+                referencedcolumnName: date
+    manyToMany:
+        voyages:
+            targetEntity: Voyage
+            inversedBy: eleves
+            joinTable:
+                name: inscription_voyage
 
     lifecycleCallbacks: {  }

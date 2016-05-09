@@ -16,6 +16,8 @@ WCS\CantineBundle\Entity\Feries:
             type: date
         ascension:
             type: date
+        vendredi_ascension:
+            type: date
         pentecote:
             type: date
     lifecycleCallbacks: {  }

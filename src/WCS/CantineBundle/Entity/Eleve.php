@@ -363,4 +363,121 @@ class Eleve
 
 
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $taps;
+
+
+    /**
+     * Add tap
+     *
+     * @param \WCS\cantineBundle\Entity\Tap $tap
+     *
+     * @return Eleve
+     */
+    public function addTap(\WCS\cantineBundle\Entity\Tap $tap)
+    {
+        $this->taps[] = $tap;
+
+        return $this;
+    }
+
+    /**
+     * Remove tap
+     *
+     * @param \WCS\cantineBundle\Entity\Tap $tap
+     */
+    public function removeTap(\WCS\cantineBundle\Entity\Tap $tap)
+    {
+        $this->taps->removeElement($tap);
+    }
+
+    /**
+     * Get taps
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTaps()
+    {
+        return $this->taps;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $garderies;
+
+
+    /**
+     * Add gardery
+     *
+     * @param \WCS\CantineBundle\Entity\Garderie $gardery
+     *
+     * @return Eleve
+     */
+    public function addGardery(\WCS\CantineBundle\Entity\Garderie $gardery)
+    {
+        $this->garderies[] = $gardery;
+
+        return $this;
+    }
+
+    /**
+     * Remove gardery
+     *
+     * @param \WCS\CantineBundle\Entity\Garderie $gardery
+     */
+    public function removeGardery(\WCS\CantineBundle\Entity\Garderie $gardery)
+    {
+        $this->garderies->removeElement($gardery);
+    }
+
+    /**
+     * Get garderies
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGarderies()
+    {
+        return $this->garderies;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $voyages;
+
+
+    /**
+     * Add voyage
+     *
+     * @param \WCS\CantineBundle\Entity\Voyage $voyage
+     *
+     * @return Eleve
+     */
+    public function addVoyage(\WCS\CantineBundle\Entity\Voyage $voyage)
+    {
+        $this->voyages[] = $voyage;
+
+        return $this;
+    }
+
+    /**
+     * Remove voyage
+     *
+     * @param \WCS\CantineBundle\Entity\Voyage $voyage
+     */
+    public function removeVoyage(\WCS\CantineBundle\Entity\Voyage $voyage)
+    {
+        $this->voyages->removeElement($voyage);
+    }
+
+    /**
+     * Get voyages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getVoyages()
+    {
+        return $this->voyages;
+    }
 }

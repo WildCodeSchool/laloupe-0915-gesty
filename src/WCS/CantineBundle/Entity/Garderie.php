@@ -3,35 +3,14 @@
 namespace WCS\CantineBundle\Entity;
 
 /**
- * Lunch
+ * Garderie
  */
-class Lunch
+class Garderie
 {
-
-    public function __toString()
-    {
-        return (string) $this->getEleve();
-    }
-
-    public function getStringDate()
-    {
-        return $this->date->format('Y-m-d');
-    }
-
-
-    // GENERATED CODE
-
-
-
     /**
      * @var integer
      */
     private $id;
-
-    /**
-     * @var \DateTime
-     */
-    private $date;
 
     /**
      * @var integer
@@ -44,7 +23,6 @@ class Lunch
     private $eleve;
 
 
-
     /**
      * Get id
      *
@@ -55,36 +33,14 @@ class Lunch
         return $this->id;
     }
 
-    /**
-     * Set date
-     *
-     * @param \DateTime $date
-     *
-     * @return Lunch
-     */
-    public function setDate($date)
-    {
-        $this->date = $date;
 
-        return $this;
-    }
-
-    /**
-     * Get date
-     *
-     * @return \DateTime
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
 
     /**
      * Set status
      *
      * @param integer $status
      *
-     * @return Lunch
+     * @return Garderie
      */
     public function setStatus($status)
     {
@@ -108,7 +64,7 @@ class Lunch
      *
      * @param \WCS\CantineBundle\Entity\Eleve $eleve
      *
-     * @return Lunch
+     * @return Garderie
      */
     public function setEleve(\WCS\CantineBundle\Entity\Eleve $eleve = null)
     {
@@ -126,5 +82,33 @@ class Lunch
     {
         return $this->eleve;
     }
+    /**
+     * @var \DateTime
+     */
+    private $date_heure;
 
+
+    /**
+     * Set dateHeure
+     *
+     * @param \DateTime $dateHeure
+     *
+     * @return Garderie
+     */
+    public function setDateHeure($dateHeure)
+    {
+        $this->date_heure = $dateHeure;
+
+        return $this;
+    }
+
+    /**
+     * Get dateHeure
+     *
+     * @return \DateTime
+     */
+    public function getDateHeure()
+    {
+        return $this->date_heure;
+    }
 }

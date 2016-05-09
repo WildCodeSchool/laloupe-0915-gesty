@@ -3,26 +3,10 @@
 namespace WCS\CantineBundle\Entity;
 
 /**
- * Lunch
+ * Tap
  */
-class Lunch
+class Tap
 {
-
-    public function __toString()
-    {
-        return (string) $this->getEleve();
-    }
-
-    public function getStringDate()
-    {
-        return $this->date->format('Y-m-d');
-    }
-
-
-    // GENERATED CODE
-
-
-
     /**
      * @var integer
      */
@@ -44,7 +28,6 @@ class Lunch
     private $eleve;
 
 
-
     /**
      * Get id
      *
@@ -60,7 +43,7 @@ class Lunch
      *
      * @param \DateTime $date
      *
-     * @return Lunch
+     * @return Tap
      */
     public function setDate($date)
     {
@@ -84,7 +67,7 @@ class Lunch
      *
      * @param integer $status
      *
-     * @return Lunch
+     * @return Tap
      */
     public function setStatus($status)
     {
@@ -108,7 +91,7 @@ class Lunch
      *
      * @param \WCS\CantineBundle\Entity\Eleve $eleve
      *
-     * @return Lunch
+     * @return Tap
      */
     public function setEleve(\WCS\CantineBundle\Entity\Eleve $eleve = null)
     {
@@ -126,5 +109,4 @@ class Lunch
     {
         return $this->eleve;
     }
-
 }

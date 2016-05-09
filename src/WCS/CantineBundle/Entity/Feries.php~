@@ -38,6 +38,12 @@ class Feries
     /**
      * @var \DateTime
      */
+    private $vendredi_ascension;
+
+
+    /**
+     * @var \DateTime
+     */
     private $pentecote;
 
 
@@ -124,6 +130,30 @@ class Feries
     }
 
     /**
+     * Set vendrediAscension
+     *
+     * @param \DateTime $vendrediAscension
+     *
+     * @return Feries
+     */
+    public function setVendrediAscension($vendrediAscension)
+    {
+        $this->vendredi_ascension = $vendrediAscension;
+
+        return $this;
+    }
+
+    /**
+     * Get vendrediAscension
+     *
+     * @return \DateTime
+     */
+    public function getVendrediAscension()
+    {
+        return $this->vendredi_ascension;
+    }
+
+    /**
      * Set pentecote
      *
      * @param \DateTime $pentecote
@@ -146,4 +176,4 @@ class Feries
     {
         return $this->pentecote;
     }
-}
+ }

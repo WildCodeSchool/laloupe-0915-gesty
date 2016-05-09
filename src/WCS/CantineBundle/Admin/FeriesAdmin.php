@@ -22,15 +22,19 @@ class FeriesAdmin extends Admin
                     \date('Y') + 2 => \date('Y') + 2, \date('Y') + 3 => \date('Y') + 3,
                     \date('Y') + 4 => \date('Y') + 4)))
             ->add('paques','sonata_type_date_picker',(array(
-                'label'=>'Pâques',
+                'label'=>'Lundi Pâques',
                 'format' => 'dd-MM-y'
             )))
             ->add('ascension','sonata_type_date_picker',(array(
                 'label'=>'Ascension',
                 'format' => 'dd-MM-y'
             )))
+            ->add('vendredi_ascension','sonata_type_date_picker',(array(
+                'label'=>'Vendredi Ascension',
+                'format' => 'dd-MM-y'
+            )))
             ->add('pentecote','sonata_type_date_picker',(array(
-                'label'=>'Pentecôte',
+                'label'=>'Lundi Pentecôte',
                 'format' => 'dd-MM-y'
             )));
     }
@@ -48,15 +52,19 @@ class FeriesAdmin extends Admin
             ->addIdentifier('id')
             ->add('annee','text',(array('label'=>'Année')))
             ->add('paques','date',(array(
-                'label'=>'Pâques',
+                'label'=>'Lun Pâques',
                 'format' => 'd M Y'
             )))
             ->add('ascension','date',(array(
-                'label'=>'Ascension',
+                'label'=>'Jeu Ascension',
+                'format' => 'd M Y'
+            )))
+            ->add('vendredi_ascension','date',(array(
+                'label'=>'Ven Ascension',
                 'format' => 'd M Y'
             )))
             ->add('pentecote','date',(array(
-                'label'=>'Pentecôte',
+                'label'=>'Lun Pentecôte',
                 'format' => 'd M Y'
             )))
             ->add('_action', 'actions', array('label' => 'Action', 'actions' => array(

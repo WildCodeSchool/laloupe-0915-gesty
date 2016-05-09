@@ -1,0 +1,27 @@
+WCS\CantineBundle\Entity\Voyage:
+    type: entity
+    table: null
+    repositoryClass: WCS\CantineBundle\Entity\VoyageRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        libelle:
+            type: string
+            length: 255
+        date_debut:
+            type: datetime
+            nullable: true
+        date_fin:
+            type: datetime
+            nullable: true
+
+    lifecycleCallbacks: {  }
+
+    manyToMany:
+        eleves:
+            targetEntity: WCS\CantineBundle\Entity\Eleve
+            mappedBy: voyages
