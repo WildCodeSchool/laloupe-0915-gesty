@@ -23,4 +23,19 @@ class TapGarderieController extends Controller
 
     }
 
+    /**
+     * Lists all Eleve entities.
+     *
+     */
+
+    public function indexAction ()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entities = $em->getRepository('WCSCantineBundle:TapGarderie')->findAll();
+
+        return $this->render('WCSCantineBundle:TapGarderie:inscription.html.twig', array(
+            'entities' => $entities,
+        ));
+    }
+
 }

@@ -67,7 +67,8 @@ class EleveController extends Controller
             $feriesArray[$i]['paques'] = $feries[$i]->getPaques();
             $feriesArray[$i]['pentecote'] = $feries[$i]->getPentecote();
             $feriesArray[$i]['ascension'] = $feries[$i]->getAscension();
-            // pensez a rajouter le vendredi de l'ascension //
+            $feriesArray[$i]['vendrediascension'] = $feries[$i]->getVendrediAscension();
+            
         }
         // fin //
 
@@ -198,6 +199,8 @@ class EleveController extends Controller
             $feriesArray[$i]['paques'] = $feries[$i]->getPaques();
             $feriesArray[$i]['pentecote'] = $feries[$i]->getPentecote();
             $feriesArray[$i]['ascension'] = $feries[$i]->getAscension();
+            $feriesArray[$i]['vendrediascension'] = $feries[$i]->getVendrediAscension();
+
         }
         // Fin //
 
