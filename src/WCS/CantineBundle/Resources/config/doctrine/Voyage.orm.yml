@@ -18,6 +18,9 @@ WCS\CantineBundle\Entity\Voyage:
         date_fin:
             type: datetime
             nullable: true
+        est_annule:
+            type: boolean
+            nullable: true
 
     lifecycleCallbacks: {  }
 

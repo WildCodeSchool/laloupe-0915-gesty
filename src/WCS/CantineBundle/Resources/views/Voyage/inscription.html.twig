@@ -55,28 +55,24 @@
                     <div class="anneescolaire">
                         2015
                         2016
-                        <br />
-                        {{ test }}
-                        <br />
-                        {{ libelle_maison }}
                     </div>
 
                     <div class="row">
                         &nbsp;
                     </div>
 
-                    {# {% for voyage in voys %}
+                     {% for voyage in voyages %}
                     <div class="row">
                         <div class="col-md-offset-1  col-md-8">
                             <input type="checkbox">
                             <label style="display:inline">
-                                {{ voyage.libelle }}
+                                {{ voyage.dateDebut | date("m/d/Y") }} - {{ voyage.libelle }}
                             </label>
 
                         </div>
                     </div>
                     {% endfor %}
-                    #}
+
 
                     <div class="row">
                         &nbsp;

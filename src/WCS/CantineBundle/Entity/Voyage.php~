@@ -28,11 +28,6 @@ class Voyage
     private $date_fin;
 
     /**
-     * @var boolean
-     */
-    private $est_annule;
-
-    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $eleves;
@@ -160,29 +155,5 @@ class Voyage
     {
         return $this->eleves;
     }
-
-
-    /**
-     * Set estAnnule
-     *
-     * @param boolean $estAnnule
-     *
-     * @return Voyage
-     */
-    public function setEstAnnule($estAnnule)
-    {
-        $this->est_annule = $estAnnule;
-
-        return $this;
-    }
-
-    /**
-     * Get estAnnule
-     *
-     * @return boolean
-     */
-    public function getEstAnnule()
-    {
-        return $this->est_annule;
-    }
 }
+
