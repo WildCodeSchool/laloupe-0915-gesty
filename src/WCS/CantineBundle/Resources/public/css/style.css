@@ -335,3 +335,21 @@ button em
     font-style:bold;
     font-size:20px;
 }
+
+.panel-eleve {
+   /* display:inline-block;
+    width:30%;
+*/
+    font-family: 'Carter One', cursive;
+
+    color:#5CAB18;
+    background-color: #F5F5F5;
+    border-color: #DDD;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+
+    margin-bottom: 10px !important;
+    margin-right:10px !important;
+    padding: 10px 15px;
+}
