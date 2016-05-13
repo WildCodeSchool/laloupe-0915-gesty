@@ -68,7 +68,10 @@ Application\Sonata\UserBundle\Entity\User:
             type: string
             length: 255
             nullable: true
-
+        path_impots:
+            type: string
+            length: 255
+            nullable: true
 
 
     lifecycleCallbacks:

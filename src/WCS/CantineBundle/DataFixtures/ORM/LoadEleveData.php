@@ -28,6 +28,9 @@ class LoadEleveData extends AbstractFixture implements OrderedFixtureInterface, 
         $entity1->setDateDeNaissance(new \DateTime('2004-02-08'));
         $entity1->setRegimeSansPorc(false);
         $entity1->setDivision($this->getReference('division-lemoue'));
+        $entity1->addVoyage($this->getReference('voyage_versailles'));
+        $entity1->addVoyage($this->getReference('voyage_louvre'));
+        $entity1->addVoyage($this->getReference('voyage_padirac'));
         $manager->persist($entity1);
 
         $entity2 = new Eleve();
@@ -37,6 +40,7 @@ class LoadEleveData extends AbstractFixture implements OrderedFixtureInterface, 
         $entity2->setDateDeNaissance(new \DateTime('2006-06-15'));
         $entity2->setRegimeSansPorc(false);
         $entity2->setDivision($this->getReference('division-catteeu'));
+        $entity2->addVoyage($this->getReference('voyage_padirac'));
         $manager->persist($entity2);
 
         $entity3 = new Eleve();
@@ -58,7 +62,7 @@ class LoadEleveData extends AbstractFixture implements OrderedFixtureInterface, 
         $manager->persist($entity4);
 
         $entity5 = new Eleve();
-        $entity5->setUser($this->getReference('user'));
+        $entity5->setUser($this->getReference('user3'));
         $entity5->setNom('Truite');
         $entity5->setPrenom('Marine');
         $entity5->setDateDeNaissance(new \DateTime('2009-10-18'));
@@ -77,6 +81,6 @@ class LoadEleveData extends AbstractFixture implements OrderedFixtureInterface, 
 
     public function getOrder()
     {
-        return 4; // ordre d'appel
+        return 5; // ordre d'appel
     }
 }

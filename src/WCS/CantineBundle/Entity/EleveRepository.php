@@ -55,4 +55,28 @@ class EleveRepository extends EntityRepository
             ->getSingleScalarResult();
     }
 
+    /**
+     * Trouve la liste des enfants d'un parent donné (dont l'id est "user_id")
+     * Cette liste comporte les enfants, les voyages auxquels ils sont inscrits,
+     *
+     * @param $user_id      id du parent d'élève
+     * @return array        tableau indexé d'entité "Eleve"
+     */
+    public function findChildren($user)
+    {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery(
+            "SELECT el, voys
+             FROM WCSCantineBundle:eleve el
+             LEFT JOIN el.voyages voys
+             WHERE el.user=:user
+             ORDER BY el.nom ASC, el.prenom ASC, voys.date_debut ASC"
+        )->setParameter("user", $user);
+
+        $results = $query->getResult();
+
+        return $results;
+    }
+
 }

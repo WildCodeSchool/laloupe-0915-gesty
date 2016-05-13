@@ -1,7 +1,6 @@
 {% extends '::base.html.twig' %}
 {% block body %}
-
-    {% if presentChildren == null %}
+    {% if children == null %}
         <div class="modal fade" tabindex="-1" data-backdrop="show" role="dialog"id="myModal">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -12,7 +11,7 @@
                     <div class="modal-body">
                         <p style="color:red;">En cas de 1ère inscription merci de ne pas oublier d'enregistrer votre(vos) enfant(s) en cliquant sur le bouton suivant :
                             <a href="{{ path('eleve_create') }}" class="btn btn-primary">
-                                Inscrire mon enfant
+                                Enregistrer mon(mes) enfant(s)
                             </a>
                         </p>
                     </div>
@@ -25,6 +24,11 @@
     {% endif %}
 
 
+    <!--
+    =======================================================================
+    INFORMATION PARENT D'ELEVE
+    =======================================================================
+    -->
     <div class="col-md-8 col-md-offset-2">
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <div class="informations__familles">
@@ -72,11 +76,11 @@
                             <td>Aucune commune renseignée</td><br/>
                         {% endif %}
                     </blockquote>
-                    {% if  modeDePaiement == 'Cheque' %}
+                    {% if  user.modeDePaiement == 'Cheque' %}
                         <td>Paiement par chèque</td>
-                    {% elseif modeDePaiement == 'Especes' %}
+                    {% elseif user.modeDePaiement == 'Especes' %}
                         <td>Paiement par espèces</td>
-                    {% elseif modeDePaiement == 'Prelevements' %}
+                    {% elseif user.modeDePaiement == 'Prelevements' %}
                         <td>Paiement par prélèvement</td>
                     {% else  %}
                         <td>Aucun moyen de paiement renseigné</td>
@@ -89,15 +93,13 @@
                 <div class="col-md-5">
                     <h3>Mes justificatifs</h3>
                     <td>
-                        {% for key,array in files %}
-                            {% for type_file, libelle_justif in array %}
-                                {% if type_file and libelle_justif %}
-                                    <a href="{{ path("gesty_parent_download", {'type_file':type_file} ) }}" target="_blank">{{libelle_justif }}</a></br>
-                                {% endif %}
-
-                            {% endfor %}
+                        {% for type_file, infos in files %}
+                            {% if infos.exists %}
+                            <a href="{{ path("gesty_parent_download", {'type_file':type_file} ) }}" target="_blank">{{infos.libelle_justif }}</a></br>
+                            {% else %}
+                                {{ infos.libelle_justif }} à fournir<br />
+                            {% endif %}
                         {% endfor %}
-
                     </td>
                 </div>
             </div>
@@ -110,17 +112,33 @@
                 </div>
             {% endif %}
             <a href="{{ path('sonata_user_profile_show') }}"><input type="button" value="Modifier mes informations"class="btn btn-primary"></a>
-            <a href="{{ path('eleve_create') }}" class="btn btn-primary">Inscription Cantine</a>
-            <a href="{{ path('tapgarderie_inscription', {id_eleve:'1'}) }}" class="btn btn-primary">Inscription TAP/Garderie</a>
-            <a href="{{ path('voyage_inscription', {id_eleve:'1'}) }}" class="btn btn-primary">Inscription Voyage Scolaire</a>
+            <a href="{{ path('eleve_create') }}" class="btn btn-primary">Enregistrer mon(mes) enfant(s)</a>
 
         </div>
+
+
+        <!--
+        =======================================================================
+        LISTE DES ENFANTS
+        =======================================================================
+        -->
         <div class="children-list">
             <h3>Mes enfants</h3>
 
+            {% if children == null %}
+                <div>
+                    Vous n'avez pas encore enregistré votre(vos) enfant(s).
+                </div>
+            {% endif %}
+
             {% for child in children %}
-                <tr>
                     <div class="panel panel-default">
+
+
+                        <!--
+                        Information enfant
+                        -->
+
                         <div class="panel-heading">
                             <td>{{ child.nom }}</td>
                             <td>{{ child.prenom }}</td><br/>
@@ -129,44 +147,258 @@
                             <td>Né(é) le {{ child.dateDeNaissance|date('d-m-Y') }}</td></br>
                             <td><strong>Classe:</strong> {{ child.division }}</td><br/>
 
-                            {% if child.allergie %}
-                            <td>Allergie: {{ child.allergie }}</td>
-                        {% else %}
-                            <td>Aucune allergie alimentaire renseignée</td>
-                            {% endif %}<br/>
-                            {% if child.regimeSansPorc %}
-                            <td>Regime sans porc </td>
-                            {% else %}
-
-                            {% endif %}<br/>
+                            <a href="{{ path('eleve_edit', { 'id': child.id })}}"><input type="button" value="Modifier"class="btn btn-primary"></a><br/>
 
 
-                            <p>Mange habituellement le :</p><br/>
+                            <!--
+                            Onglets "Cantine, TAP, Voyages"
+                            -->
 
-                            <div class="btn-group btn-group-justified" role="group">
-                                {% for key,day in child.HabitDays %}
-                                    <a href="#" type="button" class="btn disabled {% if key in child.habits %}btn-success{% else %}btn-default{% endif %}">{{ day }}</a>
-                                {% endfor %}
+                            <ul class="eleve_tabs">
+                                {% if child.division.school.activeCantine %}
+                                <li class="eleve_tab tab_cantine">Cantine</li>
+                                {% endif %}
+
+                                {% if child.division.school.activeTap and child.division.school.activeGarderie %}
+                                    <li class="eleve_tab tab_garderie">TAP et Garderie</li>
+                                {% elseif child.division.school.activeTap %}
+                                    <li class="eleve_tab tab_garderie">TAP</li>
+                                {% elseif child.division.school.activeGarderie %}
+                                    <li class="eleve_tab tab_garderie">Garderie</li>
+                                {% endif %}
+
+                                {% if child.division.school.activeVoyage %}
+                                <li class="eleve_tab tab_voyages">Voyages</li>
+                                {% endif %}
+                            </ul>
+
+
+                            <!--
+                            Page "Cantine"
+                            -->
+                            <div class="eleve_tabs_body tab_cantine" style="display:none">
+
+                                {% if child.division.school.activeCantine %}
+                                    <div>
+                                        <div>
+                                            {% if child.allergie %}
+                                                Allergie: {{ child.allergie }}
+                                            {% else %}
+                                                Aucune allergie alimentaire renseignée
+                                            {% endif %}
+                                        </div>
+                                        <br/>
+
+                                        {% if child.regimeSansPorc %}
+                                        <div>Regime sans porc </div>
+                                        {% endif %}<br/>
+
+                                        <p>Mange habituellement le :</p><br/>
+
+                                        <div class="btn-group btn-group-justified" role="group">
+                                            {% for key,day in child.HabitDays %}
+                                                <a href="#" type="button" class="btn disabled {% if key in child.habits %}btn-success{% else %}btn-default{% endif %}">{{ day }}</a>
+                                            {% endfor %}
+                                        </div>
+<!--
+                                        <a href="{{ path('cantine_inscription', { 'id_eleve': child.id }) }}" class="btn btn-primary">Inscription Cantine</a>
+-->
+                                        <a href="#" class="btn btn-primary">Inscription Cantine (TODO)</a>
+                                        <br />
+                                        <br />
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <ul>
+                                                    <li><a target="_blank" href="{{ asset('bundles/wcscantine/règlement/Reglement_interieur_cantine.pdf') }}">Télécharger le règlement intérieur</a></li>
+                                                    <li><a target="_blank"href="{{ asset('bundles/wcscantine/règlement/Les_10_regles_d_or_de_la_cantine.pdf') }}">Télécharger les 10 règles d'or de la cantine</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div>
+                                        <em>Pour inscrire votre enfant au restaurant scolaire<br /> renseignez-vous auprès de son école.</em>
+                                    </div>
+                                {% endif %}
                             </div>
 
-                            <a href="{{ path('eleve_edit', { 'id': child.id })}}"><input type="button" value="Modifier"class="btn btn-primary"></a><br/>
+
+                            <!--
+                            Page "TAP/Garderie"
+                            -->
+
+                            <div class="eleve_tabs_body tab_garderie" style="display:none">
+
+                                {% if child.division.school.activeTap or child.division.school.activeGarderie %}
+                                    <div>
+                                        <p>Période du <span class="TODO">TODO</span> au <span class="TODO">TODO</span> :</p><br/>
+
+                                        {% if child.division.school.activeGarderie %}
+                                        <div class="btn-group btn-group-justified" role="group">
+                                            <a href="#" type="button" class="btn disabled btn-default">Garderie matin</a>
+                                            <a href="#" type="button" class="btn disabled btn-default">Lun</a>
+                                            <a href="#" type="button" class="btn disabled btn-default">Mar</a>
+                                            <a href="#" type="button" class="btn disabled btn-default">Mer</a>
+                                            <a href="#" type="button" class="btn disabled btn-default">Jeu</a>
+                                            <a href="#" type="button" class="btn disabled btn-default">Ven</a>
+                                        </div>
+                                        {% endif %}
+                                        {% if child.division.school.activeTap %}
+                                        <div class="btn-group btn-group-justified" role="group">
+                                            <a href="#" type="button" class="btn disabled btn-default">TAP</a>
+                                            <a href="#" type="button" class="btn disabled btn-default">Lun</a>
+                                            <a href="#" type="button" class="btn disabled btn-default">Mar</a>
+                                            <a href="#" type="button" class="btn disabled btn-default">Mer</a>
+                                            <a href="#" type="button" class="btn disabled btn-default">Jeu</a>
+                                            <a href="#" type="button" class="btn disabled btn-default">Ven</a>
+                                        </div>
+                                        {% endif %}
+                                        {% if child.division.school.activeGarderie %}
+                                        <div class="btn-group btn-group-justified" role="group">
+                                            <a href="#" type="button" class="btn disabled btn-default">Garderie ap midi</a>
+                                            <a href="#" type="button" class="btn disabled btn-default">Lun</a>
+                                            <a href="#" type="button" class="btn disabled btn-default">Mar</a>
+                                            <a href="#" type="button" class="btn disabled btn-default">Mer</a>
+                                            <a href="#" type="button" class="btn disabled btn-default">Jeu</a>
+                                            <a href="#" type="button" class="btn disabled btn-default">Ven</a>
+                                        </div>
+                                        {% endif %}
+
+                                        <a href="{{ path('tapgarderie_inscription', {'id_eleve':child.id}) }}" class="btn btn-primary">Inscription TAP/Garderie</a>
+                                    </div>
+                                {% else %}
+                                    <div>
+                                        <em>Pour inscrire votre enfant en TAP ou en Garderie<br /> renseignez-vous auprès de son école.</em>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!--
+                            Page "Voyages"
+                            -->
+
+                            <div class="eleve_tabs_body tab_voyages" style="display:none">
+
+                                {% if child.division.school.activeVoyage %}
+                                    <div>
+                                        {% if child.voyages.count %}
+
+                                            <ul>
+                                                {% for voyage in child.voyages %}
+                                                <li>{{ voyage }}</li>
+                                                {% endfor %}
+                                            </ul>
+
+                                            <br />
+
+                                            {%  if user.pathImpots %}
+                                                <br />Télécharger votre :
+                                                <a href="{{ path("gesty_parent_download", {'type_file': constant('Application\\Sonata\\UserBundle\\Entity\\User::type_Impots')} ) }}" target="_blank">Justificatif d'imposition</a>
+                                            {%  else %}
+                                                <br /><em>Pensez à déposer votre dernier avis d'imposition lors de l'inscription de votre enfant</em>
+                                            {%  endif  %}
+                                            </br>
+
+                                        {% else %}
+                                            Votre enfant n'est inscrit à aucun voyage.
+                                        {% endif %}
+
+                                        <a href="{{ path('voyage_inscription', {'id_eleve':child.id}) }}" class="btn btn-primary">Inscription Voyage Scolaire</a>
+                                    </div>
+                                {% else %}
+                                    <div>
+                                        <em>Pour inscrire votre enfant à un voyage scolaire prévu<br /> renseignez-vous auprès de son école.</em>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+
                         </div>
                     </div>
-
-
-                </tr>
             {% endfor %}
-
         </div>
 
-
-        <blockquote>
-            <ul>
-                <li><a target="_blank" href="{{ asset('bundles/wcscantine/règlement/Reglement_interieur_cantine.pdf') }}">Télécharger le règlement intérieur</a></li>
-                <li><a target="_blank"href="{{ asset('bundles/wcscantine/règlement/Les_10_regles_d_or_de_la_cantine.pdf') }}">Télécharger les 10 règles d'or de la cantine</a></li>
-            </ul>
-        </blockquote>
     </div>
 
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+
+        //-----------------------------------------------------------------------------------------
+        // Gestion des onglets "Cantine, TAP/Garderie, Voyages" dans la liste d'enfants.
+        //-----------------------------------------------------------------------------------------
+        window.addEventListener('load', function() {
+
+            //-----------------------------------------------------------------------------------------
+            // Renvoit un 'array' d'objets HTML ayant un "classname" dans l'attribut "class"
+            //-----------------------------------------------------------------------------------------
+            var getNodes = function(classname)
+            {
+                var nodeList = document.getElementsByClassName(classname);
+                return [].map.call(nodeList, function(item) { return item; })
+            }
+
+            //-----------------------------------------------------------------------------------------
+            // Sélectionne l'onglet ayant "classname" dans l'attribut "class"
+            //-----------------------------------------------------------------------------------------
+            var toggle = function(classname)
+            {
+                // si l'objet est déjà sélectionné, on passe, sinon on met à jour
+                if (classname.indexOf("toggle_active")==-1) {
+
+                    // on récupère la classname commençant par "tag_"
+                    // dans l'onglet à sélectionner et on affiche la page correspondante
+                    var selected = '';
+
+                    classname.split(' ').find(function(value) {
+                        if (value.indexOf("tab_")!=-1) {
+                            selected = value;
+                        }
+                    });
+
+                    // affiche uniquement la "page" sélectionnée
+                    getNodes("eleve_tabs_body").map(function (item) {
+                        item.style.display = (item.className.indexOf(selected)!=-1)?'block':'none';
+                    });
+
+                    // désélectionne tous les onglets
+                    getNodes("eleve_tab").map(function (item) {
+                        item.className = item.className.replace(" toggle_active", "");
+                        item.style.cursor = 'pointer';
+                    });
+
+                    // sélectionne l'onglet voulu
+                    getNodes(classname).map(function (item) {
+                        item.className = item.className + ' toggle_active';
+                        item.style.cursor = 'default';
+                    });
+
+                }
+            }
+
+            //-----------------------------------------------------------------------------------------
+            // Initialise le document HTML
+            //-----------------------------------------------------------------------------------------
+            getNodes("eleve_tab").map(function(item) {
+                if (item.addEventListener) {
+                    item.addEventListener('click', function() {
+                        toggle(this.className);
+                    });
+                }
+                else if (item.attachEvent) {
+                    item.attachEvent('click', function() {
+                        // Probleme avec "this" qui référence le document et non l'objet
+                        toggle(this.className);
+                    });
+                }
+            });
+
+            toggle("tab_cantine");
+        });
+
+    </script>
 {% endblock %}

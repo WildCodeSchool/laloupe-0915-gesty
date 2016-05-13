@@ -19,15 +19,24 @@ class EleveType extends AbstractType
         $builder
             ->add('nom', 'text')
             ->add('prenom', 'text')
-            ->add('dateDeNaissance', 'date',
-                array(
-                    'format' => 'dd-MMMM-yyyy',
-                    'years' =>  range(\date("Y") - 11, \date("Y") - 2)
-                )
-            )
+            ->add('dateDeNaissance', 'date', array(
+            'format' => 'dd-MMMM-yyyy',
+            'years' =>  range(\date("Y") - 11, \date("Y") - 2),))
             ->add('division', 'entity', array(
                 'class' => 'WCSCantineBundle:Division', 'required'=>true,'placeholder'=>'Sélectionnez'))
+            ->add('regimeSansPorc', 'checkbox', array('required'=>false))
+            ->add('allergie', 'text', array('label' =>'allergie', 'required'=>false))
+            ->add('atteste','checkbox', array('required'=>true))
+            ->add('autorise','checkbox', array('required'=>true))
             ->add('certifie','checkbox', array('required'=>true))
+            ->add('dates')
+            ->add('habits', null, array('required'=>false))
+            ->add('habits', 'choice', array(
+                'choices'   => Eleve::getHabitDaysLabels(),
+                'expanded' => true,
+                'multiple' => true,
+                'required'  => false
+            ))
         ;
     }
 
@@ -37,7 +46,7 @@ class EleveType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'WCS\CantineBundle\Form\Model\EleveForm'
+            'data_class' => 'WCS\CantineBundle\Form\Model\EleveNew'
         ));
     }
 

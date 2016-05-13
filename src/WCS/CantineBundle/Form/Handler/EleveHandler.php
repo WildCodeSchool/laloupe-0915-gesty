@@ -1,6 +1,4 @@
 <?php
-//src/WCS/CantineBundle/Form/Handler/EleveHandler
-
 namespace WCS\CantineBundle\Form\Handler;
 
 
@@ -9,8 +7,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use WCS\CantineBundle\Entity\Eleve;
-use WCS\CantineBundle\Entity\Lunch;
-use WCS\CantineBundle\Form\Model\EleveNew;
+use WCS\CantineBundle\Form\Model\EleveForm;
 
 
 class EleveHandler
@@ -40,43 +37,29 @@ class EleveHandler
     /**
      * @param boolean $confirmation
      */
-    public function process(EleveNew $eleve)
+    public function process(EleveForm $eleveForm)
     {
         $this->form->handleRequest($this->request);
         if ($this->form->isValid()) {
 
-            if (!($eleve->getAtteste() && $eleve->getAutorise() && $eleve->getCertifie()))
+            if (!$eleveForm->getCertifie())
                 throw new \Exception('Toutes les autorisations doivent être cochées !');
 
-            if (!($eleve->getNom() && $eleve->getPrenom()))
-                throw new \Exception('Vous devez remplir le champ nom et prénom');
+            if (!($eleveForm->getNom() && $eleveForm->getPrenom()))
+                throw new \Exception('Vous devez remplir le nom et prénom');
 
-            if (!($eleve->getDateDeNaissance()))
+            if (!($eleveForm->getDateDeNaissance()))
                 throw new \Exception('Vous devez renseigner la date de naissance de votre enfant !');
 
-            $entity = new Eleve();
-            $entity->setNom($eleve->getNom());
-            $entity->setPrenom($eleve->getPrenom());
-            $entity->setDateDeNaissance($eleve->getDateDeNaissance());
-            $entity->setDivision($eleve->getDivision());
-            $entity->setRegimeSansPorc($eleve->getRegimeSansPorc());
-            $entity->setAllergie($eleve->getAllergie());
-            $entity->setUser($this->user);
-            $entity->setHabits($eleve->getHabits());
+            $eleve = new Eleve();
+            $eleve->setNom($eleveForm->getNom());
+            $eleve->setPrenom($eleveForm->getPrenom());
+            $eleve->setDateDeNaissance($eleveForm->getDateDeNaissance());
+            $eleve->setDivision($eleveForm->getDivision());
+            $eleve->setRegimeSansPorc(false);
+            $eleve->setUser($this->user);
 
-            // Lunches
-            foreach (explode(';', $eleve->getDates()) as $date)
-            {
-                if ($date != '') {
-                    $lunch = new Lunch();
-                    $lunch->setDate(new \DateTime($date));
-                    $lunch->setEleve($entity);
-                    $lunch->setStatus('O');
-                    $this->em->persist($lunch);
-                }
-            }
-
-            $this->em->persist($entity);
+            $this->em->persist($eleve);
             $this->em->flush();
 
             return true;

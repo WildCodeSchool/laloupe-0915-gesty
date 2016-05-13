@@ -25,18 +25,22 @@ class LoadSchoolData extends AbstractFixture implements OrderedFixtureInterface,
         $entity1 = new School();
         $entity1->setName("Les écureuils");
         $entity1->setAdress("La Loupe");
+        $entity1->setActiveVoyage(false);
         $manager->persist($entity1);
         $this->setReference('school-ecureuils', $entity1);
 
         $entity2 = new School();
         $entity2->setName("Notre Dame des Fleurs");
         $entity2->setAdress("La Loupe");
+        $entity2->setActiveGarderie(false);
+        $entity2->setActiveTap(false);
         $manager->persist($entity2);
         $this->setReference('school-nddf', $entity2);
 
         $entity3 = new School();
         $entity3->setName("Roland-Garros");
         $entity3->setAdress("La Loupe");
+        $entity3->setActiveGarderie(false);
         $manager->persist($entity3);
         $this->setReference('school-rg', $entity3);
 

@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Application\Sonata\UserBundle\Entity\User;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Form\Handler\EleveHandler;
-use WCS\CantineBundle\Form\Model\EleveForm;
+use WCS\CantineBundle\Form\Model\EleveNew;
 use WCS\CantineBundle\Form\Type\EleveEditType;
 use WCS\CantineBundle\Form\Type\EleveType;
 
@@ -17,23 +17,12 @@ use WCS\CantineBundle\Form\Type\EleveType;
  * Eleve controller.
  *
  */
-class EleveController extends Controller
+class CantineController extends Controller
 {
-    /**
-     * Lists all Eleve entities.
-     *
-     */
-    public function indexAction()
+    public function inscrireAction($id_eleve)
     {
-        $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('WCSCantineBundle:Eleve')->findAll();
-
-        return $this->render('WCSCantineBundle:Eleve:index.html.twig', array(
-            'entities' => $entities,
-        ));
     }
-
     /**
      * Creates a new Eleve entity.
      *
@@ -41,9 +30,8 @@ class EleveController extends Controller
     public function createAction(Request $request)
     {
         // Enregistre les élèves en BDD
-        $entity = new EleveForm();
+        $entity = new EleveNew();
         $form = $this->createCreateForm($entity);
-        
         $handler = new EleveHandler($form, $request, $this->getDoctrine()->getManager(), $this->getUser());
         if ($handler->process($entity)) {
             return $this->redirect($this->generateUrl('wcs_cantine_dashboard'));
@@ -51,20 +39,30 @@ class EleveController extends Controller
 
         return $this->render('WCSCantineBundle:Eleve:new.html.twig', array(
             'entity' => $entity,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'calendrier' => $calendrier,
+            'jours' => $jours,
+            'dateLimit' => $date,
+            'finAnnee' => $finAnnee,
+            'vacancesHiver' => $vacancesHiver,
+            'vacancesNoel' => $vacancesNoel,
+            'grandesVacances' => $grandesVacances,
+            'vacancesToussaint' => $vacancesToussaint,
+            'vacancesPrintemps' => $vacancesPrintemps,
+            'feries' => $feriesArray,
         ));
     }
 
     /**
      * Creates a form to create a Eleve entity.
      *
-     * @param Eleve $entity The entity
+     * @param EleveNew $entity The entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Eleve $eleve)
+    private function createCreateForm(EleveNew $entity)
     {
-        $form = $this->createForm(new EleveType(), $eleve, array(
+        $form = $this->createForm(new EleveType(), $entity, array(
             'action' => $this->generateUrl('eleve_create'),
             'method' => 'POST',
         ));
@@ -102,16 +100,38 @@ class EleveController extends Controller
     {
         // Récupère les informations de l'élève
         $em = $this->getDoctrine()->getManager();
-        $eleve = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
-        if (!$eleve) {
+        $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find Eleve entity.');
         }
+        $editForm = $this->createEditForm($entity);
 
-        $editForm = $this->createEditForm($eleve);
+
+        // Récupère les jours habituels de cantine
+        $entityHabits = $entity->getHabits();
+        
+        // lunch dates as string
+        $lunchDates = '';
+        foreach ($entity->getLunches() as $lunch)
+        {
+            $lunchDates .= $lunch->getStringDate();
+        }
 
         return $this->render('WCSCantineBundle:Eleve:edit.html.twig', array(
-            'eleve' => $eleve,
+            'entity' => $entity,
             'edit_form' => $editForm->createView(),
+            'calendrier' => $calendrier,
+            'jours' => $jours,
+            'dateLimit' => $date,
+            'finAnnee' => $finAnnee,
+            'vacancesHiver' => $vacancesHiver,
+            'vacancesToussaint' => $vacancesToussaint,
+            'vacancesNoel' => $vacancesNoel,
+            'vacancesPrintemps' => $vacancesPrintemps,
+            'grandesVacances' => $grandesVacances,
+            'feries' => $feriesArray,
+            'habits' => $entityHabits,
+            'lunchDates' => $lunchDates
         ));
     }
 
@@ -214,87 +234,53 @@ class EleveController extends Controller
 
     }
 
-    /**
-     * Generate calendar
-     */
-    public function generateCalendar(\DateTime $start, \DateTime $end)
-    {
-        $return = array();
-        $calendrier = $start;
-
-        while ($calendrier <= $end) {
-            $y = date_format($calendrier, ('Y'));
-            $m = date_format($calendrier, ('m'));
-            $d = date_format($calendrier, ('d'));
-            $w = str_replace('0', '7', date_format($calendrier, ('w')));
-            $return[$y][$m][$d] = $w;
-            $calendrier->add(new \DateInterval('P1D'));
-        }
-        return $return;
-    }
-
-
-    /**
-     * Generate range date
-     */
-    private function getHolidays($start, $end)
-    {
-        $array = [];
-        $period = new \DatePeriod(new \DateTime($start), new \DateInterval('P1D'), new \DateTime($end));
-
-        foreach ($period as $date) {
-            $array[] = date_format($date, ('Y-m-d'));
-        }
-        return $array;
-    }
-
-    /**
-     * Affiche le dashboard
-     *
-     * @param Request       contient les paramètres passés en URL
-     * @return Response     renvoit une reponse HTTP après rendu du template dashboard
-     */
     public function dashboardAction(Request $request)
     {
         $user = $this->getUser();
+        $moyendepaiement = $user->getmodeDePaiement();
+        $children = $user->getEleves();
+
+
+        $em = $this->getDoctrine()->getManager();
+        $presentChildren = $em->getRepository('WCSCantineBundle:Eleve')->findOneBy(array('user' => $user->getId()));
+        $files = $em->getRepository('ApplicationSonataUserBundle:User')->findBy(array(
+            'id' => $user->getId(),
+        ));
+        $filesArray = [];
+        /*
+                for ($i = 0; $i < count($files); $i++){
+                    $filesArray[$i]['Justificatif de domicile'] = $files[$i]->getPathDomicile();
+                    $filesArray[$i]['Justificatif de prestations CAF'] = $files[$i]->getPathPrestations();
+                    $filesArray[$i]['Justificatif de salaire 1'] = $files[$i]->getPathSalaire1();
+                    $filesArray[$i]['Justificatif de salaire 2'] = $files[$i]->getPathSalaire2();
+                    $filesArray[$i]['Justificatif de salaire 3'] = $files[$i]->getPathSalaire3();
+
+                }
+        */
+
+        for ($i = 0; $i < count($files); $i++){
+            $filesArray[$i][User::type_Domicile]                = 'Justificatif de domicile';
+            $filesArray[$i][User::type_Prestations]             = 'Justificatif de prestations CAF';
+            $filesArray[$i][User::type_Salaire1]                = 'Justificatif de salaire 1';
+            $filesArray[$i][User::type_Salaire2]                = 'Justificatif de salaire 2';
+            $filesArray[$i][User::type_Salaire3]                = 'Justificatif de salaire 3';
+        }
+
         if (!$user) {
             throw $this->createNotFoundException('Aucun utilisateur trouvé pour cet id:');
         }
 
-        $em = $this->getDoctrine()->getEntityManager();
-        $children = $em->getRepository("WCSCantineBundle:Eleve")->findChildren($user);
-
-        $filesArray = array();
-        $filesArray[User::type_Domicile]    = array(
-            'libelle_justif' => 'Justificatif de domicile',
-            'exists' => is_file($user->getAbsolutePathDomicile())
-        );
-
-        $filesArray[User::type_Prestations] = array(
-            'libelle_justif' => 'Justificatif de prestations CAF',
-            'exists' => is_file($user->getAbsolutePathPrestations())
-        );
-
-        $filesArray[User::type_Salaire1]    = array(
-            'libelle_justif' => 'Justificatif de salaire 1',
-            'exists' => is_file($user->getAbsolutePathSalaire1())
-        );
-
-        $filesArray[User::type_Salaire2]    = array(
-            'libelle_justif' => 'Justificatif de salaire 2',
-            'exists' => is_file($user->getAbsolutePathSalaire2())
-        );
-
-        $filesArray[User::type_Salaire3]    = array(
-            'libelle_justif' => 'Justificatif de salaire 3',
-            'exists' => is_file($user->getAbsolutePathSalaire3())
-        );
 
         return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(
             'user' => $user,
             'children' => $children,
-            'files'=>$filesArray
+            'modeDePaiement' => $moyendepaiement,
+            'presentChildren' => $presentChildren,
+            'files'=>$filesArray,
+
         ));
+
+
     }
 
 

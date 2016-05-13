@@ -29,6 +29,7 @@ class User extends BaseUser
     const type_Salaire1     = 3;
     const type_Salaire2     = 4;
     const type_Salaire3     = 5;
+    const type_Impots        = 6;
 
     public function setEmail($email){
         parent::setEmail($email);
@@ -49,6 +50,7 @@ class User extends BaseUser
     public $file_salaire_1;
     public $file_salaire_2;
     public $file_salaire_3;
+    public $file_impots;
 
     const PATH_DIR_UPLOAD   = 'uploads';
     const PATH_ROOT_UPLOAD  = '/../../../../../app/';
@@ -110,6 +112,7 @@ class User extends BaseUser
     {
         return null === $this->path_salaire_2 ? null : $this->getUploadRootDir().'/'.$this->path_salaire_2;
     }
+
     public function getWebPathSalaire3()
     {
         return null === $this->path_salaire_3 ? null : $this->getUploadDir().'/'.$this->path_salaire_3;
@@ -118,6 +121,16 @@ class User extends BaseUser
     public function getAbsolutePathSalaire3()
     {
         return null === $this->path_salaire_3 ? null : $this->getUploadRootDir().'/'.$this->path_salaire_3;
+    }
+
+    public function getWebPathImpot()
+    {
+        return null === $this->path_impots ? null : $this->getUploadDir().'/'.$this->path_impots;
+    }
+
+    public function getAbsolutePathImpot()
+    {
+        return null === $this->path_impots ? null : $this->getUploadRootDir().'/'.$this->path_impots;
     }
 
 
@@ -143,6 +156,10 @@ class User extends BaseUser
         if  (null !== $this->file_salaire_3) {
             // do whatever you want to generate a unique name
             $this->path_salaire_3 = uniqid().'.'.$this->file_salaire_3->guessExtension();
+        }
+        if  (null !== $this->file_impots) {
+            // do whatever you want to generate a unique name
+            $this->path_impots = uniqid().'.'.$this->file_impots->guessExtension();
         }
 
     }
@@ -170,7 +187,10 @@ class User extends BaseUser
             $this->file_salaire_3->move($this->getUploadRootDir(), $this->path_salaire_3);
             unset($this->file_salaire_3);
         }
-
+        if (null != $this->file_impots) {
+            $this->file_impots->move($this->getUploadRootDir(), $this->path_impots);
+            unset($this->file_impots);
+        }
     }
 
 
@@ -189,6 +209,9 @@ class User extends BaseUser
             unlink($file);
         }
         if ($file = $this->getAbsolutePathSalaire3()) {
+            unlink($file);
+        }
+        if ($file = $this->getAbsolutePathImpots()) {
             unlink($file);
         }
     }
@@ -265,6 +288,11 @@ class User extends BaseUser
      * @var string
      */
     private $path_salaire_3;
+
+    /**
+     * @var string
+     */
+    private $path_impots;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -606,6 +634,30 @@ class User extends BaseUser
     public function getPathSalaire3()
     {
         return $this->path_salaire_3;
+    }
+
+    /**
+     * Set pathImpots
+     *
+     * @param string $pathImpots
+     *
+     * @return User
+     */
+    public function setPathImpots($pathImpots)
+    {
+        $this->path_impots = $pathImpots;
+
+        return $this;
+    }
+
+    /**
+     * Get pathImpots
+     *
+     * @return string
+     */
+    public function getPathImpots()
+    {
+        return $this->path_impots;
     }
 
     /**

@@ -14,4 +14,4 @@
 .bash_profile
 /app/uploads/*
 /src/WCS/CantineBundle/Resources/public/uploads/*
-./composer.phar
+/composer.phar
