@@ -13,51 +13,17 @@ class Eleve
 
     public function __toString()
     {
-        return (string) $this->getPrenom().' '.$this->getNom();
+        return $this->getPrenom().' '.$this->getNom();
 
     }
 
     public function __construct()
     {
         $this->habits = array();
-
-
     }
-
-
-    public static function getHabitDays()
-    {
-        return array(
-            'lundi' => 'lundi',
-            'mardi' => 'mardi',
-            'jeudi' => 'jeudi',
-            'vendredi' => 'vendredi',
-        );
-    }
-
-    public static function getHabitDaysLabels()
-    {
-        $result = array();
-        foreach (Eleve::getHabitDays() as $key => $day) {
-            $result[$key] = 'Tous les ' . $day . 's';
-        }
-        return $result;
-    }
-
-    public static function getHabitDaysValues()
-    {
-        return array_keys(self::getHabitDays());
-    }
-
-    public function getNombreDeRepasParMois()
-    {
-
-    }
-
 
 
     // GENERATED CODE
-    
 
     /**
      * @var integer
@@ -108,6 +74,11 @@ class Eleve
      * @var \WCS\CantineBundle\Entity\Division
      */
     private $division;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $voyages;
 
 
     /**
@@ -441,10 +412,6 @@ class Eleve
     {
         return $this->garderies;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $voyages;
 
 
     /**
@@ -479,5 +446,35 @@ class Eleve
     public function getVoyages()
     {
         return $this->voyages;
+    }
+
+
+    public static function getHabitDays()
+    {
+        return array(
+            'lundi' => 'lundi',
+            'mardi' => 'mardi',
+            'jeudi' => 'jeudi',
+            'vendredi' => 'vendredi',
+        );
+    }
+
+    public static function getHabitDaysLabels()
+    {
+        $result = array();
+        foreach (Eleve::getHabitDays() as $key => $day) {
+            $result[$key] = 'Tous les ' . $day . 's';
+        }
+        return $result;
+    }
+
+    public static function getHabitDaysValues()
+    {
+        return array_keys(self::getHabitDays());
+    }
+
+    public function getNombreDeRepasParMois()
+    {
+
     }
 }

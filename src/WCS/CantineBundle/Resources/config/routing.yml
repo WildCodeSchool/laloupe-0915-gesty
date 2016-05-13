@@ -6,6 +6,10 @@ gesty_cantine_eleve:
     resource: "@WCSCantineBundle/Resources/config/routing/eleve.yml"
     prefix:   /
 
+gesty_cantine_cantine:
+    resource: "@WCSCantineBundle/Resources/config/routing/cantine.yml"
+    prefix:   /cantine
+
 gesty_cantine_tapgarderie:
     resource: "@WCSCantineBundle/Resources/config/routing/tapgarderie.yml"
     prefix:   /tapgarderie

@@ -6,7 +6,6 @@ eleve_create:
     path:     /create
     defaults: { _controller: "WCSCantineBundle:Eleve:create" }
 
-
 eleve_edit:
     path:     /{id}/edit
     defaults: { _controller: "WCSCantineBundle:Eleve:edit" }
@@ -25,6 +24,3 @@ eleve_show:
     path:     /{id}/show
     defaults: { _controller: "WCSCantineBundle:Eleve:show" }
 
-eleve_create_inscr_voy:
-    path:     /createvoy
-    defaults: { _controller: "WCSCantineBundle:Eleve:createInscriptionVoyage" }

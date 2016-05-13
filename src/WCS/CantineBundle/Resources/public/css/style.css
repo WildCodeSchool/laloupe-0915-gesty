@@ -36,9 +36,7 @@
     color:#5CAB18;
     font-family: 'Carter One', cursive;
     background-color: inherit;
-    margin-bottom: -10px !important;
-
-
+    margin-bottom: -20px !important;
 }
 .panel  {
     border: transparent;
@@ -78,19 +76,21 @@
     padding:15px;
     margin-top: 20px;
     box-shadow: 10px 10px 5px 0px #cfcfcf;
-
-
-
+    border: 1px solid #F5F5F5;
+    border-top-width: 0;
 }
 label {
     font-family: 'Open Sans';
     display: inline-block;
-    max-width: 100%;
+    max-width: 80%;
     margin-bottom: 5px;
     font-weight: bold;
     font-size: 18px;
     line-height: 1.42857143;
     color: #333333;
+}
+input[type=checkbox] {
+    margin-right:10px;
 }
 .btn {
     display: inline-block;
@@ -293,4 +293,45 @@ button em
     -moz-transform: scale(2); /* FF */
     -webkit-transform: scale(2); /* Safari and Chrome */
     -o-transform: scale(2); /* Opera */
+}
+
+.eleve_tabs {
+    padding:0;
+    margin:0;
+    margin-top:20px;
+    text-align: left;
+    border-bottom:1px solid #DDD;
+    height:40px;
+}
+
+.eleve_tabs LI {
+    display:inline-block;
+    width:175px;
+    border:1px solid #DDD;
+    padding:4px 12px;
+    background-color: #F5F5F5;
+    height:inherit;
+    text-align: center;
+}
+.eleve_tabs LI.toggle_active {
+    border-bottom:1px solid white;
+    background-color:white;
+}
+.eleve_tabs_body {
+    padding:20px;
+    border:1px solid #DDD;
+    border-top-width: 0px;
+    height:375px;
+}
+.eleve_tabs_body EM {
+    display:table-cell;
+    font-style: italic;
+    color:#5CAB18;
+    margin:0 auto;
+}
+.TODO {
+    font-family: 'Carter One', cursive;
+    color:red;
+    font-style:bold;
+    font-size:20px;
 }

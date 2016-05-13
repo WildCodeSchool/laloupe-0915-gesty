@@ -1,0 +1,172 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+
+    {% if presentChildren == null %}
+        <div class="modal fade" tabindex="-1" data-backdrop="show" role="dialog"id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" style="color:red;">Attention</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p style="color:red;">En cas de 1ère inscription merci de ne pas oublier d'enregistrer votre(vos) enfant(s) en cliquant sur le bouton suivant :
+                            <a href="{{ path('eleve_create') }}" class="btn btn-primary">
+                                Inscrire mon enfant
+                            </a>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    {% endif %}
+
+
+    <div class="col-md-8 col-md-offset-2">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <div class="informations__familles">
+            <p>Bonjour :
+                {% if app.user.gender == 'm' %}
+                    M.
+                {% else %}
+                    Mme
+                {% endif %}
+                {{ app.user.lastname }}  {{ app.user.firstname }} </p>
+            {% endif %}
+
+
+            <div class="my-home col-md-7">
+                <h1>Mon Foyer <span class="created__at">(Créé le {{ app.user.createdAt|date('d-m-Y') }})</span></h1>
+                {% if app.user.validation == 0 %}
+                    <h3 class="validation"><span class="label label-warning">En attente de validation</span></h3></br>
+                {% else %}
+                    <h3 class="validation"><span class="label label-success"> Validé</span></h3></br>
+                {% endif %}
+
+                <p> {{ app.user }} </p><br/>
+
+
+                <tr>
+                    {% if user.phone %}
+                        <td><i class="fa fa-phone"></i>{{ user.phone }}</td><br/>
+                    {% else %}
+                        <td><i class="fa fa-phone"></i>Aucun numéro de téléphone renseigné</td><br/>
+                    {% endif %}
+                    <blockquote>
+                        {% if user.adresse %}
+                            <td>{{ user.adresse }}</td><br/>
+                        {% else %}
+                            <td>Aucune adresse renseignée</td><br/>
+                        {% endif %}
+                        {% if user.codePostal%}
+                            <td>{{ user.codePostal }}</td><br/>
+                        {% else %}
+                            <td>Aucun code postal renseigné</td><br/>
+                        {% endif %}
+                        {% if user.commune%}
+                            <td>{{ user.commune }}</td><br/>
+                        {% else %}
+                            <td>Aucune commune renseignée</td><br/>
+                        {% endif %}
+                    </blockquote>
+                    {% if  modeDePaiement == 'Cheque' %}
+                        <td>Paiement par chèque</td>
+                    {% elseif modeDePaiement == 'Especes' %}
+                        <td>Paiement par espèces</td>
+                    {% elseif modeDePaiement == 'Prelevements' %}
+                        <td>Paiement par prélèvement</td>
+                    {% else  %}
+                        <td>Aucun moyen de paiement renseigné</td>
+                    {% endif %}
+                </tr><br/>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-5">
+                    <h3>Mes justificatifs</h3>
+                    <td>
+                        {% for key,array in files %}
+                            {% for type_file, libelle_justif in array %}
+                                {% if type_file and libelle_justif %}
+                                    <a href="{{ path("gesty_parent_download", {'type_file':type_file} ) }}" target="_blank">{{libelle_justif }}</a></br>
+                                {% endif %}
+
+                            {% endfor %}
+                        {% endfor %}
+
+                    </td>
+                </div>
+            </div>
+
+            {% if app.session.flashBag.has('success') %}
+                <div class="alert alert-danger">
+                    {% for msg in app.session.flashBag.get('success') %}
+                        {{ msg }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <a href="{{ path('sonata_user_profile_show') }}"><input type="button" value="Modifier mes informations"class="btn btn-primary"></a>
+            <a href="{{ path('eleve_create') }}" class="btn btn-primary">Inscription Cantine</a>
+            <a href="{{ path('tapgarderie_inscription', {id_eleve:'1'}) }}" class="btn btn-primary">Inscription TAP/Garderie</a>
+            <a href="{{ path('voyage_inscription', {id_eleve:'1'}) }}" class="btn btn-primary">Inscription Voyage Scolaire</a>
+
+        </div>
+        <div class="children-list">
+            <h3>Mes enfants</h3>
+
+            {% for child in children %}
+                <tr>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <td>{{ child.nom }}</td>
+                            <td>{{ child.prenom }}</td><br/>
+                        </div>
+                        <div class="panel-body-1">
+                            <td>Né(é) le {{ child.dateDeNaissance|date('d-m-Y') }}</td></br>
+                            <td><strong>Classe:</strong> {{ child.division }}</td><br/>
+
+                            {% if child.allergie %}
+                            <td>Allergie: {{ child.allergie }}</td>
+                        {% else %}
+                            <td>Aucune allergie alimentaire renseignée</td>
+                            {% endif %}<br/>
+                            {% if child.regimeSansPorc %}
+                            <td>Regime sans porc </td>
+                            {% else %}
+
+                            {% endif %}<br/>
+
+
+                            <p>Mange habituellement le :</p><br/>
+
+                            <div class="btn-group btn-group-justified" role="group">
+                                {% for key,day in child.HabitDays %}
+                                    <a href="#" type="button" class="btn disabled {% if key in child.habits %}btn-success{% else %}btn-default{% endif %}">{{ day }}</a>
+                                {% endfor %}
+                            </div>
+
+                            <a href="{{ path('eleve_edit', { 'id': child.id })}}"><input type="button" value="Modifier"class="btn btn-primary"></a><br/>
+                        </div>
+                    </div>
+
+
+                </tr>
+            {% endfor %}
+
+        </div>
+
+
+        <blockquote>
+            <ul>
+                <li><a target="_blank" href="{{ asset('bundles/wcscantine/règlement/Reglement_interieur_cantine.pdf') }}">Télécharger le règlement intérieur</a></li>
+                <li><a target="_blank"href="{{ asset('bundles/wcscantine/règlement/Les_10_regles_d_or_de_la_cantine.pdf') }}">Télécharger les 10 règles d'or de la cantine</a></li>
+            </ul>
+        </blockquote>
+    </div>
+
+
+{% endblock %}

@@ -46,6 +46,32 @@ class Voyage
     }
 
     /**
+     *
+     * @return string l'intitulé du voyage et les dates
+     */
+    public function __toString()
+    {
+        $str_date = "";
+
+        $interval = $this->date_debut->diff( $this->date_fin );
+
+        if ($interval->days<1) {
+            $str_date = "le ".$this->date_debut->format('d/m/Y').
+                ", ".$this->date_debut->format('H:i').
+                " / ".$this->date_fin->format('H:i');
+        }
+        else {
+            $str_date = "du ".$this->date_debut->format('d/m/Y').
+                " à ".$this->date_debut->format('H:i').
+                " au ".$this->date_fin->format('d/m/Y').
+                " à ".$this->date_fin->format('H:i');
+
+        }
+
+        return $this->libelle. ' (' .$str_date. ')';
+    }
+
+    /**
      * Get id
      *
      * @return integer

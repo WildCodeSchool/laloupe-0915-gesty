@@ -12,6 +12,9 @@ file that was distributed with this source code.
 {% block title %}Enregistrement{% endblock %}
 
   {% block body %}
+      {% block retour %}
+          <a href="{{ path('wcs_cantine_dashboard') }}">Retour</a>
+      {% endblock %}
       <div class='container' role='main'>
 
         <div class="row">

@@ -21,9 +21,6 @@ class VoyageController extends Controller
         // récupère une instance de Doctrine
         $em = $this->getDoctrine()->getManager();
         
-        
-        
-
         // récupère la liste des voyages, classés par ordre alphabétique
         $voyages = $em->getRepository("WCSCantineBundle:Voyage")->findBy(array(), array("date_debut"=>"ASC"));
 
