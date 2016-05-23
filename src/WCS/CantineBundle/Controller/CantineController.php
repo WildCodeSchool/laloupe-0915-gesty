@@ -4,292 +4,139 @@ namespace WCS\CantineBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Form;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use Application\Sonata\UserBundle\Entity\User;
+use WCS\CalendrierBundle\Service\Calendrier\Calendrier;
+use WCS\CalendrierBundle\Service\Periode\Periode;
 use WCS\CantineBundle\Entity\Eleve;
-use WCS\CantineBundle\Form\Handler\EleveHandler;
-use WCS\CantineBundle\Form\Model\EleveNew;
-use WCS\CantineBundle\Form\Type\EleveEditType;
-use WCS\CantineBundle\Form\Type\EleveType;
+use WCS\CantineBundle\Entity\Lunch;
+use WCS\CantineBundle\Form\Model\CantineFormEntity;
+use WCS\CantineBundle\Form\Type\CantineType;
 
-/**
- * Eleve controller.
- *
- */
+
+
 class CantineController extends Controller
 {
-    public function inscrireAction($id_eleve)
-    {
-
-    }
     /**
-     * Creates a new Eleve entity.
-     *
+     * @param Request $request
+     * @param $id_eleve
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @throws \Exception
      */
-    public function createAction(Request $request)
+    public function inscrireAction(Request $request, $id_eleve)
     {
-        // Enregistre les élèves en BDD
-        $entity = new EleveNew();
-        $form = $this->createCreateForm($entity);
-        $handler = new EleveHandler($form, $request, $this->getDoctrine()->getManager(), $this->getUser());
-        if ($handler->process($entity)) {
+        $user = $this->getUser();
+        if (!$user) {
+            throw $this->createAccessDeniedException();
+        }
+
+        // récupère les instances de Doctrine et de Calendrier pour l'année en cours
+        $em             = $this->getDoctrine()->getManager();
+        $calendrier     = $this->get("wcs.calendrierscolaire")->getCalendrierRentreeScolaire();
+
+        // récupère la fiche de l'élève sélectionné
+        $eleve = $em->getRepository("WCSCantineBundle:Eleve")->find($id_eleve);
+
+        if (!$eleve || !$eleve->isCorrectParentConnected($user)) {
+            return $this->redirectToRoute('wcs_cantine_dashboard');
+        }
+
+
+        // récupère la liste des réservations effectuée
+        // cette info est utile uniquement pour la gestion du formulaire dans Twig
+        // En effet on doit supprimer toutes les réservations qui ne sont pas retournées
+        // par le formulaire, hors les réservations effectuées, mais passées doivent être présentes
+        // afin de ne pas être effacées de la base. Par ailleurs, on ne peut tout afficher
+        // au risque du coup d'enregistrer des réservations qui n'ont pas été sélectionnées
+        $listLunchesSelected = array();
+        foreach($eleve->getLunches() as $lunch) {
+            $listLunchesSelected[] = $lunch->getDate()->format("Y-m-d");
+        }
+
+
+        // récupère les jours fériés et met à jour le calendrier
+        $feriesArray = $em->getRepository('WCSCantineBundle:Feries')->findListDateTimes(
+                $calendrier->getPeriodesScolaire()->getAnneeScolaire()->getFin()->format('Y')
+            );
+
+        $calendrier->addDaysOff($feriesArray);
+
+        // la réservation à la cantine ne peut être effectué que 7 jours après
+        // la date du jour (soit le 8e jour)
+        // on désactive donc le jour actuel et les 7 jours suivants.
+        $oneDay     = new \DateInterval('P1D');
+        $currentDay = new \DateTimeImmutable($calendrier->getPeriodesScolaire()->getDateToday());
+        $dayPlus7   = $currentDay->add(new \DateInterval('P8D'));
+
+        while ($currentDay < $dayPlus7) {
+            $cantineWeekLocked[] = $currentDay;
+            $currentDay = $currentDay->add($oneDay);
+        }
+        $calendrier->addDaysPast($cantineWeekLocked);
+
+
+
+        // créé le formulaire associé à l'élève
+        $form = $this->createForm(new CantineType( $em ), $eleve, array(
+            'action' => $this->generateUrl('cantine_inscription', array("id_eleve"=>$id_eleve)),
+            'method' => 'POST'
+        ));
+
+        // traite les infos saisies dans le formulaire
+        if ($this->processPostedForm($request, $form, $eleve)) {
             return $this->redirect($this->generateUrl('wcs_cantine_dashboard'));
         }
 
-        return $this->render('WCSCantineBundle:Eleve:new.html.twig', array(
-            'entity' => $entity,
-            'form' => $form->createView(),
-            'calendrier' => $calendrier,
-            'jours' => $jours,
-            'dateLimit' => $date,
-            'finAnnee' => $finAnnee,
-            'vacancesHiver' => $vacancesHiver,
-            'vacancesNoel' => $vacancesNoel,
-            'grandesVacances' => $grandesVacances,
-            'vacancesToussaint' => $vacancesToussaint,
-            'vacancesPrintemps' => $vacancesPrintemps,
-            'feries' => $feriesArray,
-        ));
-    }
 
-    /**
-     * Creates a form to create a Eleve entity.
-     *
-     * @param EleveNew $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(EleveNew $entity)
-    {
-        $form = $this->createForm(new EleveType(), $entity, array(
-            'action' => $this->generateUrl('eleve_create'),
-            'method' => 'POST',
-        ));
-
-
-        return $form;
-    }
-
-    /**
-     * Finds and displays a Eleve entity.
-     *
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
-
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Eleve entity.');
-        }
-
-
-        return $this->render('WCSCantineBundle:Eleve:show.html.twig', array(
-            'entity' => $entity,
-        ));
-    }
-
-    /**
-     * Displays a form to edit an existing Eleve entity.
-     *
-     */
-    public function editAction($id)
-    {
-        // Récupère les informations de l'élève
-        $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Eleve entity.');
-        }
-        $editForm = $this->createEditForm($entity);
-
-
-        // Récupère les jours habituels de cantine
-        $entityHabits = $entity->getHabits();
-        
-        // lunch dates as string
-        $lunchDates = '';
-        foreach ($entity->getLunches() as $lunch)
-        {
-            $lunchDates .= $lunch->getStringDate();
-        }
-
-        return $this->render('WCSCantineBundle:Eleve:edit.html.twig', array(
-            'entity' => $entity,
-            'edit_form' => $editForm->createView(),
-            'calendrier' => $calendrier,
-            'jours' => $jours,
-            'dateLimit' => $date,
-            'finAnnee' => $finAnnee,
-            'vacancesHiver' => $vacancesHiver,
-            'vacancesToussaint' => $vacancesToussaint,
-            'vacancesNoel' => $vacancesNoel,
-            'vacancesPrintemps' => $vacancesPrintemps,
-            'grandesVacances' => $grandesVacances,
-            'feries' => $feriesArray,
-            'habits' => $entityHabits,
-            'lunchDates' => $lunchDates
-        ));
-    }
-
-    /**
-     * Creates a form to edit a Eleve entity.
-     *
-     * @param Eleve $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createEditForm(Eleve $entity)
-    {
-        $form = $this->createForm(new EleveEditType($this->getDoctrine()->getManager()), $entity, array(
-            'action' => $this->generateUrl('eleve_update', array('id' => $entity->getId())),
-            'method' => 'POST',
-        ));
-
-        return $form;
-    }
-
-    /**
-     * Edits an existing Eleve entity.
-     *
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Eleve entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-
-
-        if ($editForm->isValid()) {
-            $oldLunches = $em->getRepository('WCSCantineBundle:Lunch')->findByEleve($entity);
-            foreach($oldLunches as $lunch)
-            {
-                if (!$entity->getLunches()->contains($lunch))
-                    $em->remove($lunch);
-            }
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('wcs_cantine_dashboard', array('id' => $id)));
-        }
-
-
-        return $this->render('WCSCantineBundle:Eleve:edit.html.twig', array(
-            'entity' => $entity,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    /**
-     * Deletes a Eleve entity.
-     *
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Eleve entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
-        }
-
-        return $this->redirect($this->generateUrl('eleve'));
-    }
-
-    /**
-     * Creates a form to delete a Eleve entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('eleve_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-
-            ->getForm();
-
-    }
-
-    public function dashboardAction(Request $request)
-    {
-        $user = $this->getUser();
-        $moyendepaiement = $user->getmodeDePaiement();
-        $children = $user->getEleves();
-
-
-        $em = $this->getDoctrine()->getManager();
-        $presentChildren = $em->getRepository('WCSCantineBundle:Eleve')->findOneBy(array('user' => $user->getId()));
-        $files = $em->getRepository('ApplicationSonataUserBundle:User')->findBy(array(
-            'id' => $user->getId(),
-        ));
-        $filesArray = [];
-        /*
-                for ($i = 0; $i < count($files); $i++){
-                    $filesArray[$i]['Justificatif de domicile'] = $files[$i]->getPathDomicile();
-                    $filesArray[$i]['Justificatif de prestations CAF'] = $files[$i]->getPathPrestations();
-                    $filesArray[$i]['Justificatif de salaire 1'] = $files[$i]->getPathSalaire1();
-                    $filesArray[$i]['Justificatif de salaire 2'] = $files[$i]->getPathSalaire2();
-                    $filesArray[$i]['Justificatif de salaire 3'] = $files[$i]->getPathSalaire3();
-
-                }
-        */
-
-        for ($i = 0; $i < count($files); $i++){
-            $filesArray[$i][User::type_Domicile]                = 'Justificatif de domicile';
-            $filesArray[$i][User::type_Prestations]             = 'Justificatif de prestations CAF';
-            $filesArray[$i][User::type_Salaire1]                = 'Justificatif de salaire 1';
-            $filesArray[$i][User::type_Salaire2]                = 'Justificatif de salaire 2';
-            $filesArray[$i][User::type_Salaire3]                = 'Justificatif de salaire 3';
-        }
-
-        if (!$user) {
-            throw $this->createNotFoundException('Aucun utilisateur trouvé pour cet id:');
-        }
-
-
-        return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(
-            'user' => $user,
-            'children' => $children,
-            'modeDePaiement' => $moyendepaiement,
-            'presentChildren' => $presentChildren,
-            'files'=>$filesArray,
-
-        ));
-
-
-    }
-
-
-    public function updateDate($query)
-    {
-        return $this->getDoctrine()->getManager()
-            ->createQuery(
-                'UPDATE WCSCantineBundle:Eleve SET dates'
+        // génère la vue avec les paramètres attendus
+        return $this->render(
+            'WCSCantineBundle:Cantine:inscription.html.twig',
+            array(
+                "form" => $form->createView(),
+                "eleve" => $eleve,
+                "calendrier" => $calendrier,
+                "listLunchesSelected" => $listLunchesSelected
             )
-            ->getResult();
+        );
+
+    }
+
+    /**
+     * @param Request $request
+     * @param Form $form
+     * @param Eleve $eleve
+     * @return bool
+     */
+    private function processPostedForm(Request $request, Form $form, Eleve $eleve)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+
+            // la nouvelle sélection de dates (avec celles déjà présentes en
+            // base de données, et les nouvelles à ajouter
+            // (cette liste a été mise à jour avec LunchToStringTransformer)
+            $lunchesNew = $eleve->getLunches();
+
+            // récupère les réservations actuellement en base de données
+            $lunchesOld = $em->getRepository("WCSCantineBundle:Lunch")->findByEleve($eleve);
+
+            // supprime les dates qui ne sont plus sélectionnées
+            foreach($lunchesOld as $lunchOld) {
+                if (!$lunchesNew->contains($lunchOld)) {
+                    $em->remove($lunchOld);
+                }
+            }
+
+            // met à jour la fiche élève (le régime alimentaire,...)
+            $em->persist($eleve);
+
+            $em->flush();
+            return true;
+        }
+
+        return false;
     }
 }

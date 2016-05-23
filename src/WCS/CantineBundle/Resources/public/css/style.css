@@ -321,13 +321,13 @@ button em
     padding:20px;
     border:1px solid #DDD;
     border-top-width: 0px;
-    height:375px;
+    height:420px;
 }
 .eleve_tabs_body EM {
     display:table-cell;
     font-style: italic;
     color:#5CAB18;
-    margin:0 auto;
+    margin:0px auto;
 }
 .TODO {
     font-family: 'Carter One', cursive;
@@ -340,6 +340,7 @@ button em
    /* display:inline-block;
     width:30%;
 */
+    position:relative;
     font-family: 'Carter One', cursive;
 
     color:#5CAB18;
@@ -349,7 +350,30 @@ button em
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
 
+    margin-top:20px;
     margin-bottom: 10px !important;
     margin-right:10px !important;
     padding: 10px 15px;
+    height:80px;
+}
+.panel-eleve div {
+    display: inline-block;
+    position:absolute;
+    right:20px;
+    top:0px;
+
+    font-family: 'Open Sans';
+    font-weight: normal;
+
+    text-align: right;
+    width:150px;
+}
+.panel-eleve span {
+    display:table-cell;
+    height:60px;
+    width:300px;
+    vertical-align: middle;
+}
+.error {
+    color:red;
 }

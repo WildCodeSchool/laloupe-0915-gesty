@@ -28,9 +28,19 @@ class Voyage
     private $date_fin;
 
     /**
+     * @var boolean
+     */
+    private $est_annule;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $eleves;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $divisions;
 
     /**
      * Constructor
@@ -38,6 +48,33 @@ class Voyage
     public function __construct()
     {
         $this->eleves = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->divisions = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     *
+     * @return string l'intitulé du voyage et les dates
+     */
+    public function __toString()
+    {
+        $str_date = "";
+
+        $interval = $this->date_debut->diff( $this->date_fin );
+
+        if ($interval->days<1) {
+            $str_date = "le ".$this->date_debut->format('d/m/Y').
+                ", ".$this->date_debut->format('H:i').
+                " / ".$this->date_fin->format('H:i');
+        }
+        else {
+            $str_date = "du ".$this->date_debut->format('d/m/Y').
+                " à ".$this->date_debut->format('H:i').
+                " au ".$this->date_fin->format('d/m/Y').
+                " à ".$this->date_fin->format('H:i');
+
+        }
+
+        return $this->libelle. ' (' .$str_date. ')';
     }
 
     /**
@@ -155,5 +192,63 @@ class Voyage
     {
         return $this->eleves;
     }
-}
 
+
+    /**
+     * Set estAnnule
+     *
+     * @param boolean $estAnnule
+     *
+     * @return Voyage
+     */
+    public function setEstAnnule($estAnnule)
+    {
+        $this->est_annule = $estAnnule;
+
+        return $this;
+    }
+
+    /**
+     * Get estAnnule
+     *
+     * @return boolean
+     */
+    public function getEstAnnule()
+    {
+        return $this->est_annule;
+    }
+
+    /**
+     * Add division
+     *
+     * @param \WCS\CantineBundle\Entity\Division $division
+     *
+     * @return Voyage
+     */
+    public function addDivision(\WCS\CantineBundle\Entity\Division $division)
+    {
+        $this->divisions[] = $division;
+
+        return $this;
+    }
+
+    /**
+     * Remove division
+     *
+     * @param \WCS\CantineBundle\Entity\Division $division
+     */
+    public function removeDivision(\WCS\CantineBundle\Entity\Division $division)
+    {
+        $this->divisions->removeElement($division);
+    }
+
+    /**
+     * Get divisions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDivisions()
+    {
+        return $this->divisions;
+    }
+}

@@ -41,11 +41,17 @@ class Division
     private $school;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $voyages;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->eleves = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->voyages = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

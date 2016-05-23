@@ -39,6 +39,8 @@ twig:
     form:
         resources:
             - 'SonataCoreBundle:Form:datepicker.html.twig'
+    form_theme:
+        'WCSCantineBundle:form:form_errors.html.twig'
 
 # Assetic Configuration
 assetic:
@@ -51,10 +53,10 @@ assetic:
         less:
             node: /usr/local/bin/node
             node_paths: [/usr/local/lib/node_modules]
-            apply_to: "\.less$"
+            apply_to: ".less$"
         lessphp:
             file: %kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php
-            apply_to: "\.less$"
+            apply_to: ".less$"
     assets:
         bootstrap_css:
             inputs:

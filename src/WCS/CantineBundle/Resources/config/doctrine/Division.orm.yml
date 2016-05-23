@@ -27,3 +27,10 @@ WCS\CantineBundle\Entity\Division:
             targetEntity: WCS\CantineBundle\Entity\Eleve
             mappedBy: division
             cascade: {persist, remove}
+    manyToMany:
+        voyages:
+            targetEntity: Voyage
+            inversedBy: divisions
+            joinTable:
+                name: division_voyage
+

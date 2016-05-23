@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use WCS\CantineBundle\Entity\Eleve;
-use WCS\CantineBundle\Form\Model\EleveForm;
+use WCS\CantineBundle\Form\Model\EleveFormEntity;
 
 
 class EleveHandler
@@ -37,7 +37,7 @@ class EleveHandler
     /**
      * @param boolean $confirmation
      */
-    public function process(EleveForm $eleveForm)
+    public function process(EleveFormEntity $eleveForm)
     {
         $this->form->handleRequest($this->request);
         if ($this->form->isValid()) {

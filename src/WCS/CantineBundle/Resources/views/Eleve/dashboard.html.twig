@@ -141,6 +141,10 @@
 
                         <div class="panel-eleve" id="eleve_{{ child.id }}">
                             <span>{{ child.prenom }}</span>
+                            <div>
+                               <input type="button" value="Voir le détail"class="btn btn-primary"><br/>
+
+                            </div>
                         </div>
 
                         <div class="panel-body-1 fiche_eleve" id="eleve_body_{{ child.id }}">
@@ -187,7 +191,6 @@
                                                 Aucune allergie alimentaire renseignée
                                             {% endif %}
                                         </div>
-                                        <br/>
 
                                         {% if child.regimeSansPorc %}
                                         <div>Regime sans porc </div>
@@ -200,10 +203,11 @@
                                                 <a href="#" type="button" class="btn disabled {% if key in child.habits %}btn-success{% else %}btn-default{% endif %}">{{ day }}</a>
                                             {% endfor %}
                                         </div>
-<!--
+
                                         <a href="{{ path('cantine_inscription', { 'id_eleve': child.id }) }}" class="btn btn-primary">Inscription Cantine</a>
--->
+<!--
                                         <a href="#" class="btn btn-primary">Inscription Cantine (TODO)</a>
+-->
                                         <br />
                                         <br />
                                         <div class="panel panel-default">

@@ -71,7 +71,7 @@ class EleveRepository extends EntityRepository
              FROM WCSCantineBundle:eleve el
              LEFT JOIN el.voyages voys
              WHERE el.user=:user
-             ORDER BY el.nom ASC, el.prenom ASC, voys.date_debut ASC"
+             ORDER BY el.prenom ASC, voys.date_debut ASC"
         )->setParameter("user", $user);
 
         $results = $query->getResult();

@@ -5,6 +5,6 @@ services:
 
     sonata.block.service.stat:
         class: WCS\CantineBundle\Block\Service\StatElevesBlockService
-        arguments: [ "sonata.block.service.stat", @templating, @sonata.admin.pool, @doctrine.orm.entity_manager, @security.context]
+        arguments: [ "sonata.block.service.stat", '@templating', '@sonata.admin.pool', '@doctrine.orm.entity_manager', '@security.context']
         tags:
             - { name: sonata.block }

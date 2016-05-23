@@ -13,17 +13,24 @@ use WCS\CantineBundle\DependencyInjection\Ical;
 
 class CalendarHolidays
 {
+    private $ical;
+    public function __construct()
+    {
+        $this->ical = new Ical(__DIR__."/../../../../app/Resources/files/Calendrier_Scolaire_Zone_B.ics");
+//        $this->ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
+    }
+    
     public function getIcal()
     {
-        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
-        return $ical->events();
+        //$ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
+        return $this->ical->events();
     }
 
     // Get the date of the year end
     public function getYearEnd()
     {
-        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
-        $array = $ical->events();
+        //$ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
+        $array = $this->ical->events();
         return $date = $array[6]['DTSTART'];
     }
 
@@ -33,8 +40,9 @@ class CalendarHolidays
         $now = new \DateTime();
         $anneeActuelle = date_format($now, ('Y'));
 
-        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
-        $array = $ical->events();
+       // $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
+
+        $array = $this->ical->events();
 
         foreach ($array as $key => $value){
             foreach ($value as $test => $essai){
@@ -50,8 +58,7 @@ class CalendarHolidays
         $now = new \DateTime();
         $anneeActuelle = date_format($now, ('Y'));
 
-        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
-        $array = $ical->events();
+        $array = $this->ical->events();
 
         foreach ($array as $key => $value){
             foreach ($value as $test => $essai){
@@ -67,8 +74,7 @@ class CalendarHolidays
         $now = new \DateTime();
         $anneeActuelle = date_format($now, ('Y'));
 
-        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
-        $array = $ical->events();
+        $array = $this->ical->events();
 
         foreach ($array as $key => $value) {
             foreach ($value as $test => $essai) {
@@ -85,8 +91,7 @@ class CalendarHolidays
         $anneeActuelle = date_format($now, ('Y'));
         $moisActuel = date_format($now, ('m'));
 
-        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
-        $array = $ical->events();
+        $array = $this->ical->events();
 
         if ($moisActuel >= '07'){
             foreach ($array as $key => $value){
@@ -115,8 +120,7 @@ class CalendarHolidays
         $anneeActuelle = date_format($now, ('Y'));
         $moisActuel = date_format($now, ('m'));
 
-        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
-        $array = $ical->events();
+        $array = $this->ical->events();
 
         if ($moisActuel >= '07') {
             foreach ($array as $key => $value){
@@ -143,8 +147,7 @@ class CalendarHolidays
         $anneeActuelle = date_format($now, ('Y'));
         $moisActuel = date_format($now, ('m'));
 
-        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
-        $array = $ical->events();
+        $array = $this->ical->events();
 
         if ($moisActuel >= '07') {
             foreach ($array as $key => $value){
@@ -171,8 +174,7 @@ class CalendarHolidays
         $anneeActuelle = date_format($now, ('Y'));
         $moisActuel = date_format($now, ('m'));
 
-        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
-        $array = $ical->events();
+        $array = $this->ical->events();
 
         if ($moisActuel >= '07') {
             foreach ($array as $key => $value) {
@@ -199,8 +201,7 @@ class CalendarHolidays
         $anneeActuelle = date_format($now, ('Y'));
         $moisActuel = date_format($now, ('m'));
 
-        $ical = new Ical("http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics");
-        $array = $ical->events();
+        $array = $this->ical->events();
 
         if ($moisActuel >= '07') {
             foreach ($array as $key => $value) {

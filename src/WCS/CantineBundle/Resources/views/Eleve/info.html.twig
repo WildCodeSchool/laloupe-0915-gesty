@@ -1,0 +1,16 @@
+<div class="col-md-offset-1 col-md-4">
+    <div class="form-group">
+        <label for="nom">Nom : {{ eleve.nom }} </label>
+    </div>
+    <div class="form-group">
+        <label for="date_de_naissance">Date de naissance : {{ eleve.dateDeNaissance |date("d/m/Y") }} </label>
+    </div>
+</div>
+<div class="col-md-offset-1 col-md-5">
+    <div class="form-group">
+        <label for="prenom">Prénom : {{ eleve.prenom }} </label>
+    </div>
+    <div class="form-group">
+        <label for="etablissement">Classe en septembre AAAA : {{ eleve.division }} </label>
+    </div>
+</div>

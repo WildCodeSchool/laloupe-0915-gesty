@@ -6,7 +6,7 @@ use WCS\CantineBundle\Entity\Eleve;
 /**
  * EleveForm
  */
-class EleveForm extends Eleve
+class EleveFormEntity extends Eleve
 {
     /**
      * @return string

@@ -26,7 +26,8 @@
 	font-family: 'Open Sans', sans-serif;
 	font-weight: bold;
 	font-size: 1.2em;
-	margin: 20px 160px 50px 160px;
+	/*margin: 20px 160px 50px 160px;*/
+	margin: 20px 0px 50px 0px;
 }
 
 .choix {
@@ -34,7 +35,7 @@
 	padding: 10px 5px;
 	border: solid #F6773D 3px;
 	border-radius: 10px;
-	margin: 0 5px;
+	margin: 0 10px;
 }
 
 .wd {

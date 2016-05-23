@@ -110,4 +110,3 @@ class Tap
         return $this->eleve;
     }
 }
-
