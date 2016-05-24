@@ -38,11 +38,17 @@ class Voyage
     private $eleves;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $divisions;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->eleves = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->divisions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -210,5 +216,63 @@ class Voyage
     public function getEstAnnule()
     {
         return $this->est_annule;
+    }
+
+    /**
+     * Add division
+     *
+     * @param \WCS\CantineBundle\Entity\Division $division
+     *
+     * @return Voyage
+     */
+    public function addDivision(\WCS\CantineBundle\Entity\Division $division)
+    {
+        $this->divisions[] = $division;
+
+        return $this;
+    }
+
+    /**
+     * Remove division
+     *
+     * @param \WCS\CantineBundle\Entity\Division $division
+     */
+    public function removeDivision(\WCS\CantineBundle\Entity\Division $division)
+    {
+        $this->divisions->removeElement($division);
+    }
+
+    /**
+     * Get divisions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDivisions()
+    {
+        return $this->divisions;
+    }
+
+    /**
+     * Add elefe
+     *
+     * @param \WCS\CantineBundle\Entity\Eleve $elefe
+     *
+     * @return Voyage
+     */
+    public function addElefe(\WCS\CantineBundle\Entity\Eleve $elefe)
+    {
+        $this->eleves[] = $elefe;
+
+        return $this;
+    }
+
+    /**
+     * Remove elefe
+     *
+     * @param \WCS\CantineBundle\Entity\Eleve $elefe
+     */
+    public function removeElefe(\WCS\CantineBundle\Entity\Eleve $elefe)
+    {
+        $this->eleves->removeElement($elefe);
     }
 }

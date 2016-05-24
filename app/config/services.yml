@@ -51,13 +51,13 @@ services:
 
       sonata.user.profile.form.type:
             class: Application\Sonata\UserBundle\Form\Type\ProfileType
-            arguments: [ "Application\Sonata\UserBundle\Entity\User" ]
+            arguments: [ "Application\\Sonata\\UserBundle\\Entity\\User" ]
             tags:
                 - { name: "form.type", alias: "application_sonata_user_profile"}
 
       wcs.eleve.profile.form.type:
             class: WCS\CantineBundle\Form\Type\EleveType
-            arguments: [ "WCS\CantineBundle\Entity\Eleve"]
+            arguments: [ "WCS\\CantineBundle\\Entity\\Eleve"]
             tags:
                 - {name: "form.type", alias: "wcs_cantinebundle_eleve"}
 
@@ -65,22 +65,20 @@ services:
             class: Application\Sonata\UserBundle\EventListener\editProfileListener
             tags:
                 - { name: doctrine.event_listener, event: preUpdate }
-            arguments:
-                - @mailer
+            arguments: ['@mailer']
 
       calendar.holidays:
             class: WCS\CantineBundle\Services\CalendarHolidays
 
       application.sonata_mail_listener:
             class: Application\Sonata\UserBundle\EventListener\emailListener
-            arguments:
-                  - @mailer
+            arguments: ['@mailer']
 
-      sonata.admin.voyage:
-                 class: WCS\CantineBundle\Admin\EleveAdmin
-                 tags:
-                     - { name: sonata.admin, manager_type: orm, group: "wcs.group.eleve", label: "Eleve" }
-                 arguments:
-                     - ~
-                     - WCS\CantineBundle\Entity\Eleve
-                     - ~
+#      sonata.admin.voyage:
+#                 class: WCS\CantineBundle\Admin\EleveAdmin
+#                 tags:
+#                     - { name: sonata.admin, manager_type: orm, group: "wcs.group.eleve", label: "Eleve" }
+#                 arguments:
+#                     - ~
+#                     - WCS\CantineBundle\Entity\Eleve
+#                     - ~

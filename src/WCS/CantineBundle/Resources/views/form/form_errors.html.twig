@@ -1,0 +1,10 @@
+{%- block form_errors -%}
+    {%- if errors|length > 0 -%}
+        <ul>
+            {%- for error in errors -%}
+                <li class="error fa fa-exclamation-circle"> {{ error.message }}</li>
+            {%- endfor -%}
+        </ul>
+        <br />
+    {%- endif -%}
+{%- endblock form_errors -%}

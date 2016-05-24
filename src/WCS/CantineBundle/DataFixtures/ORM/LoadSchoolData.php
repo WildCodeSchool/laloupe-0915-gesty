@@ -22,27 +22,32 @@ class LoadSchoolData extends AbstractFixture implements OrderedFixtureInterface,
      */
     public function load(ObjectManager $manager)
     {
-        $entity1 = new School();
-        $entity1->setName("Les écureuils");
-        $entity1->setAdress("La Loupe");
-        $entity1->setActiveVoyage(false);
-        $manager->persist($entity1);
-        $this->setReference('school-ecureuils', $entity1);
+        $entity = new School();
+        $entity->setName("Les écureuils");
+        $entity->setAdress("La Loupe");
+        $entity->setActiveVoyage(false);
+        $entity->setActiveGarderie(true);
+        $entity->setActiveTap(true);
+        $manager->persist($entity);
+        $this->setReference('school-ecureuils', $entity);
 
-        $entity2 = new School();
-        $entity2->setName("Notre Dame des Fleurs");
-        $entity2->setAdress("La Loupe");
-        $entity2->setActiveGarderie(false);
-        $entity2->setActiveTap(false);
-        $manager->persist($entity2);
-        $this->setReference('school-nddf', $entity2);
+        $entity = new School();
+        $entity->setName("Notre Dame des Fleurs");
+        $entity->setAdress("La Loupe");
+        $entity->setActiveVoyage(true);
+        $entity->setActiveGarderie(false);
+        $entity->setActiveTap(false);
+        $manager->persist($entity);
+        $this->setReference('school-nddf', $entity);
 
-        $entity3 = new School();
-        $entity3->setName("Roland-Garros");
-        $entity3->setAdress("La Loupe");
-        $entity3->setActiveGarderie(false);
-        $manager->persist($entity3);
-        $this->setReference('school-rg', $entity3);
+        $entity = new School();
+        $entity->setName("Roland-Garros");
+        $entity->setAdress("La Loupe");
+        $entity->setActiveVoyage(true);
+        $entity->setActiveGarderie(false);
+        $entity->setActiveTap(false);
+        $manager->persist($entity);
+        $this->setReference('school-rg', $entity);
 
         $manager->flush();
     }

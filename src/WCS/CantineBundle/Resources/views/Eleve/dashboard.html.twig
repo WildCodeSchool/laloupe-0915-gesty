@@ -131,23 +131,27 @@
                 </div>
             {% endif %}
 
+            <div class="panel panel-default">
             {% for child in children %}
-                    <div class="panel panel-default">
 
 
                         <!--
                         Information enfant
                         -->
 
-                        <div class="panel-heading">
-                            <td>{{ child.nom }}</td>
-                            <td>{{ child.prenom }}</td><br/>
-                        </div>
-                        <div class="panel-body-1">
-                            <td>Né(é) le {{ child.dateDeNaissance|date('d-m-Y') }}</td></br>
-                            <td><strong>Classe:</strong> {{ child.division }}</td><br/>
+                        <div class="panel-eleve" id="eleve_{{ child.id }}">
+                            <span>{{ child.prenom }}</span>
+                            <div>
+                               <input type="button" value="Voir le détail"class="btn btn-primary"><br/>
 
-                            <a href="{{ path('eleve_edit', { 'id': child.id })}}"><input type="button" value="Modifier"class="btn btn-primary"></a><br/>
+                            </div>
+                        </div>
+
+                        <div class="panel-body-1 fiche_eleve" id="eleve_body_{{ child.id }}">
+                            <div>Né(é) le {{ child.dateDeNaissance|date('d-m-Y') }}</div></br>
+                            <div><strong>Classe:</strong> {{ child.division }}</div><br/>
+
+                            <a href="{{ path('eleve_edit', { 'id': child.id })}}"><input type="button" value="Modifier"class="btn btn-primary" style="margin:0"></a><br/>
 
 
                             <!--
@@ -187,7 +191,6 @@
                                                 Aucune allergie alimentaire renseignée
                                             {% endif %}
                                         </div>
-                                        <br/>
 
                                         {% if child.regimeSansPorc %}
                                         <div>Regime sans porc </div>
@@ -200,10 +203,11 @@
                                                 <a href="#" type="button" class="btn disabled {% if key in child.habits %}btn-success{% else %}btn-default{% endif %}">{{ day }}</a>
                                             {% endfor %}
                                         </div>
-<!--
+
                                         <a href="{{ path('cantine_inscription', { 'id_eleve': child.id }) }}" class="btn btn-primary">Inscription Cantine</a>
--->
+<!--
                                         <a href="#" class="btn btn-primary">Inscription Cantine (TODO)</a>
+-->
                                         <br />
                                         <br />
                                         <div class="panel panel-default">
@@ -314,8 +318,8 @@
 
 
                         </div>
-                    </div>
             {% endfor %}
+            </div>
         </div>
 
     </div>
@@ -333,6 +337,14 @@
         //-----------------------------------------------------------------------------------------
         window.addEventListener('load', function() {
 
+            //#########################################################################################
+            // Helpers
+            //#########################################################################################
+            var get = function(id)
+            {
+                return document.getElementById(id);
+            }
+
             //-----------------------------------------------------------------------------------------
             // Renvoit un 'array' d'objets HTML ayant un "classname" dans l'attribut "class"
             //-----------------------------------------------------------------------------------------
@@ -342,6 +354,23 @@
                 return [].map.call(nodeList, function(item) { return item; })
             }
 
+            var addClick = function(item, callback) {
+                if (item.addEventListener) {
+                    item.addEventListener('click', function() {
+                        callback(item);
+                    });
+                }
+                else if (item.attachEvent) {
+                    item.attachEvent('click', function() {
+                        // Probleme avec "this" qui référence le document et non l'objet
+                        callback(item);
+                    });
+                }
+            }
+
+            //#########################################################################################
+            // Gestion des onglets / pages pour un élève donné
+            //#########################################################################################
             //-----------------------------------------------------------------------------------------
             // Sélectionne l'onglet ayant "classname" dans l'attribut "class"
             //-----------------------------------------------------------------------------------------
@@ -384,20 +413,42 @@
             // Initialise le document HTML
             //-----------------------------------------------------------------------------------------
             getNodes("eleve_tab").map(function(item) {
-                if (item.addEventListener) {
-                    item.addEventListener('click', function() {
-                        toggle(this.className);
-                    });
-                }
-                else if (item.attachEvent) {
-                    item.attachEvent('click', function() {
-                        // Probleme avec "this" qui référence le document et non l'objet
-                        toggle(this.className);
-                    });
-                }
+                addClick(item, function(item){ toggle(item.className); });
             });
 
             toggle("tab_cantine");
+
+
+            //#########################################################################################
+            // Gestion de la liste des élèves
+            //#########################################################################################
+            var toggleEleve = function(item)
+            {
+                console.log("toggleEleve " + item.id);
+                var id = item.id.substr(item.id.indexOf("_")+1);
+                var s = get("eleve_body_"+id).style;
+
+                // masque tout
+                getNodes('fiche_eleve').map(function(e) {
+                    if (e.id != 'eleve_body_'+id) {
+                        e.style.display = 'none';
+                    }
+                });
+
+                // affiche ou masque les infos de l'élève sélectionné
+                get("eleve_body_"+id).style.display = (s.display == 'none')?'block':'none';
+            }
+
+            //-----------------------------------------------------------------------------------------
+            // Définit l'évènement on click
+            //-----------------------------------------------------------------------------------------
+            {% for child in children %}
+                addClick(get('eleve_{{ child.id }}'), toggleEleve);
+                get('eleve_{{ child.id }}').style.cursor = 'pointer';
+                get('eleve_body_{{ child.id }}').style.display = 'none';
+            {% endfor %}
+            document.getElementsByClassName('fiche_eleve')[0].style.display = 'block';
+
         });
 
     </script>

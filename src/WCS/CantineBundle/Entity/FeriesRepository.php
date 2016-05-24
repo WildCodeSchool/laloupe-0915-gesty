@@ -10,4 +10,18 @@ namespace WCS\CantineBundle\Entity;
  */
 class FeriesRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findListDateTimes($annee)
+    {
+        $feries = $this->findBy(array('annee' => $annee));
+
+        $feriesArray = [];
+        if (is_array($feries) && count($feries)) {
+            $feriesArray[] = $feries[0]->getPaques();
+            $feriesArray[] = $feries[0]->getPentecote();
+            $feriesArray[] = $feries[0]->getAscension();
+            $feriesArray[] = $feries[0]->getVendrediAscension();
+        }
+
+        return $feriesArray;
+    }
 }

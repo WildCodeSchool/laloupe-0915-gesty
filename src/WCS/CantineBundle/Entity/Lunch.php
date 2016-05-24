@@ -10,7 +10,8 @@ class Lunch
 
     public function __toString()
     {
-        return (string) $this->getEleve();
+        //return (string) $this->getEleve();
+        return $this->date->format('Y-m-d');
     }
 
     public function getStringDate()

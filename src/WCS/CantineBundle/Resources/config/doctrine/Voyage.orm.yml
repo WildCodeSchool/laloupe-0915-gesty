@@ -28,3 +28,6 @@ WCS\CantineBundle\Entity\Voyage:
         eleves:
             targetEntity: WCS\CantineBundle\Entity\Eleve
             mappedBy: voyages
+        divisions:
+            targetEntity: WCS\CantineBundle\Entity\Division
+            mappedBy: voyages

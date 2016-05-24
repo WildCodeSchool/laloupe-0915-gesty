@@ -294,6 +294,15 @@ class Eleve
     }
 
     /**
+     * @param \Application\Sonata\UserBundle\Entity\User $user
+     * @return bool
+     */
+    public function isCorrectParentConnected(\Application\Sonata\UserBundle\Entity\User $userParent)
+    {
+        return $this->user->getId()==$userParent->getId();
+    }
+
+    /**
      * Set division
      *
      * @param \WCS\CantineBundle\Entity\Division $division

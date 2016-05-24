@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Application\Sonata\UserBundle\Entity\User;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Form\Handler\EleveHandler;
-use WCS\CantineBundle\Form\Model\EleveForm;
+use WCS\CantineBundle\Form\Model\EleveFormEntity;
 use WCS\CantineBundle\Form\Type\EleveEditType;
 use WCS\CantineBundle\Form\Type\EleveType;
 
@@ -40,8 +40,13 @@ class EleveController extends Controller
      */
     public function createAction(Request $request)
     {
+        $user = $this->getUser();
+        if (!$user) {
+            throw $this->createAccessDeniedException();
+        }
+
         // Enregistre les élèves en BDD
-        $entity = new EleveForm();
+        $entity = new EleveFormEntity();
         $form = $this->createCreateForm($entity);
         
         $handler = new EleveHandler($form, $request, $this->getDoctrine()->getManager(), $this->getUser());
@@ -62,7 +67,7 @@ class EleveController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Eleve $eleve)
+    private function createCreateForm(EleveFormEntity $eleve)
     {
         $form = $this->createForm(new EleveType(), $eleve, array(
             'action' => $this->generateUrl('eleve_create'),
@@ -79,18 +84,21 @@ class EleveController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
-
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Eleve entity.');
+        $user = $this->getUser();
+        if (!$user) {
+            throw $this->createAccessDeniedException();
         }
 
+        $em = $this->getDoctrine()->getManager();
+
+        $eleve = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
+
+        if (!$eleve) {
+            return $this->redirectToRoute('wcs_cantine_dashboard');
+        }
 
         return $this->render('WCSCantineBundle:Eleve:show.html.twig', array(
-            'entity' => $entity,
+            'entity' => $eleve,
         ));
     }
 
@@ -100,11 +108,17 @@ class EleveController extends Controller
      */
     public function editAction($id)
     {
+        $user = $this->getUser();
+        if (!$user) {
+            throw $this->createAccessDeniedException();
+        }
+
         // Récupère les informations de l'élève
         $em = $this->getDoctrine()->getManager();
+
         $eleve = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
-        if (!$eleve) {
-            throw $this->createNotFoundException('Unable to find Eleve entity.');
+        if (!$eleve || !$eleve->isCorrectParentConnected($user)) {
+            return $this->redirectToRoute('wcs_cantine_dashboard');
         }
 
         $editForm = $this->createEditForm($eleve);
@@ -138,11 +152,16 @@ class EleveController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
+        $user = $this->getUser();
+        if (!$user) {
+            throw $this->createAccessDeniedException();
+        }
+
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Eleve entity.');
+        if (!$entity || !$entity->isCorrectParentConnected($user)) {
+            return $this->redirectToRoute('wcs_cantine_dashboard');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -161,7 +180,7 @@ class EleveController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('wcs_cantine_dashboard', array('id' => $id)));
+            return $this->redirect($this->generateUrl('wcs_cantine_dashboard'));
         }
 
 
@@ -178,6 +197,11 @@ class EleveController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
+        $user = $this->getUser();
+        if (!$user) {
+            throw $this->createAccessDeniedException();
+        }
+
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
@@ -185,8 +209,8 @@ class EleveController extends Controller
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
 
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Eleve entity.');
+            if (!$entity || !$entity->isCorrectParentConnected($user)) {
+                return $this->redirectToRoute('wcs_cantine_dashboard');
             }
 
             $em->remove($entity);
@@ -217,6 +241,7 @@ class EleveController extends Controller
     /**
      * Generate calendar
      */
+    /*
     public function generateCalendar(\DateTime $start, \DateTime $end)
     {
         $return = array();
@@ -232,11 +257,12 @@ class EleveController extends Controller
         }
         return $return;
     }
-
+    */
 
     /**
      * Generate range date
      */
+    /*
     private function getHolidays($start, $end)
     {
         $array = [];
@@ -247,6 +273,7 @@ class EleveController extends Controller
         }
         return $array;
     }
+    */
 
     /**
      * Affiche le dashboard
@@ -258,8 +285,9 @@ class EleveController extends Controller
     {
         $user = $this->getUser();
         if (!$user) {
-            throw $this->createNotFoundException('Aucun utilisateur trouvé pour cet id:');
+            throw $this->createAccessDeniedException();
         }
+
 
         $em = $this->getDoctrine()->getEntityManager();
         $children = $em->getRepository("WCSCantineBundle:Eleve")->findChildren($user);
