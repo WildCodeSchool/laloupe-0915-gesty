@@ -9,7 +9,6 @@ class Division
 {
     public function __toString(){
         return ucwords($this->headTeacher).' - '.$this->school. ' - ' .$this->grade;
-        //return '';
     }
 
 

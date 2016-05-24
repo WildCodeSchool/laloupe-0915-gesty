@@ -168,7 +168,6 @@ class MigrateCommand extends ContainerAwareCommand
         $nb=0;
         while ($line = fgets($stream)) {
             $data = explode('	', $line);
-            //var_dump($nb.' - '.$data[0].' - '.$data[11]);
             if ($data[0] == "\\.\n") break;
             if ($data[5] == '\\N') continue;
             $entity = new Eleve();

@@ -36,7 +36,6 @@ class Ical
         if (stristr($lines[0], 'BEGIN:VCALENDAR') === false) {
             return false;
         } else {
-            // TODO: Fix multiline-description problem (see http://tools.ietf.org/html/rfc2445#section-4.8.1.5)
             foreach ($lines as $line) {
                 $line = trim($line);
                 $add  = $this->keyValueFromString($line);
@@ -53,7 +52,6 @@ class Ical
                         break;
                     // http://www.kanzaki.com/docs/ical/vevent.html
                     case "BEGIN:VEVENT":
-                        //echo "vevent gematcht";
                         $this->event_count++;
                         $type = "VEVENT";
                         break;
@@ -96,7 +94,7 @@ class Ical
                                                         $keyword,
                                                         $value)
     {
-        if ($keyword == false) {
+        if ($keyword === false) {
             $keyword = $this->last_keyword;
             switch ($component) {
                 case 'VEVENT':
@@ -117,7 +115,6 @@ class Ical
         switch ($component) {
             case "VTODO":
                 $this->cal[$component][$this->todo_count - 1][$keyword] = $value;
-                //$this->cal[$component][$this->todo_count]['Unix'] = $unixtime;
                 break;
             case "VEVENT":
                 $this->cal[$component][$this->event_count - 1][$keyword] = $value;
@@ -219,12 +216,12 @@ class Ical
         $extendedEvents = array();
 
         if ($rangeStart !== false) {
-            $rangeStart = new DateTime();
+            $rangeStart = new \DateTime();
         }
         if ($rangeEnd !== false or $rangeEnd <= 0) {
-            $rangeEnd = new DateTime('2038/01/18');
+            $rangeEnd = new \DateTime('2038/01/18');
         } else {
-            $rangeEnd = new DateTime($rangeEnd);
+            $rangeEnd = new \DateTime($rangeEnd);
         }
         $rangeStart = $rangeStart->format('U');
         $rangeEnd   = $rangeEnd->format('U');
