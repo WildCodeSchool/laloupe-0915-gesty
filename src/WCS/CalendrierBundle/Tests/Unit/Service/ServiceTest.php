@@ -1,12 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: rod
- * Date: 21/05/16
- * Time: 23:10
- */
-
-namespace WCS\CalendrierBundle\Tests\Service;
+namespace WCS\CalendrierBundle\Tests\Unit\Service;
 
 use WCS\CalendrierBundle\Service\Service;
 use WCS\CalendrierBundle\Service\Periode\Periode;
@@ -18,27 +11,17 @@ class ServiceTest extends \PhpUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->file = __DIR__ . '/files/Calendrier_Scolaire_Zone_B.ics';
+        $this->file = __DIR__ . '/../../Files/Calendrier_Scolaire_Zone_B.ics';
     }
 
 
     /*==================================================================
      * Test si les exceptions sont bien relayées
      ==================================================================*/
-    public function testNoException()
-    {
-        try {
-            new Service($this->file);
-        }
-        catch(\Exception $e) {
-            $this->fail("Aucune exception ne doit être levée ici. Voici le message : ".$e->getMessage());
-        }
-    }
-
     public function testException()
     {
         $this->setExpectedException('\Exception');
-        new Service('');
+        new Service('', true);
     }
 
     /*==================================================================
@@ -59,7 +42,8 @@ class ServiceTest extends \PhpUnit_Framework_TestCase
     public function testRecupererAnneeScolaire($anneeScolaire, $expectedDateDebut, $expectedDateFin)
     {
         $calService = new Service($this->file);
-        $cal = $calService->getPeriodesAnneeRentreeScolaire($anneeScolaire);
+        $calService->selectRentreeScolaire($anneeScolaire);
+        $cal = $calService->getPeriodesAnneeRentreeScolaire();
 
         $periodeExpected = new Periode($expectedDateDebut, $expectedDateFin);
 
@@ -82,7 +66,8 @@ class ServiceTest extends \PhpUnit_Framework_TestCase
     public function testRecupererCalendrierScolaire($anneeScolaire, $expectedDateDebut, $expectedDateFin)
     {
         $calService = new Service($this->file);
-        $cal = $calService->getCalendrierRentreeScolaire($anneeScolaire);
+        $calService->selectRentreeScolaire($anneeScolaire);
+        $cal = $calService->getCalendrierRentreeScolaire();
 
         $periodeExpected = new Periode($expectedDateDebut, $expectedDateFin);
 
@@ -105,7 +90,6 @@ class ServiceTest extends \PhpUnit_Framework_TestCase
     public function testRecupererNombreAnneesScolaires()
     {
         $calService = new Service($this->file);
-
         $this->assertEquals(3, $calService->getNbAnneeScolaires());
     }
 
@@ -116,7 +100,8 @@ class ServiceTest extends \PhpUnit_Framework_TestCase
     public function testRecupererNullSiCalendrierIntrouvable()
     {
         $calService = new Service($this->file);
-        $cal = $calService->getCalendrierRentreeScolaire('2019');
+        $calService->selectRentreeScolaire('2019');
+        $cal = $calService->getCalendrierRentreeScolaire();
 
         $this->assertNull($cal);
     }
@@ -128,7 +113,8 @@ class ServiceTest extends \PhpUnit_Framework_TestCase
     public function testRecupererNullSiPeriodesScolaireIntrouvable()
     {
         $calService = new Service($this->file);
-        $cal = $calService->getPeriodesAnneeRentreeScolaire('2019');
+        $calService->selectRentreeScolaire('2019');
+        $cal = $calService->getPeriodesAnneeRentreeScolaire();
 
         $this->assertNull($cal);
     }
@@ -159,9 +145,10 @@ class ServiceTest extends \PhpUnit_Framework_TestCase
     /**
      * @dataProvider providerAnneesScolairesParDateDuJour
      */
-    public function testRecupererAnneeScolaireByDate($dateDuJour, $expectedDateDebut, $expectedDateFin)
+    public function testRecupererAnneeScolaireParDateDuJour($dateDuJour, $expectedDateDebut, $expectedDateFin)
     {
-        $calService = new Service($this->file, $dateDuJour);
+        $calService = new Service($this->file);
+        $calService->selectRentreeScolaireAvecDate($dateDuJour);
         $cal = $calService->getCalendrierRentreeScolaire();
 
         $periodeExpected = new Periode($expectedDateDebut, $expectedDateFin);
@@ -177,6 +164,25 @@ class ServiceTest extends \PhpUnit_Framework_TestCase
             $cal->getPeriodesScolaire()->getAnneeScolaire()->getFin(),
             "Date de fin d'année scolaire $dateDuJour attendue : $expectedDateFin"
         );
+
+        $this->assertEquals(
+            $dateDuJour,
+            $cal->getDateToday()
+        );
+
     }
 
+    public function testRecupererAnneeScolaireSansDate()
+    {
+        $calService = new Service($this->file);
+        $cal = $calService->getCalendrierRentreeScolaire();
+
+        $date_now = new \DateTime();
+
+        $this->assertEquals(
+            $date_now->format('Y-m-d'),
+            $cal->getDateToday()
+        );
+
+    }
 }

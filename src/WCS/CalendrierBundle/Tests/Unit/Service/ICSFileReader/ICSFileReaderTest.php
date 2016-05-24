@@ -1,34 +1,26 @@
 <?php
-namespace WCS\CalendrierBundle\Tests\Service\ICSFileReader;
+namespace WCS\CalendrierBundle\Tests\Unit\Service\ICSFileReader;
 use WCS\CalendrierBundle\Service\ICSFileReader\ICSFileReader;
 use WCS\CalendrierBundle\Service\Periode\Periode;
 use WCS\CalendrierBundle\Service\ICSFileReader\Exception\FileNotFoundException;
 use WCS\CalendrierBundle\Service\ICSFileReader\Exception\InvalidFileException;
 use WCS\CalendrierBundle\Service\ICSFileReader\Exception\NoFilenameException;
-use WCS\CalendrierBundle\Service\ListPeriodes\ListPeriodes;
 
 
 class ICSFileReaderTest extends \PhpUnit_Framework_TestCase
 {
+    private static $file_correct = __DIR__ . "/../../../Files/Calendrier_Scolaire_Zone_B.ics";
+    private static $file_invalid = __DIR__ . "/../../../Files/fake.ics";
+
     /*==================================================================
      * S'assure que les exceptions sont correctement levées
      ==================================================================*/
-    public function testNoException()
-    {
-        try {
-            new ICSFileReader(__DIR__ . "/../files/Calendrier_Scolaire_Zone_B.ics");
-        }
-        catch(\Exception $e) {
-            $this->fail("Aucune exception ne doit être levée ici. Message : ".$e->getMessage());
-        }
-    }
-
     public function providerException()
     {
         return array(
             [ NoFilenameException::class,   ''],
-            [ FileNotFoundException::class,  'nofile.ics'],
-            [ InvalidFileException::class, __DIR__ . "/../files/fake.ics"]
+            [ FileNotFoundException::class,  'inexistant_file.ics'],
+            [ InvalidFileException::class, self::$file_invalid]
         );
     }
 
@@ -51,7 +43,7 @@ class ICSFileReaderTest extends \PhpUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        $cal = new ICSFileReader(__DIR__ . "/../files/Calendrier_Scolaire_Zone_B.ics");
+        $cal = new ICSFileReader(self::$file_correct);
         self::$events = $cal->getEvents();
     }
 
@@ -82,9 +74,10 @@ class ICSFileReaderTest extends \PhpUnit_Framework_TestCase
 
     /**
      * @dataProvider providerPeriodes
-     * @param $dateDebut
-     * @param $dateFin
-     * @param $desc
+     * @param $expectedDateDebut
+     * @param $expectedDateFin
+     * @param $expectedDesc
+     * @param $indexInCalendar
      */
     public function testPeriodes($expectedDateDebut, $expectedDateFin, $expectedDesc, $indexInCalendar)
     {

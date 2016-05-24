@@ -9,13 +9,8 @@ parameters:
 #    wcs.calendar_scolaire.file: 'http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics'
     wcs.calendrier_scolaire.file: '%kernel.root_dir%/Resources/files/Calendrier_Scolaire_Zone_B.ics'
 
-    # date au format "Y-m-d"
-    # si la date est vide ('') alors
-    # ce sera la date du jour qui sera utilisée comme référence sur tous les calendriers
-    # sinon ce sera cette date qui servira de "date du jour".
-    wcs.calendrier_scolaire.date_now: ''
 
 services:
     wcs.calendrierscolaire:
         class: WCS\CalendrierBundle\Service\Service
-        arguments: ['%wcs.calendrier_scolaire.file%', '%wcs.calendrier_scolaire.date_now%']
+        arguments: ['%wcs.calendrier_scolaire.file%']

@@ -13,40 +13,93 @@ class Service
     ==========================================================================================================*/
 
     /**
-     * renvoit le calendrier scolaire pour une année donnée.
-     * Par défaut renvoit le calendrier de l'année en cours.
+     * renvoit le calendrier scolaire pour l'année en cours.
      *
-     * @param $annee_rentree (facultatif) l'année de la rentrée scolaire
-     * @return \WCS\CalendrierBundle\Service\PeriodesAnneeScolaire\PeriodesAnneeScolaire|null
+     * @return \WCS\CalendrierBundle\Service\Calendrier\Calendrier|null
      */
-    public function getCalendrierRentreeScolaire($annee_rentree='')
+    public function getCalendrierRentreeScolaire()
     {
-        return $this->getListAnnee('calendriers', $annee_rentree);
+        if (!isset($this->calendriers[$this->annee_rentree_from_today])) {
+            return null;
+        }
+        return $this->calendriers[$this->annee_rentree_from_today];
     }
 
     /**
      * renvoit le calendrier scolaire pour une année donnée.
-     * Par défaut renvoit le calendrier de l'année en cours.
      *
-     * @param $annee_rentree (facultatif) l'année de la rentrée scolaire
      * @return \WCS\CalendrierBundle\Service\PeriodesAnneeScolaire\PeriodesAnneeScolaire|null
      */
-    public function getPeriodesAnneeRentreeScolaire($annee_rentree='')
+    public function getPeriodesAnneeRentreeScolaire()
     {
-        return $this->getListAnnee('periodesScolaires', $annee_rentree);
+        $cal = $this->getCalendrierRentreeScolaire();
+        if (!$cal) {
+            return null;
+        }
+        return $cal->getPeriodesScolaire();
     }
+
 
     /**
      * @return integer renvoit le nombre de calendriers scolaires chargés
      */
     public function getNbAnneeScolaires()
     {
-        return count($this->periodesScolaires);
+        return count($this->calendriers);
     }
-    
+
+
+    /**
+     * Sélectionne la rentrée scolaire en cours
+     * @param string $date_jour au format 'Y-m-d'
+     * @throws \Exception
+     */
+    public function selectRentreeScolaireAvecDate($date_jour)
+    {
+        if (!is_string($date_jour)) {
+            throw new \Exception("date_jour doit etre au format 'Y-m-d'");
+        }
+
+        // si l'année en cours correspond à la seconde partie de l'année scolaire
+        // alors l'année de la rentrée de l'année précédente sera utilisée
+        $this->date_du_jour = $date_jour;
+
+        $tmp = \DateTime::createFromFormat('Y-m-d', $date_jour);
+        $now_year = $tmp->format('Y');
+
+        if ($date_jour >= "$now_year-01-01" && $date_jour <= "$now_year-07-31") {
+            $this->annee_rentree_from_today = $now_year - 1;
+        } else {
+            $this->annee_rentree_from_today = $now_year;
+        }
+
+        foreach($this->calendriers as $cal) {
+            $cal->setDateToday($date_jour);
+        }
+    }
+
+    /**
+     * @param string $annee_rentree au format YYYY
+     * @throws \Exception
+     */
+    public function selectRentreeScolaire($annee_rentree)
+    {
+        if (strlen($annee_rentree)!=4) {
+            throw new \Exception("L'année scolaire doit être au format YYYY. Annee saisie : ".$annee_rentree);
+        }
+
+        $date = new \DateTime();
+        $annee_rentree += 1;
+        $dateStr = $annee_rentree.'-'.$date->format("m-d");
+        
+        $this->selectRentreeScolaireAvecDate($dateStr);
+    }
+
+
 
     /*==========================================================================================================
         Constructeur
+        methodes privées
         et attributs
     ==========================================================================================================*/
     
@@ -58,28 +111,27 @@ class Service
      * @param $filepath
      * @param string date du jour au format "Y-m-d"
      */
-    public function __construct($icsFilepath, $date_today=null)
+    public function __construct($icsFilepath)
     {
-        // si l'année en cours correspond à la seconde partie de l'année scolaire
-        // alors l'année de la rentrée de l'année précédente sera utilisée
-        // par la méthode getCalendrierRentree si aucun paramètre n'est passé
-        if (empty($date_today)) {
-            $date_today = date('Y-m-d');
-        }
+        $this->calendriers = array();
 
-        $tmp   = \DateTime::createFromFormat('Y-m-d', $date_today);
-        $now_year   = $tmp->format('Y');
+        $today = new \DateTime();
+        $this->selectRentreeScolaireAvecDate( $today->format('Y-m-d') );
+        
+        $this->loadFromFile($icsFilepath);
+    }
 
-        if ($date_today>="$now_year-01-01" && $date_today<="$now_year-07-31") {
-            $this->annee_rentree_from_today = $now_year - 1;
-        }
-        else {
-            $this->annee_rentree_from_today = $now_year;
-        }
-
+    /**
+     * @param $icsFilepath
+     */
+    private function loadFromFile($icsFilepath)
+    {
         // charge le fichier ICS
         $cal    = new ICSFileReader($icsFilepath);
         $events = $cal->getEvents();
+        if (iterator_count($events)==0) {
+            return;
+        }
 
         // cherche l'index du 1er événement pour chaque année scolaire
         // à chaque fois que l'on a lu tous les évènements d'une année scolaire,
@@ -91,8 +143,10 @@ class Service
         foreach($events as $event) {
             $tmp_periodes[] = $event;
             if (($nbEventsRead % PeriodesAnneeScolaire::NB_EVENTS_PAR_AN)==0) {
-                $this->periodesScolaires[$annee]    = new PeriodesAnneeScolaire($tmp_periodes, $date_today);
-                $this->calendriers[$annee]          = new Calendrier($this->periodesScolaires[$annee]);
+                $this->calendriers[$annee] = new Calendrier(
+                                                    new PeriodesAnneeScolaire($tmp_periodes),
+                                                    $this->date_du_jour
+                                                    );
                 $tmp_periodes = array();
                 $annee = $event->getDebut()->format('Y');
             }
@@ -101,29 +155,9 @@ class Service
     }
 
     /**
-     * renvoit le calendrier scolaire ou les periodes année scolaires pour une année donnée.
-     * Par défaut renvoit le calendrier ou la periode annéee scolaire de l'année en cours.
-     *
-     * @param $attributeName soit "periodesScolaires" soit "calendriers"
-     * @param $annee_rentree (facultatif) l'année de la rentrée scolaire
-     * @return mixed|null
+     * @var
      */
-    private function getListAnnee($attributeName, $annee_rentree='')
-    {
-        if (empty($annee_rentree)) {
-            $annee_rentree = $this->annee_rentree_from_today;
-        }
-
-        if (!isset($this->{$attributeName}[$annee_rentree])) {
-            return null;
-        }
-        return $this->{$attributeName}[$annee_rentree];
-    }
-
-    /**
-     * @var array of PeriodesAnneeScolaire
-     */
-    private $periodesScolaires;
+    private $date_du_jour;
 
     /**
      * @var array de Calendrier

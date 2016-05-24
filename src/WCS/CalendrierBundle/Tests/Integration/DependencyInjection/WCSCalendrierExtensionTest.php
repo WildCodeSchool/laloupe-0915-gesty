@@ -2,7 +2,7 @@
 /*
  * Ce test permet de s'assurer que le service se charge correctement
  */
-namespace WCS\CalendrierBundle\Tests\DependencyInjection;
+namespace WCS\CalendrierBundle\Tests\Integration\DependencyInjection;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class WCSCalendrierExtensionTest extends KernelTestCase
@@ -13,7 +13,7 @@ class WCSCalendrierExtensionTest extends KernelTestCase
 
         $container = static::$kernel->getContainer();
 
-        $calendrier = $container->get('wcs.calendrier.scolaire');
-        $this->assertInstanceOf('WCS\CalendrierBundle\CalendrierScolaire\CalendrierScolaire', $calendrier);
+        $calendrier = $container->get('wcs.calendrierscolaire');
+        $this->assertInstanceOf('WCS\CalendrierBundle\Service\Service', $calendrier);
     }
 }

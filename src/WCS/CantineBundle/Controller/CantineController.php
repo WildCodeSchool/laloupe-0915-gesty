@@ -66,7 +66,7 @@ class CantineController extends Controller
         // la date du jour (soit le 8e jour)
         // on désactive donc le jour actuel et les 7 jours suivants.
         $oneDay     = new \DateInterval('P1D');
-        $currentDay = new \DateTimeImmutable($calendrier->getPeriodesScolaire()->getDateToday());
+        $currentDay = new \DateTimeImmutable($calendrier->getDateToday());
         $dayPlus7   = $currentDay->add(new \DateInterval('P8D'));
 
         while ($currentDay < $dayPlus7) {

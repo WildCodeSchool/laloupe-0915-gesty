@@ -7,29 +7,6 @@
          colors="true"
          bootstrap="bootstrap.php.cache"
 >
-<!--
-    <testsuites>
-        <testsuite name="Project Test Suite">
-            <directory>../src/WCS/CalendrierBundle/Tests/Services/</directory>
-        </testsuite>
-    </testsuites>
--->
-<!--
-    <testsuites>
-        <testsuite name="Project Test Suite">
-            <file>../src/WCS/CalendrierBundle/Tests/DependencyInjection/IcalTest.php</file>
-            <file>../src/WCS/CalendrierBundle/Tests/Services/CalendrierPeriodeTest.php</file>
-            <file>../src/WCS/CalendrierBundle/Tests/Services/CalendrierScolaireTest.php</file>
-        </testsuite>
-    </testsuites>
--->
-    <testsuites>
-        <testsuite name="Calendrier Scolaire Test Suite">
-            <file>../src/WCS/CalendrierBundle/Tests/DependencyInjection/WCSCalendrierExtensionTest.php</file>
-            <file>../src/WCS/CalendrierBundle/Tests/CalendrierScolaire/CalendrierScolaireTest.php</file>
-        </testsuite>
-    </testsuites>
-<!--
     <testsuites>
         <testsuite name="Project Test Suite">
             <directory>../src/*/*Bundle/Tests</directory>
@@ -37,7 +14,6 @@
             <directory>../src/*Bundle/Tests</directory>
         </testsuite>
     </testsuites>
--->
     <!--
     <php>
         <server name="KERNEL_DIR" value="/path/to/your/app/" />

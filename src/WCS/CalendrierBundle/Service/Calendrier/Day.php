@@ -24,22 +24,14 @@ class Day
      * @param \DateTimeImmutable $day
      * @param PeriodesAnneeScolaire $periodesScolaire
      */
-    public function __construct(\DateTimeImmutable $day, PeriodesAnneeScolaire $periodesScolaire)
+    public function __construct(\DateTimeImmutable $day)
     {
         $this->year         = $day->format('Y');
         $this->month        = $day->format('m');
         $this->day          = $day->format('d');
         $this->dayOfWeek    = str_replace('0', '7', $day->format('w'));
-
-        // s'il s'agit d'un jour parmi les suivants : mer, sam ou dim, alors il s'agit d'un jour sans classe
-        if ($this->dayOfWeek==3 || $this->dayOfWeek==6 || $this->dayOfWeek==7) {
-            $this->isOff = true;
-        }
-        else {
-            $this->isOff = $periodesScolaire->findEnClasseFrom($day)==null;
-        }
-
-        $this->isPast = ($day->format('Y-m-d') < $periodesScolaire->getDateToday());
+        $this->isOff        = false;
+        $this->isPast       = false;
     }
 
     /**

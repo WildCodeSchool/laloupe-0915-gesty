@@ -7,6 +7,10 @@ use WCS\CalendrierBundle\Service\ListPeriodes\ListPeriodes;
 
 class PeriodesAnneeScolaire
 {
+    /*==========================================================================================================
+        Constantes de classe (pour rappel : elle sont publique)
+    ==========================================================================================================*/
+
     const NB_EVENTS_PAR_AN = 7;
 
     const EVENT_PRE_RENTREE         = 0;
@@ -17,10 +21,107 @@ class PeriodesAnneeScolaire
     const EVENT_PRINTEMPS           = 5;
     const EVENT_ETE                 = 6;
 
-    public function __construct($array_periodes, $date_today)
-    {
-        $this->date_today = $date_today;
+    const VACANCE_TOUSSAINT         = 0;
+    const VACANCE_NOEL              = 1;
+    const VACANCE_HIVER             = 2;
+    const VACANCE_PRINTEMPS         = 3;
 
+    const CLASSE_RENTREE            = 0;
+    const CLASSE_TOUSSAINT_NOEL     = 1;
+    const CLASSE_NOEL_HIVER         = 2;
+    const CLASSE_HIVER_PRINTEMPS    = 3;
+    const CLASSE_PRINTEMPS_ETE      = 4;
+
+
+    /*==========================================================================================================
+        Méthodes
+    ==========================================================================================================*/
+
+    /**
+     * Retourne l'année scolaire
+     * @return \WCS\CalendrierBundle\Service\Periode\Periode|Periode
+     */
+    public function getAnneeScolaire()
+    {
+        return $this->annee_scolaire;
+    }
+
+    /**
+     * Retourne les vacances entre la date de rentrée scolaire
+     * et la fin de l'année scolaire. Donc les vacances d'été
+     * ne sont pas inclus.
+     *
+     * @return array tableau indexé des vacances scolaires. Utiliser les constantes VACANCE_* pour
+     * accéder au données vacances.
+     */
+    public function getPeriodesEnVacance()
+    {
+        return $this->list_vacances;
+    }
+
+
+    /**
+     * Renvoit les périodes en classe.
+     * @return array tableau indexé des périodes en classe. Utiliser les constantes CLASSE_* pour
+     * accéder au données en classe.
+     */
+    public function getPeriodesEnClasse()
+    {
+        return $this->list_enclasse;
+    }
+
+    /**
+     * Renvoit la période de vacance durant laquelle se trouve une date donnée
+     *
+     * @param $date
+     * @return null|\WCS\CalendrierBundle\Service\Periode\Periode
+     */
+    public function findVacancesFrom($date)
+    {
+        foreach($this->list_vacances as $periode) {
+            if ($periode->isDateIncluded($date)) {
+                return $periode;
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * Renvoit la période de classe durant laquelle se trouve une date donnée
+     *
+     * @param $date
+     * @return null|\WCS\CalendrierBundle\Service\Periode\Periode
+     */
+    public function findEnClasseFrom($date)
+    {
+        foreach($this->list_enclasse as $periode) {
+            if ($periode->isDateIncluded($date)) {
+                return $periode;
+            }
+        }
+        return null;
+    }
+
+
+
+
+    /*==========================================================================================================
+        Constructeur
+        methodes privées
+        et attributs
+    ==========================================================================================================*/
+
+    /**
+     * PeriodesAnneeScolaire constructor.
+     *
+     * A partir d'un tableau indexé de périodes, le constructeur
+     * génère la liste des périodes scolaires (vacances, en classe)
+     *
+     * @param $array_periodes tableau indexé de Periode. Doit être un multiple de NB_EVENTS_PAR_AN
+     */
+    public function __construct($array_periodes)
+    {
         $oneDay     = new \DateInterval('P1D');
 
         // période "année scolaire"
@@ -75,79 +176,6 @@ class PeriodesAnneeScolaire
     }
 
     /**
-     * Retourne l'année scolaire
-     * @return WCS\CalendrierBundle\CalendrierScolaire\Periode\Periode|Periode
-     */
-    public function getAnneeScolaire()
-    {
-        return $this->annee_scolaire;
-    }
-
-    /**
-     * Retourne les vacances entre la date de rentrée scolaire
-     * et la fin de l'année scolaire. Donc les vacances d'été
-     * ne sont pas inclus.
-     *
-     * @return array tableau indexé des vacances scolaires. Utiliser les constantes VACANCE_* pour
-     * accéder au données vacances.
-     */
-    public function getPeriodesEnVacance()
-    {
-        return $this->vacances;
-    }
-
-
-    /**
-     * Renvoit les périodes en classe.
-     * @return array
-     */
-    public function getPeriodesEnClasse()
-    {
-        return $this->list_enclasse;
-    }
-
-    /**
-     * Renvoit la période de vacance durant laquelle se trouve une date donnée
-     *
-     * @param $date
-     * @return null|\WCS\CalendrierBundle\Service\ListPeriodes\WCS\CalendrierBundle\Service\Periode\Periode
-     */
-    public function findVacancesFrom($date)
-    {
-        foreach($this->list_vacances as $periode) {
-            if ($periode->isDateIncluded($date)) {
-                return $periode;
-            }
-        }
-        return null;
-    }
-
-
-    /**
-     * Renvoit la période de classe durant laquelle se trouve une date donnée
-     *
-     * @param $date
-     * @return null|\WCS\CalendrierBundle\Service\ListPeriodes\WCS\CalendrierBundle\Service\Periode\Periode
-     */
-    public function findEnClasseFrom($date)
-    {
-        foreach($this->list_enclasse as $periode) {
-            if ($periode->isDateIncluded($date)) {
-                return $periode;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDateToday()
-    {
-        return $this->date_today;
-    }
-
-    /**
      * @var WCS\CalendrierBundle\CalendrierScolaire\Periode\Periode
      */
     private $annee_scolaire;
@@ -161,6 +189,4 @@ class PeriodesAnneeScolaire
      * @var WCS\CalendrierBundle\CalendrierScolaire\ListPeriodes\ListPeriodes
      */
     private $list_enclasse;
-
-    private $date_today;
 }

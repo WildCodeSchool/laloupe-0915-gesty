@@ -6,7 +6,7 @@
  * Time: 11:23
  */
 
-namespace WCS\CalendrierBundle\Tests\CalendrierScolaire\Periode;
+namespace WCS\CalendrierBundle\Tests\Unit\CalendrierScolaire\Periode;
 
 
 use WCS\CalendrierBundle\Service\Periode\Periode;
@@ -57,18 +57,22 @@ class PeriodeTest extends \PhpUnit_Framework_TestCase
      * Test le constructeur : les types d'arguments possibles
      ==================================================================*/
     /**
+     *
      * @dataProvider providerDateTypeAttendu
      * @param $dateDebut
      * @param $dateFin
      */
     public function testDateTypeAttendu($dateDebut, $dateFin)
     {
+        $exception = null;
         try {
-            new Periode($dateDebut, $dateFin);
+            $p = new Periode($dateDebut, $dateFin);
         }
         catch(\Exception $e) {
+            $exception = $e;
             $this->fail("Ce test ne doit pas lever d'exception. Message obtenu : ".$e->getMessage());
         }
+        $this->assertNull($exception);
     }
 
     /**
@@ -125,22 +129,14 @@ class PeriodeTest extends \PhpUnit_Framework_TestCase
 
     public function testDatesDebutEtFinIdentiques()
     {
-        try {
-            new Periode('2015-09-01', '2015-09-01');
-        }
-        catch(\Exception $e) {
-            $this->fail("Ce test ne doit pas lever d'exception. Message obtenu : ".$e->getMessage());
-        }
+        $p = new Periode('2015-09-01', '2015-09-01');
+        $this->assertTrue($p->getDebut() == $p->getFin());
     }
 
     public function testDatesDebutEtFinOrdonnees()
     {
-        try {
-            new Periode('2015-09-01', '2016-07-31');
-        }
-        catch(\Exception $e) {
-            $this->fail("Ce test ne doit pas lever d'exception. Message obtenu : ".$e->getMessage());
-        }
+        $p = new Periode('2015-09-01', '2016-07-31');
+        $this->assertTrue($p->getDebut() < $p->getFin());
     }
 
     public function testDatesDebutEtFinDesordonnees()
@@ -238,13 +234,9 @@ class PeriodeTest extends \PhpUnit_Framework_TestCase
      */
     public function testDateTypeEstInclusAttendu($dateTested)
     {
-        try {
             $periode = new Periode('2015-09-01', '2015-10-16');
-            $periode->isDateIncluded( $dateTested );
-        }
-        catch(\Exception $e) {
-            $this->fail("Ce test ne doit pas lever d'exception. Message obtenu : ".$e->getMessage());
-        }
+            $result = $periode->isDateIncluded( $dateTested );
+            $this->assertTrue($result);
     }
 
     /**
