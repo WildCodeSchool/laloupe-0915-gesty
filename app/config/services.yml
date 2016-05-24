@@ -75,3 +75,12 @@ services:
             class: Application\Sonata\UserBundle\EventListener\emailListener
             arguments:
                   - @mailer
+
+      sonata.admin.voyage:
+                 class: WCS\CantineBundle\Admin\EleveAdmin
+                 tags:
+                     - { name: sonata.admin, manager_type: orm, group: "wcs.group.eleve", label: "Eleve" }
+                 arguments:
+                     - ~
+                     - WCS\CantineBundle\Entity\Eleve
+                     - ~

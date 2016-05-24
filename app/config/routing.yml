@@ -1,3 +1,7 @@
+voyage:
+    resource: "@VoyageBundle/Resources/config/routing.yml"
+    prefix:   /
+
 wcs_gesty:
     resource: "@WCSGestyBundle/Resources/config/routing.yml"
     prefix:   /
