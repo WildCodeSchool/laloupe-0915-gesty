@@ -251,10 +251,12 @@ class EleveController extends Controller
             throw $this->createAccessDeniedException();
         }
 
-
         $em = $this->getDoctrine()->getEntityManager();
+
+        // liste des enfants
         $children = $em->getRepository("WCSCantineBundle:Eleve")->findChildren($user);
 
+        // pièces jointes
         $filesArray = array();
         $filesArray[User::type_Domicile]    = array(
             'libelle_justif' => 'Justificatif de domicile',
@@ -281,11 +283,16 @@ class EleveController extends Controller
             'exists' => is_file($user->getAbsolutePathSalaire3())
         );
 
+        // periodes TAP/Garderie
+        $periodesScolaires = $this->get("wcs.calendrierscolaire")->getPeriodesAnneeRentreeScolaire();
+        $periodes = $periodesScolaires->findEnClasseFrom(new \DateTime());
+
 
         return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(
             'user' => $user,
             'children' => $children,
-            'files'=>$filesArray
+            'files'=>$filesArray,
+            'periode_tap'=>$periodes
         ));
     }
 

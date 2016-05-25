@@ -17,7 +17,8 @@
             </h4>
         </center>
 
-        <form method="GET" action="{{ path('wcs_cantine_dashboard') }}">
+        {{ form_start(form) }}
+
             <div class="col-md-12">
                 <h3 class="titre">{{eleve }}</h3>
 
@@ -36,7 +37,7 @@
             <div class="col-md-offset-1 col-md-9">
                 <h3>Signatures</h3>
                 <div class="form-group">
-                    <input type="checkbox" />
+                    {{ form_widget(form.autorise) }}
                     <label for="autorise" style="display:inline">J'autorise le responsable en TAP ou de la garderie, ou son représentant à prendre toutes mesures d'urgence nécessaires en cas d'accident survenant à mon enfant *</label>
                     <blockquote>
                         A savoir :
@@ -47,8 +48,8 @@
                     </blockquote>
                 </div>
                 <div class="form-group">
-                    <input type="checkbox" />
-                    <label for="atteste" style="display:inline">Je certifie sur l’honneur l’exactitude de tous les renseignements saisis sur cette application concernant mon enfant ainsi que mon foyer *</label>
+                    {{ form_widget(form.certifie) }}
+                    <label for="certifie" style="display:inline">Je certifie sur l’honneur l’exactitude de tous les renseignements saisis sur cette application concernant mon enfant ainsi que mon foyer *</label>
                 </div>
 
             </div>
@@ -60,6 +61,7 @@
 
             </div>
 
-        </form>
+        {{ form_end(form) }}
+
     </div>
 {% endblock %}

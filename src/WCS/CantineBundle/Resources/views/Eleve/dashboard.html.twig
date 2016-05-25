@@ -232,7 +232,7 @@
 
                                 {% if child.division.school.activeTap or child.division.school.activeGarderie %}
                                     <div>
-                                        <p>Période du <span class="TODO">TODO</span> au <span class="TODO">TODO</span> :</p><br/>
+                                        <p>Période du <span>{{ periode_tap.debut|date('d/m/Y') }}</span> au <span>{{ periode_tap.fin|date('d/m/Y') }}</span> :</p><br/>
 
                                         {% if child.division.school.activeGarderie %}
                                         <div class="btn-group btn-group-justified" role="group">
