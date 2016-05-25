@@ -41,6 +41,10 @@ class LoadDivisionData extends AbstractFixture implements OrderedFixtureInterfac
         $entity->setGrade("CE1");
         $entity->setHeadTeacher("Mle NOUAILLE-DEGORCE Valérie ");
         $entity->setSchool($this->getReference("school-rg"));
+        $entity->addVoyage($this->getReference("voyage_versailles"));
+        $entity->addVoyage($this->getReference("voyage_louvre"));
+        $entity->addVoyage($this->getReference("voyage_malo"));
+        $entity->addVoyage($this->getReference("voyage_disney"));
         $manager->persist($entity);
         $this->setReference('division-nouaille', $entity);
 
@@ -48,6 +52,9 @@ class LoadDivisionData extends AbstractFixture implements OrderedFixtureInterfac
         $entity->setGrade("CE2");
         $entity->setHeadTeacher("Mme LUCIEN Nathalie ");
         $entity->setSchool($this->getReference("school-rg"));
+        $entity->addVoyage($this->getReference("voyage_versailles"));
+        $entity->addVoyage($this->getReference("voyage_maintenon"));
+        $entity->addVoyage($this->getReference("voyage_padirac"));
         $manager->persist($entity);
         $this->setReference('division-lucien', $entity);
 
@@ -69,6 +76,6 @@ class LoadDivisionData extends AbstractFixture implements OrderedFixtureInterfac
 
     public function getOrder()
     {
-        return 3; // ordre d'appel
+        return 4; // ordre d'appel
     }
 }

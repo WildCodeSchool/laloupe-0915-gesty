@@ -239,43 +239,6 @@ class EleveController extends Controller
     }
 
     /**
-     * Generate calendar
-     */
-    /*
-    public function generateCalendar(\DateTime $start, \DateTime $end)
-    {
-        $return = array();
-        $calendrier = $start;
-
-        while ($calendrier <= $end) {
-            $y = date_format($calendrier, ('Y'));
-            $m = date_format($calendrier, ('m'));
-            $d = date_format($calendrier, ('d'));
-            $w = str_replace('0', '7', date_format($calendrier, ('w')));
-            $return[$y][$m][$d] = $w;
-            $calendrier->add(new \DateInterval('P1D'));
-        }
-        return $return;
-    }
-    */
-
-    /**
-     * Generate range date
-     */
-    /*
-    private function getHolidays($start, $end)
-    {
-        $array = [];
-        $period = new \DatePeriod(new \DateTime($start), new \DateInterval('P1D'), new \DateTime($end));
-
-        foreach ($period as $date) {
-            $array[] = date_format($date, ('Y-m-d'));
-        }
-        return $array;
-    }
-    */
-
-    /**
      * Affiche le dashboard
      *
      * @param Request       contient les paramètres passés en URL
@@ -317,6 +280,7 @@ class EleveController extends Controller
             'libelle_justif' => 'Justificatif de salaire 3',
             'exists' => is_file($user->getAbsolutePathSalaire3())
         );
+
 
         return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(
             'user' => $user,

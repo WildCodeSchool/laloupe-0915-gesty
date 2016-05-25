@@ -27,8 +27,6 @@ class LoadVoyageData extends AbstractFixture implements OrderedFixtureInterface,
         $entity->setDateDebut( \DateTime::createFromFormat("Y-m-d H:i:s" , "2016-05-30 08:00:00") );
         $entity->setDateFin( \DateTime::createFromFormat("Y-m-d H:i:s" , "2016-05-31 17:00:00") );
         $entity->setEstAnnule(false);
-        $entity->addDivision($this->getReference('division-nouaille'));
-        $entity->addDivision($this->getReference('division-lucien'));
         $manager->persist($entity);
         $this->setReference('voyage_versailles', $entity);
 
@@ -37,16 +35,14 @@ class LoadVoyageData extends AbstractFixture implements OrderedFixtureInterface,
         $entity->setDateDebut( \DateTime::createFromFormat("Y-m-d H:i:s" , "2016-06-15 09:30:00") );
         $entity->setDateFin( \DateTime::createFromFormat("Y-m-d H:i:s" , "2016-06-16 18:00:00") );
         $entity->setEstAnnule(false);
-        $entity->addDivision($this->getReference('division-lucien'));
         $manager->persist($entity);
-        $this->setReference('voyage_versailles', $entity);
+        $this->setReference('voyage_maintenon', $entity);
 
         $entity = new Voyage();
         $entity->setLibelle("Visite du Louvre");
         $entity->setDateDebut( \DateTime::createFromFormat("Y-m-d H:i:s" , "2016-06-29 09:30:00") );
         $entity->setDateFin( \DateTime::createFromFormat("Y-m-d H:i:s" , "2016-06-29 16:15:00") );
         $entity->setEstAnnule(true);
-        $entity->addDivision($this->getReference('division-nouaille'));
         $manager->persist($entity);
         $this->setReference('voyage_louvre', $entity);
 
@@ -55,25 +51,22 @@ class LoadVoyageData extends AbstractFixture implements OrderedFixtureInterface,
         $entity->setDateDebut( \DateTime::createFromFormat("Y-m-d H:i:s" , "2015-10-28 07:40:00") );
         $entity->setDateFin( \DateTime::createFromFormat("Y-m-d H:i:s" , "2015-11-07 19:25:30") );
         $entity->setEstAnnule(false);
-        $entity->addDivision($this->getReference('division-lucien'));
         $manager->persist($entity);
         $this->setReference('voyage_padirac', $entity);
 
         $entity = new Voyage();
         $entity->setLibelle("Visite de Saint Malo");
-        $entity->setDateDebut( \DateTime::createFromFormat("Y-m-d H:i:s" , "2015-03-10 05:12:00") );
-        $entity->setDateFin( \DateTime::createFromFormat("Y-m-d H:i:s" , "2015-03-12 22:23:00") );
+        $entity->setDateDebut( \DateTime::createFromFormat("Y-m-d H:i:s" , "2015-03-10 09:15:00") );
+        $entity->setDateFin( \DateTime::createFromFormat("Y-m-d H:i:s" , "2015-03-12 20:00:00") );
         $entity->setEstAnnule(false);
-        $entity->addDivision($this->getReference('division-nouaille'));
         $manager->persist($entity);
         $this->setReference('voyage_malo', $entity);
 
         $entity = new Voyage();
         $entity->setLibelle("Disney");
-        $entity->setDateDebut( \DateTime::createFromFormat("Y-m-d H:i:s" , "2014-10-10 00:00:00") );
-        $entity->setDateFin( \DateTime::createFromFormat("Y-m-d H:i:s" , "2014-10-10 00:00:00") );
+        $entity->setDateDebut( \DateTime::createFromFormat("Y-m-d H:i:s" , "2014-10-10 08:00:00") );
+        $entity->setDateFin( \DateTime::createFromFormat("Y-m-d H:i:s" , "2014-10-10 18:00:00") );
         $entity->setEstAnnule(false);
-        $entity->addDivision($this->getReference('division-nouaille'));
         $manager->persist($entity);
         $this->setReference('voyage_disney', $entity);
 
@@ -87,6 +80,6 @@ class LoadVoyageData extends AbstractFixture implements OrderedFixtureInterface,
 
     public function getOrder()
     {
-        return 4; // ordre d'appel
+        return 3; // ordre d'appel
     }
 }

@@ -4,7 +4,7 @@ namespace WCS\CalendrierBundle\Tests\Integration\Service;
 use WCS\CalendrierBundle\Service\Service;
 use WCS\CalendrierBundle\Service\PeriodesAnneeScolaire\PeriodesAnneeScolaire;
 
-class CalendrierService extends \PhpUnit_Framework_TestCase
+class CalendrierServiceTest extends \PhpUnit_Framework_TestCase
 {
     protected $file = '';
     /**

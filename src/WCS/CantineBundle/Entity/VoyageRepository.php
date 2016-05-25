@@ -10,4 +10,25 @@ namespace WCS\CantineBundle\Entity;
  */
 class VoyageRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findByDivisionsAnneeScolaire($params)
+    {
+        $division = $params["division"];
+
+        // récupère la date du jour
+        $date = new \DateTime();
+        $now = $date->format('Y-m-d');
+
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT v FROM WCSCantineBundle:Voyage v 
+                 JOIN v.divisions d 
+                 WHERE v.estAnnule = FALSE 
+                 AND d = :division 
+                 ORDER BY v.date_debut'
+            )
+            ->setParameter(':division', $division)
+//            ->setParameter(':now', $now)
+            ->getResult();
+
+    }
 }

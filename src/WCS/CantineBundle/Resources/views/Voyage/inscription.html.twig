@@ -31,11 +31,9 @@
             <h3>Les voyages scolaires (2015-2016)</h3>
             <div class="form-group">
                 <blockquote>
-                <input type="checkbox"/> Visite de Saint-Malo</br>
-                <input type="checkbox"/> Visite du Château de Versailles</br>
-                <input type="checkbox"/> Visite du Louvre</br>
-                <input type="checkbox"/> Visite du Goufre de Padirac</br>
-                <input type="checkbox"/> Disney</br>
+                    {% for voyage in voyages %}
+                        <input type="checkbox"/> {{ voyage }}</br>
+                    {% endfor %}
                 </blockquote>
             </div>
         </div>

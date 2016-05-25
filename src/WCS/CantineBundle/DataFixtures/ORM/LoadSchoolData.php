@@ -34,7 +34,7 @@ class LoadSchoolData extends AbstractFixture implements OrderedFixtureInterface,
         $entity = new School();
         $entity->setName("Notre Dame des Fleurs");
         $entity->setAdress("La Loupe");
-        $entity->setActiveVoyage(true);
+        $entity->setActiveVoyage(false);
         $entity->setActiveGarderie(false);
         $entity->setActiveTap(false);
         $manager->persist($entity);
@@ -44,8 +44,8 @@ class LoadSchoolData extends AbstractFixture implements OrderedFixtureInterface,
         $entity->setName("Roland-Garros");
         $entity->setAdress("La Loupe");
         $entity->setActiveVoyage(true);
-        $entity->setActiveGarderie(false);
-        $entity->setActiveTap(false);
+        $entity->setActiveGarderie(true);
+        $entity->setActiveTap(true);
         $manager->persist($entity);
         $this->setReference('school-rg', $entity);
 

@@ -30,7 +30,7 @@ class Voyage
     /**
      * @var boolean
      */
-    private $est_annule;
+    private $estAnnule;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -203,7 +203,7 @@ class Voyage
      */
     public function setEstAnnule($estAnnule)
     {
-        $this->est_annule = $estAnnule;
+        $this->estAnnule = $estAnnule;
 
         return $this;
     }
@@ -215,7 +215,7 @@ class Voyage
      */
     public function getEstAnnule()
     {
-        return $this->est_annule;
+        return $this->estAnnule;
     }
 
     /**

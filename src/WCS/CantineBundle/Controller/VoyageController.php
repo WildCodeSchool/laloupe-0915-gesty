@@ -20,47 +20,30 @@ class VoyageController extends Controller
 {
     public function inscrireAction($id_eleve)
     {
+        $user = $this->getUser();
+        if (!$user) {
+            throw $this->createAccessDeniedException();
+        }
 
         // récupère une instance de Doctrine
         $em = $this->getDoctrine()->getManager();
 
         // récupère la fiche élève depuis la base de données
         $eleve = $em->getRepository("WCSCantineBundle:Eleve")->findOneBy(array('id'=>$id_eleve));
-        if (is_null($eleve)) {
-            return $this->redirectToRoute("wcs_cantine_dashboard");
+        if (!$eleve || !$eleve->isCorrectParentConnected($user)) {
+            return $this->redirectToRoute('wcs_cantine_dashboard');
         }
 
         //récupère la liste de tous les voyages scolaires depuis la base de données
-        $voyages = $em->getRepository("WCSCantineBundle:Voyage")->findAll();
-
-        $School =$em->getRepository("WCSCantineBundle:Voyage")->findAll();
-
-        $parameters = array();
-
-        $parameters["eleve"] = $eleve;
-        $parameters["voyages"] = $voyages;
-
-
-        return $this->render( "WCSCantineBundle:Voyage:inscription.html.twig", $parameters );
-
-
-
-/*
-
-
-
-        // récupère une instance de Doctrine
-        $em = $this->getDoctrine()->getManager();
-        
-        // récupère la liste des voyages, classés par ordre alphabétique
-        $voyages = $em->getRepository("WCSCantineBundle:Voyage")->findBy(array(), array("date_debut"=>"ASC"));
-
-        // génère la vue, en passant le tableau d'objets "Voyage" comme paramètre
-        return $this->render(
-            'WCSCantineBundle:Voyage:inscription.html.twig',
-            array("voyages" => $voyages)
+        $voyages =$em->getRepository("WCSCantineBundle:Voyage")->findByDivisionsAnneeScolaire(
+            array("division" => $eleve->getDivision())
         );
-*/
+
+
+        return $this->render( "WCSCantineBundle:Voyage:inscription.html.twig", array(
+            "eleve" => $eleve,
+            "voyages" => $voyages
+        ));
     }
 
 }

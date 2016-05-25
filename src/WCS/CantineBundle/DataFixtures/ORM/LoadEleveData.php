@@ -21,54 +21,55 @@ class LoadEleveData extends AbstractFixture implements OrderedFixtureInterface, 
      */
     public function load(ObjectManager $manager)
     {
-        $entity1 = new Eleve();
-        $entity1->setUser($this->getReference('user'));
-        $entity1->setNom('Robert');
-        $entity1->setPrenom('Robert');
-        $entity1->setDateDeNaissance(new \DateTime('2004-02-08'));
-        $entity1->setRegimeSansPorc(false);
-        $entity1->setDivision($this->getReference('division-lemoue'));
-        $entity1->addVoyage($this->getReference('voyage_versailles'));
-        $entity1->addVoyage($this->getReference('voyage_louvre'));
-        $entity1->addVoyage($this->getReference('voyage_padirac'));
-        $manager->persist($entity1);
+        $entity = new Eleve();
+        $entity->setUser($this->getReference('user'));
+        $entity->setNom('Robert');
+        $entity->setPrenom('Robert');
+        $entity->setDateDeNaissance(new \DateTime('2004-02-08'));
+        $entity->setRegimeSansPorc(false);
+        $entity->setDivision($this->getReference('division-lemoue'));
+        $manager->persist($entity);
 
-        $entity2 = new Eleve();
-        $entity2->setUser($this->getReference('user'));
-        $entity2->setNom('Donatello');
-        $entity2->setPrenom('Arabella');
-        $entity2->setDateDeNaissance(new \DateTime('2006-06-15'));
-        $entity2->setRegimeSansPorc(false);
-        $entity2->setDivision($this->getReference('division-catteeu'));
-        $entity2->addVoyage($this->getReference('voyage_padirac'));
-        $manager->persist($entity2);
+        $entity = new Eleve();
+        $entity->setUser($this->getReference('user'));
+        $entity->setNom('Donatello');
+        $entity->setPrenom('Arabella');
+        $entity->setDateDeNaissance(new \DateTime('2006-06-15'));
+        $entity->setRegimeSansPorc(false);
+        $entity->setDivision($this->getReference('division-nouaille'));
+        $entity->addVoyage($this->getReference("voyage_louvre"));
+        $manager->persist($entity);
 
-        $entity3 = new Eleve();
-        $entity3->setUser($this->getReference('user'));
-        $entity3->setNom('Sylvestre');
-        $entity3->setPrenom('Coralie');
-        $entity3->setDateDeNaissance(new \DateTime('2011-09-21'));
-        $entity3->setRegimeSansPorc(false);
-        $entity3->setDivision($this->getReference('division-nouaille'));
-        $manager->persist($entity3);
+        $entity = new Eleve();
+        $entity->setUser($this->getReference('user'));
+        $entity->setNom('Sylvestre');
+        $entity->setPrenom('Coralie');
+        $entity->setDateDeNaissance(new \DateTime('2011-09-21'));
+        $entity->setRegimeSansPorc(false);
+        $entity->setDivision($this->getReference('division-lucien'));
+        $entity->addVoyage($this->getReference("voyage_versailles"));
+        $entity->addVoyage($this->getReference("voyage_maintenon"));
+        $manager->persist($entity);
 
-        $entity4 = new Eleve();
-        $entity4->setUser($this->getReference('user'));
-        $entity4->setNom('Vaillant');
-        $entity4->setPrenom('Eliott');
-        $entity4->setDateDeNaissance(new \DateTime('2010-07-28'));
-        $entity4->setRegimeSansPorc(false);
-        $entity4->setDivision($this->getReference('division-pichodo'));
-        $manager->persist($entity4);
+        $entity = new Eleve();
+        $entity->setUser($this->getReference('user'));
+        $entity->setNom('Vaillant');
+        $entity->setPrenom('Eliott');
+        $entity->setDateDeNaissance(new \DateTime('2010-07-28'));
+        $entity->setRegimeSansPorc(false);
+        $entity->setDivision($this->getReference('division-pichodo'));
+        $manager->persist($entity);
 
-        $entity5 = new Eleve();
-        $entity5->setUser($this->getReference('user3'));
-        $entity5->setNom('Truite');
-        $entity5->setPrenom('Marine');
-        $entity5->setDateDeNaissance(new \DateTime('2009-10-18'));
-        $entity5->setRegimeSansPorc(false);
-        $entity5->setDivision($this->getReference('division-pichodo'));
-        $manager->persist($entity5);
+
+
+        $entity = new Eleve();
+        $entity->setUser($this->getReference('user3'));
+        $entity->setNom('Truite');
+        $entity->setPrenom('Marine');
+        $entity->setDateDeNaissance(new \DateTime('2009-10-18'));
+        $entity->setRegimeSansPorc(false);
+        $entity->setDivision($this->getReference('division-catteeu'));
+        $manager->persist($entity);
 
 
         $manager->flush();

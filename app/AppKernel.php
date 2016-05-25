@@ -39,7 +39,7 @@ class AppKernel extends Kernel
 
             new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
 
-            new VoyageBundle\VoyageBundle(),
+            //new VoyageBundle\VoyageBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
