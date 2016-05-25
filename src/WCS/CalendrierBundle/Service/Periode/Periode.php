@@ -136,7 +136,7 @@ class Periode
             $dateImmutable = $date;
         }
         else if ($date instanceof \DateTime) {
-            $dateImmutable = \DateTimeImmutable::createFromMutable($date);
+            $dateImmutable = new \DateTimeImmutable($date->format('Y-m-d'));
         }
         else if (is_string($date)) {
 
