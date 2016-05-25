@@ -1,7 +1,0 @@
-voyage_post:
-    resource: "@VoyageBundle/Resources/config/routing/post.yml"
-    prefix:   /post
-
-voyage_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: VoyageBundle:Default:index }

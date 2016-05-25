@@ -26,7 +26,7 @@ class Service
     }
 
     /**
-     * renvoit le calendrier scolaire pour une année donnée.
+     * renvoit les périodes vacance ou en classe scolaire pour l'année en cours.
      *
      * @return \WCS\CalendrierBundle\Service\PeriodesAnneeScolaire\PeriodesAnneeScolaire|null
      */

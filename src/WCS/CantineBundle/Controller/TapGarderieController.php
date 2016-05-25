@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: manu
- * Date: 10/05/16
- * Time: 11:09
- */
-
 namespace WCS\CantineBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -14,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Form;
 use \WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Form\Type\TapType;
+use WCS\CalendrierBundle\Service\Calendrier\Day;
 
 
 class TapGarderieController extends Controller
@@ -29,18 +23,20 @@ class TapGarderieController extends Controller
         // récupère une instance de Doctrine
         $em = $this->getDoctrine()->getManager();
 
-        // récupère la liste des enfants
-        $eleve = $em->getRepository("WCSCantineBundle:Eleve")->findOneBy(array("id"=>$id_eleve));
+        // récupère un  enfants
+        $eleve = $em->getRepository("WCSCantineBundle:Eleve")->find($id_eleve);
         if (!$eleve || !$eleve->isCorrectParentConnected($user)) {
             return $this->redirectToRoute('wcs_cantine_dashboard');
         }
 
         // récupère la période scolaires en classe à la date du jour
         $periodesScolaires = $this->get("wcs.calendrierscolaire")->getPeriodesAnneeRentreeScolaire();
-        $periodes = $periodesScolaires->findEnClasseFrom(new \DateTime());
+        $periode = $periodesScolaires->findEnClasseFrom(new \DateTime());
 
         // créé le formulaire associé à l'élève
-        $form = $this->createForm(new TapType( $em ), $eleve, array(
+        $form = $this->createForm(
+                    new TapType( $em, $periode ),
+                    $eleve, array(
             'action' => $this->generateUrl('tapgarderie_inscription', array("id_eleve"=>$id_eleve)),
             'method' => 'POST'
         ));
@@ -55,7 +51,7 @@ class TapGarderieController extends Controller
             'WCSCantineBundle:TapGarderie:inscription.html.twig',
             array(
                 "eleve" => $eleve,
-                "periode_tap" => $periodes,
+                "periode_tap" => $periode,
                 "form" => $form->createView()
                 )
         );
@@ -73,6 +69,19 @@ class TapGarderieController extends Controller
 
         $form->handleRequest($request);
         if ($form->isValid()) {
+
+            $tapCurrents = $em->getRepository("WCSCantineBundle:Tap")->findByEleve($eleve);
+            foreach($tapCurrents as $tap) {
+                $em->remove($tap);
+            }
+
+            $garderieCurrents = $em->getRepository("WCSCantineBundle:Garderie")->findByEleve($eleve);
+            foreach($garderieCurrents as $garderie) {
+                $em->remove($garderie);
+            }
+
+            $em->flush();
+
 /*
             // la nouvelle sélection de dates (avec celles déjà présentes en
             // base de données, et les nouvelles à ajouter

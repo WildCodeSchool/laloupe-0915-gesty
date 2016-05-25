@@ -3,19 +3,29 @@ namespace WCS\CantineBundle\Form\DataTransformer;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
+use WCS\CalendrierBundle\Service\Periode\Periode;
+use WCS\CalendrierBundle\Service\Calendrier\Day;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Entity\Tap;
+
+use WCS\CantineBundle\Form\DataTransformer\DaysOfWeeks;
+
 
 class TapToStringTransformer implements DataTransformerInterface
 {
 
     private $manager;
     private $eleve;
+    /**
+     * @var \WCS\CantineBundle\Form\DataTransformer\DaysOfWeeks
+     */
+    private $daysOfWeek;
 
-    public function __construct(ObjectManager $manager, Eleve $eleve)
+    public function __construct(ObjectManager $manager, Eleve $eleve, Periode $periode)
     {
         $this->manager = $manager;
         $this->eleve = $eleve;
+        $this->daysOfWeek = new DaysOfWeeks($periode);
     }
 
     /**
@@ -32,34 +42,47 @@ class TapToStringTransformer implements DataTransformerInterface
             return '';
         }
 
-        $tmp = array();
-        foreach ($taps as $tap) {
-            $tmp[] = $tap->getDate()->format('Y-m-d H:i:s');
-        }
-        $datesString = implode(";", $tmp);
+        $tap_all = $this->daysOfWeek->getListJoursTap();
 
-        return $datesString;
+        $tmp = array();
+        foreach($taps as $tap) {
+            foreach ($tap_all as $dayOfWeek => $dates) {
+                if (in_array($tap->getDate()->format('Y-m-d'), $dates)) {
+                    $tmp[$dayOfWeek] = 1;
+                }
+
+            }
+        }
+
+        $tmp2 = array();
+        foreach ($tmp as $key => $value) {
+            $tmp2[] = $key;
+        }
+
+        return implode(";", $tmp2);
     }
 
     /**
      * Récupère une chaine de dates formattées (Y-m-d) séparées par un ";"
      * et renvoit une liste de "tap" pour l'élève pour chacune des dates.
      *
-     * @param  string $datesString dates formattée Y-m-d séparées par un ";"
+     * @param  string $daysOfWeekString indice des jours de la semaine ";"
      * @return array de Taps renvoit une liste d'entité "Tap" pour cet élève ou une liste vide
      */
-    public function reverseTransform($datesString)
+    public function reverseTransform($daysOfWeekString)
     {
-        if (empty($datesString)) {
+        if (empty($daysOfWeekString)) {
             return array();
         }
 
         $taps = array();
-        $dates = explode(';', $datesString);
+        $daysOfWeek = explode(';', $daysOfWeekString);
+        $tap_all = $this->daysOfWeek->getListJoursTap();
 
-        $tapCurrents = $this->manager->getRepository("WCSCantineBundle:Tap")->findByEleve($this->eleve);
-        foreach ($dates as $date)
+        //$tapCurrents = $this->manager->getRepository("WCSCantineBundle:Tap")->findByEleve($this->eleve);
+        foreach ($daysOfWeek as $dayOfWeek)
         {
+            /*
             // si la réservation est déjà présente,
             // on se contente de l'ajouter dans la liste
             // sinon on créé une nouvelle réservation
@@ -77,7 +100,15 @@ class TapToStringTransformer implements DataTransformerInterface
                 $tap->setDate($dateT);
                 $this->manager->persist($tap);
             }
-            $taps[] = $tap;
+            */
+
+            foreach ($tap_all[$dayOfWeek] as $date) {
+                $tap = new Tap();
+                $tap->setEleve($this->eleve);
+                $tap->setDate(new \DateTime($date));
+                $this->manager->persist($tap);
+                $taps[] = $tap;
+            }
         }
 
         return $taps;

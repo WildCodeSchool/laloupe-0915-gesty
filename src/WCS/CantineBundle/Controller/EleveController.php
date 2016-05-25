@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Application\Sonata\UserBundle\Entity\User;
 use WCS\CantineBundle\Entity\Eleve;
+use WCS\CantineBundle\Form\DataTransformer\DaysOfWeeks;
 use WCS\CantineBundle\Form\Handler\EleveHandler;
 use WCS\CantineBundle\Form\Model\EleveFormEntity;
 use WCS\CantineBundle\Form\Type\EleveEditType;
@@ -287,12 +288,69 @@ class EleveController extends Controller
         $periodesScolaires = $this->get("wcs.calendrierscolaire")->getPeriodesAnneeRentreeScolaire();
         $periodes = $periodesScolaires->findEnClasseFrom(new \DateTime());
 
+        // récupère les days of week sélectionnés
+        $daysOfWeek = new DaysOfWeeks($periodes);
 
-        return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(
+
+        // récupère les taps de chaque enfants
+        $tap_all = $daysOfWeek->getListJoursTap();
+
+        $children_taps = array();
+        foreach ($children as $child) {
+
+            $taps = $child->getTaps();
+
+            $tmp = array();
+            foreach($taps as $tap) {
+                foreach ($tap_all as $dayOfWeek => $dates) {
+                    if (in_array($tap->getDate()->format('Y-m-d'), $dates)) {
+                        $tmp[$dayOfWeek] = 1;
+                    }
+                }
+            }
+
+            $tmp2 = array();
+            foreach ($tmp as $key => $value) {
+                $tmp2[] = $key;
+            }
+            $children_taps[$child->getId()] = $tmp2;
+        }
+
+        // récupère les garderies de chaque enfants
+        $garderies_all = $daysOfWeek->getListJoursGarderie();
+
+        $children_garderies = array();
+        foreach ($children as $child) {
+
+            $garderies = $child->getGarderies();
+
+            $tmp = array();
+            foreach($garderies as $garderie) {
+                foreach ($garderies_all as $dayOfWeek => $datesheures) {
+
+                    $dateheure  = $garderie->getDateHeure()->format('Y-m-d H:i:s');
+
+                    if (in_array($dateheure, $datesheures)) {
+                        $tmp[$dayOfWeek] = 1;
+                    }
+                }
+            }
+
+            $tmp2 = array();
+            foreach ($tmp as $key => $value) {
+                $tmp2[] = $key;
+            }
+            $children_garderies[$child->getId()] = $tmp2;
+        }
+
+
+            return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(
             'user' => $user,
             'children' => $children,
             'files'=>$filesArray,
-            'periode_tap'=>$periodes
+            'periode_tap'=>$periodes,
+            'children_taps'=>$children_taps,
+            'children_garderies'=>$children_garderies
         ));
     }
 

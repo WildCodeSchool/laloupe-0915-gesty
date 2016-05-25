@@ -5,6 +5,7 @@ namespace WCS\CantineBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use WCS\CalendrierBundle\Service\Periode\Periode;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Form\DataTransformer\TapToStringTransformer;
 use WCS\CantineBundle\Form\DataTransformer\GarderieToStringTransformer;
@@ -13,10 +14,12 @@ use WCS\CantineBundle\Form\DataTransformer\GarderieToStringTransformer;
 class TapType extends AbstractType
 {
     private $manager;
+    private $periode;
 
-    public function __construct(\Doctrine\Common\Persistence\ObjectManager $manager)
+    public function __construct(\Doctrine\Common\Persistence\ObjectManager $manager, Periode $periode)
     {
         $this->manager = $manager;
+        $this->periode = $periode;
     }
 
 
@@ -39,10 +42,10 @@ class TapType extends AbstractType
         ;
 
         $builder->get('taps')
-            ->addModelTransformer(new TapToStringTransformer($this->manager, $builder->getData()));
+            ->addModelTransformer( new TapToStringTransformer($this->manager, $builder->getData(), $this->periode) );
 
         $builder->get('garderies')
-            ->addModelTransformer(new GarderieToStringTransformer($this->manager, $builder->getData()));
+            ->addModelTransformer( new GarderieToStringTransformer($this->manager, $builder->getData(), $this->periode) );
     }
 
     /**
