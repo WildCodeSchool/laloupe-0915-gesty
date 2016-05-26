@@ -15,20 +15,20 @@ class VoyageRepository extends \Doctrine\ORM\EntityRepository
         $division = $params["division"];
 
         // récupère la date du jour
-        $date = new \DateTime();
-        $now = $date->format('Y-m-d');
+        $now = new \DateTime();
 
-        return $this->getEntityManager()
-            ->createQuery(
-                'SELECT v FROM WCSCantineBundle:Voyage v 
-                 JOIN v.divisions d 
-                 WHERE v.estAnnule = FALSE 
-                 AND d = :division 
-                 ORDER BY v.date_debut'
-            )
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+
+        $qb->select('v')
+            ->from('WCSCantineBundle:Voyage', 'v')
+            ->join('v.divisions', 'd')
+            ->where("v.estAnnule = FALSE
+                AND d = :division AND v.date_debut >= :now")
+            ->orderBy('v.date_debut')
             ->setParameter(':division', $division)
-//            ->setParameter(':now', $now)
-            ->getResult();
+            ->setParameter(':now', $now);
 
+        return $qb;
     }
 }

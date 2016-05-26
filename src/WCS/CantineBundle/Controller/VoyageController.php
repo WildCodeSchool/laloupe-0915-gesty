@@ -13,12 +13,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use \WCS\CantineBundle\Entity\Eleve;
 use \WCS\CantineBundle\Entity\Voyage;
-
+use WCS\CantineBundle\Form\Type\VoyageType;
 
 
 class VoyageController extends Controller
 {
-    public function inscrireAction($id_eleve)
+    public function inscrireAction(Request $request,$id_eleve)
     {
         $user = $this->getUser();
         if (!$user) {
@@ -29,21 +29,38 @@ class VoyageController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         // récupère la fiche élève depuis la base de données
-        $eleve = $em->getRepository("WCSCantineBundle:Eleve")->findOneBy(array('id'=>$id_eleve));
+        $eleve = $em->getRepository("WCSCantineBundle:Eleve")->find($id_eleve);
         if (!$eleve || !$eleve->isCorrectParentConnected($user)) {
             return $this->redirectToRoute('wcs_cantine_dashboard');
         }
 
-        //récupère la liste de tous les voyages scolaires depuis la base de données
-        $voyages =$em->getRepository("WCSCantineBundle:Voyage")->findByDivisionsAnneeScolaire(
-            array("division" => $eleve->getDivision())
+        // créer une instance d'un formulaire
+        // dans un premiér temps on definit les paramêtres de notre futur FORM en Html
+        // ensuite on créer une instance de formulaire avec les paramêtre que l'on a crée
+        // et que l'on passera a notre vue twig
+
+        $formparams = array(
+            'method' => 'POST',
+            'action' => $this->generateUrl('voyage_inscription', array(
+                'id_eleve' => $id_eleve
+            ))
         );
 
+        $form = $this->createForm(new VoyageType($eleve->getDivision()), $eleve, $formparams);
 
-        return $this->render( "WCSCantineBundle:Voyage:inscription.html.twig", array(
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $em->persist($eleve);
+            $em->flush();
+
+            return $this->redirectToRoute('wcs_cantine_dashboard');
+        }
+
+
+        return $this->render("WCSCantineBundle:Voyage:inscription.html.twig", array(
             "eleve" => $eleve,
-            "voyages" => $voyages
+            "form" => $form->createView()
         ));
     }
-
 }

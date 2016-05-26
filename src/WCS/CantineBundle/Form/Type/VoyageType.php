@@ -6,18 +6,19 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use WCS\CantineBundle\Entity\Eleve;
-use WCS\CantineBundle\Form\DataTransformer\VoyageToStringTransformer;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Doctrine\ORM\EntityRepository;
+
 
 
 class VoyageType extends AbstractType
 {
-    private $manager;
+    private static $division;
 
-    public function __construct(\Doctrine\Common\Persistence\ObjectManager $manager)
+    public function __construct($division)
     {
-        $this->manager = $manager;
+        self::$division = $division;
     }
-
 
     /**
      * @param FormBuilderInterface $builder
@@ -29,13 +30,20 @@ class VoyageType extends AbstractType
             ->add('autorise','checkbox', array('required'=>true, 'mapped'=>false))
             ->add('certifie','checkbox', array('required'=>true, 'mapped'=>false))
 
-            ->add('voyages', 'hidden', array(
-                'required'  => false
+            ->add('voyages', 'entity', array(
+                'class'   => 'WCSCantineBundle:Voyage',
+
+                'query_builder' => function(EntityRepository $er)
+                {
+                    return $er->findByDivisionsAnneeScolaire(array('division'=>self::$division));
+                },
+
+                'expanded' => true,
+                'multiple' => true,
+                'required'  => false,
+                'mapped' => true
             ))
         ;
-
-        $builder->get('voyages')
-            ->addModelTransformer(new VoyageToStringTransformer($this->manager, $builder->getData()));
     }
 
     /**

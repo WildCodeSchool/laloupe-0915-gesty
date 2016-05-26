@@ -1,6 +1,7 @@
 <?php
 
 namespace WCS\CantineBundle\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Eleve
@@ -20,6 +21,7 @@ class Eleve
     public function __construct()
     {
         $this->habits = array();
+        $this->voyages = new ArrayCollection();
     }
 
 

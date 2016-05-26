@@ -3,9 +3,12 @@
 {% block title %}Inscription{% endblock %}
 
 {% block body %}
+
     {% block retour %}
         <a href="{{ path('wcs_cantine_dashboard') }}">Retour</a>
     {% endblock %}
+
+    {{ form_start(form) }}
 
 
     <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
@@ -31,29 +34,18 @@
             <h3>Les voyages scolaires (2015-2016)</h3>
             <div class="form-group">
                 <blockquote>
-                    {% for voyage in voyages %}
-                        <input type="checkbox"/> {{ voyage }}</br>
-                    {% endfor %}
+                    {{ form_widget(form.voyages) }}
                 </blockquote>
             </div>
         </div>
 
-      {# ------------------------Formulaire de piece jointe--------------------------------------- #}
-      <div class="col-md-12">
-            <h3>Veuillez joindre la pièce suivante</h3>
-        <div class="form-group">
-            <label class="control-label" for="application_sonata_user_profile_file_prestations">Votre dernier avis d'imposition :</label>
-            <input type="file"     id="application_sonata_user_profile_file_prestations" name="application_sonata_user_profile[file_prestations]">
-            <blockquote>Seules les images ou les fichiers .pdf sont acceptés.</blockquote>
-        </div>
-      </div>
-      {#-------------------------Fin Formulaire de pice jointe--------------------------------------#}
+
 
       {#----------------------------------Signatures et validation-------------------------#}
     <div class="col-md-12">
         <h3>Signatures</h3>
         <div class="form-group">
-            <input type="checkbox"/>
+            {{ form_widget(form.autorise) }}
             <label for="autorise" style="display:inline">J'autorise le responsable du voyage scolaire ou son représentant à prendre toutes mesures d'urgence nécessaires en cas d'accident survenant à mon enfant *</label>
             <blockquote>
                 A savoir :
@@ -66,7 +58,8 @@
 
 
         <div class="form-group">
-            <input type="checkbox" />
+
+           {{ form_widget(form.certifie) }}
             <label for="atteste" style="display:inline">Je certifie sur l’honneur l’exactitude de tous les renseignements saisis sur cette application concernant mon enfant ainsi que mon foyer *</label>
         </div>
 
@@ -81,8 +74,8 @@
     </div>
 
     </div>
-    </form>
     </div>
+    {{ form_end(form) }}
 {% endblock %}
 
 
