@@ -67,9 +67,6 @@ services:
                 - { name: doctrine.event_listener, event: preUpdate }
             arguments: ['@mailer']
 
-      calendar.holidays:
-            class: WCS\CantineBundle\Services\CalendarHolidays
-
       application.sonata_mail_listener:
             class: Application\Sonata\UserBundle\EventListener\emailListener
             arguments: ['@mailer']

@@ -256,6 +256,7 @@ class EleveController extends Controller
 
         // liste des enfants
         $children = $em->getRepository("WCSCantineBundle:Eleve")->findChildren($user);
+        $nbChildrenVoyageInscrits = $em->getRepository('WCSCantineBundle:Eleve')->findNbEnfantInscritsVoyage($user);
 
         // pièces jointes
         $filesArray = array();
@@ -265,7 +266,7 @@ class EleveController extends Controller
         );
 
         $filesArray[User::type_Prestations] = array(
-            'libelle_justif' => 'Justificatif de prestations CAF',
+            'libelle_justif' => 'Justificatif de CAF',
             'exists' => is_file($user->getAbsolutePathPrestations())
         );
 
@@ -283,6 +284,13 @@ class EleveController extends Controller
             'libelle_justif' => 'Justificatif de salaire 3',
             'exists' => is_file($user->getAbsolutePathSalaire3())
         );
+
+        if ($nbChildrenVoyageInscrits) {
+            $filesArray[User::type_Impots]    = array(
+                'libelle_justif' => "Justificatif avis d'imposition",
+                'exists' => is_file($user->getAbsolutePathImpot())
+            );
+        }
 
         // periodes TAP/Garderie
         $periodesScolaires = $this->get("wcs.calendrierscolaire")->getPeriodesAnneeRentreeScolaire();
@@ -350,7 +358,8 @@ class EleveController extends Controller
             'files'=>$filesArray,
             'periode_tap'=>$periodes,
             'children_taps'=>$children_taps,
-            'children_garderies'=>$children_garderies
+            'children_garderies'=>$children_garderies,
+            'nbChildrenVoyageInscrits'=>$nbChildrenVoyageInscrits
         ));
     }
 

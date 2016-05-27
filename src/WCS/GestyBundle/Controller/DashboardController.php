@@ -18,7 +18,7 @@ class DashboardController extends Controller
         {
             return $this->redirect($this->generateUrl('wcs_gesty_ecoles'));
         }
-        return $this->render('WCSGestyBundle:Dashboard:index.html.twig');
-
+        // previous code : return render view : WCSGestyBundle:Dashboard:index.html.twig
+        return $this->redirectToRoute('wcs_cantine_dashboard');
     }
 }

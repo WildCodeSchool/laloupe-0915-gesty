@@ -68,7 +68,7 @@ class DownloadController extends Controller
         }
 
         // ensure the type file is in the accepted range
-        if (!preg_match('/^[1-5]$/', $type_file)) {
+        if (!preg_match('/^[1-6]$/', $type_file)) {
             throw $this->createAccessDeniedException();   
         }
 
@@ -77,7 +77,8 @@ class DownloadController extends Controller
             User::type_Prestations  => $user->getAbsolutePathPrestations(),
             User::type_Salaire1     => $user->getAbsolutePathSalaire1(),
             User::type_Salaire2     => $user->getAbsolutePathSalaire2(),
-            User::type_Salaire3     => $user->getAbsolutePathSalaire3()
+            User::type_Salaire3     => $user->getAbsolutePathSalaire3(),
+            User::type_Impots       => $user->getAbsolutePathImpot()
             );
 
         $ext = strtolower(pathinfo($paths[$type_file], PATHINFO_EXTENSION));
@@ -100,6 +101,7 @@ class DownloadController extends Controller
             User::type_Salaire1     => "justif_salaire_1.".$ext,
             User::type_Salaire2     => "justif_salaire_2.".$ext,
             User::type_Salaire3     => "justif_salaire_3.".$ext,
+            User::type_Impots       => "justif_impots.".$ext
             );
 
         // build the HTTP response        

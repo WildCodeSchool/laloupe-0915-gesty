@@ -321,7 +321,8 @@ button em
     padding:20px;
     border:1px solid #DDD;
     border-top-width: 0px;
-    height:420px;
+    /*height:420px;*/
+    display:block;
 }
 .eleve_tabs_body EM {
     display:table-cell;
@@ -335,24 +336,8 @@ button em
     font-weight:bold;
     font-size:20px;
 }
-/*
-.enfant
-{
-    font-size: 19px;
-}
-
-{
-    font-family: 'Carter One', cursive;
-    text-align: center;
-    font-size: 1.4em;
-    color: #333;
-}
-*/
 
 .panel-eleve {
-   /* display:inline-block;
-    width:30%;
-*/
     position:relative;
     font-family: 'Carter One', cursive;
 

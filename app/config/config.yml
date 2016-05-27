@@ -40,7 +40,7 @@ twig:
         resources:
             - 'SonataCoreBundle:Form:datepicker.html.twig'
     form_theme:
-        'WCSCantineBundle:form:form_errors.html.twig'
+        'WCSCantineBundle:Form:form_errors.html.twig'
 
 # Assetic Configuration
 assetic:

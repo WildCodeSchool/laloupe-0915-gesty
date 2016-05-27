@@ -50,12 +50,12 @@ file that was distributed with this source code.
                       {{ form_widget(form.firstname) }} <br/>
                   </div>
                   <div class="form-group">
-                      <label for="home_address_street">Adresse</label>
+                      <label for="home_address_street">Adresse *</label>
                       {{ form_errors(form.adresse) }}
                       {{ form_widget(form.adresse) }} <br/>
                   </div>
                   <div class="form-group">
-                      <label for="home_address_postcode">Code postal</label>
+                      <label for="home_address_postcode">Code postal *</label>
                       {{ form_errors(form.codePostal) }}
                       {{ form_widget(form.codePostal) }} <br/>
                   </div>
@@ -139,6 +139,16 @@ file that was distributed with this source code.
                       {{ form_widget(form.file_salaire_3) }}
 
                       <blockquote>Joindre l'attestation des employeurs ou les 3 derniers bulletins de salaire des parents ou du parent isolé.</blockquote>
+                  </div>
+
+
+                  <div class="form-group" {{ nbChildrenVoyageInscrits?'':'style="display:none"' }}>
+                      <br>
+                      {{ form_label(form.file_impots) }}
+                      {{ form_errors(form.file_impots) }}
+                      {{ form_widget(form.file_impots) }}
+
+                      <blockquote>Un de vos enfants est inscrit à un voyage scolaire, veuillez joindre votre dernier avis d'imposition.</blockquote>
                   </div>
               </div>
           </div>
