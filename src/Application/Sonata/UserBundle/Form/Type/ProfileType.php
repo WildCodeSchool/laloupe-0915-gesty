@@ -13,15 +13,14 @@
 namespace Application\Sonata\UserBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Sonata\UserBundle\Model\UserInterface;
-use Symfony\Component\Form\AbstractType;
+
 
 class ProfileType extends \Sonata\UserBundle\Form\Type\ProfileType
 {
 
     /**
-     * @param string $class The User class name
+     * ProfileType constructor.
      */
     public function __construct()
     {

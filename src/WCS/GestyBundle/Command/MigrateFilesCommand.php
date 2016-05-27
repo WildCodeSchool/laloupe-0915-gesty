@@ -189,7 +189,7 @@ class MigrateFilesCommand extends ContainerAwareCommand
                 }
 
                 $this->loadUsers( $stream, $users, $output );
-                $this->importUsersFiles( $stream, $users, $em, $output );
+                $this->importUsersFiles( $stream, $users, $output );
 
                 // 4. save all users updated data in the database
                 $output->writeln('  <comment>></comment> <info>4. Updating the database.</info>');
@@ -324,8 +324,10 @@ class MigrateFilesCommand extends ContainerAwareCommand
     *
     * @throws an exception if this method failed in importing the files.
     */
-    private function importUsersFiles($stream, &$users, EntityManager $entityManager, OutputInterface $output)
+    private function importUsersFiles($stream, &$users, OutputInterface $output)
     {
+            $em = $this->getContainer()->get('doctrine')->getManager();
+
             $progress = new ProgressBar($output, count($users));
             $progress->setMessage('Import in progress...');
             $progress->setFormat('    <comment>>></comment> <info>%message% (%current% / %max% users)</info>');
@@ -350,7 +352,7 @@ class MigrateFilesCommand extends ContainerAwareCommand
                 }
                 
                 // add in the database transaction
-                $entityManager->persist($user);
+                $em->persist($user);
 
                 $this->stats['nb_homes_load']++;
 
@@ -443,17 +445,16 @@ class MigrateFilesCommand extends ContainerAwareCommand
 
     /**
     * Import a file into :
-    * - the corresponding column in the database for a given user. 
+    * - the corresponding column in the database for a given user.
     *   This data will not be updated if there is an existing
     *   file already recorded and if this file was not imported by this script.
     * - the app/uploads directory
     *
-    * @param array. row is an array containing the data from one line of the file.
-    * @param User. instance of the user to update
     * @param array. params is an associatif array that must contains the following key / value :
     *        'subdir_to_import'          => the sub directory where the file to import is stored,
     *        'filename_to_import'        => the filename of the file to import (not the path),
     *        'filename_currently_in_db'  => the current stored filename from database.
+    * @return string the new filename or '' if the file has not been copied.
     */
     private function copyFile($params)
     {

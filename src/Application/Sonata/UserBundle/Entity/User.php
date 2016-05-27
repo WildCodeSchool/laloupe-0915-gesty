@@ -29,7 +29,7 @@ class User extends BaseUser
     const type_Salaire1     = 3;
     const type_Salaire2     = 4;
     const type_Salaire3     = 5;
-    const type_Impots        = 6;
+    const type_Impots       = 6;
 
     public function setEmail($email){
         parent::setEmail($email);
@@ -45,11 +45,34 @@ class User extends BaseUser
 
     //Gestion des uploads
 
+    /**
+     * @var \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
+
     public $file_domicile;
+    /**
+     * @var \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
+
     public $file_prestations;
+    /**
+     * @var \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
+
     public $file_salaire_1;
+    /**
+     * @var \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
+
     public $file_salaire_2;
+    /**
+     * @var \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
+
     public $file_salaire_3;
+    /**
+     * @var \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
     public $file_impots;
 
     const PATH_DIR_UPLOAD   = 'uploads';
@@ -211,7 +234,7 @@ class User extends BaseUser
         if ($file = $this->getAbsolutePathSalaire3()) {
             unlink($file);
         }
-        if ($file = $this->getAbsolutePathImpots()) {
+        if ($file = $this->getAbsolutePathImpot()) {
             unlink($file);
         }
     }
@@ -667,7 +690,7 @@ class User extends BaseUser
      *
      * @return User
      */
-    public function addElefe(\WCS\CantineBundle\Entity\Eleve $elefe)
+    public function addElefe($elefe)
     {
         $this->eleves[] = $elefe;
 
@@ -679,7 +702,7 @@ class User extends BaseUser
      *
      * @param \WCS\CantineBundle\Entity\Eleve $elefe
      */
-    public function removeElefe(\WCS\CantineBundle\Entity\Eleve $elefe)
+    public function removeElefe($elefe)
     {
         $this->eleves->removeElement($elefe);
     }
