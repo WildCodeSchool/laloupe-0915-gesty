@@ -96,7 +96,7 @@
                         <ul>
                         {% for type_file, infos in files %}
                             {% if infos.exists %}
-                                <li  class="fa fa-check" aria-hidden="true">
+                                <li>
                             <a href="{{ path('gesty_parent_download', {'type_file':type_file} ) }}" target="_blank">{{infos.libelle_justif }}</a>
                                     <br />&nbsp;
                                 </li>
