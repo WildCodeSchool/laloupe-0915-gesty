@@ -189,28 +189,28 @@ class User extends BaseUser
 
     public function upload()
     {
-        if (null != $this->file_domicile) {
+        if (!is_null($this->file_domicile)) {
             $this->file_domicile->move($this->getUploadRootDir(), $this->path_domicile);
             unset($this->file_domicile);
         }
 
-        if (null != $this->file_prestations) {
+        if (!is_null($this->file_prestations)) {
             $this->file_prestations->move($this->getUploadRootDir(), $this->path_prestations);
             unset($this->file_prestations);
         }
-        if (null != $this->file_salaire_1) {
+        if (!is_null($this->file_salaire_1)) {
             $this->file_salaire_1->move($this->getUploadRootDir(), $this->path_salaire_1);
             unset($this->file_salaire_1);
         }
-        if (null != $this->file_salaire_2) {
+        if (!is_null($this->file_salaire_2)) {
             $this->file_salaire_2->move($this->getUploadRootDir(), $this->path_salaire_2);
             unset($this->file_salaire_2);
         }
-        if (null != $this->file_salaire_3) {
+        if (!is_null($this->file_salaire_3)) {
             $this->file_salaire_3->move($this->getUploadRootDir(), $this->path_salaire_3);
             unset($this->file_salaire_3);
         }
-        if (null != $this->file_impots) {
+        if (!is_null($this->file_impots)) {
             $this->file_impots->move($this->getUploadRootDir(), $this->path_impots);
             unset($this->file_impots);
         }

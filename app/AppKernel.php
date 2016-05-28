@@ -38,8 +38,6 @@ class AppKernel extends Kernel
             new WCS\CalendrierBundle\WCSCalendrierBundle(),
 
             new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
-
-            //new VoyageBundle\VoyageBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

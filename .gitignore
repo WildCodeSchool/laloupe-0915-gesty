@@ -9,7 +9,6 @@
 /vendor/
 /web/bundles/
 /web/bundles/wcscantine/uploads/*
-.idea/*
 /bash
 .bash_profile
 /app/uploads/*

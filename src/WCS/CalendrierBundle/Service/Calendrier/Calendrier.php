@@ -145,7 +145,7 @@ class Calendrier
             }
             // même chose pour les jours non "en classe"
             else {
-                $d->setIsOff($periodesScolaire->findEnClasseFrom($d->__toString())==null);
+                $d->setIsOff(is_null($periodesScolaire->findEnClasseFrom($d->__toString())));
             }
 
             $this->days[ $d->getMonth() ][ $d->getDay() ] = $d;

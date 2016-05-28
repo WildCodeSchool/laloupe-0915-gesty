@@ -10,10 +10,10 @@ eleve_edit:
     path:     /{id}/edit
     defaults: { _controller: "WCSCantineBundle:Eleve:edit" }
 
-eleve_update:
-    path:     /{id}/update
-    defaults: { _controller: "WCSCantineBundle:Eleve:update" }
-    methods:  [POST, PUT]
+#eleve_update:
+#    path:     /{id}/update
+#    defaults: { _controller: "WCSCantineBundle:Eleve:update" }
+#    methods:  [POST, PUT]
 
 eleve_delete:
     path:     /{id}/delete

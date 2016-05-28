@@ -4,11 +4,11 @@ namespace WCS\CantineBundle\Form\DataTransformer;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
 use WCS\CalendrierBundle\Service\Periode\Periode;
-use WCS\CalendrierBundle\Service\Calendrier\Day;
+//use WCS\CalendrierBundle\Service\Calendrier\Day;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Entity\Tap;
 
-use WCS\CantineBundle\Form\DataTransformer\DaysOfWeeks;
+//use WCS\CantineBundle\Form\DataTransformer\DaysOfWeeks;
 
 
 class TapToStringTransformer implements DataTransformerInterface

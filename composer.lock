@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "bd815844c6f492652044f4f7c6c1e005",
-    "content-hash": "96abd5c90909b33a5a800833bf424476",
+    "hash": "07f7eed9f882b3fd0ce8b5e8f61f6e57",
+    "content-hash": "1078e936e0ad8e4536bef59cddbb8701",
     "packages": [
         {
             "name": "braincrafted/bootstrap-bundle",
@@ -3050,6 +3050,118 @@
             "time": "2015-11-17 10:02:29"
         },
         {
+            "name": "symfony/polyfill-apcu",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-apcu.git",
+                "reference": "6d58bceaeea2c2d3eb62503839b18646e161cd6b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-apcu/zipball/6d58bceaeea2c2d3eb62503839b18646e161cd6b",
+                "reference": "6d58bceaeea2c2d3eb62503839b18646e161cd6b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill backporting apcu_* functions to lower PHP versions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "apcu",
+                "compatibility",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "time": "2016-05-18 14:26:46"
+        },
+        {
+            "name": "symfony/polyfill-mbstring",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-mbstring.git",
+                "reference": "dff51f72b0706335131b00a7f49606168c582594"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/dff51f72b0706335131b00a7f49606168c582594",
+                "reference": "dff51f72b0706335131b00a7f49606168c582594",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "ext-mbstring": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Mbstring\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for the Mbstring extension",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "mbstring",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "time": "2016-05-18 14:26:46"
+        },
+        {
             "name": "symfony/swiftmailer-bundle",
             "version": "v2.3.11",
             "source": {
@@ -3108,16 +3220,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v2.7.9",
+            "version": "v2.7.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "d3646cc6875c214d211001e0673ec9e91b5f2da7"
+                "reference": "7c23f76ba732de9b34075970b0d0a3ec9a5c38f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/d3646cc6875c214d211001e0673ec9e91b5f2da7",
-                "reference": "d3646cc6875c214d211001e0673ec9e91b5f2da7",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/7c23f76ba732de9b34075970b0d0a3ec9a5c38f0",
+                "reference": "7c23f76ba732de9b34075970b0d0a3ec9a5c38f0",
                 "shasum": ""
             },
             "require": {
@@ -3125,6 +3237,8 @@
                 "paragonie/random_compat": "~1.0",
                 "php": ">=5.3.9",
                 "psr/log": "~1.0",
+                "symfony/polyfill-apcu": "~1.1",
+                "symfony/polyfill-mbstring": "~1.1",
                 "twig/twig": "~1.23|~2.0"
             },
             "replace": {
@@ -3181,7 +3295,7 @@
                 "egulias/email-validator": "~1.2",
                 "ircmaxell/password-compat": "~1.0",
                 "monolog/monolog": "~1.11",
-                "ocramius/proxy-manager": "~0.4|~1.0"
+                "ocramius/proxy-manager": "~0.4|~1.0|~2.0"
             },
             "type": "library",
             "extra": {
@@ -3229,7 +3343,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2016-01-14 10:41:56"
+            "time": "2016-05-09 20:35:47"
         },
         {
             "name": "twbs/bootstrap",

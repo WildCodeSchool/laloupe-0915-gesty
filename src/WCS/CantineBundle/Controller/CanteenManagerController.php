@@ -81,13 +81,6 @@ class CanteenManagerController extends Controller
 
     }
 
-    public function getDefaultOptions(array $options)
-    {
-        return array(
-            'schoolId' => 0
-        );
-    }
-
     public function deleteAction($id)
     {
         $em = $this->getDoctrine()->getManager();

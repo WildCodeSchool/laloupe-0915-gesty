@@ -24,17 +24,17 @@ In details, the script performs the following operations :
 
 namespace WCS\GestyBundle\Command;
 
-use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Doctrine\ORM\EntityManager;
+//use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+//use Doctrine\ORM\EntityManager;
 use Sonata\UserBundle\Model\UserManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
+//use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Console\Helper\QuestionHelper;
+//use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Question\Question;
 use Application\Sonata\UserBundle\Entity\User;
 
@@ -72,7 +72,7 @@ class MigrateFilesCommand extends ContainerAwareCommand
     const mh_salary_evidence_5      = 23;
     const mh_salary_evidence_6      = 24;
 
-    const path_application          = '/app';
+   // const path_application          = '/app';
 
     private $path_original          = '';
     private $path_target            = '';
@@ -217,7 +217,10 @@ class MigrateFilesCommand extends ContainerAwareCommand
     */
     private function createUploadsDir(OutputInterface $output)
     {
-            if (!is_writable(__DIR__.'/../../../..'.self::path_application)) {
+            //$appPath = __DIR__.'/../../../..'.self::path_application;
+            $appPath = $this->getContainer()->get('kernel')->getRootDir();
+
+            if (!is_writable($appPath)) {
                 $output->writeln("  <comment>></comment> Please create the folder 'uploads' in app/ manually with the permissions for Apache then run this command again.");
                 return;
             }
@@ -241,7 +244,10 @@ class MigrateFilesCommand extends ContainerAwareCommand
     */
     private function moveWebUploadFiles()
     {
-            $path_web_upload =  __DIR__.'/../../../../web/bundles/wcscantine/uploads';
+            //$webPath = __DIR__.'/../../../../web';
+            $webPath = $this->getContainer()->get('kernel')->getBasePath();
+
+           $path_web_upload =  $webPath.'/bundles/wcscantine/uploads';
 
             foreach (glob($path_web_upload.'/*') as $current_web_file_path) {
                 

@@ -151,6 +151,7 @@ class EleveController extends Controller
      * Edits an existing Eleve entity.
      *
      */
+    /*
     public function updateAction(Request $request, $id)
     {
         $user = $this->getUser();
@@ -191,6 +192,7 @@ class EleveController extends Controller
             'delete_form' => $deleteForm->createView(),
         ));
     }
+    */
 
     /**
      * Deletes a Eleve entity.
@@ -361,15 +363,5 @@ class EleveController extends Controller
             'children_garderies'=>$children_garderies,
             'nbChildrenVoyageInscrits'=>$nbChildrenVoyageInscrits
         ));
-    }
-
-
-    public function updateDate($query)
-    {
-        return $this->getDoctrine()->getManager()
-            ->createQuery(
-                'UPDATE WCSCantineBundle:Eleve SET dates'
-            )
-            ->getResult();
     }
 }
