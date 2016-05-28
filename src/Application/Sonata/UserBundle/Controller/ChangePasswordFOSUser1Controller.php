@@ -14,8 +14,7 @@ use FOS\UserBundle\Model\UserInterface;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Routing\Generator\UrlGenerator;
-use Application\Sonata\UserBundle\Entity\User;
+
 
 /**
  * Class ChangePasswordFOSUser1Controller

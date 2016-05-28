@@ -32,8 +32,6 @@
 
 namespace WCS\CalendrierBundle\Service\Calendrier;
 
-use Symfony\Component\Validator\Constraints\Date;
-use WCS\CalendrierBundle\Service\Calendrier\Day;
 use WCS\CalendrierBundle\Service\PeriodesAnneeScolaire\PeriodesAnneeScolaire;
 
 
@@ -65,11 +63,12 @@ class Calendrier
      * Ajoute une liste de jours "fermés" (ex : des jours fériés)
      * uniquement pour la période du calendrier
      * Ainsi, un jour férié pour une autre année ne sera pas ajouté.
-     * @param $array_days_off tableau indexés de DateTimes durant lesquels il n'y a pas classe.
+     * 
+     * @param array $array_days_off tableau indexés de DateTimes durant lesquels il n'y a pas classe.
      */
     public function addDaysOff($array_days_off)
     {
-        $this->addDaysWithAttribute($array_days_off, 'setIsOff', true);
+        $this->addDaysWithAttribute($array_days_off, 'setOff', true);
     }
 
 
@@ -77,11 +76,12 @@ class Calendrier
      * Ajoute une liste de jours "fermés" (ex : des jours fériés)
      * uniquement pour la période du calendrier
      * Ainsi, un jour férié pour une autre année ne sera pas ajouté.
-     * @param $array_days_off tableau indexés de DateTimes durant lesquels il n'y a pas classe.
+     * 
+     * @param array $array_days_off tableau indexés de DateTimes durant lesquels il n'y a pas classe.
      */
     public function addDaysPast($array_days_past)
     {
-        $this->addDaysWithAttribute($array_days_past, 'setIsPast', true);
+        $this->addDaysWithAttribute($array_days_past, 'setPast', true);
     }
 
     /**
@@ -141,11 +141,11 @@ class Calendrier
 
             // les mer, sam ou dim sont des jours sans classes
             if ($d->getDayOfWeek()==3 || $d->getDayOfWeek()==6 || $d->getDayOfWeek()==7) {
-                $d->setIsOff(true);
+                $d->setOff(true);
             }
             // même chose pour les jours non "en classe"
             else {
-                $d->setIsOff(is_null($periodesScolaire->findEnClasseFrom($d->__toString())));
+                $d->setOff(is_null($periodesScolaire->findEnClasseFrom($d->__toString())));
             }
 
             $this->days[ $d->getMonth() ][ $d->getDay() ] = $d;
@@ -183,7 +183,7 @@ class Calendrier
     {
         foreach($this->days as $month) {
             foreach($month as $day) {
-                $day->setIsPast($day->__toString() < $date);
+                $day->setPast($day->__toString() < $date);
             }
         }
     }

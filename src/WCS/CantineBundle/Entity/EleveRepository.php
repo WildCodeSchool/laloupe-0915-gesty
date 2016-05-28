@@ -9,7 +9,6 @@
 namespace WCS\CantineBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\HttpFoundation\Request;
 
 class EleveRepository extends EntityRepository
 {

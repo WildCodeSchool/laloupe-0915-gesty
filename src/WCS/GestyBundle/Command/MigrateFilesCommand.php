@@ -24,7 +24,6 @@ In details, the script performs the following operations :
 
 namespace WCS\GestyBundle\Command;
 
-//use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 //use Doctrine\ORM\EntityManager;
 use Sonata\UserBundle\Model\UserManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -39,44 +38,46 @@ use Symfony\Component\Console\Question\Question;
 use Application\Sonata\UserBundle\Entity\User;
 
 
+trait Enums {
+
+}
 
 class MigrateFilesCommand extends ContainerAwareCommand
 {
     // prefix used in all the filenames that will be imported
-    const filename_prefix           = 'mig_';
+    const FILENAME_PREFIX           = 'mig_';
 
     // column index of table "multipass_users" from original SQL file
-    const mu_id                     = 0;
-    const mu_email                  = 1;
+    const MU_ID                     = 0;
+    const MU_EMAIL                  = 1;
 
     // column index of table "multipass_homes" from original SQL file
-    const mh_id                     = 0;
-    const mh_firstname              = 1;
-    const mh_lastname               = 2;
-    const mh_phone                  = 3;
-    const mh_phone_2                = 4;
-    const mh_address_street         = 5;
-    const mh_address_postcode       = 6;
-    const mh_address_city           = 7;
-    const mh_payment_method         = 8;
-    const mh_gender                 = 9;
-    const mh_caf                    = 10;
-    const mh_user_id                = 11;
-    const mh_address_evidence       = 16;
-    const mh_address_evidence_2     = 17;
-    const mh_caf_evidence           = 18;
-    const mh_salary_evidence        = 19;
-    const mh_salary_evidence_2      = 20;
-    const mh_salary_evidence_3      = 21;
-    const mh_salary_evidence_4      = 22;
-    const mh_salary_evidence_5      = 23;
-    const mh_salary_evidence_6      = 24;
+    const MH_ID                     = 0;
+    const MH_FIRSTNAME              = 1;
+    const MH_LASTNAME               = 2;
+    const MH_PHONE                  = 3;
+    const MH_PHONE_2                = 4;
+    const MH_ADDRESS_STREET         = 5;
+    const MH_ADDRESS_POSTCODE       = 6;
+    const MH_ADDRESS_CITY           = 7;
+    const MH_PAYMENT_METHOD         = 8;
+    const MH_GENDER                 = 9;
+    const MH_CAF                    = 10;
+    const MH_USER_ID                = 11;
+    const MH_ADDRESS_EVIDENCE       = 16;
+    const MH_ADDRESS_EVIDENCE_2     = 17;
+    const MH_CAF_EVIDENCE           = 18;
+    const MH_SALARY_EVIDENCE       = 19;
+    const MH_SALARY_EVIDENCE_2      = 20;
+    const MH_SALARY_EVIDENCE_3      = 21;
+    const MH_SALARY_EVIDENCE_4      = 22;
+    const MH_SALARY_EVIDENCE_5      = 23;
+    const MH_SALARY_EVIDENCE_6      = 24;
 
    // const path_application          = '/app';
 
     private $path_original          = '';
     private $path_target            = '';
-    private $userManager            = null;
     private $sql_file               = '';
     private $stats                  = array(
                                         'nb_users_load' => 0,
@@ -111,12 +112,14 @@ class MigrateFilesCommand extends ContainerAwareCommand
     }
 
 
-
     /**
-    * Execute the command
-    *
-    * @param InputInterface
-    */
+     * Execute the command
+     *
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int|null|void
+     * @throws Exception
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
             $this->path_target = User::getPathRootUpload();
@@ -185,7 +188,7 @@ class MigrateFilesCommand extends ContainerAwareCommand
                 
                 $stream = fopen($this->sql_file, 'r');
                 if (!$stream) {
-                    throw new \Exception("Failed to open the file : $file");
+                    throw new \Exception("Failed to open the file : ".$this->sql_file);
                 }
 
                 $this->loadUsers( $stream, $users, $output );
@@ -213,8 +216,11 @@ class MigrateFilesCommand extends ContainerAwareCommand
 
 
     /**
-    * Create the app/uploads directory
-    */
+     * Create the app/uploads directory
+     *
+     * @param OutputInterface $output
+     * @throws \Exception
+     */
     private function createUploadsDir(OutputInterface $output)
     {
             //$appPath = __DIR__.'/../../../..'.self::path_application;
@@ -263,24 +269,25 @@ class MigrateFilesCommand extends ContainerAwareCommand
     */
     private function deleteAnyPreviousImport()
     {
-            foreach (glob($this->path_target.'/'.self::filename_prefix."*") as $absoluteFilePath) {
+            foreach (glob($this->path_target.'/'.self::FILENAME_PREFIX."*") as $absoluteFilePath) {
                 unlink($absoluteFilePath);
             }
     }
 
 
 
-   /**
-    * Load users of the table 'multipass_users' from the file
-    * Build an associative array in which :
-    * - key : the id of the user
-    * - value : the ORM object 'User' load with the corresponding user data
-    *
-    * @param file stream - the opened SQL file stream
-    * @param array - users associative array that will be populated by this method.
-    *
-    * @throws an exception in case no users have been found in the database or the file
-    */
+    /**
+     * Load users of the table 'multipass_users' from the file
+     * Build an associative array in which :
+     * - key : the id of the user
+     * - value : the ORM object 'User' load with the corresponding user data
+     *
+     * @param resource          $stream the opened SQL file stream
+     * @param array             $users users associative array that will be populated by this method.
+     * @param OutputInterface   $output
+     *
+     * @throws \Exception       in case no users have been found in the database or the file
+     */
     private function loadUsers($stream, &$users, OutputInterface $output)
     {
             $nbLineRead = 0;
@@ -294,11 +301,11 @@ class MigrateFilesCommand extends ContainerAwareCommand
                 $data = explode("\t", $line);
                 if ($data[0]=="\\.\n") break;
 
-                $user = $this->getUserManager()->findUserByEmail( $data[self::mu_email] );
+                $user = $this->getUserManager()->findUserByEmail( $data[self::MU_EMAIL] );
 
                 // if any user is not found, don't go further
                 if ($user) {
-                    $users[$data[self::mu_id]] = $user;
+                    $users[$data[self::MU_ID]] = $user;
                     $this->stats['nb_users_load']++;
                 }
 
@@ -321,15 +328,14 @@ class MigrateFilesCommand extends ContainerAwareCommand
 
 
     /**
-    * import every files beloning to users, update the array users with the new filenames
-    * 
-    * @param file stream - the opened PostgreSQL file
-    * @param array - users associative array that will be updated by this method.
-    * @param \Doctrine\ORM\EntityManager - entity manager
-    * @param OutputInterface - console output object
-    *
-    * @throws an exception if this method failed in importing the files.
-    */
+     * import every files beloning to users, update the array users with the new filenames
+     *
+     * @param resource $stream - the opened PostgreSQL file
+     * @param array $users - users associative array that will be updated by this method.
+     * @param OutputInterface $output - console output object
+     *
+     * @throws \Exception - if this method failed in importing the files.
+     */
     private function importUsersFiles($stream, &$users, OutputInterface $output)
     {
             $em = $this->getContainer()->get('doctrine')->getManager();
@@ -349,7 +355,7 @@ class MigrateFilesCommand extends ContainerAwareCommand
                 if ($data[0] == "\\.\n") break;
 
                 // get the associated user data from the home foreign key user id
-                $user = &$users[$data[self::mh_user_id]];
+                $user = &$users[$data[self::MH_USER_ID]];
 
                 // process the import itself
                 if (!$this->importRow($data, $user)) {
@@ -380,13 +386,13 @@ class MigrateFilesCommand extends ContainerAwareCommand
     }
 
 
-
     /**
-    * Import the row into the user object
-    *
-    * @param array - associative array containing all columns for one row
-    * @param User - the user that will be updated and for whom the files will be imported
-    */
+     * Import the row into the user object
+     *
+     * @param array - associative array containing all columns for one row
+     * @param User - the user that will be updated and for whom the files will be imported
+     * @return bool
+     */
     private function importRow($row, User $user)
     {
             $success = true;
@@ -400,35 +406,35 @@ class MigrateFilesCommand extends ContainerAwareCommand
 
             // import files in the appropriate directory and in the database
             $subdirs_to_import = array(
-                self::mh_address_evidence   => 'address_evidence/'.$row[self::mh_id],
-                self::mh_caf_evidence       => 'caf_evidence/'.$row[self::mh_id],
-                self::mh_salary_evidence    => 'salary_evidence/'.$row[self::mh_id],
-                self::mh_salary_evidence_2  => 'salary_evidence_2/'.$row[self::mh_id],
-                self::mh_salary_evidence_3  => 'salary_evidence_3/'.$row[self::mh_id]
+                self::MH_ADDRESS_EVIDENCE   => 'address_evidence/'.$row[self::MH_ID],
+                self::MH_CAF_EVIDENCE       => 'caf_evidence/'.$row[self::MH_ID],
+                self::MH_SALARY_EVIDENCE   => 'salary_evidence/'.$row[self::MH_ID],
+                self::MH_SALARY_EVIDENCE_2  => 'salary_evidence_2/'.$row[self::MH_ID],
+                self::MH_SALARY_EVIDENCE_3  => 'salary_evidence_3/'.$row[self::MH_ID]
                 );
 
             $filenames_to_import = array(
-                self::mh_address_evidence   => $row[self::mh_address_evidence],
-                self::mh_caf_evidence       => $row[self::mh_caf_evidence],
-                self::mh_salary_evidence    => $row[self::mh_salary_evidence],
-                self::mh_salary_evidence_2  => $row[self::mh_salary_evidence_2],
-                self::mh_salary_evidence_3  => $row[self::mh_salary_evidence_3]
+                self::MH_ADDRESS_EVIDENCE   => $row[self::MH_ADDRESS_EVIDENCE],
+                self::MH_CAF_EVIDENCE       => $row[self::MH_CAF_EVIDENCE],
+                self::MH_SALARY_EVIDENCE   => $row[self::MH_SALARY_EVIDENCE],
+                self::MH_SALARY_EVIDENCE_2  => $row[self::MH_SALARY_EVIDENCE_2],
+                self::MH_SALARY_EVIDENCE_3  => $row[self::MH_SALARY_EVIDENCE_3]
                 );
 
             $filenames_currently_in_db = array(
-                self::mh_address_evidence   => $user->getPathDomicile(),
-                self::mh_caf_evidence       => $user->getPathPrestations(),
-                self::mh_salary_evidence    => $user->getPathSalaire1(),
-                self::mh_salary_evidence_2  => $user->getPathSalaire2(),
-                self::mh_salary_evidence_3  => $user->getPathSalaire3()
+                self::MH_ADDRESS_EVIDENCE   => $user->getPathDomicile(),
+                self::MH_CAF_EVIDENCE       => $user->getPathPrestations(),
+                self::MH_SALARY_EVIDENCE   => $user->getPathSalaire1(),
+                self::MH_SALARY_EVIDENCE_2  => $user->getPathSalaire2(),
+                self::MH_SALARY_EVIDENCE_3  => $user->getPathSalaire3()
                 );
 
             $user_method_set_paths = array(
-                self::mh_address_evidence   => 'setPathDomicile',
-                self::mh_caf_evidence       => 'setPathPrestations',
-                self::mh_salary_evidence    => 'setPathSalaire1',
-                self::mh_salary_evidence_2  => 'setPathSalaire2',
-                self::mh_salary_evidence_3  => 'setPathSalaire3'
+                self::MH_ADDRESS_EVIDENCE   => 'setPathDomicile',
+                self::MH_CAF_EVIDENCE       => 'setPathPrestations',
+                self::MH_SALARY_EVIDENCE   => 'setPathSalaire1',
+                self::MH_SALARY_EVIDENCE_2  => 'setPathSalaire2',
+                self::MH_SALARY_EVIDENCE_3  => 'setPathSalaire3'
                 );
 
             foreach($user_method_set_paths as $key => $user_method_set_path) {
@@ -469,7 +475,7 @@ class MigrateFilesCommand extends ContainerAwareCommand
             $filename       = $params['filename_currently_in_db'];
             
             if (!empty($filename) && 
-                !preg_match('/^'.(self::filename_prefix).'/', $filename) &&
+                !preg_match('/^'.(self::FILENAME_PREFIX).'/', $filename) &&
                 is_file($this->path_target."/".$filename)) {
                     return;
             }
@@ -505,7 +511,7 @@ class MigrateFilesCommand extends ContainerAwareCommand
     private function createUniqueName($filename)
     {
         if (!empty($filename)) {
-            return self::filename_prefix . uniqid() .'.'. pathinfo($filename, PATHINFO_EXTENSION);
+            return self::FILENAME_PREFIX . uniqid() .'.'. pathinfo($filename, PATHINFO_EXTENSION);
         }
         return '';
     }

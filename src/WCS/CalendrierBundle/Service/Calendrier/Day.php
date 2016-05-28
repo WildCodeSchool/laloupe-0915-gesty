@@ -30,8 +30,8 @@ class Day
         $this->month        = $day->format('m');
         $this->day          = $day->format('d');
         $this->dayOfWeek    = str_replace('0', '7', $day->format('w'));
-        $this->isOff        = false;
-        $this->isPast       = false;
+        $this->off        = false;
+        $this->past       = false;
     }
 
     /**
@@ -79,15 +79,15 @@ class Day
      */
     public function isOff()
     {
-        return $this->isOff;
+        return $this->off;
     }
 
     /**
      * @param boolean $isOff
      */
-    public function setIsOff($isOff)
+    public function setOff($isOff)
     {
-        $this->isOff = $isOff;
+        $this->off = $isOff;
     }
 
     /**
@@ -95,21 +95,21 @@ class Day
      */
     public function isPast()
     {
-        return $this->isPast;
+        return $this->past;
     }
 
     /**
      * @param boolean $isPast
      */
-    public function setIsPast($isPast)
+    public function setPast($isPast)
     {
-        $this->isPast = $isPast;
+        $this->past = $isPast;
     }
 
     private $year;
     private $month;
     private $day;
     private $dayOfWeek;
-    private $isOff;
-    private $isPast;
+    private $off;
+    private $past;
 };

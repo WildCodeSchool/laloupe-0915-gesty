@@ -1,7 +1,6 @@
 <?php
 
 namespace WCS\CantineBundle\Entity;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 
 class SchoolRepository extends \Doctrine\ORM\EntityRepository

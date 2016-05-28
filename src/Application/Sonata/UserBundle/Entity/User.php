@@ -24,12 +24,12 @@ use Sonata\UserBundle\Entity\BaseUser as BaseUser;
  */
 class User extends BaseUser
 {
-    const type_Domicile     = 1;
-    const type_Prestations  = 2;
-    const type_Salaire1     = 3;
-    const type_Salaire2     = 4;
-    const type_Salaire3     = 5;
-    const type_Impots       = 6;
+    const TYPE_DOMICILE     = 1;
+    const TYPE_PRESTATIONS  = 2;
+    const TYPE_SALAIRE1     = 3;
+    const TYPE_SALAIRE2     = 4;
+    const TYPE_SALAIRE3     = 5;
+    const TYPE_IMPOTS       = 6;
 
     public function setEmail($email){
         parent::setEmail($email);

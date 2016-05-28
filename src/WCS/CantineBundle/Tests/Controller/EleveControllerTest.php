@@ -28,16 +28,16 @@ class EleveControllerTest extends WebTestCase
         $form['_username'] = 'aaa@email.com';
         $form['_password'] = 'aaa';
 
-        $crawler = $client->submit($form);
+        $client->submit($form);
 
 
         //suivre la redirection (la première provoque à nouveau une autre redirection vers le dashboard)
 
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $this->assertEquals('WCS\GestyBundle\Controller\DashboardController::indexAction', $client->getRequest()->attributes->get('_controller'));
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('WCS\CantineBundle\Controller\EleveController::dashboardAction', $client->getRequest()->attributes->get('_controller'));
 
@@ -100,11 +100,11 @@ class EleveControllerTest extends WebTestCase
             'PHP_AUTH_USER' => 'aaa@email.com',
             'PHP_AUTH_PW' => 'aaa',
         ));
-        $crawler = $client->request('GET', '/dashboard');
+        $client->request('GET', '/dashboard');
         $this->assertEquals('WCS\CantineBundle\Controller\EleveController::dashboardAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        $crawler = $client->request('GET', '/profile');
+        $client->request('GET', '/profile');
 
             //suivre redirection vers page profile
         $this->assertEquals(301, $client->getResponse()->getStatusCode());
@@ -123,7 +123,7 @@ class EleveControllerTest extends WebTestCase
             ->filter('a:contains("Enregistrer mon(mes) enfant(s)")')
             ->eq(0)
             ->link();
-        $crawler = $client->click($link);
+        $client->click($link);
 
             //suivre redirection vers page create
 
@@ -139,7 +139,7 @@ class EleveControllerTest extends WebTestCase
             ->filter('a#logout')
             ->eq(0)
             ->link();
-        $crawler = $client->click($link);
+        $client->click($link);
 
             //suivre redirection vers page dashboard
 
@@ -171,7 +171,6 @@ class EleveControllerTest extends WebTestCase
 
 
             // submit the form
-        $crawler = $client->submit($form);
-
+        $client->submit($form);
     }
 }

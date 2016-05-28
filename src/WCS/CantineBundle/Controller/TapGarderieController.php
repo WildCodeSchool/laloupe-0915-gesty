@@ -3,11 +3,9 @@ namespace WCS\CantineBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Form;
 use \WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Form\Type\TapType;
-use WCS\CalendrierBundle\Service\Calendrier\Day;
 
 
 class TapGarderieController extends Controller
@@ -43,7 +41,7 @@ class TapGarderieController extends Controller
 
         // traite les infos saisies dans le formulaire
         if ($this->processPostedForm($request, $form, $eleve)) {
-            return $this->redirect($this->generateUrl('wcs_cantine_dashboard'));
+            return $this->redirectToRoute('wcs_cantine_dashboard');
         }
 
 
@@ -82,27 +80,6 @@ class TapGarderieController extends Controller
 
             $em->flush();
 
-/*
-            // la nouvelle sélection de dates (avec celles déjà présentes en
-            // base de données, et les nouvelles à ajouter
-            // (cette liste a été mise à jour avec LunchToStringTransformer)
-            $lunchesNew = $eleve->getLunches();
-
-            // récupère les réservations actuellement en base de données
-            $lunchesOld = $em->getRepository("WCSCantineBundle:Lunch")->findByEleve($eleve);
-
-            // supprime les dates qui ne sont plus sélectionnées
-            foreach($lunchesOld as $lunchOld) {
-                if (!$lunchesNew->contains($lunchOld)) {
-                    $em->remove($lunchOld);
-                }
-            }
-
-            // met à jour la fiche élève (le régime alimentaire,...)
-            $em->persist($eleve);
-
-            $em->flush();
-*/
             return true;
         }
 

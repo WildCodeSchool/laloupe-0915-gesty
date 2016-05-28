@@ -22,6 +22,7 @@ class Eleve
     {
         $this->habits = array();
         $this->voyages = new ArrayCollection();
+        $this->regimeSansPorc = false;
     }
 
 

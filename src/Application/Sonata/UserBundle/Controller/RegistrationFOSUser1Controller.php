@@ -2,13 +2,8 @@
 
 namespace Application\Sonata\UserBundle\Controller;
 
-use Application\Sonata\UserBundle\Entity\User;
-use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Security\Core\Exception\AccountStatusException;
 use FOS\UserBundle\Model\UserInterface;
 
 /**
@@ -88,27 +83,6 @@ class RegistrationFOSUser1Controller extends \Sonata\UserBundle\Controller\Regis
             'user' => $user,
         ));
     }
-
-    /*public function sendMailAction($user)
-    {
-        $message = \Swift_Message::newInstance()
-            ->setSubject('Bienvenue sur Gesty')
-            ->setFrom('cryptyo@gmail.com')
-            ->setTo('bruchonsev@gmail.com')
-            ->setBody($this->renderView(
-                'WCSCantineBundle:User:registrationEmail.html.twig',
-                array('user' => $user
-                )
-            ),
-                'text/html'
-            );
-        $this->get('mailer')->send($message);
-
-        return new RedirectResponse($this->getRedirectionUrl($user));
-
-    }*/
-
-
 }
 
 

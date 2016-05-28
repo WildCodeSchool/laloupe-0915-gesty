@@ -7,11 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Form;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use WCS\CalendrierBundle\Service\Calendrier\Calendrier;
-use WCS\CalendrierBundle\Service\Periode\Periode;
 use WCS\CantineBundle\Entity\Eleve;
-use WCS\CantineBundle\Entity\Lunch;
-use WCS\CantineBundle\Form\Model\CantineFormEntity;
 use WCS\CantineBundle\Form\Type\CantineType;
 
 
@@ -65,9 +61,11 @@ class CantineController extends Controller
         // la réservation à la cantine ne peut être effectué que 7 jours après
         // la date du jour (soit le 8e jour)
         // on désactive donc le jour actuel et les 7 jours suivants.
+
         $oneDay     = new \DateInterval('P1D');
         $currentDay = new \DateTimeImmutable($calendrier->getDateToday());
         $dayPlus7   = $currentDay->add(new \DateInterval('P8D'));
+        $cantineWeekLocked = array();
 
         while ($currentDay < $dayPlus7) {
             $cantineWeekLocked[] = $currentDay;

@@ -73,12 +73,12 @@ class DownloadController extends Controller
         }
 
         $paths = array(
-            User::type_Domicile     => $user->getAbsolutePathDomicile(),
-            User::type_Prestations  => $user->getAbsolutePathPrestations(),
-            User::type_Salaire1     => $user->getAbsolutePathSalaire1(),
-            User::type_Salaire2     => $user->getAbsolutePathSalaire2(),
-            User::type_Salaire3     => $user->getAbsolutePathSalaire3(),
-            User::type_Impots       => $user->getAbsolutePathImpot()
+            User::TYPE_DOMICILE     => $user->getAbsolutePathDomicile(),
+            User::TYPE_PRESTATIONS  => $user->getAbsolutePathPrestations(),
+            User::TYPE_SALAIRE1     => $user->getAbsolutePathSalaire1(),
+            User::TYPE_SALAIRE2     => $user->getAbsolutePathSalaire2(),
+            User::TYPE_SALAIRE3     => $user->getAbsolutePathSalaire3(),
+            User::TYPE_IMPOTS       => $user->getAbsolutePathImpot()
             );
 
         $ext = strtolower(pathinfo($paths[$type_file], PATHINFO_EXTENSION));
@@ -96,12 +96,12 @@ class DownloadController extends Controller
         }
 
         $new_filenames = array(
-            User::type_Domicile     => "justif_domicile.".$ext,
-            User::type_Prestations  => "justif_prestations.".$ext,
-            User::type_Salaire1     => "justif_salaire_1.".$ext,
-            User::type_Salaire2     => "justif_salaire_2.".$ext,
-            User::type_Salaire3     => "justif_salaire_3.".$ext,
-            User::type_Impots       => "justif_impots.".$ext
+            User::TYPE_DOMICILE     => "justif_domicile.".$ext,
+            User::TYPE_PRESTATIONS  => "justif_prestations.".$ext,
+            User::TYPE_SALAIRE1     => "justif_salaire_1.".$ext,
+            User::TYPE_SALAIRE2     => "justif_salaire_2.".$ext,
+            User::TYPE_SALAIRE3     => "justif_salaire_3.".$ext,
+            User::TYPE_IMPOTS       => "justif_impots.".$ext
             );
 
         // build the HTTP response        

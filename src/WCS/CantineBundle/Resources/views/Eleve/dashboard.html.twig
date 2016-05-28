@@ -102,7 +102,7 @@
                                 </li>
                             {% else %}
                                 <li  class="fa fa-exclamation" aria-hidden="true">
-                                {% if type_file == constant('Application\\Sonata\\UserBundle\\Entity\\User::type_Impots') %}
+                                {% if type_file == constant('Application\\Sonata\\UserBundle\\Entity\\User::TYPE_IMPOTS') %}
                                     Vous avez {{nbChildrenVoyageInscrits}} enfant{{ nbChildrenVoyageInscrits>1?'s':'' }} inscrit{{ nbChildrenVoyageInscrits>1?'s':'' }} à au moins 1 voyage scolaire :<br /> n'oubliez pas de fournir
                                     votre dernier avis d'imposition.
                                 {% else %}
@@ -316,7 +316,7 @@
 
                                             {%  if user.pathImpots %}
                                                 <br />Télécharger votre :
-                                                <a href="{{ path("gesty_parent_download", {'type_file': constant('Application\\Sonata\\UserBundle\\Entity\\User::type_Impots')} ) }}" target="_blank">Justificatif d'imposition</a>
+                                                <a href="{{ path("gesty_parent_download", {'type_file': constant('Application\\Sonata\\UserBundle\\Entity\\User::TYPE_IMPOTS')} ) }}" target="_blank">Justificatif d'imposition</a>
                                             {%  else %}
                                                 <br /><em>Pensez à déposer votre dernier avis d'imposition lors de l'inscription de votre enfant</em>
                                             {%  endif  %}

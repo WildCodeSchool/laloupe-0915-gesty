@@ -139,7 +139,7 @@ class EleveController extends Controller
      */
     private function createEditForm(Eleve $entity)
     {
-        $form = $this->createForm(new EleveEditType($this->getDoctrine()->getManager()), $entity, array(
+        $form = $this->createForm(new EleveEditType(), $entity, array(
             'action' => $this->generateUrl('eleve_update', array('id' => $entity->getId())),
             'method' => 'POST',
         ));
@@ -151,7 +151,7 @@ class EleveController extends Controller
      * Edits an existing Eleve entity.
      *
      */
-    /*
+
     public function updateAction(Request $request, $id)
     {
         $user = $this->getUser();
@@ -192,7 +192,7 @@ class EleveController extends Controller
             'delete_form' => $deleteForm->createView(),
         ));
     }
-    */
+    
 
     /**
      * Deletes a Eleve entity.
@@ -262,33 +262,33 @@ class EleveController extends Controller
 
         // pièces jointes
         $filesArray = array();
-        $filesArray[User::type_Domicile]    = array(
+        $filesArray[User::TYPE_DOMICILE]    = array(
             'libelle_justif' => 'Justificatif de domicile',
             'exists' => is_file($user->getAbsolutePathDomicile())
         );
 
-        $filesArray[User::type_Prestations] = array(
+        $filesArray[User::TYPE_PRESTATIONS] = array(
             'libelle_justif' => 'Justificatif de CAF',
             'exists' => is_file($user->getAbsolutePathPrestations())
         );
 
-        $filesArray[User::type_Salaire1]    = array(
+        $filesArray[User::TYPE_SALAIRE1]    = array(
             'libelle_justif' => 'Justificatif de salaire 1',
             'exists' => is_file($user->getAbsolutePathSalaire1())
         );
 
-        $filesArray[User::type_Salaire2]    = array(
+        $filesArray[User::TYPE_SALAIRE2]    = array(
             'libelle_justif' => 'Justificatif de salaire 2',
             'exists' => is_file($user->getAbsolutePathSalaire2())
         );
 
-        $filesArray[User::type_Salaire3]    = array(
+        $filesArray[User::TYPE_SALAIRE3]    = array(
             'libelle_justif' => 'Justificatif de salaire 3',
             'exists' => is_file($user->getAbsolutePathSalaire3())
         );
 
         if ($nbChildrenVoyageInscrits) {
-            $filesArray[User::type_Impots]    = array(
+            $filesArray[User::TYPE_IMPOTS]    = array(
                 'libelle_justif' => "Justificatif avis d'imposition",
                 'exists' => is_file($user->getAbsolutePathImpot())
             );

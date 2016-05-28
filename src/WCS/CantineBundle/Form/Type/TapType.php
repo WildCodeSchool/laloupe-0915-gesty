@@ -6,7 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use WCS\CalendrierBundle\Service\Periode\Periode;
-use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Form\DataTransformer\TapToStringTransformer;
 use WCS\CantineBundle\Form\DataTransformer\GarderieToStringTransformer;
 

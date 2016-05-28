@@ -12,11 +12,11 @@ use Application\Sonata\UserBundle\Entity\User;
 
 class emailListener
 {
-    private $mailer;
+//    private $mailer;
 
     public function __construct(\Swift_mailer $mailer)
     {
-        $this->mailer = $mailer;
+//        $this->mailer = $mailer;
     }
 
     public function oneSendMail(User $user)
@@ -28,7 +28,8 @@ class emailListener
             ->setBody(
                 $this->renderView(
               //WCS/CantineBundle/views/User/registrationEmail.html.twig
-                    'User/registrationEmail.html.twig',
+//                    'User/registrationEmail.html.twig',
+                    'User/registrationemail.html.twig',
                     array('name' => $user)
                 ),
                 'text/html'
