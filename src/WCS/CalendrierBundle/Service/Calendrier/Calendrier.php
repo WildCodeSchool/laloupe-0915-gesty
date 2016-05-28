@@ -84,6 +84,30 @@ class Calendrier
         $this->addDaysWithAttribute($array_days_past, 'setPast', true);
     }
 
+
+    /**
+     * Ajoute "nb jours" "fermés" (ex : des jours fériés) depuis une date de début
+     * uniquement pour la période du calendrier
+     * Ainsi, un jour férié pour une autre année ne sera pas ajouté.
+     *
+     * @param \DateTimeImmutable $dateDebut date à partir de laquelle on doit ajouter des jours "fermés" (date incluse)
+     * @param \DateInterval $nbJours à ajouter
+     */
+    public function addDaysPastFrom(\DateTimeImmutable $dateDebut, \DateInterval $nbJours)
+    {
+
+        $oneDay     = new \DateInterval('P1D');
+        $currentDay = $dateDebut;
+        $dayPlus7   = $currentDay->add($nbJours);
+        $list_day_past = array();
+
+        while ($currentDay < $dayPlus7) {
+            $list_day_past[] = $currentDay;
+            $currentDay = $currentDay->add($oneDay);
+        }
+        $this->addDaysPast($list_day_past);
+    }
+
     /**
      * @return PeriodesAnneeScolaire renvoit l'objet PeriodesAnneeScolaire
      */

@@ -62,13 +62,13 @@ services:
                 - {name: "form.type", alias: "wcs_cantinebundle_eleve"}
 
       application.sonata_user_listener:
-            class: Application\Sonata\UserBundle\EventListener\editProfileListener
+            class: Application\Sonata\UserBundle\EventListener\EditProfileListener
             tags:
                 - { name: doctrine.event_listener, event: preUpdate }
             arguments: ['@mailer']
 
       application.sonata_mail_listener:
-            class: Application\Sonata\UserBundle\EventListener\emailListener
+            class: Application\Sonata\UserBundle\EventListener\EmailListener
             arguments: ['@mailer']
 
 #      sonata.admin.voyage:

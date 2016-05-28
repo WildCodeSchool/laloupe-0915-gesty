@@ -10,7 +10,7 @@ namespace Application\Sonata\UserBundle\EventListener;
 use Application\Sonata\UserBundle\Entity\User;
 
 
-class emailListener
+class EmailListener
 {
 //    private $mailer;
 

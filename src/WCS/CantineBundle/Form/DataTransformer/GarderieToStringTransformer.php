@@ -40,26 +40,7 @@ class GarderieToStringTransformer implements DataTransformerInterface
             return '';
         }
 
-        $garderies_all = $this->daysOfWeek->getListJoursGarderie();
-        $tmp = array();
-        foreach($garderies as $garderie) {
-            foreach ($garderies_all as $dayOfWeek => $datesheures) {
-
-                $dateheure  = $garderie->getDateHeure()->format('Y-m-d H:i:s');
-
-                if (in_array($dateheure, $datesheures)) {
-                    $tmp[$dayOfWeek] = 1;
-                }
-            }
-        }
-
-        $tmp2 = array();
-        foreach ($tmp as $key => $value) {
-            $tmp2[] = $key;
-        }
-        $daysOfWeekStr = implode(";", $tmp2);
-
-        return $daysOfWeekStr;
+        return implode(";", $this->daysOfWeek->getGarderieSelectionToArray($garderies));
     }
 
     /**

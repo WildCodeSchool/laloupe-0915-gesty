@@ -37,7 +37,6 @@ class CanteenManagerController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $lunches = $em->getRepository('WCSCantineBundle:Lunch')->getTodayList($schoolId);
-
         $school = $em->getRepository('WCSCantineBundle:School')->find($schoolId);
 
         $lunch = new Lunch();
@@ -50,7 +49,7 @@ class CanteenManagerController extends Controller
             $em->persist($lunch);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('wcs_cantine_todayList', array('schoolId' => $schoolId)));
+            return $this->redirectToRoute('wcs_cantine_todayList', array('schoolId' => $schoolId));
         }
 
         if ($request->getMethod() == 'POST') {
@@ -65,7 +64,7 @@ class CanteenManagerController extends Controller
                 }
             }
             $em->flush();
-            return $this->redirect($this->generateUrl('wcs_gesty_ecoles', array('schoolId' => $schoolId)));
+            return $this->redirectToRoute('wcs_gesty_ecoles', array('schoolId' => $schoolId));
         }
 
 

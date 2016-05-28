@@ -154,42 +154,29 @@ class EleveController extends Controller
 
     public function updateAction(Request $request, $id)
     {
-        $user = $this->getUser();
-        if (!$user) {
-            throw $this->createAccessDeniedException();
-        }
-
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
 
-        if (!$entity || !$entity->isCorrectParentConnected($user)) {
+        $user = $this->getUser();
+        $eleve = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
+
+        if (!$user || !$eleve || !$eleve->isCorrectParentConnected($user)) {
             return $this->redirectToRoute('wcs_cantine_dashboard');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createEditForm($eleve);
+
         $editForm->handleRequest($request);
-
-
-
         if ($editForm->isValid()) {
-            $oldLunches = $em->getRepository('WCSCantineBundle:Lunch')->findByEleve($entity);
-            foreach($oldLunches as $lunch)
-            {
-                if (!$entity->getLunches()->contains($lunch))
-                    $em->remove($lunch);
-            }
-            $em->persist($entity);
+            $em->persist($eleve);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('wcs_cantine_dashboard'));
+            return $this->redirectToRoute('wcs_cantine_dashboard');
         }
 
 
         return $this->render('WCSCantineBundle:Eleve:edit.html.twig', array(
-            'entity' => $entity,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'entity' => $eleve,
+            'edit_form' => $editForm->createView()
         ));
     }
     
@@ -245,6 +232,7 @@ class EleveController extends Controller
      * Affiche le dashboard
      *
      * @param Request       contient les paramètres passés en URL
+     *
      * @return Response     renvoit une reponse HTTP après rendu du template dashboard
      */
     public function dashboardAction(Request $request)
@@ -261,6 +249,52 @@ class EleveController extends Controller
         $nbChildrenVoyageInscrits = $em->getRepository('WCSCantineBundle:Eleve')->findNbEnfantInscritsVoyage($user);
 
         // pièces jointes
+        $filesArray = $this->getFiles($user, $nbChildrenVoyageInscrits);
+
+        // periodes TAP/Garderie
+        $periodesScolaires = $this->get("wcs.calendrierscolaire")->getPeriodesAnneeRentreeScolaire();
+        $periodes = $periodesScolaires->findEnClasseFrom(new \DateTime());
+
+        // récupère les days of week sélectionnés
+        $daysOfWeek = new DaysOfWeeks($periodes);
+
+
+        $children_activities = array();
+
+        // récupère les taps de chaque enfants
+
+        $list_taps = array();
+        foreach ($children as $child) {
+            $list_taps[$child->getId()] = $daysOfWeek->getTapSelectionToArray($child->getTaps());
+        }
+        $children_activities['taps'] = $list_taps;
+
+        // récupère les garderies de chaque enfants
+
+        $list_garderies = array();
+        foreach ($children as $child) {
+            $list_garderies[$child->getId()] = $daysOfWeek->getGarderieSelectionToArray($child->getGarderies());
+        }
+        $children_activities['garderies'] = $list_garderies;
+
+
+            return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(
+            'user' => $user,
+            'children' => $children,
+            'files'=>$filesArray,
+            'periode_tap'=>$periodes,
+            'children_activities'=>$children_activities,
+            'nbChildrenVoyageInscrits'=>$nbChildrenVoyageInscrits
+        ));
+    }
+
+    /**
+     * @param $user
+     * @param $nbChildrenVoyageInscrits
+     * @return array
+     */
+    private function getFiles($user, $nbChildrenVoyageInscrits)
+    {
         $filesArray = array();
         $filesArray[User::TYPE_DOMICILE]    = array(
             'libelle_justif' => 'Justificatif de domicile',
@@ -294,74 +328,6 @@ class EleveController extends Controller
             );
         }
 
-        // periodes TAP/Garderie
-        $periodesScolaires = $this->get("wcs.calendrierscolaire")->getPeriodesAnneeRentreeScolaire();
-        $periodes = $periodesScolaires->findEnClasseFrom(new \DateTime());
-
-        // récupère les days of week sélectionnés
-        $daysOfWeek = new DaysOfWeeks($periodes);
-
-
-        // récupère les taps de chaque enfants
-        $tap_all = $daysOfWeek->getListJoursTap();
-
-        $children_taps = array();
-        foreach ($children as $child) {
-
-            $taps = $child->getTaps();
-
-            $tmp = array();
-            foreach($taps as $tap) {
-                foreach ($tap_all as $dayOfWeek => $dates) {
-                    if (in_array($tap->getDate()->format('Y-m-d'), $dates)) {
-                        $tmp[$dayOfWeek] = 1;
-                    }
-                }
-            }
-
-            $tmp2 = array();
-            foreach ($tmp as $key => $value) {
-                $tmp2[] = $key;
-            }
-            $children_taps[$child->getId()] = $tmp2;
-        }
-
-        // récupère les garderies de chaque enfants
-        $garderies_all = $daysOfWeek->getListJoursGarderie();
-
-        $children_garderies = array();
-        foreach ($children as $child) {
-
-            $garderies = $child->getGarderies();
-
-            $tmp = array();
-            foreach($garderies as $garderie) {
-                foreach ($garderies_all as $dayOfWeek => $datesheures) {
-
-                    $dateheure  = $garderie->getDateHeure()->format('Y-m-d H:i:s');
-
-                    if (in_array($dateheure, $datesheures)) {
-                        $tmp[$dayOfWeek] = 1;
-                    }
-                }
-            }
-
-            $tmp2 = array();
-            foreach ($tmp as $key => $value) {
-                $tmp2[] = $key;
-            }
-            $children_garderies[$child->getId()] = $tmp2;
-        }
-
-
-            return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(
-            'user' => $user,
-            'children' => $children,
-            'files'=>$filesArray,
-            'periode_tap'=>$periodes,
-            'children_taps'=>$children_taps,
-            'children_garderies'=>$children_garderies,
-            'nbChildrenVoyageInscrits'=>$nbChildrenVoyageInscrits
-        ));
+        return $filesArray;
     }
 }

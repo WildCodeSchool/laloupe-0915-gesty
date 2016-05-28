@@ -259,31 +259,31 @@
                                         {% if child.division.school.activeGarderie %}
                                         <div class="btn-group btn-group-justified" role="group">
                                             <a href="#" type="button" class="btn disabled btn-default">Garderie <br />matin</a>
-                                            <a href="#" type="button" class="btn disabled {% if '1-1' in children_garderies[child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
-                                            <a href="#" type="button" class="btn disabled {% if '2-1' in children_garderies[child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
-                                            <a href="#" type="button" class="btn disabled {% if '3-1' in children_garderies[child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
-                                            <a href="#" type="button" class="btn disabled {% if '4-1' in children_garderies[child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
-                                            <a href="#" type="button" class="btn disabled {% if '5-1' in children_garderies[child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '1-1' in children_activities['garderies'][child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '2-1' in children_activities['garderies'][child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '3-1' in children_activities['garderies'][child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '4-1' in children_activities['garderies'][child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '5-1' in children_activities['garderies'][child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
                                         </div>
                                         {% endif %}
                                         {% if child.division.school.activeTap %}
                                         <div class="btn-group btn-group-justified" role="group">
                                             <a href="#" type="button" class="btn disabled btn-default">TAP<br />&nbsp;</a>
                                             <a href="#" type="button" class="btn disabled btn-default"></a>
-                                            <a href="#" type="button" class="btn disabled  {% if '2' in children_taps[child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled  {% if '2' in children_activities['taps'][child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
                                             <a href="#" type="button" class="btn disabled btn-default"></a>
-                                            <a href="#" type="button" class="btn disabled  {% if '4' in children_taps[child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled  {% if '4' in children_activities['taps'][child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
                                             <a href="#" type="button" class="btn disabled btn-default"></a>
                                         </div>
                                         {% endif %}
                                         {% if child.division.school.activeGarderie %}
                                         <div class="btn-group btn-group-justified" role="group">
                                             <a href="#" type="button" class="btn disabled btn-default">Garderie<br />soir</a>
-                                            <a href="#" type="button" class="btn disabled {% if '1-2' in children_garderies[child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
-                                            <a href="#" type="button" class="btn disabled {% if '2-2' in children_garderies[child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '1-2' in children_activities['garderies'][child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '2-2' in children_activities['garderies'][child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
                                             <a href="#" type="button" class="btn disabled btn-default"></a>
-                                            <a href="#" type="button" class="btn disabled {% if '4-2' in children_garderies[child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
-                                            <a href="#" type="button" class="btn disabled {% if '5-2' in children_garderies[child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '4-2' in children_activities['garderies'][child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '5-2' in children_activities['garderies'][child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
                                         </div>
                                         {% endif %}
 

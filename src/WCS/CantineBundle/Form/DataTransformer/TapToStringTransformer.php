@@ -39,24 +39,7 @@ class TapToStringTransformer implements DataTransformerInterface
             return '';
         }
 
-        $tap_all = $this->daysOfWeek->getListJoursTap();
-
-        $tmp = array();
-        foreach($taps as $tap) {
-            foreach ($tap_all as $dayOfWeek => $dates) {
-                if (in_array($tap->getDate()->format('Y-m-d'), $dates)) {
-                    $tmp[$dayOfWeek] = 1;
-                }
-
-            }
-        }
-
-        $tmp2 = array();
-        foreach ($tmp as $key => $value) {
-            $tmp2[] = $key;
-        }
-
-        return implode(";", $tmp2);
+        return implode(";", $this->daysOfWeek->getTapSelectionToArray($taps));
     }
 
     /**

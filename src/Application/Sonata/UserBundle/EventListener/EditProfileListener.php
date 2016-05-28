@@ -1,10 +1,9 @@
 <?php
-// src/Application/Sonata/UserBundle/EventListener/editProfileListener.php
+// src/Application/Sonata/UserBundle/EventListener/EditProfileListener.php
 namespace Application\Sonata\UserBundle\EventListener;
 
-use Application\Sonata\UserBundle\Entity\User;
 
-class editProfileListener
+class EditProfileListener
 {
     private $mailer;
 
@@ -18,12 +17,12 @@ class editProfileListener
             $user->hasChangedField('caf') && $user->getOldValue('caf') != NULL
         ) {
             $em = $user->getObjectManager();
-            $admins = $em->getRepository('Application\Sonata\UserBundle\Entity\User')->findAll();
             /*
              Code suivant à modifier
             l'adresse est en dur
             */
             /*
+            $admins = $em->getRepository('Application\Sonata\UserBundle\Entity\User')->findAll();
             $mailsArray = [];
             foreach ($admins as $admin) {
                 $mailsArray[] = $admin->getEmail();
