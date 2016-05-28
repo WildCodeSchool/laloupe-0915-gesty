@@ -245,11 +245,8 @@ class EleveController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
 
         // liste des enfants
-        $children = $em->getRepository("WCSCantineBundle:Eleve")->findChildren($user);
-        $nbChildrenVoyageInscrits = $em->getRepository('WCSCantineBundle:Eleve')->findNbEnfantInscritsVoyage($user);
-
-        // pièces jointes
-        $filesArray = $this->getFiles($user, $nbChildrenVoyageInscrits);
+        $children                   = $em->getRepository("WCSCantineBundle:Eleve")->findChildren($user);
+        $nbChildrenVoyageInscrits   = $em->getRepository('WCSCantineBundle:Eleve')->findNbEnfantInscritsVoyage($user);
 
         // periodes TAP/Garderie
         $periodesScolaires = $this->get("wcs.calendrierscolaire")->getPeriodesAnneeRentreeScolaire();
@@ -258,33 +255,21 @@ class EleveController extends Controller
         // récupère les days of week sélectionnés
         $daysOfWeek = new DaysOfWeeks($periodes);
 
-
+        // récupère les taps et les garderies de chaque enfants
         $children_activities = array();
-
-        // récupère les taps de chaque enfants
-
-        $list_taps = array();
         foreach ($children as $child) {
-            $list_taps[$child->getId()] = $daysOfWeek->getTapSelectionToArray($child->getTaps());
+            $children_activities[$child->getId()]["taps"]         = $daysOfWeek->getTapSelectionToArray($child->getTaps());
+            $children_activities[$child->getId()]["garderies"]    = $daysOfWeek->getGarderieSelectionToArray($child->getGarderies());
         }
-        $children_activities['taps'] = $list_taps;
-
-        // récupère les garderies de chaque enfants
-
-        $list_garderies = array();
-        foreach ($children as $child) {
-            $list_garderies[$child->getId()] = $daysOfWeek->getGarderieSelectionToArray($child->getGarderies());
-        }
-        $children_activities['garderies'] = $list_garderies;
 
 
-            return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(
-            'user' => $user,
-            'children' => $children,
-            'files'=>$filesArray,
-            'periode_tap'=>$periodes,
-            'children_activities'=>$children_activities,
-            'nbChildrenVoyageInscrits'=>$nbChildrenVoyageInscrits
+        return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(
+            'user'                      => $user,
+            'children'                  => $children,
+            'files'                     => $this->getFiles($user, $nbChildrenVoyageInscrits),
+            'periode_tap'               => $periodes,
+            'children_activities'       => $children_activities,
+            'nbChildrenVoyageInscrits'  => $nbChildrenVoyageInscrits
         ));
     }
 

@@ -24,16 +24,16 @@ In details, the script performs the following operations :
 
 namespace WCS\GestyBundle\Command;
 
-//use Doctrine\ORM\EntityManager;
+// Doctrine\ORM\EntityManager;
 use Sonata\UserBundle\Model\UserManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-//use Symfony\Component\Console\Input\InputOption;
+// Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Helper\ProgressBar;
-//use Symfony\Component\Console\Helper\QuestionHelper;
+// Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Question\Question;
 use Application\Sonata\UserBundle\Entity\User;
 
@@ -73,8 +73,6 @@ class MigrateFilesCommand extends ContainerAwareCommand
     const MH_SALARY_EVIDENCE_4      = 22;
     const MH_SALARY_EVIDENCE_5      = 23;
     const MH_SALARY_EVIDENCE_6      = 24;
-
-   // const path_application          = '/app';
 
     private $path_original          = '';
     private $path_target            = '';
@@ -223,7 +221,7 @@ class MigrateFilesCommand extends ContainerAwareCommand
      */
     private function createUploadsDir(OutputInterface $output)
     {
-            //$appPath = __DIR__.'/../../../..'.self::path_application;
+            //$appPath = __DIR__.'/../../../../app';
             $appPath = $this->getContainer()->get('kernel')->getRootDir();
 
             if (!is_writable($appPath)) {

@@ -10,7 +10,6 @@ namespace WCS\CantineBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use \WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Form\Type\VoyageType;
 
 

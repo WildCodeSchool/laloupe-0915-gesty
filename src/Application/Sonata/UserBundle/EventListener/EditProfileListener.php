@@ -16,12 +16,12 @@ class EditProfileListener
             $user->hasChangedField('commune') && $user->getOldValue('commune') != NULL ||
             $user->hasChangedField('caf') && $user->getOldValue('caf') != NULL
         ) {
-            $em = $user->getObjectManager();
             /*
              Code suivant à modifier
             l'adresse est en dur
             */
             /*
+            $em = $user->getObjectManager();
             $admins = $em->getRepository('Application\Sonata\UserBundle\Entity\User')->findAll();
             $mailsArray = [];
             foreach ($admins as $admin) {
