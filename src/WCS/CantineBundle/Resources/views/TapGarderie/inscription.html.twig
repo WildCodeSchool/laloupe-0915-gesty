@@ -30,12 +30,22 @@
 
                 <h3 class="titre">TAP/Garderie</h3>
 
-                <blockquote class="information">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error inventore libero perferendis quae quis. Corporis, dolorem eos fugiat fugit in quaerat quos ratione saepe sequi, sit temporibus ullam, voluptatem voluptates?</blockquote>
+                <blockquote class="information">L'inscription est valable pour toute la période en cours.</blockquote>
 
                 {% include '@WCSCantine/TapGarderie/calendar-tap.html.twig' %}
             </div>
             <div class="col-md-offset-1 col-md-9">
                 <h3>Signatures</h3>
+                <div class="form-group">
+                    {{ form_widget(form.atteste) }}
+                    <label for="signatures"> J’atteste avoir pris connaissance du règlement intérieur aux TAP de La Loupe, et je m'engage à le respecter et à le faire respecter par mon enfant *</label><br/>
+
+                    <blockquote>
+                        <ul>
+                            <li><a target="_blank" href="{{ asset('bundles/wcscantine/règlement/reglement_TAP.pdf') }}">Télécharger le règlement intérieur</a></li>
+                        </ul>
+                    </blockquote>
+                </div>
                 <div class="form-group">
                     {{ form_widget(form.autorise) }}
                     <label for="autorise" style="display:inline">J'autorise le responsable en TAP ou de la garderie, ou son représentant à prendre toutes mesures d'urgence nécessaires en cas d'accident survenant à mon enfant *</label>

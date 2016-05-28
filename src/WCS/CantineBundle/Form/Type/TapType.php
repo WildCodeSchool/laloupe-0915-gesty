@@ -30,6 +30,7 @@ class TapType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('atteste','checkbox', array('required'=>true, 'mapped'=>false))
             ->add('autorise','checkbox', array('required'=>true, 'mapped'=>false))
             ->add('certifie','checkbox', array('required'=>true, 'mapped'=>false))
 
