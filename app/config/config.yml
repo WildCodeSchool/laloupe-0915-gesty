@@ -220,16 +220,23 @@ sonata_admin:
                 icon: '<i class="fa fa-cutlery"></i>'
                 label: Cantine
 
+
             wcs.group.voyage:
                 icon: '<i class="fa fa-plane"></i>'
                 label: Voyages
                 items:
                     - sonata.admin.voyage
+
+            wcs.group.tapgarderie:
+                            icon: '<i class="fa fa-futbol-o"></i>'
+                            label: TAP-Garderie
+                            items:
+                                - sonata.admin.tap
+                                - sonata.admin.garderie
+
             wcs.group.feries:
                 icon: '<i class="fa fa-cogs"></i>'
                 label: Paramètres
-
-
 
 
 

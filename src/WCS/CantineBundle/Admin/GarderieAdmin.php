@@ -1,13 +1,15 @@
 <?php
-//WCS/CantineBundle/Admin/LunchAdmin.php
+//WCS/CantineBundle/Admin/GarderieAdmin.php
 namespace WCS\CantineBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Show\ShowMapper;
 
-class LunchAdmin extends Admin
+
+class GarderieAdmin extends Admin
 {
 
     // Fields to be shown on create/edit forms
@@ -15,9 +17,9 @@ class LunchAdmin extends Admin
     {
         $formMapper
             ->add('eleve', null)
-            ->add('date','sonata_type_date_picker',(array(
+            ->add('date_heure','sonata_type_datetime_picker',(array(
                 'label'=>'Date',
-                'format' => 'dd-MM-y'
+                'format' => 'dd-MM-y HH:ii'
             )))
             ->add('status', 'choice', array(
                 'choices' => array(
@@ -37,9 +39,9 @@ class LunchAdmin extends Admin
     {
         $datagridMapper
             ->add('eleve', null)
-            ->add('date', 'doctrine_orm_date_range', array(
+            ->add('date_heure', 'doctrine_orm_datetime_range', array(
                 'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd',
+                'format' => 'yyyy-MM-dd HH:ii',
             ))
         ;
 
@@ -51,8 +53,8 @@ class LunchAdmin extends Admin
         $listMapper
             ->addIdentifier('id')
             ->add('eleve', null)
-            ->add('date', 'date', array(
-                'format' => 'd/m/Y',
+            ->add('date_heure', 'date', array(
+                'format' => 'd/m/Y H i',
                 'label' => false
             ))
             ->add('status', 'choice', array(
@@ -71,4 +73,6 @@ class LunchAdmin extends Admin
 
         ;
     }
+
+
 }

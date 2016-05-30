@@ -11,6 +11,7 @@ class Lunch extends TacheBase
     public function __toString()
     {
         return (string) $this->getEleve();
+
     }
 
     public function getStringDate()

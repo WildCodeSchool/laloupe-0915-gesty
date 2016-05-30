@@ -78,8 +78,9 @@ class EleveRepository extends EntityRepository
         return $results;
     }
 
+
     /**
-     * @param $userParent \WCS\Application\UserBundle\Entity\User
+     * @param $userParent \Application\Sonata\UserBundle\Entity\User
      */
     public function findNbEnfantInscritsVoyage($userParent)
     {
@@ -101,3 +102,7 @@ class EleveRepository extends EntityRepository
         return $results[1];
     }
 }
+
+    
+
+

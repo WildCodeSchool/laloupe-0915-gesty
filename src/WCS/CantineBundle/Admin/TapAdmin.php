@@ -1,13 +1,15 @@
 <?php
-//WCS/CantineBundle/Admin/LunchAdmin.php
+//WCS/CantineBundle/Admin/TapAdmin.php
 namespace WCS\CantineBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Show\ShowMapper;
 
-class LunchAdmin extends Admin
+
+class TapAdmin extends Admin
 {
 
     // Fields to be shown on create/edit forms
@@ -71,4 +73,6 @@ class LunchAdmin extends Admin
 
         ;
     }
+
+
 }
