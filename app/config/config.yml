@@ -218,9 +218,18 @@ sonata_admin:
             wcs.group.lunches:
                 icon: '<i class="fa fa-cutlery"></i>'
                 label: Cantine
+
+            wcs.group.voyage:
+                icon: '<i class="fa fa-plane"></i>'
+                label: Voyages
+                items:
+                    - sonata.admin.voyage
             wcs.group.feries:
                 icon: '<i class="fa fa-cogs"></i>'
                 label: Paramètres
+
+
+
 
 
 braincrafted_bootstrap:
