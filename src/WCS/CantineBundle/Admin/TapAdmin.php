@@ -1,5 +1,5 @@
 <?php
-//WCS/CantineBundle/Admin/LunchAdmin.php
+//WCS/CantineBundle/Admin/TapAdmin.php
 namespace WCS\CantineBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
@@ -8,10 +8,8 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-use Symfony\Component\Validator\Constraints\DateTime;
-use WCS\CantineBundle\Entity\LunchRepository;
 
-class LunchAdmin extends Admin
+class TapAdmin extends Admin
 {
 
     // Fields to be shown on create/edit forms
