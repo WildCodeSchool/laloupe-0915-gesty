@@ -6,9 +6,6 @@ namespace WCS\CantineBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-
 use WCS\CantineBundle\Form\Type\StatusType;
 use WCS\CantineBundle\Form\Type\LunchType;
 use WCS\CantineBundle\Entity\Lunch;
@@ -33,32 +30,57 @@ class CanteenManagerController extends Controller
     /**
      * Lists all Eleve entities.
      *
+     * @param Request $request
+     * @param $schoolId
+     * @return null|\Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function todayListAction(Request $request, $schoolId)
     {
-        $dateNow = new \DateTime();
-
         $em = $this->getDoctrine()->getManager();
         $lunches = $em->getRepository('WCSCantineBundle:Lunch')->getTodayList($schoolId);
-
         $school = $em->getRepository('WCSCantineBundle:School')->find($schoolId);
 
         $lunch = new Lunch();
-        $form = $this->createForm(new LunchType(), $lunch, array('schoolId' => $schoolId));
-        $statusForm = $this->createForm(new StatusType(), $lunch);
-        $form->handleRequest($request);
+        $forms["lunchType"]  = $this->createForm(new LunchType(), $lunch, array('schoolId' => $schoolId));
+        $forms["statusType"] = $this->createForm(new StatusType(), $lunch);
 
-        if ($form->isValid()) {
-            $lunch->setDate($dateNow);
+        $resp = $this->processTodayListForm($request, $forms, $lunch, $schoolId);
+        if (!is_null($resp)) {
+            return $resp;
+        }
+
+        return $this->render('WCSCantineBundle:Eleve:todayList.html.twig', array(
+            'lunches' => $lunches,
+            'form' => $forms["lunchType"]->createView(),
+            'statusForm' => $forms["statusType"]->createView(),
+            'school' => $school
+        ));
+
+    }
+
+    /**
+     * @param Request $request
+     * @param $forms
+     * @param $lunch
+     * @param $schoolId
+     * @return null|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    private function processTodayListForm(Request $request, $forms, $lunch, $schoolId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $forms["lunchType"]->handleRequest($request);
+
+        if ($forms["lunchType"]->isValid()) {
+            $lunch->setDate(new \DateTime());
             $em->persist($lunch);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('wcs_cantine_todayList', array('schoolId' => $schoolId)));
+            return $this->redirectToRoute('wcs_cantine_todayList', array('schoolId' => $schoolId));
         }
 
         if ($request->getMethod() == 'POST') {
-            $statusForm->handleRequest($request);
-            $datas = $statusForm["status"]->getData();
+            $forms["statusType"]->handleRequest($request);
+            $datas = $forms["statusType"]["status"]->getData();
             foreach (explode(',', $datas) as $id)
             {
                 if ($id != '') {
@@ -68,24 +90,9 @@ class CanteenManagerController extends Controller
                 }
             }
             $em->flush();
-            return $this->redirect($this->generateUrl('wcs_gesty_ecoles', array('schoolId' => $schoolId)));
+            return $this->redirectToRoute('wcs_gesty_ecoles', array('schoolId' => $schoolId));
         }
-
-
-        return $this->render('WCSCantineBundle:Eleve:todayList.html.twig', array(
-            'lunches' => $lunches,
-            'form' => $form->createView(),
-            'statusForm' => $statusForm->createView(),
-            'school' => $school
-        ));
-
-    }
-
-    public function getDefaultOptions(array $options)
-    {
-        return array(
-            'schoolId' => 0
-        );
+        return null;
     }
 
     public function deleteAction($id)

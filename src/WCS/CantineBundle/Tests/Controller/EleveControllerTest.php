@@ -8,7 +8,7 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class EleveControllerTest extends WebTestCase
 {
-
+    // test la connexion et s'assure que l'on est bien sur la page "dashboard"
     public function testConnexion()
     {
         $fixtures = array(
@@ -28,15 +28,18 @@ class EleveControllerTest extends WebTestCase
         $form['_username'] = 'aaa@email.com';
         $form['_password'] = 'aaa';
 
-        $crawler = $client->submit($form);
+        $client->submit($form);
 
 
-        //suivre la redirection
+        //suivre la redirection (la première provoque à nouveau une autre redirection vers le dashboard)
 
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $crawler = $client->followRedirect();
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $client->followRedirect();
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $this->assertEquals('WCS\GestyBundle\Controller\DashboardController::indexAction', $client->getRequest()->attributes->get('_controller'));
+        $client->followRedirect();
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('WCS\CantineBundle\Controller\EleveController::dashboardAction', $client->getRequest()->attributes->get('_controller'));
 
     }
 
@@ -82,42 +85,7 @@ class EleveControllerTest extends WebTestCase
 
     }
 
-    //test page après connexion compte (bienvenue /) et bouton
-
-    public function testBienvenu()
-    {
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/');
-
-        //test affichage page bienvenue
-
-        $this->assertEquals('WCS\GestyBundle\Controller\DashboardController::indexAction', $client->getRequest()->attributes->get('_controller'));
-        $this->assertEquals(302,$client->getResponse()->getStatusCode());
-        $client->followRedirect();
-        $this->assertEquals('Sonata\UserBundle\Controller\SecurityFOSUser1Controller::loginAction', $client->getRequest()->attributes->get('_controller'));
-
-        //test bouton 'voir les détails'
-
-        $client = static::createClient(array(), array(
-            'PHP_AUTH_USER' => 'aaa@email.com',
-            'PHP_AUTH_PW' => 'aaa',
-        ));
-        $crawler = $client->request('GET', '/');
-        $link = $crawler
-            ->filter('a:contains("Voir les détails")')
-            ->eq(0)
-            ->link();
-        $crawler = $client->click($link);
-
-        //suivre redirection vers page dashboard
-
-        $this->assertEquals('WCS\CantineBundle\Controller\EleveController::dashboardAction', $client->getRequest()->attributes->get('_controller'));
-        $this->assertEquals(200,$client->getResponse()->getStatusCode());
-
-
-
-
-    }
+    // test la page dashboard
 
     public function testDashboard()
     {
@@ -132,11 +100,11 @@ class EleveControllerTest extends WebTestCase
             'PHP_AUTH_USER' => 'aaa@email.com',
             'PHP_AUTH_PW' => 'aaa',
         ));
-        $crawler = $client->request('GET', '/dashboard');
+        $client->request('GET', '/dashboard');
         $this->assertEquals('WCS\CantineBundle\Controller\EleveController::dashboardAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        $crawler = $client->request('GET', '/profile');
+        $client->request('GET', '/profile');
 
             //suivre redirection vers page profile
         $this->assertEquals(301, $client->getResponse()->getStatusCode());
@@ -152,10 +120,10 @@ class EleveControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $link = $crawler
-            ->filter('a:contains("Inscrire mon enfant")')
+            ->filter('a:contains("Enregistrer mon(mes) enfant(s)")')
             ->eq(0)
             ->link();
-        $crawler = $client->click($link);
+        $client->click($link);
 
             //suivre redirection vers page create
 
@@ -164,14 +132,14 @@ class EleveControllerTest extends WebTestCase
 
         //test bouton 'logout'
 
-        $crawler = $client->request('GET', '/');
-        $this->assertEquals('WCS\GestyBundle\Controller\DashboardController::indexAction', $client->getRequest()->attributes->get('_controller'));
+        $crawler = $client->request('GET', '/dashboard');
+        $this->assertEquals('WCS\CantineBundle\Controller\EleveController::dashboardAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $link = $crawler
             ->filter('a#logout')
             ->eq(0)
             ->link();
-        $crawler = $client->click($link);
+        $client->click($link);
 
             //suivre redirection vers page dashboard
 
@@ -194,16 +162,15 @@ class EleveControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('form input#WCS_cantinebundle_eleve_nom')->count()); // pour verifier que le champ existe
         $this->assertEquals(1, $crawler->filter('form input#WCS_cantinebundle_eleve_prenom')->count());
 
-        $form = $crawler->selectButton('Inscrire mon enfant')->form(); // le navigateur fictif verifie que ce bouton existe
+        $form = $crawler->selectButton('Enregistrer mon enfant')->form(); // le navigateur fictif verifie que ce bouton existe
         $form['WCS_cantinebundle_eleve[nom]'] = 'Aaa'; // verifie que l'on puisse remplir le formulaire
         $form['WCS_cantinebundle_eleve[prenom]'] = 'Aaa';
 
         $crawler = $client->request('GET', '/create');
-        $form = $crawler->selectButton('Inscrire mon enfant')->form();
+        $form = $crawler->selectButton('Enregistrer mon enfant')->form();
 
 
             // submit the form
-        $crawler = $client->submit($form);
-
+        $client->submit($form);
     }
 }

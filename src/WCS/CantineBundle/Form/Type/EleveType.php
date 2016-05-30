@@ -5,7 +5,6 @@ namespace WCS\CantineBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use WCS\CantineBundle\Entity\Eleve;
 
 class EleveType extends AbstractType
 {

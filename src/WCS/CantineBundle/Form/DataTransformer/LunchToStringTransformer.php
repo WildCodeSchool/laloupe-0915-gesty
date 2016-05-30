@@ -3,7 +3,6 @@ namespace WCS\CantineBundle\Form\DataTransformer;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Exception\TransformationFailedException;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Entity\Lunch;
 

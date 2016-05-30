@@ -6,7 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use WCS\CalendrierBundle\Service\Periode\Periode;
-use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Form\DataTransformer\TapToStringTransformer;
 use WCS\CantineBundle\Form\DataTransformer\GarderieToStringTransformer;
 
@@ -30,6 +29,7 @@ class TapType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('atteste','checkbox', array('required'=>true, 'mapped'=>false))
             ->add('autorise','checkbox', array('required'=>true, 'mapped'=>false))
             ->add('certifie','checkbox', array('required'=>true, 'mapped'=>false))
 

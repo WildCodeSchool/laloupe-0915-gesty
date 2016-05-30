@@ -40,7 +40,7 @@ twig:
         resources:
             - 'SonataCoreBundle:Form:datepicker.html.twig'
     form_theme:
-        'WCSCantineBundle:form:form_errors.html.twig'
+        'WCSCantineBundle:Form:form_errors.html.twig'
 
 # Assetic Configuration
 assetic:
@@ -176,10 +176,11 @@ fos_user:
                 # Nom de l'expediteur
                     sender_name: Gesty
                 # Permet de définir le template de l'email à envoyer (en html)
-            template: WCSCantineBundle:User:registrationEmail.html.twig
+            template: WCSCantineBundle:User:registrationemail.html.twig
     resetting:
         email:
-            template: emails/changePassewordMail.html.twig
+#            template: emails/changePassewordMail.html.twig
+            template: Emails/changepassewordmail.html.twig
 
 sonata_admin:
     title: Gesty Admin

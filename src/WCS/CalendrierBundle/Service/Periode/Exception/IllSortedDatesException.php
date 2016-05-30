@@ -1,6 +1,6 @@
 <?php
 namespace WCS\CalendrierBundle\Service\Periode\Exception;
-use WCS\CalendrierBundle\Service\Periode\Exception\PeriodeException;
+
 
 class IllSortedDatesException extends PeriodeException
 {

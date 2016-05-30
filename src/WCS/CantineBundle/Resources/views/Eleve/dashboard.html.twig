@@ -29,7 +29,7 @@
     INFORMATION PARENT D'ELEVE
     =======================================================================
     -->
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-10 col-md-offset-1">
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <div class="informations__familles">
             <p>Bonjour :
@@ -42,7 +42,7 @@
             {% endif %}
 
 
-            <div class="my-home col-md-7">
+            <div class="my-home col-md-6">
                 <h1>Mon Foyer <span class="created__at">(Créé le {{ app.user.createdAt|date('d-m-Y') }})</span></h1>
                 {% if app.user.validation == 0 %}
                     <h3 class="validation"><span class="label label-warning">En attente de validation</span></h3></br>
@@ -93,13 +93,27 @@
                 <div class="col-md-5">
                     <h3>Mes justificatifs</h3>
                     <td>
+                        <ul>
                         {% for type_file, infos in files %}
                             {% if infos.exists %}
-                            <a href="{{ path("gesty_parent_download", {'type_file':type_file} ) }}" target="_blank">{{infos.libelle_justif }}</a></br>
+                                <li>
+                            <a href="{{ path('gesty_parent_download', {'type_file':type_file} ) }}" target="_blank">{{infos.libelle_justif }}</a>
+                                    <br />&nbsp;
+                                </li>
                             {% else %}
-                                {{ infos.libelle_justif }} à fournir<br />
+                                <li  class="fa fa-exclamation" aria-hidden="true">
+                                {% if type_file == constant('Application\\Sonata\\UserBundle\\Entity\\User::TYPE_IMPOTS') %}
+                                    Vous avez {{nbChildrenVoyageInscrits}} enfant{{ nbChildrenVoyageInscrits>1?'s':'' }} inscrit{{ nbChildrenVoyageInscrits>1?'s':'' }} à au moins 1 voyage scolaire :<br /> n'oubliez pas de fournir
+                                    votre dernier avis d'imposition.
+                                {% else %}
+                                    Fournir : {{ infos.libelle_justif }}
+                                {% endif %}
+                                    <br />&nbsp;
+                                </li>
                             {% endif %}
+
                         {% endfor %}
+                        </ul>
                     </td>
                 </div>
             </div>
@@ -245,31 +259,31 @@
                                         {% if child.division.school.activeGarderie %}
                                         <div class="btn-group btn-group-justified" role="group">
                                             <a href="#" type="button" class="btn disabled btn-default">Garderie <br />matin</a>
-                                            <a href="#" type="button" class="btn disabled {% if '1-1' in children_garderies[child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
-                                            <a href="#" type="button" class="btn disabled {% if '2-1' in children_garderies[child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
-                                            <a href="#" type="button" class="btn disabled {% if '3-1' in children_garderies[child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
-                                            <a href="#" type="button" class="btn disabled {% if '4-1' in children_garderies[child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
-                                            <a href="#" type="button" class="btn disabled {% if '5-1' in children_garderies[child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '1-1' in children_activities[child.id]['garderies'] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '2-1' in children_activities[child.id]['garderies'] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '3-1' in children_activities[child.id]['garderies'] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '4-1' in children_activities[child.id]['garderies'] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '5-1' in children_activities[child.id]['garderies'] %}btn-success{% else %}btn-default{% endif %}"></a>
                                         </div>
                                         {% endif %}
                                         {% if child.division.school.activeTap %}
                                         <div class="btn-group btn-group-justified" role="group">
                                             <a href="#" type="button" class="btn disabled btn-default">TAP<br />&nbsp;</a>
                                             <a href="#" type="button" class="btn disabled btn-default"></a>
-                                            <a href="#" type="button" class="btn disabled  {% if '2' in children_taps[child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled  {% if '2' in children_activities[child.id]['taps'] %}btn-success{% else %}btn-default{% endif %}"></a>
                                             <a href="#" type="button" class="btn disabled btn-default"></a>
-                                            <a href="#" type="button" class="btn disabled  {% if '4' in children_taps[child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled  {% if '4' in children_activities[child.id]['taps'] %}btn-success{% else %}btn-default{% endif %}"></a>
                                             <a href="#" type="button" class="btn disabled btn-default"></a>
                                         </div>
                                         {% endif %}
                                         {% if child.division.school.activeGarderie %}
                                         <div class="btn-group btn-group-justified" role="group">
-                                            <a href="#" type="button" class="btn disabled btn-default">Garderie<br />après-midi</a>
-                                            <a href="#" type="button" class="btn disabled {% if '1-2' in children_garderies[child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
-                                            <a href="#" type="button" class="btn disabled {% if '2-2' in children_garderies[child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled btn-default">Garderie<br />soir</a>
+                                            <a href="#" type="button" class="btn disabled {% if '1-2' in children_activities[child.id]['garderies'] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '2-2' in children_activities[child.id]['garderies'] %}btn-success{% else %}btn-default{% endif %}"></a>
                                             <a href="#" type="button" class="btn disabled btn-default"></a>
-                                            <a href="#" type="button" class="btn disabled {% if '4-2' in children_garderies[child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
-                                            <a href="#" type="button" class="btn disabled {% if '5-2' in children_garderies[child.id] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '4-2' in children_activities[child.id]['garderies'] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '5-2' in children_activities[child.id]['garderies'] %}btn-success{% else %}btn-default{% endif %}"></a>
                                         </div>
                                         {% endif %}
 
@@ -302,7 +316,7 @@
 
                                             {%  if user.pathImpots %}
                                                 <br />Télécharger votre :
-                                                <a href="{{ path("gesty_parent_download", {'type_file': constant('Application\\Sonata\\UserBundle\\Entity\\User::type_Impots')} ) }}" target="_blank">Justificatif d'imposition</a>
+                                                <a href="{{ path("gesty_parent_download", {'type_file': constant('Application\\Sonata\\UserBundle\\Entity\\User::TYPE_IMPOTS')} ) }}" target="_blank">Justificatif d'imposition</a>
                                             {%  else %}
                                                 <br /><em>Pensez à déposer votre dernier avis d'imposition lors de l'inscription de votre enfant</em>
                                             {%  endif  %}

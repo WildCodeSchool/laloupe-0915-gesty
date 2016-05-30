@@ -20,7 +20,7 @@
 
 <!-- selection du mois à afficher -->
 
-<div class="months col-md-12 text-center">
+<div class="months text-center">
     <a class="moisecole" href="#" id="linkMonth09">Sep</a>
     <a class="moisecole" href="#" id="linkMonth10">Oct</a>
     <a class="moisecole" href="#" id="linkMonth11">Nov</a>
@@ -36,10 +36,10 @@
 
 
     <!-- page du mois -->
-<div class="col-md-12 text-center">
+<div class="">
 
     {% for month in calendrier.months %}
-        <div class="col-md-12 month" id="month{{ month }}" style="display:none;">
+        <div class="month" id="month{{ month }}" style="display:none;">
             <table>
                 <thead>
                     <tr>
@@ -116,16 +116,17 @@
     {% endfor %}
 </div>
 
+<br />
 
-<div class="calendar-legend">
+<div class="calendar-legend text-center col-md-12">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <span class="calendar-legend-square calendar-reserved"></span>
-            Repas réservé
+            Votre réservation
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <span class="calendar-legend-square calendar-reservation-over"></span>
-            Date dépassée
+            Non réservable
         </div>
         <div class="col-md-4">
             <span class="calendar-legend-square inactif"></span>

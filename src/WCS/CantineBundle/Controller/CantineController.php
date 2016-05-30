@@ -7,11 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Form;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use WCS\CalendrierBundle\Service\Calendrier\Calendrier;
-use WCS\CalendrierBundle\Service\Periode\Periode;
 use WCS\CantineBundle\Entity\Eleve;
-use WCS\CantineBundle\Entity\Lunch;
-use WCS\CantineBundle\Form\Model\CantineFormEntity;
 use WCS\CantineBundle\Form\Type\CantineType;
 
 
@@ -26,19 +22,17 @@ class CantineController extends Controller
      */
     public function inscrireAction(Request $request, $id_eleve)
     {
-        $user = $this->getUser();
-        if (!$user) {
-            throw $this->createAccessDeniedException();
-        }
-
         // récupère les instances de Doctrine et de Calendrier pour l'année en cours
         $em             = $this->getDoctrine()->getManager();
         $calendrier     = $this->get("wcs.calendrierscolaire")->getCalendrierRentreeScolaire();
 
+        // récupère l'utilisateur connecté
+        $user = $this->getUser();
+
         // récupère la fiche de l'élève sélectionné
         $eleve = $em->getRepository("WCSCantineBundle:Eleve")->find($id_eleve);
 
-        if (!$eleve || !$eleve->isCorrectParentConnected($user)) {
+        if (!$user || !$eleve || !$eleve->isCorrectParentConnected($user)) {
             return $this->redirectToRoute('wcs_cantine_dashboard');
         }
 
@@ -65,17 +59,7 @@ class CantineController extends Controller
         // la réservation à la cantine ne peut être effectué que 7 jours après
         // la date du jour (soit le 8e jour)
         // on désactive donc le jour actuel et les 7 jours suivants.
-        $oneDay     = new \DateInterval('P1D');
-        $currentDay = new \DateTimeImmutable($calendrier->getDateToday());
-        $dayPlus7   = $currentDay->add(new \DateInterval('P8D'));
-
-        while ($currentDay < $dayPlus7) {
-            $cantineWeekLocked[] = $currentDay;
-            $currentDay = $currentDay->add($oneDay);
-        }
-        $calendrier->addDaysPast($cantineWeekLocked);
-
-
+        $calendrier->addDaysPastFrom(new \DateTimeImmutable($calendrier->getDateToday()), new \DateInterval('P8D'));
 
         // créé le formulaire associé à l'élève
         $form = $this->createForm(new CantineType( $em ), $eleve, array(

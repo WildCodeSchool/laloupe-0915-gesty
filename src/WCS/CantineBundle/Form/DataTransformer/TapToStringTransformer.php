@@ -4,11 +4,8 @@ namespace WCS\CantineBundle\Form\DataTransformer;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
 use WCS\CalendrierBundle\Service\Periode\Periode;
-use WCS\CalendrierBundle\Service\Calendrier\Day;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Entity\Tap;
-
-use WCS\CantineBundle\Form\DataTransformer\DaysOfWeeks;
 
 
 class TapToStringTransformer implements DataTransformerInterface
@@ -42,24 +39,7 @@ class TapToStringTransformer implements DataTransformerInterface
             return '';
         }
 
-        $tap_all = $this->daysOfWeek->getListJoursTap();
-
-        $tmp = array();
-        foreach($taps as $tap) {
-            foreach ($tap_all as $dayOfWeek => $dates) {
-                if (in_array($tap->getDate()->format('Y-m-d'), $dates)) {
-                    $tmp[$dayOfWeek] = 1;
-                }
-
-            }
-        }
-
-        $tmp2 = array();
-        foreach ($tmp as $key => $value) {
-            $tmp2[] = $key;
-        }
-
-        return implode(";", $tmp2);
+        return implode(";", $this->daysOfWeek->getTapSelectionToArray($taps));
     }
 
     /**
@@ -79,29 +59,8 @@ class TapToStringTransformer implements DataTransformerInterface
         $daysOfWeek = explode(';', $daysOfWeekString);
         $tap_all = $this->daysOfWeek->getListJoursTap();
 
-        //$tapCurrents = $this->manager->getRepository("WCSCantineBundle:Tap")->findByEleve($this->eleve);
         foreach ($daysOfWeek as $dayOfWeek)
         {
-            /*
-            // si la réservation est déjà présente,
-            // on se contente de l'ajouter dans la liste
-            // sinon on créé une nouvelle réservation
-            $dateT = new \DateTime($date);
-            $found = false;
-            foreach($tapCurrents as $current) {
-                if ($current->getDate()==$dateT) {
-                    $tap = $current;
-                    $found = true;
-                }
-            }
-            if (!$found) {
-                $tap = new Tap();
-                $tap->setEleve($this->eleve);
-                $tap->setDate($dateT);
-                $this->manager->persist($tap);
-            }
-            */
-
             foreach ($tap_all[$dayOfWeek] as $date) {
                 $tap = new Tap();
                 $tap->setEleve($this->eleve);

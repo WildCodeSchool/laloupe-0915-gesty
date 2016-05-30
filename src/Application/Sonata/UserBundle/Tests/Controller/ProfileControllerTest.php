@@ -27,8 +27,6 @@ Class ProfileControllerTest extends WebTestCase
 
         //test les champs à remplir sont présents
 
-        $crawler = $client->request('GET', '/profile/');
-
         $this->assertEquals(1, $crawler->filter('form input#application_sonata_user_profile_lastname')->count());
         $this->assertEquals(1, $crawler->filter('form input#application_sonata_user_profile_firstname')->count());
         $this->assertEquals(1, $crawler->filter('form input#application_sonata_user_profile_adresse')->count());
@@ -39,6 +37,8 @@ Class ProfileControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('form input#application_sonata_user_profile_numeroIban')->count());
 
 
+        $form = $crawler->selectButton('Envoyer')->form();
+
         $form['application_sonata_user_profile[lastname]'] = 'Aaa';
         $form['application_sonata_user_profile[firstname]'] = 'Aaa';
         $form['application_sonata_user_profile[adresse]'] = '4 rue du bois';
@@ -47,8 +47,6 @@ Class ProfileControllerTest extends WebTestCase
         $form['application_sonata_user_profile[telephoneSecondaire]'] = '0768298272';
         $form['application_sonata_user_profile[caf]'] = '1234567';
         $form['application_sonata_user_profile[numeroIban]'] = '1234567891011121314151617181920AZERTYU';
-
-        $form = $crawler->selectButton('Envoyer')->form();
 
         $crawler = $client->submit($form);
 
@@ -62,11 +60,11 @@ Class ProfileControllerTest extends WebTestCase
          $crawler = $client->request('GET', '/profile/');
          $this->assertEquals('Application\Sonata\UserBundle\Controller\ProfileController::setProfileAction', $client->getRequest()->attributes->get('_controller'));
          $this->assertEquals(200, $client->getResponse()->getStatusCode());
-         $link = $crawler
-             ->filter('a:contains("Envoyer")')
-             ->eq(0)
-             ->link();
-         $crawler = $client->click($link);
+
+         $form = $crawler->selectButton('Envoyer')->form();
+         $crawler = $client->submit($form);
+
+         $this->assertNotNull($crawler);
     }
 
     //test que l'on peut sortir de cette page
@@ -78,9 +76,11 @@ Class ProfileControllerTest extends WebTestCase
             'PHP_AUTH_USER' => 'aaa@email.com',
             'PHP_AUTH_PW' => 'aaa',
         ));
-        $crawler = $client->request('GET', '/');
-        $this->assertEquals('WCS\GestyBundle\Controller\DashboardController::indexAction', $client->getRequest()->attributes->get('_controller'));
+        $client->request('GET', '/');
+        $crawler = $client->followRedirect();
+        $this->assertEquals('WCS\CantineBundle\Controller\EleveController::dashboardAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
         $link = $crawler
             ->filter('a#logout')
             ->eq(0)

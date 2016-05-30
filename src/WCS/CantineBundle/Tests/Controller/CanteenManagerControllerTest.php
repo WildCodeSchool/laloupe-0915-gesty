@@ -28,12 +28,12 @@ class CanteenManagerControllerCTest extends WebTestCase
         $form['_username'] = 'damedecantine@email.com';
         $form['_password'] = 'aaa';
 
-        $crawler = $client->submit($form);
+        $client->submit($form);
 
         //test redirection vers page canteenManager avec les 3 boutons
 
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -57,7 +57,7 @@ class CanteenManagerControllerCTest extends WebTestCase
             ->filter('a:contains("Les écureuils")')
             ->eq(0)
             ->link();
-        $crawler = $client->click($link);
+        $client->click($link);
 
             //suivre redirection vers page todaylist
 
@@ -78,7 +78,7 @@ class CanteenManagerControllerCTest extends WebTestCase
             ->filter('a:contains("Notre Dame des Fleurs")')
             ->eq(0)
             ->link();
-        $crawler = $client->click($link);
+        $client->click($link);
 
             //suivre redirection vers page todaylist
 
@@ -99,7 +99,7 @@ class CanteenManagerControllerCTest extends WebTestCase
             ->filter('a:contains("Roland-Garros")')
             ->eq(0)
             ->link();
-        $crawler = $client->click($link);
+        $client->click($link);
 
             //suivre redirection vers page todaylist
 
@@ -120,7 +120,7 @@ class CanteenManagerControllerCTest extends WebTestCase
             ->filter('a:contains("Commande des repas")')
             ->eq(0)
             ->link();
-        $crawler = $client->click($link);
+        $client->click($link);
 
             //suivre redirection vers page reservation
 
@@ -153,7 +153,7 @@ class CanteenManagerControllerCTest extends WebTestCase
             ->filter('a#logout')
             ->eq(0)
             ->link();
-        $crawler = $client->click($link);
+        $client->click($link);
 
         $this->assertEquals('Sonata\UserBundle\Controller\SecurityFOSUser1Controller::logoutAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertEquals(302, $client->getResponse()->getStatusCode());

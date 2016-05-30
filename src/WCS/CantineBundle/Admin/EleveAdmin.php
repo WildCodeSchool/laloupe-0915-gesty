@@ -8,11 +8,6 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-use Symfony\Component\Validator\Constraints\DateTime;
-use WCS\CantineBundle\Entity\EleveRepository;
-use WCS\CantineBundle\Entity\LunchRepository;
-use WCS\CantineBundle\Entity\Eleve;
-
 class EleveAdmin extends Admin
 {
 
@@ -62,7 +57,6 @@ class EleveAdmin extends Admin
                 'class' => 'WCSCantineBundle:Division',
                 'required'=>true,
                 'label' => 'classe'))
-            //->add('habits')
         ;
 
     }
@@ -86,6 +80,4 @@ class EleveAdmin extends Admin
 
         ;
     }
-
-
 }

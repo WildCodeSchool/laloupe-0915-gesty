@@ -16,4 +16,7 @@
         {% if object.pathSalaire3 %}
                 <a href="{{ path('gesty_comptable_download', {'type_file':5, 'id_user':object.id}) }}" target="_blank">Salaire3</a>
         {% endif %}
+        {% if object.pathImpots %}
+                <a href="{{ path('gesty_comptable_download', {'type_file':6, 'id_user':object.id}) }}" target="_blank">Avis Impots</a>
+        {% endif %}
 {% endblock %}

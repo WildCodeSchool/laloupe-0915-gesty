@@ -4,11 +4,9 @@ namespace WCS\CantineBundle\Form\DataTransformer;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
 use WCS\CalendrierBundle\Service\Periode\Periode;
-use WCS\CalendrierBundle\Service\Calendrier\Day;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Entity\Garderie;
 
-use WCS\CantineBundle\Form\DataTransformer\DaysOfWeeks;
 
 
 class GarderieToStringTransformer implements DataTransformerInterface
@@ -42,26 +40,7 @@ class GarderieToStringTransformer implements DataTransformerInterface
             return '';
         }
 
-        $garderies_all = $this->daysOfWeek->getListJoursGarderie();
-        $tmp = array();
-        foreach($garderies as $garderie) {
-            foreach ($garderies_all as $dayOfWeek => $datesheures) {
-
-                $dateheure  = $garderie->getDateHeure()->format('Y-m-d H:i:s');
-
-                if (in_array($dateheure, $datesheures)) {
-                    $tmp[$dayOfWeek] = 1;
-                }
-            }
-        }
-
-        $tmp2 = array();
-        foreach ($tmp as $key => $value) {
-            $tmp2[] = $key;
-        }
-        $daysOfWeekStr = implode(";", $tmp2);
-
-        return $daysOfWeekStr;
+        return implode(";", $this->daysOfWeek->getGarderieSelectionToArray($garderies));
     }
 
     /**
@@ -81,29 +60,8 @@ class GarderieToStringTransformer implements DataTransformerInterface
         $daysOfWeek = explode(';', $daysOfWeekString);
         $garderies_all = $this->daysOfWeek->getListJoursGarderie();
 
-        //$tapCurrents = $this->manager->getRepository("WCSCantineBundle:Tap")->findByEleve($this->eleve);
         foreach ($daysOfWeek as $dayOfWeek)
         {
-            /*
-            // si la réservation est déjà présente,
-            // on se contente de l'ajouter dans la liste
-            // sinon on créé une nouvelle réservation
-            $dateT = new \DateTime($date);
-            $found = false;
-            foreach($tapCurrents as $current) {
-                if ($current->getDate()==$dateT) {
-                    $tap = $current;
-                    $found = true;
-                }
-            }
-            if (!$found) {
-                $tap = new Tap();
-                $tap->setEleve($this->eleve);
-                $tap->setDate($dateT);
-                $this->manager->persist($tap);
-            }
-            */
-
             foreach ($garderies_all[$dayOfWeek] as $dateheure) {
                 $garderie = new Garderie();
                 $garderie->setEleve($this->eleve);
@@ -116,3 +74,4 @@ class GarderieToStringTransformer implements DataTransformerInterface
         return $garderies;
     }
 }
+

@@ -9,7 +9,6 @@
 namespace WCS\CantineBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\HttpFoundation\Request;
 
 class EleveRepository extends EntityRepository
 {
@@ -68,7 +67,7 @@ class EleveRepository extends EntityRepository
 
         $query = $em->createQuery(
             "SELECT el, voys
-             FROM WCSCantineBundle:eleve el
+             FROM WCSCantineBundle:Eleve el
              LEFT JOIN el.voyages voys
              WHERE el.user=:user
              ORDER BY el.prenom ASC, voys.date_debut ASC"
@@ -79,4 +78,26 @@ class EleveRepository extends EntityRepository
         return $results;
     }
 
+    /**
+     * @param $userParent \WCS\Application\UserBundle\Entity\User
+     */
+    public function findNbEnfantInscritsVoyage($userParent)
+    {
+        $em = $this->getEntityManager();
+
+        $now = new \DateTime();
+        $query = $em->createQuery(
+            "SELECT COUNT(el)
+             FROM WCSCantineBundle:Eleve el
+             JOIN el.voyages voys
+             WHERE el.user=:user
+                AND voys.date_debut >= :now"
+        )
+            ->setParameter("user", $userParent)
+            ->setParameter("now", $now->format('Y-m-d H:i:s'));
+
+        $results = $query->setMaxResults(1)->getOneOrNullResult();
+
+        return $results[1];
+    }
 }

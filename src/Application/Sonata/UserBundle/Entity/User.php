@@ -24,12 +24,12 @@ use Sonata\UserBundle\Entity\BaseUser as BaseUser;
  */
 class User extends BaseUser
 {
-    const type_Domicile     = 1;
-    const type_Prestations  = 2;
-    const type_Salaire1     = 3;
-    const type_Salaire2     = 4;
-    const type_Salaire3     = 5;
-    const type_Impots        = 6;
+    const TYPE_DOMICILE     = 1;
+    const TYPE_PRESTATIONS  = 2;
+    const TYPE_SALAIRE1     = 3;
+    const TYPE_SALAIRE2     = 4;
+    const TYPE_SALAIRE3     = 5;
+    const TYPE_IMPOTS       = 6;
 
     public function setEmail($email){
         parent::setEmail($email);
@@ -45,11 +45,34 @@ class User extends BaseUser
 
     //Gestion des uploads
 
+    /**
+     * @var \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
+
     public $file_domicile;
+    /**
+     * @var \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
+
     public $file_prestations;
+    /**
+     * @var \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
+
     public $file_salaire_1;
+    /**
+     * @var \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
+
     public $file_salaire_2;
+    /**
+     * @var \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
+
     public $file_salaire_3;
+    /**
+     * @var \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
     public $file_impots;
 
     const PATH_DIR_UPLOAD   = 'uploads';
@@ -166,28 +189,28 @@ class User extends BaseUser
 
     public function upload()
     {
-        if (null != $this->file_domicile) {
+        if (!is_null($this->file_domicile)) {
             $this->file_domicile->move($this->getUploadRootDir(), $this->path_domicile);
             unset($this->file_domicile);
         }
 
-        if (null != $this->file_prestations) {
+        if (!is_null($this->file_prestations)) {
             $this->file_prestations->move($this->getUploadRootDir(), $this->path_prestations);
             unset($this->file_prestations);
         }
-        if (null != $this->file_salaire_1) {
+        if (!is_null($this->file_salaire_1)) {
             $this->file_salaire_1->move($this->getUploadRootDir(), $this->path_salaire_1);
             unset($this->file_salaire_1);
         }
-        if (null != $this->file_salaire_2) {
+        if (!is_null($this->file_salaire_2)) {
             $this->file_salaire_2->move($this->getUploadRootDir(), $this->path_salaire_2);
             unset($this->file_salaire_2);
         }
-        if (null != $this->file_salaire_3) {
+        if (!is_null($this->file_salaire_3)) {
             $this->file_salaire_3->move($this->getUploadRootDir(), $this->path_salaire_3);
             unset($this->file_salaire_3);
         }
-        if (null != $this->file_impots) {
+        if (!is_null($this->file_impots)) {
             $this->file_impots->move($this->getUploadRootDir(), $this->path_impots);
             unset($this->file_impots);
         }
@@ -211,7 +234,7 @@ class User extends BaseUser
         if ($file = $this->getAbsolutePathSalaire3()) {
             unlink($file);
         }
-        if ($file = $this->getAbsolutePathImpots()) {
+        if ($file = $this->getAbsolutePathImpot()) {
             unlink($file);
         }
     }
@@ -667,7 +690,7 @@ class User extends BaseUser
      *
      * @return User
      */
-    public function addElefe(\WCS\CantineBundle\Entity\Eleve $elefe)
+    public function addElefe($elefe)
     {
         $this->eleves[] = $elefe;
 
@@ -679,7 +702,7 @@ class User extends BaseUser
      *
      * @param \WCS\CantineBundle\Entity\Eleve $elefe
      */
-    public function removeElefe(\WCS\CantineBundle\Entity\Eleve $elefe)
+    public function removeElefe($elefe)
     {
         $this->eleves->removeElement($elefe);
     }

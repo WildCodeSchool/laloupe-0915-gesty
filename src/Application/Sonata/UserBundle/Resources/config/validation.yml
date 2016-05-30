@@ -67,32 +67,32 @@ Application\Sonata\UserBundle\Entity\User:      # le lien pour la doc, http://sy
         file_domicile:
             - File:
                 maxSize: 1024k
-                mimeTypes: [application/pdf]
-                mimeTypesMessage: Veuillez télécharger un fichier PDF valide.
+                mimeTypes: [application/pdf, image/jpeg, image/png]
+                mimeTypesMessage: Veuillez télécharger un fichier PDF, JPEG ou PNG valide.
 
         file_prestations:
             - File:
                 maxSize: 1024k
-                mimeTypes: [application/pdf]
-                mimeTypesMessage: Veuillez télécharger un fichier PDF valide.
+                mimeTypes: [application/pdf, image/jpeg, image/png]
+                mimeTypesMessage: Veuillez télécharger un fichier PDF, JPEG ou PNG valide.
 
         file_salaire_1:
             - File:
                 maxSize: 1024k
-                mimeTypes: [application/pdf]
-                mimeTypesMessage: Veuillez télécharger un fichier PDF valide.
+                mimeTypes: [application/pdf, image/jpeg, image/png]
+                mimeTypesMessage: Veuillez télécharger un fichier PDF, JPEG ou PNG valide.
 
         file_salaire_1:
             - File:
                 maxSize: 1024k
-                mimeTypes: [application/pdf]
-                mimeTypesMessage: Veuillez télécharger un fichier PDF valide.
+                mimeTypes: [application/pdf, image/jpeg, image/png]
+                mimeTypesMessage: Veuillez télécharger un fichier PDF, JPEG ou PNG valide.
 
-#file_salaire_1:
-#           - File:
-#                maxSize: 1024k
-#                mimeTypes: [application/pdf]
-#                mimeTypesMessage: Veuillez télécharger un fichier PDF valide.
+        file_impots:
+            - File:
+                maxSize: 1024k
+                mimeTypes: [application/pdf, image/jpeg, image/png]
+                mimeTypesMessage: Veuillez télécharger un fichier PDF, JPEG ou PNG valide.
 
 
 
