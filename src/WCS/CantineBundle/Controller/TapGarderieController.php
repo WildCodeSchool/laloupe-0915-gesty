@@ -31,7 +31,7 @@ class TapGarderieController extends Controller
         $periodesScolaires = $this->get("wcs.calendrierscolaire")->getPeriodesAnneeRentreeScolaire();
         $periode_tap = $periodesScolaires->findEnClasseFrom(new \DateTime());
 
-        $periode_from_today = new Periode(new \DateTime('2016-05-01'), $periode_tap->getFin());
+        $periode_from_today = new Periode(new \DateTime(), $periode_tap->getFin());
 
         // créé le formulaire associé à l'élève
         $form = $this->createForm(
