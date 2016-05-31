@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: '@WCSCantineBundle/Resources/config/services.yml' }
 
 
 # Put parameters here that don't need to change on each machine where the app is deployed
@@ -237,8 +238,6 @@ sonata_admin:
             wcs.group.feries:
                 icon: '<i class="fa fa-cogs"></i>'
                 label: Paramètres
-
-
 
 braincrafted_bootstrap:
     output_dir:

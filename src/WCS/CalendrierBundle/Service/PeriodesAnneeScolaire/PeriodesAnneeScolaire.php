@@ -176,17 +176,17 @@ class PeriodesAnneeScolaire
     }
 
     /**
-     * @var WCS\CalendrierBundle\CalendrierScolaire\Periode\Periode
+     * @var \WCS\CalendrierBundle\Service\Periode\Periode
      */
     private $annee_scolaire;
 
     /**
-     * @var WCS\CalendrierBundle\CalendrierScolaire\ListPeriodes\ListPeriodes
+     * @var \WCS\CalendrierBundle\Service\ListPeriodes\ListPeriodes
      */
     private $list_vacances;
 
     /**
-     * @var WCS\CalendrierBundle\CalendrierScolaire\ListPeriodes\ListPeriodes
+     * @var \WCS\CalendrierBundle\Service\ListPeriodes\ListPeriodes
      */
     private $list_enclasse;
 }

@@ -68,7 +68,7 @@ class ListPeriodes implements \Iterator
     /**
      * Construit l'objet à partir d'une liste de "Periode"
      *
-     * @param $array d'instances de WCS\CalendrierBundle\Service\Periode\Periode
+     * @param array $array d'instances de WCS\CalendrierBundle\Service\Periode\Periode
      * @throws \Exception si un des éléments du tableau n'est pas une instance de Periode
      */
     public function __construct(&$array)
