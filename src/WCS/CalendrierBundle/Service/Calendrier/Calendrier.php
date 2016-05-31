@@ -160,16 +160,16 @@ class Calendrier
         $oneDay         = new \DateInterval('P1D');
 
         while ($currentDay <= $end) {
-            // enregistre les infos sur la journée dans le calendrier
             $d = new Day($currentDay);
 
-            // les mer, sam ou dim sont des jours sans classes
-            if ($d->getDayOfWeek()==3 || $d->getDayOfWeek()==6 || $d->getDayOfWeek()==7) {
+            if ($d->isDayOfWeek(Day::WEEK_WEDNESDAY) ||
+                $d->isDayOfWeek(Day::WEEK_SATURDAY) ||
+                $d->isDayOfWeek(Day::WEEK_SUNDAY)) {
+
                 $d->setOff(true);
             }
-            // même chose pour les jours non "en classe"
             else {
-                $d->setOff(is_null($periodesScolaire->findEnClasseFrom($d->__toString())));
+                $d->setOff(is_null($periodesScolaire->findEnClasseFrom($d->getDateString())));
             }
 
             $this->days[ $d->getMonth() ][ $d->getDay() ] = $d;

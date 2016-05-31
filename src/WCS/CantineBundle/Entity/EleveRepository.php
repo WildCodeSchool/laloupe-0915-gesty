@@ -9,6 +9,7 @@
 namespace WCS\CantineBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use WCS\CalendrierBundle\Service\Periode\Periode;
 
 class EleveRepository extends EntityRepository
 {
@@ -99,5 +100,52 @@ class EleveRepository extends EntityRepository
         $results = $query->setMaxResults(1)->getOneOrNullResult();
 
         return $results[1];
+    }
+    /**
+     * Return all "taps" registered for a given pupil and period.
+     *
+     * @param Eleve $eleve
+     * @param Periode $periode
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function findAllTapsForPeriode(Eleve $eleve, Periode $periode)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT t
+                FROM WCSCantineBundle:Tap t
+                WHERE t.eleve = :eleve
+                    AND t.date >= :dateDebut
+                    AND t.date <= :dateFin
+                ORDER BY t.date ASC'
+        )
+            ->setParameter(':eleve', $eleve)
+            ->setParameter(':dateDebut', $periode->getDebut())
+            ->setParameter(':dateFin', $periode->getFin());
+        return new \Doctrine\Common\Collections\ArrayCollection($query->getResult());
+    }
+
+    /**
+     * Return all "garderies" registered for a given pupil and period.
+     *
+     * @param Eleve $eleve
+     * @param Periode $periode
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function findAllGarderiesForPeriode(Eleve $eleve, Periode $periode)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT g
+                FROM WCSCantineBundle:Garderie g
+                WHERE g.eleve = :eleve
+                    AND g.date_heure >= :dateDebut
+                    AND g.date_heure <= :dateFin
+                ORDER BY g.date_heure ASC'
+        )
+            ->setParameter(':eleve', $eleve)
+            ->setParameter(':dateDebut', $periode->getDebut())
+            ->setParameter(':dateFin', $periode->getFin());
+        return $query->getResult();
     }
 }

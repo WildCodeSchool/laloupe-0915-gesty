@@ -6,23 +6,24 @@ use Symfony\Component\Form\DataTransformerInterface;
 use WCS\CalendrierBundle\Service\Periode\Periode;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Entity\Tap;
-
+use WCS\CantineBundle\Service\FeriesDayList;
 
 class TapToStringTransformer implements DataTransformerInterface
 {
 
     private $manager;
     private $eleve;
+
     /**
      * @var \WCS\CantineBundle\Form\DataTransformer\DaysOfWeeks
      */
     private $daysOfWeek;
 
-    public function __construct(ObjectManager $manager, Eleve $eleve, Periode $periode)
+    public function __construct(ObjectManager $manager, Eleve $eleve, Periode $periode, FeriesDayList $feriesDayList)
     {
         $this->manager = $manager;
         $this->eleve = $eleve;
-        $this->daysOfWeek = new DaysOfWeeks($periode);
+        $this->daysOfWeek = new DaysOfWeeks($periode, $feriesDayList);
     }
 
     /**
@@ -55,17 +56,37 @@ class TapToStringTransformer implements DataTransformerInterface
             return array();
         }
 
-        $taps = array();
         $daysOfWeek = explode(';', $daysOfWeekString);
-        $tap_all = $this->daysOfWeek->getListJoursTap();
 
+        $taps_periode   = $this->daysOfWeek->getListJoursTap();
+        $taps_eleve     = $this->manager->getRepository('WCSCantineBundle:Eleve')->findAllTapsForPeriode(
+            $this->eleve,
+            $this->daysOfWeek->getPeriode());
+        $taps = array();
         foreach ($daysOfWeek as $dayOfWeek)
         {
-            foreach ($tap_all[$dayOfWeek] as $date) {
-                $tap = new Tap();
-                $tap->setEleve($this->eleve);
-                $tap->setDate(new \DateTime($date));
-                $this->manager->persist($tap);
+            foreach ($taps_periode[$dayOfWeek] as $date) {
+
+                // si la réservation est déjà présente,
+                // on se contente de l'ajouter dans la liste
+                // sinon on créé une nouvelle réservation
+                $dateT = new \DateTime($date);
+                $found = false;
+
+                foreach($taps_eleve as $current) {
+                    if ($current->getDate()==$dateT) {
+                        $tap = $current;
+                        $found = true;
+                    }
+                }
+
+                if (!$found) {
+                    $tap = new Tap();
+                    $tap->setEleve($this->eleve);
+                    $tap->setDate($dateT);
+
+                    $this->manager->persist($tap);
+                }
                 $taps[] = $tap;
             }
         }

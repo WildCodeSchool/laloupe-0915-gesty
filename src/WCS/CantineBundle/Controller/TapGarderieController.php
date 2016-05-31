@@ -4,9 +4,9 @@ namespace WCS\CantineBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Form;
-use \WCS\CantineBundle\Entity\Eleve;
+use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Form\Type\TapType;
-
+use WCS\CalendrierBundle\Service\Periode\Periode;
 
 class TapGarderieController extends Controller
 {
@@ -29,18 +29,20 @@ class TapGarderieController extends Controller
 
         // récupère la période scolaires en classe à la date du jour
         $periodesScolaires = $this->get("wcs.calendrierscolaire")->getPeriodesAnneeRentreeScolaire();
-        $periode = $periodesScolaires->findEnClasseFrom(new \DateTime());
+        $periode_tap = $periodesScolaires->findEnClasseFrom(new \DateTime());
+
+        $periode_from_today = new Periode(new \DateTime('2016-05-01'), $periode_tap->getFin());
 
         // créé le formulaire associé à l'élève
         $form = $this->createForm(
-                    new TapType( $em, $periode ),
+                    new TapType( $em, $periode_from_today, $this->get('wcs.feries') ),
                     $eleve, array(
             'action' => $this->generateUrl('tapgarderie_inscription', array("id_eleve"=>$id_eleve)),
             'method' => 'POST'
         ));
 
         // traite les infos saisies dans le formulaire
-        if ($this->processPostedForm($request, $form, $eleve)) {
+        if ($this->processPostedForm($request, $form, $eleve, $periode_from_today)) {
             return $this->redirectToRoute('wcs_cantine_dashboard');
         }
 
@@ -49,7 +51,7 @@ class TapGarderieController extends Controller
             'WCSCantineBundle:TapGarderie:inscription.html.twig',
             array(
                 "eleve" => $eleve,
-                "periode_tap" => $periode,
+                "periode_tap" => $periode_tap,
                 "form" => $form->createView()
                 )
         );
@@ -61,22 +63,38 @@ class TapGarderieController extends Controller
      * @param Eleve $eleve
      * @return bool
      */
-    private function processPostedForm(Request $request, Form $form, Eleve $eleve)
+    private function processPostedForm(Request $request, Form $form, Eleve $eleve, Periode $periode)
     {
         $em = $this->getDoctrine()->getManager();
 
         $form->handleRequest($request);
         if ($form->isValid()) {
 
-            $tapCurrents = $em->getRepository("WCSCantineBundle:Tap")->findByEleve($eleve);
-            foreach($tapCurrents as $tap) {
-                $em->remove($tap);
+            $temporary_taps_to_persist = $eleve->getTaps();
+
+            $repo = $em->getRepository('WCSCantineBundle:Eleve');
+            $eleve_taps_periode = $repo->findAllTapsForPeriode($eleve, $periode);
+            foreach($eleve_taps_periode as $item) {
+                if (!$temporary_taps_to_persist->contains($item)) {
+                    $em->remove($item);
+                }
             }
 
+            /*
             $garderieCurrents = $em->getRepository("WCSCantineBundle:Garderie")->findByEleve($eleve);
             foreach($garderieCurrents as $garderie) {
                 $em->remove($garderie);
             }
+            */
+            $temporary_garderies_to_persist = $eleve->getGarderies();
+
+            $eleve_garderies_periode = $repo->findAllGarderiesForPeriode($eleve, $periode);
+            foreach($eleve_garderies_periode as $item) {
+                if (!$temporary_garderies_to_persist->contains($item)) {
+                    $em->remove($item);
+                }
+            }
+
 
             $em->flush();
 
