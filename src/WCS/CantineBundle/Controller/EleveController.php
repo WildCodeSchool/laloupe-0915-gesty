@@ -13,6 +13,7 @@ use WCS\CantineBundle\Form\Handler\EleveHandler;
 use WCS\CantineBundle\Form\Model\EleveFormEntity;
 use WCS\CantineBundle\Form\Type\EleveEditType;
 use WCS\CantineBundle\Form\Type\EleveType;
+use WCS\CalendrierBundle\Service\Periode\Periode;
 
 /**
  * Eleve controller.
@@ -250,10 +251,11 @@ class EleveController extends Controller
 
         // periodes TAP/Garderie
         $periodesScolaires = $this->get("wcs.calendrierscolaire")->getPeriodesAnneeRentreeScolaire();
-        $periodes = $periodesScolaires->findEnClasseFrom(new \DateTime());
+        $periode_tap = $periodesScolaires->findEnClasseFrom(new \DateTime());
+        $periode_from_today = new Periode(new \DateTime(), $periode_tap->getFin());
 
         // récupère les days of week sélectionnés
-        $daysOfWeek = new DaysOfWeeks($periodes);
+        $daysOfWeek = new DaysOfWeeks($periode_from_today, $this->get('wcs.feries'));
 
         // récupère les taps et les garderies de chaque enfants
         $children_activities = array();
@@ -267,7 +269,7 @@ class EleveController extends Controller
             'user'                      => $user,
             'children'                  => $children,
             'files'                     => $this->getFiles($user, $nbChildrenVoyageInscrits),
-            'periode_tap'               => $periodes,
+            'periode_tap'               => $periode_tap,
             'children_activities'       => $children_activities,
             'nbChildrenVoyageInscrits'  => $nbChildrenVoyageInscrits
         ));

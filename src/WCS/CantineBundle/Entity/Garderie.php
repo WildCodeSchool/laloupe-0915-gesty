@@ -22,6 +22,16 @@ class Garderie
      */
     private $eleve;
 
+    /**
+     * @var \DateTime
+     */
+    private $date_heure;
+
+    public function __construct()
+    {
+        $this->status = '0';
+    }
+
 
     /**
      * Get id
@@ -82,10 +92,6 @@ class Garderie
     {
         return $this->eleve;
     }
-    /**
-     * @var \DateTime
-     */
-    private $date_heure;
 
 
     /**

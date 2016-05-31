@@ -28,6 +28,11 @@ class TacheBase
     protected $eleve;
 
 
+    public function __construct()
+    {
+        $this->status = '0';
+    }
+
     /**
      * Get id
      *

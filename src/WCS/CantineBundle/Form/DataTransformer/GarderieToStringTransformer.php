@@ -6,7 +6,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 use WCS\CalendrierBundle\Service\Periode\Periode;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Entity\Garderie;
-
+use WCS\CantineBundle\Service\FeriesDayList;
 
 
 class GarderieToStringTransformer implements DataTransformerInterface
@@ -14,16 +14,17 @@ class GarderieToStringTransformer implements DataTransformerInterface
 
     private $manager;
     private $eleve;
+
     /**
      * @var \WCS\CantineBundle\Form\DataTransformer\DaysOfWeeks
      */
     private $daysOfWeek;
 
-    public function __construct(ObjectManager $manager, Eleve $eleve, Periode $periode)
+    public function __construct(ObjectManager $manager, Eleve $eleve, Periode $periode, FeriesDayList $feriesDayList)
     {
         $this->manager = $manager;
         $this->eleve = $eleve;
-        $this->daysOfWeek = new DaysOfWeeks($periode);
+        $this->daysOfWeek = new DaysOfWeeks($periode, $feriesDayList);
     }
 
     /**
@@ -56,20 +57,42 @@ class GarderieToStringTransformer implements DataTransformerInterface
             return array();
         }
 
-        $garderies = array();
         $daysOfWeek = explode(';', $daysOfWeekString);
-        $garderies_all = $this->daysOfWeek->getListJoursGarderie();
 
+        $garderies_periode   = $this->daysOfWeek->getListJoursGarderie();
+        $garderies_eleve     = $this->manager->getRepository('WCSCantineBundle:Eleve')->findAllGarderiesForPeriode(
+            $this->eleve,
+            $this->daysOfWeek->getPeriode());
+
+        $garderies = array();
         foreach ($daysOfWeek as $dayOfWeek)
         {
-            foreach ($garderies_all[$dayOfWeek] as $dateheure) {
-                $garderie = new Garderie();
-                $garderie->setEleve($this->eleve);
-                $garderie->setDateHeure(new \DateTime($dateheure));
-                $this->manager->persist($garderie);
+            foreach ($garderies_periode[$dayOfWeek] as $date) {
+
+                // si la réservation est déjà présente,
+                // on se contente de l'ajouter dans la liste
+                // sinon on créé une nouvelle réservation
+                $dateT = new \DateTime($date);
+                $found = false;
+
+                foreach($garderies_eleve as $current) {
+                    if ($current->getDateHeure()==$dateT) {
+                        $garderie = $current;
+                        $found = true;
+                    }
+                }
+
+                if (!$found) {
+                    $garderie = new Garderie();
+                    $garderie->setEleve($this->eleve);
+                    $garderie->setDateHeure($dateT);
+
+                    $this->manager->persist($garderie);
+                }
                 $garderies[] = $garderie;
             }
         }
+
 
         return $garderies;
     }

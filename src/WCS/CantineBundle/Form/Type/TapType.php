@@ -8,17 +8,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use WCS\CalendrierBundle\Service\Periode\Periode;
 use WCS\CantineBundle\Form\DataTransformer\TapToStringTransformer;
 use WCS\CantineBundle\Form\DataTransformer\GarderieToStringTransformer;
+use WCS\CantineBundle\Service\FeriesDayList;
 
 
 class TapType extends AbstractType
 {
     private $manager;
     private $periode;
+    private $feriesDayList;
 
-    public function __construct(\Doctrine\Common\Persistence\ObjectManager $manager, Periode $periode)
+    public function __construct(\Doctrine\Common\Persistence\ObjectManager $manager, Periode $periode, FeriesDayList $feriesDayList)
     {
         $this->manager = $manager;
         $this->periode = $periode;
+        $this->feriesDayList = $feriesDayList;
     }
 
 
@@ -42,10 +45,10 @@ class TapType extends AbstractType
         ;
 
         $builder->get('taps')
-            ->addModelTransformer( new TapToStringTransformer($this->manager, $builder->getData(), $this->periode) );
+            ->addModelTransformer( new TapToStringTransformer($this->manager, $builder->getData(), $this->periode, $this->feriesDayList) );
 
         $builder->get('garderies')
-            ->addModelTransformer( new GarderieToStringTransformer($this->manager, $builder->getData(), $this->periode) );
+            ->addModelTransformer( new GarderieToStringTransformer($this->manager, $builder->getData(), $this->periode, $this->feriesDayList) );
     }
 
     /**

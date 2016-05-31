@@ -4,3 +4,7 @@ services:
         arguments: [ "sonata.block.service.stat", '@templating', '@sonata.admin.pool', '@doctrine.orm.entity_manager', '@security.context']
         tags:
             - { name: sonata.block }
+
+    wcs.feries:
+        class: WCS\CantineBundle\Service\FeriesDayList
+        arguments: ['@doctrine.orm.entity_manager']
