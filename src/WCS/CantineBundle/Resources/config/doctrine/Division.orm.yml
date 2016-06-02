@@ -30,7 +30,6 @@ WCS\CantineBundle\Entity\Division:
     manyToMany:
         voyages:
             targetEntity: Voyage
-            inversedBy: divisions
-            joinTable:
-                name: division_voyage
+            mappedBy: divisions
+
 

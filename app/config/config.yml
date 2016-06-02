@@ -227,9 +227,10 @@ sonata_admin:
                 label: Voyages
                 items:
                     - sonata.admin.voyage
+                    - sonata.admin.inscription
 
             wcs.group.tapgarderie:
-                            icon: '<i class="fa fa-futbol-o"></i>'
+                            icon: '<i class="fa fa-tag"></i>'
                             label: TAP-Garderie
                             items:
                                 - sonata.admin.tap

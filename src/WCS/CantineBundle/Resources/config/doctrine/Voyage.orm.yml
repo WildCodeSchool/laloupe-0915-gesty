@@ -14,14 +14,14 @@ WCS\CantineBundle\Entity\Voyage:
             length: 255
         date_debut:
             type: datetime
-            nullable: true
+            nullable: false
         date_fin:
             type: datetime
-            nullable: true
+            nullable: false
         estAnnule:
             type: boolean
             column: est_annule
-            nullable: true
+            nullable: false
 
     lifecycleCallbacks: {  }
 
@@ -31,4 +31,6 @@ WCS\CantineBundle\Entity\Voyage:
             mappedBy: voyages
         divisions:
             targetEntity: WCS\CantineBundle\Entity\Division
-            mappedBy: voyages
+            inversedBy: voyages
+            joinTable:
+                name: division_voyage
