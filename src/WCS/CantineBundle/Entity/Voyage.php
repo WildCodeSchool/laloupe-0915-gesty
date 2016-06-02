@@ -51,6 +51,7 @@ class Voyage
         $this->divisions = new \Doctrine\Common\Collections\ArrayCollection();
         $this->date_debut = new \DateTime();
         $this->date_fin = new  \DateTime();
+        $this->estAnnule = FALSE;
     }
 
     /**

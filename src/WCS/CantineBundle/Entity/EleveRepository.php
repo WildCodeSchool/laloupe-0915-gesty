@@ -149,8 +149,10 @@ class EleveRepository extends EntityRepository
             ->setParameter(':dateFin', $periode->getFin());
         return $query->getResult();
     }
+
+
 }
 
-    
+
 
 

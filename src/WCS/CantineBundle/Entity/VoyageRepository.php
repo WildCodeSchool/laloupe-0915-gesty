@@ -31,4 +31,19 @@ class VoyageRepository extends \Doctrine\ORM\EntityRepository
 
         return $qb;
     }
+
+
+    public function findByDivisions()
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+
+        $qb->select('d')
+            ->from('WCSCantineBundle:Division', 'd')
+            ->join('d.school', 's')
+            ->where("s.active_voyage = TRUE");
+
+        return $qb;
+
+    }
+
 }
