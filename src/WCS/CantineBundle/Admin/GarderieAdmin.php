@@ -16,7 +16,7 @@ class GarderieAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('eleve', null)
+            ->add('eleve', null, array(), array('admin_code'=>'sonata.admin.eleve'))
             ->add('date_heure','sonata_type_datetime_picker',(array(
                 'label'=>'Date',
                 'format' => 'dd-MM-y HH:ii'
@@ -38,7 +38,7 @@ class GarderieAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('eleve', null)
+            ->add('eleve', null, array('admin_code'=>'sonata.admin.eleve'))
             ->add('date_heure', 'doctrine_orm_datetime_range', array(
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd HH:ii',
@@ -52,7 +52,7 @@ class GarderieAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('eleve', null)
+            ->add('eleve', null, array('admin_code'=>'sonata.admin.eleve'))
             ->add('date_heure', 'date', array(
                 'format' => 'd/m/Y H i',
                 'label' => false

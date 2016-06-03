@@ -16,7 +16,7 @@ class TapAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('eleve', null)
+            ->add('eleve', null, array(), array('admin_code'=>'sonata.admin.eleve'))
             ->add('date','sonata_type_date_picker',(array(
                 'label'=>'Date',
                 'format' => 'dd-MM-y'
@@ -38,7 +38,7 @@ class TapAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('eleve', null)
+            ->add('eleve', null, array('admin_code'=>'sonata.admin.eleve'))
             ->add('date', 'doctrine_orm_date_range', array(
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
@@ -52,7 +52,7 @@ class TapAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('eleve', null)
+            ->add('eleve', null, array('admin_code'=>'sonata.admin.eleve'))
             ->add('date', 'date', array(
                 'format' => 'd/m/Y',
                 'label' => false
