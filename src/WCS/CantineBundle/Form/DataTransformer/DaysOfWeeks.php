@@ -46,7 +46,7 @@ class DaysOfWeeks
     public function __construct(Periode $periode, FeriesDayList $feriesDayList)
     {
         $this->periode  = $periode;
-        $feriesArray    = $feriesDayList->findDayOffDatesWithin($periode);
+        $feriesArray    = $feriesDayList->findDatesWithin($periode);
 
         $currentDay     = $this->periode->getDebut();
         $end            = new \DateTimeImmutable($this->periode->getFin()->format('Y-m-d'));

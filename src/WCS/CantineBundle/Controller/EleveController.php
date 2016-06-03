@@ -251,11 +251,13 @@ class EleveController extends Controller
 
         // periodes TAP/Garderie
         $periodesScolaires = $this->get("wcs.calendrierscolaire")->getPeriodesAnneeRentreeScolaire();
-        $periode_tap = $periodesScolaires->findEnClasseFrom(new \DateTime());
-        $periode_from_today = new Periode(new \DateTime(), $periode_tap->getFin());
+        $periode_tap = $periodesScolaires->getCurrentPeriodeEnClasse();
 
         // récupère les days of week sélectionnés
-        $daysOfWeek = new DaysOfWeeks($periode_from_today, $this->get('wcs.feries'));
+        $daysOfWeek = new DaysOfWeeks(
+            new Periode($this->get("wcs.datenow")->getDate(), $periode_tap->getFin()),
+            $this->get('wcs.feries')
+        );
 
         // récupère les taps et les garderies de chaque enfants
         $children_activities = array();
@@ -263,7 +265,6 @@ class EleveController extends Controller
             $children_activities[$child->getId()]["taps"]         = $daysOfWeek->getTapSelectionToArray($child->getTaps());
             $children_activities[$child->getId()]["garderies"]    = $daysOfWeek->getGarderieSelectionToArray($child->getGarderies());
         }
-
 
         return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(
             'user'                      => $user,

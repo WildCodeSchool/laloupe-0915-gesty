@@ -1,9 +1,14 @@
 {% extends '::base.html.twig' %}
 {% block body %}
+    <div class='container'>
+        <a href="{{ path('wcs_employee_home') }}" class="btn__retour">Retour</a>
+        <center><h1>{{ title }}</h1></center>
+    </div>
+
     <div class="container-fluid">
         {% for school in schools %}
             <div class="school school-{{ loop.index % 3 }}">
-                <a href="{{ path('wcs_cantine_todayList', {'schoolId': school.id}) }}">
+                <a href="{{ path(route_todaylist, {'id': school.id}) }}">
                     <button class="col-sm-offset-4 col-md-offset-4">
                         <i class="fa fa-home fa-2x"></i>
                         {{ school.name }}
@@ -11,14 +16,17 @@
                 </a>
             </div>
         {% endfor %}
+
+        {% if route_todaylist == 'wcs_employee_todaylist_cantine' %}
         <div class="commande">
-            <a href="{{ path('reserve_meal') }}">
+            <a href="{{ path('wcs_employee_reserve_meal') }}">
                 <button class="col-sm-offset-4 col-md-offset-4">
                     <i class="fa fa-cutlery fa-2x"></i>
                     Commande des repas
                 </button>
             </a>
         </div>
+        {% endif %}
     </div>
 
 {% endblock %}

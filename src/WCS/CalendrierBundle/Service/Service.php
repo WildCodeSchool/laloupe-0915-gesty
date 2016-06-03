@@ -19,10 +19,10 @@ class Service
      */
     public function getCalendrierRentreeScolaire()
     {
-        if (!isset($this->calendriers[$this->annee_rentree_from_today])) {
+        if (!isset($this->cals[$this->annee_rentree_from_today])) {
             return null;
         }
-        return $this->calendriers[$this->annee_rentree_from_today];
+        return $this->cals[$this->annee_rentree_from_today];
     }
 
     /**
@@ -45,7 +45,7 @@ class Service
      */
     public function getNbAnneeScolaires()
     {
-        return count($this->calendriers);
+        return count($this->cals);
     }
 
 
@@ -73,7 +73,7 @@ class Service
             $this->annee_rentree_from_today = $now_year;
         }
 
-        foreach($this->calendriers as $cal) {
+        foreach($this->cals as $cal) {
             $cal->setDateToday($date_jour);
         }
     }
@@ -84,7 +84,7 @@ class Service
      */
     public function selectRentreeScolaire($annee_rentree)
     {
-        if (strlen($annee_rentree)!=4) {
+        if (1!==preg_match('/^\d{4}$/', $annee_rentree)) {
             throw new \Exception("L'année scolaire doit être au format YYYY. Annee saisie : ".$annee_rentree);
         }
 
@@ -111,12 +111,12 @@ class Service
      * @param $filepath
      * @param string date du jour au format "Y-m-d"
      */
-    public function __construct($icsFilepath)
+    public function __construct($icsFilepath, DateNow $dateNow, DaysOffInterface $daysOff)
     {
-        $this->calendriers = array();
+        $this->daysOff = $daysOff;
+        $this->cals = array();
 
-        $today = new \DateTime();
-        $this->selectRentreeScolaireAvecDate( $today->format('Y-m-d') );
+        $this->selectRentreeScolaireAvecDate( $dateNow->getDateStr('Y-m-d') );
         
         $this->loadFromFile($icsFilepath);
     }
@@ -143,10 +143,17 @@ class Service
         foreach($events as $event) {
             $tmp_periodes[] = $event;
             if (($nbEventsRead % PeriodesAnneeScolaire::NB_EVENTS_PAR_AN)==0) {
-                $this->calendriers[$annee] = new Calendrier(
-                                                    new PeriodesAnneeScolaire($tmp_periodes),
+                $cal = new Calendrier(
+                                                    new PeriodesAnneeScolaire($tmp_periodes, $this->date_du_jour),
                                                     $this->date_du_jour
                                                     );
+
+                $feriesArray = $this->daysOff->findDatesWithin($cal->getPeriodesScolaire()->getAnneeScolaire());
+                if ($feriesArray) {
+                    $cal->addDaysOff($feriesArray);
+                }
+
+                $this->cals[$annee] = $cal;
                 $tmp_periodes = array();
                 $annee = $event->getDebut()->format('Y');
             }
@@ -155,17 +162,22 @@ class Service
     }
 
     /**
-     * @var
+     * @var string formatted with Y-m-d
      */
     private $date_du_jour;
 
     /**
-     * @var array de Calendrier
+     * @var array of Calendrier
      */
-    private $calendriers;
+    private $cals;
 
     /**
      * @var string
      */
     private $annee_rentree_from_today;
+
+    /**
+     * @var DaysOffInterface
+     */
+    private $daysOff;
 }

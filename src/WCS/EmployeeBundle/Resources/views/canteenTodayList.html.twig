@@ -1,0 +1,154 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
+        <a href="{{ path('wcs_employee_schools', {'type_activity': 'cantine'}) }}" class="btn__retour">Retour</a>
+        <center><h1>Restaurant scolaire : feuille de présence aujourd'hui</h1></center>
+    </div>
+
+    <div class="container-fluid">
+        <div class="table-responsive">
+            <table class="table">
+
+                <tr>
+                    <td class="text-center welcome dateNow" id="{{ "now"|date("Y-m-d") }}">{{ "now"|date("d/m/Y") }}</td>
+                    <td class="text-center welcome schoolname" colspan="4" id="{{ school.id }}">Enfants inscrits - {{ school.name }}</td>
+                </tr>
+
+                <tr>
+                    <td class="todayList text-center">Présence</td>
+                    <td class="todayList text-center">Nom</td>
+                    <td class="todayList text-center">Prénom</td>
+                    <td class="todayList text-center">Allergie(s)</td>
+                    <td class="todayList text-center">Régime sans porc</td>
+                </tr>
+
+
+                {% for lunch in entities %}
+                <tr>
+                    <td class="text-center">
+                        {% if lunch.status == 0 %}
+                            <input type="checkbox" class="eleve" name="eleve" value="{{ lunch.id }}" />
+                        {% elseif lunch.status == 1 %}
+                            <p class="eleveAjoute">PRESENT</p>
+                            <a href="{{ path('wcs_employee_delete_lunch', {'id': school.id, 'id_activity': lunch.id }) }}">Désinscrire</a>
+                        {% elseif lunch.status == 2 %}
+                            <p class="eleveAjoute">PRESENT</p>
+                        {% else %}
+                        {% endif %}
+                    </td>
+                    <td class="text-center">{{ lunch.eleve.nom |upper}}</td>
+                    <td class="text-center">{{ lunch.eleve.prenom }}</td>
+                    <td class="text-center">{{ lunch.eleve.allergie }}</td>
+                    <td class="text-center sansporc">
+                        {% if lunch.eleve.regimeSansPorc == 1 %}
+                            OUI
+                        {% else %}
+                            NON
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="text-center col-md-12">
+                    {{ form_widget(form.eleve) }}
+                </div>
+                <div class="btnAjouter text-center col-md-12">
+                    {{ form_widget(form.Ajouter) }}
+                </div>
+            </div>
+            <div class="hidden">
+                {{ form_widget(form.status) }}
+                {{ form_widget(form.date) }}
+            </div>
+            {{ form_end(form) }}
+
+        </div>
+
+
+        <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <td class="text-center">Nombre d'inscrits :</td>
+                    <td class="test text-center"></td>
+                </tr>
+                <tr>
+                    <td class="text-center">Nombre de Régime sans porc :</td>
+                    <td class="porc text-center"></td>
+                </tr>
+                <tr>
+                    <td class="text-center">Nombre d'enfants présents :</td>
+                    <td class="total text-center"></td>
+                </tr>
+
+            </table>
+        </div>
+
+        <form action="{{ path('wcs_employee_todaylist_cantine', {'id' : school.id}) }}" method="POST" {{ form_enctype(statusForm) }}>
+            <div class="hidden">
+                {{ form_widget(statusForm.status, {'attr' : {'class' : 'idElevesPresents'}})}}
+            </div>
+            <input type="submit" class="submit btn btn-primary text-center col-md-offset-4 col-md-4" name="login" value="Valider"/>
+        </form>
+
+    </div>
+
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/wcscantine/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('bundles/wcscantine/js/bootstrap.min.js') }}"></script>
+
+    <script>
+        var totalCheckboxes = $('input:checkbox');
+        var totalSansPorc = $('.sansporc');
+        var totalEleves = totalCheckboxes.length;
+        window.onload = function () {
+            $(".total")[0].innerHTML = 0;
+            $(".test")[0].innerHTML = totalEleves;
+            $(".porc")[0].innerHTML = $('.sansporc:contains("OUI")').length;
+
+            $(".eleve").click(function () {
+                var countCheckedCheckboxes = $('input:checkbox:checked').length;
+                var countPrensentAdded = $('.eleveAjoute').length;
+                $(".total")[0].innerHTML = countCheckedCheckboxes + countPrensentAdded;
+            });
+
+            var $choiceDisplay = $(".idElevesPresents"), //jquery selector for the display box
+                    $choice = $(".eleve");
+
+            $choice.on("change", function () {
+                var $this = $(this), //jquery selector for the changed input
+                        isThisChecked = $this.prop("checked"), //boolean true if the box is checked
+                        choiceSelectionsArray = $choiceDisplay.val().split(",").filter(function(e){return e !== ""}), //array of values that are checked
+                        isThisValueInDisplayedSelection = $.inArray($this.val(), choiceSelectionsArray) !== -1; //boolean true when $this value displayed
+
+                if (isThisChecked) {
+                    if (isThisValueInDisplayedSelection) {
+                        return false; //odd, the value is already displayed.  No work to do.
+                    } else {
+                        choiceSelectionsArray.push($this.val());
+                        $choiceDisplay.val(choiceSelectionsArray.join());
+                    }
+                } else { //box has been unchecked
+                    if (isThisValueInDisplayedSelection) {
+                        choiceSelectionsArray = choiceSelectionsArray.filter(function(e){return e !== $this.val()})
+                        $choiceDisplay.val(choiceSelectionsArray.join());
+                    }
+                }
+            });
+
+        }
+
+    </script>
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+

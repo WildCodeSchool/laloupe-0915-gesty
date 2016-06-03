@@ -43,7 +43,7 @@ class Calendrier
 
     /**
      * @param string|integer $month numéro du mois
-     * @return array tableau indexé de \WCS\CalendrierBundle\Service\Calendrier\Day par jours
+     * @return \WCS\CalendrierBundle\Service\Calendrier\Day[] tableau indexé de jours
      */
     public function getDays($month)
     {
@@ -52,7 +52,7 @@ class Calendrier
 
     /**
      * Renvoit une liste de mois de l'année scolaire, dans l'ordre de '09' (sept) à '07' (juillet).
-     * @return array
+     * @return string[]
      */
     public function getMonths()
     {
@@ -64,7 +64,7 @@ class Calendrier
      * uniquement pour la période du calendrier
      * Ainsi, un jour férié pour une autre année ne sera pas ajouté.
      * 
-     * @param array $array_days_off tableau indexés de DateTimes durant lesquels il n'y a pas classe.
+     * @param \DateTime[] $array_days_off dates lesquels il n'y a pas classe.
      */
     public function addDaysOff($array_days_off)
     {
@@ -73,11 +73,11 @@ class Calendrier
 
 
     /**
-     * Ajoute une liste de jours "fermés" (ex : des jours fériés)
+     * Ajoute une liste de jours "passés"
      * uniquement pour la période du calendrier
-     * Ainsi, un jour férié pour une autre année ne sera pas ajouté.
+     * Ainsi, un jour passé pour une autre année ne sera pas ajouté.
      * 
-     * @param array $array_days_off tableau indexés de DateTimes durant lesquels il n'y a pas classe.
+     * @param \DateTime[] $array_days_past dates durant lesquels il n'y a pas classe.
      */
     public function addDaysPast($array_days_past)
     {
@@ -109,7 +109,7 @@ class Calendrier
     }
 
     /**
-     * @return PeriodesAnneeScolaire renvoit l'objet PeriodesAnneeScolaire
+     * @return PeriodesAnneeScolaire
      */
     public function getPeriodesScolaire()
     {
@@ -185,7 +185,10 @@ class Calendrier
      * Ajoute une liste de jours
      * uniquement pour la période du calendrier
      * Ainsi, un jour pour une autre année ne sera pas ajouté.
-     * @param $array_days tableau indexés de DateTimes
+     *
+     * @param   \DateTime[]     $array_days
+     * @param   string          $methodName
+     * @param   mixed           $attributeValue
      */
     private function addDaysWithAttribute($array_days, $methodName, $attributeValue)
     {
@@ -213,9 +216,17 @@ class Calendrier
     }
 
     /**
-     * @var array indexé de \WCS\CalendrierBundle\Service\Calendrier\Day par mois et jours
+     * @var \WCS\CalendrierBundle\Service\Calendrier\Day[][]
      */
     private $days;
+
+    /**
+     * @var PeriodesAnneeScolaire
+     */
     private $periodesScolaire;
+
+    /**
+     * @var string
+     */
     private $date_today;
 }
