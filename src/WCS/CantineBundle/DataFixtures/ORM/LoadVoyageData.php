@@ -24,8 +24,8 @@ class LoadVoyageData extends AbstractFixture implements OrderedFixtureInterface,
     {
         $entity = new Voyage();
         $entity->setLibelle("Visite du Chateau de Versailles");
-        $entity->setDateDebut( \DateTime::createFromFormat("Y-m-d H:i:s" , "2016-05-30 08:00:00") );
-        $entity->setDateFin( \DateTime::createFromFormat("Y-m-d H:i:s" , "2016-05-31 17:00:00") );
+        $entity->setDateDebut( \DateTime::createFromFormat("Y-m-d H:i:s" , "2016-06-30 08:00:00") );
+        $entity->setDateFin( \DateTime::createFromFormat("Y-m-d H:i:s" , "2016-06-30 17:00:00") );
         $entity->setEstAnnule(false);
         $manager->persist($entity);
         $this->setReference('voyage_versailles', $entity);

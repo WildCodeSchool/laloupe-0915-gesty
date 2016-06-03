@@ -1,6 +1,6 @@
 <?php
 
-namespace WCS\CantineBundle\Form\Type;
+namespace WCS\EmployeeBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -8,6 +8,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class StatusType extends AbstractType
 {
+    private $repositoryName;
+
+    public function __construct($repositoryName)
+    {
+        $this->repositoryName = $repositoryName;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -27,7 +34,7 @@ class StatusType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'WCS\CantineBundle\Entity\Lunch'
+            'data_class' => $this->repositoryName
         ));
     }
 
@@ -36,6 +43,6 @@ class StatusType extends AbstractType
      */
     public function getName()
     {
-        return 'wcs_cantinebundle_lunch';
+        return 'wcs_cantinebundle_status';
     }
 }

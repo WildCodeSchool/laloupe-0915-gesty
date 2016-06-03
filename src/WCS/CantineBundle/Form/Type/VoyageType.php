@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
-
+use WCS\CantineBundle\Entity\VoyageRepository;
 
 
 class VoyageType extends AbstractType
@@ -31,7 +31,7 @@ class VoyageType extends AbstractType
             ->add('voyages', 'entity', array(
                 'class'   => 'WCSCantineBundle:Voyage',
 
-                'query_builder' => function(EntityRepository $er)
+                'query_builder' => function(VoyageRepository $er)
                 {
                     return $er->findByDivisionsAnneeScolaire(array('division'=>self::$division));
                 },

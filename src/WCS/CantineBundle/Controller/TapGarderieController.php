@@ -29,7 +29,7 @@ class TapGarderieController extends Controller
 
         // récupère la période scolaires en classe à la date du jour
         $periodesScolaires = $this->get("wcs.calendrierscolaire")->getPeriodesAnneeRentreeScolaire();
-        $periode_tap = $periodesScolaires->findEnClasseFrom(new \DateTime());
+        $periode_tap = $periodesScolaires->getCurrentPeriodeEnClasse();
 
         $periode_from_today = new Periode(new \DateTime(), $periode_tap->getFin());
 

@@ -88,6 +88,7 @@ class EleveRepository extends EntityRepository
         $em = $this->getEntityManager();
 
         $now = new \DateTime();
+
         $query = $em->createQuery(
             "SELECT COUNT(el)
              FROM WCSCantineBundle:Eleve el

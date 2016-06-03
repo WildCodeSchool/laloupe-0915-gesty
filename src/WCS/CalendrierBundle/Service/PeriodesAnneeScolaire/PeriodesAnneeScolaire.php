@@ -104,7 +104,16 @@ class PeriodesAnneeScolaire
     }
 
 
-
+    /**
+     * Renvoit la période de classe en cours.
+     *
+     * @param $date
+     * @return null|\WCS\CalendrierBundle\Service\Periode\Periode
+     */
+    public function getCurrentPeriodeEnClasse()
+    {
+        return $this->current_en_classe;
+    }
 
     /*==========================================================================================================
         Constructeur
@@ -118,10 +127,13 @@ class PeriodesAnneeScolaire
      * A partir d'un tableau indexé de périodes, le constructeur
      * génère la liste des périodes scolaires (vacances, en classe)
      *
-     * @param $array_periodes tableau indexé de Periode. Doit être un multiple de NB_EVENTS_PAR_AN
+     * @param array $array_periodes tableau indexé de Periode. Doit être un multiple de NB_EVENTS_PAR_AN
+     * @param string date du jour au format 'Y-m-d'
      */
-    public function __construct($array_periodes)
+    public function __construct($array_periodes, $date_du_jour)
     {
+        $this->date_du_jour = $date_du_jour;
+
         $oneDay     = new \DateInterval('P1D');
 
         // période "année scolaire"
@@ -173,6 +185,8 @@ class PeriodesAnneeScolaire
             }
         }
         $this->list_enclasse = new ListPeriodes($enClasses);
+
+        $this->current_en_classe = $this->findEnClasseFrom($this->date_du_jour);
     }
 
     /**
@@ -186,7 +200,14 @@ class PeriodesAnneeScolaire
     private $list_vacances;
 
     /**
-     * @var \WCS\CalendrierBundle\Service\ListPeriodes\ListPeriodes
+     * @var arrau de \WCS\CalendrierBundle\Service\ListPeriodes\ListPeriodes
      */
     private $list_enclasse;
+
+    /**
+     * @var string date au format 'Y-m-d'
+     */
+    private $date_du_jour;
+
+    private $current_en_classe;
 }

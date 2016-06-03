@@ -14,9 +14,6 @@
 
 namespace WCS\CalendrierBundle\Service\Calendrier;
 
-use WCS\CalendrierBundle\Service\PeriodesAnneeScolaire\PeriodesAnneeScolaire;
-
-
 class Day
 {
     const WEEK_MONDAY       = '1';
@@ -30,7 +27,6 @@ class Day
     /**
      * Day constructor.
      * @param \DateTimeImmutable $day
-     * @param PeriodesAnneeScolaire $periodesScolaire
      */
     public function __construct(\DateTimeImmutable $day)
     {

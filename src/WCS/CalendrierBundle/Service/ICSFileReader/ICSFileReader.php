@@ -132,7 +132,7 @@ class ICSFileReader
     }
 
     /**
-     * @var WCS\CalendrierBundle\CalendrierScolaire\ListPeriodes\ListPeriodes
+     * @var \WCS\CalendrierBundle\Service\ListPeriodes\ListPeriodes
      */
     private $periodes;
 }

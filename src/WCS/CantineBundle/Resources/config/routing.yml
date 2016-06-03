@@ -18,9 +18,9 @@ gesty_cantine_voyage:
     resource: "@WCSCantineBundle/Resources/config/routing/voyage.yml"
     prefix:   /voyage
 
-gesty_cantine_dame:
-    resource: "@WCSCantineBundle/Resources/config/routing/dameCantine.yml"
-    prefix:   /canteenManager
+#gesty_activity_manager:
+#    resource: "@WCSCantineBundle/Resources/config/routing/activity_manager.yml"
+#    prefix:   /manager
 
 wcs_cantine_dashboard:
     path: /dashboard

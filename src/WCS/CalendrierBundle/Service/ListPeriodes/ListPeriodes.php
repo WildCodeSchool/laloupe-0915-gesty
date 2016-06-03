@@ -22,7 +22,7 @@ class ListPeriodes implements \Iterator
      * l'iterateur dans un foreach.
      * Neanmoins, les méthodes étant publiques, elles peuvent être
      * appelées indépendamment. Ici on doit donc s'assurer que la clef est disponible
-     * @return WCS\CalendrierBundle\Service\Periode\Periode
+     * @return \WCS\CalendrierBundle\Service\Periode\Periode
      */
     public function current()
     {
@@ -68,7 +68,7 @@ class ListPeriodes implements \Iterator
     /**
      * Construit l'objet à partir d'une liste de "Periode"
      *
-     * @param array $array d'instances de WCS\CalendrierBundle\Service\Periode\Periode
+     * @param WCS\CalendrierBundle\Service\Periode\Periode[]
      * @throws \Exception si un des éléments du tableau n'est pas une instance de Periode
      */
     public function __construct(&$array)

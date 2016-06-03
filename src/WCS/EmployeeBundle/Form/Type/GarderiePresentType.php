@@ -1,16 +1,15 @@
 <?php
 
-namespace WCS\CantineBundle\Form\Type;
+namespace WCS\EmployeeBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
 use WCS\CantineBundle\Entity\EleveRepository;
 
 
 
-class LunchType extends AbstractType
+class GarderiePresentType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -26,6 +25,7 @@ class LunchType extends AbstractType
                         ->join('e.division', 'd')
                         ->join('d.school', 's')
                         ->where('s.id = :id')
+                        ->andWhere('s.active_garderie = TRUE')
                         ->setParameter('id', $options['schoolId'])
                         ->orderBy('e.nom', 'ASC');
                         }
@@ -34,7 +34,7 @@ class LunchType extends AbstractType
                 'choices' => array('1' => 'Non-Inscrit'),
                 'label' => false
                 ))
-            ->add('date', 'date', array(
+            ->add('dateHeure', 'date', array(
                 'format' => 'yyyy-MMMM-dd',
                 'label' => false
             ))
@@ -57,6 +57,6 @@ class LunchType extends AbstractType
      */
     public function getName()
     {
-        return 'wcs_cantinebundle_lunch';
+        return 'wcs_cantinebundle_tappresent';
     }
 }

@@ -8,9 +8,9 @@
 
 namespace WCS\CantineBundle\Service;
 
-use WCS\CalendrierBundle\Service\Periode\Periode;
+use WCS\CalendrierBundle\Service\DaysOffInterface;
 
-class FeriesDayList
+class FeriesDayList implements DaysOffInterface
 {
     public function __construct(\Doctrine\ORM\EntityManager $em)
     {
@@ -18,13 +18,17 @@ class FeriesDayList
     }
 
     /**
-     * @return array
+     * @return array of \DateTime
      */
-    public function findDayOffDatesWithin(Periode $periode)
+    public function findDatesWithin(\WCS\CalendrierBundle\Service\Periode\Periode $periode)
     {
         $this->datesDayOffArray = $this->repo->findListDateTimes(
             $periode->getFin()->format('Y')
         );
+        
+        if (is_null($this->datesDayOffArray)) {
+            return array();
+        }
 
         return $this->datesDayOffArray;
     }

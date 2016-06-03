@@ -33,6 +33,7 @@ class AppKernel extends Kernel
             new Application\Sonata\AdminBundle\ApplicationSonataAdminBundle(),
 
 
+            new WCS\EmployeeBundle\WCSEmployeeBundle(),
             new WCS\CantineBundle\WCSCantineBundle(),
             new WCS\GestyBundle\WCSGestyBundle(),
             new WCS\CalendrierBundle\WCSCalendrierBundle(),

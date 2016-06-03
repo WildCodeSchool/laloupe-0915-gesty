@@ -73,8 +73,10 @@ class WCSCalendrierExtension extends Extension
         $loader->load("services.yml");
 
         $this->addClassesToCompile(array(
-            'WCS\CalendrierBundle\Service\Service'
+            'WCS\CalendrierBundle\Service\Service',
+            'WCS\CalendrierBundle\Service\DateNow'
             )
         );
+
     }
 }

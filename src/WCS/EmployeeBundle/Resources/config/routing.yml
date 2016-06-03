@@ -1,0 +1,57 @@
+wcs_employee_home:
+    path: /
+    defaults: {_controller: 'WCSEmployeeBundle:Home:index' }
+
+wcs_employee_schools:
+    path: /schools/{type_activity}
+    defaults: {_controller: 'WCSEmployeeBundle:Home:showSchools' }
+    methods: [GET]
+
+# ----------------------------------------------------------------------------------------
+wcs_employee_todaylist_cantine:
+    path: /cantine/todayList/{id}
+    defaults: { _controller: 'WCSEmployeeBundle:Canteen:showTodayList' }
+    requirements:
+        id: \d+
+    methods: [POST, GET]
+
+
+wcs_employee_todaylist_tap:
+    path: /tap/todayList/{id}
+    defaults: { _controller: 'WCSEmployeeBundle:Tap:showTodayList' }
+    requirements:
+        id: \d+
+    methods: [POST, GET]
+
+
+wcs_employee_todaylist_garderie_matin:
+    path: /garderie_matin/todayList/{id}
+    defaults: { _controller: 'WCSEmployeeBundle:GarderieMatin:showTodayList' }
+    requirements:
+        id: \d+
+    methods: [POST, GET]
+
+wcs_employee_todaylist_garderie_soir:
+    path: /garderie_soir/todayList/{id}
+    defaults: { _controller: 'WCSEmployeeBundle:GarderieSoir:showTodayList' }
+    requirements:
+        id: \d+
+    methods: [POST, GET]
+
+wcs_employee_todaylist_tap_garderie:
+    path: /tap_garderie/todayList/{id}
+    defaults: { _controller: 'WCSEmployeeBundle:TapGarderie:showTodayList' }
+    requirements:
+        id: \d+
+    methods: [POST, GET]
+
+# ----------------------------------------------------------------------------------------
+
+wcs_employee_delete_lunch:
+    path: /cantine/todayList/{id}/{id_activity}/remove
+    defaults: { _controller: "WCSEmployeeBundle:Canteen:delete" }
+    methods: [GET, DELETE]
+
+wcs_employee_reserve_meal:
+    path: /cantine/reservation
+    defaults: { _controller: "WCSEmployeeBundle:Canteen:showOrders" }

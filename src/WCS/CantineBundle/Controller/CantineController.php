@@ -49,15 +49,6 @@ class CantineController extends Controller
         }
 
 
-        // récupère les jours fériés et met à jour le calendrier
-        /*
-        $feriesArray = $em->getRepository('WCSCantineBundle:Feries')->findListDateTimes(
-                $calendrier->getPeriodesScolaire()->getAnneeScolaire()->getFin()->format('Y')
-            );
-        */
-        $feriesArray = $this->get('wcs.feries')->findDayOffDatesWithin($calendrier->getPeriodesScolaire()->getAnneeScolaire());
-        $calendrier->addDaysOff($feriesArray);
-
         // la réservation à la cantine ne peut être effectué que 7 jours après
         // la date du jour (soit le 8e jour)
         // on désactive donc le jour actuel et les 7 jours suivants.

@@ -91,7 +91,7 @@ class Periode
      * vérifie si une date (jour/mois/annee) est bien incluse dans la période
      * (vrai si la date vaut le premier ou le dernier jour de la période)
      *
-     * @param $date
+     * @param mixed $date
      *
      * une date de type :
      *  - string au format "Y-m-d'
@@ -104,7 +104,7 @@ class Periode
      */
     public function isDateIncluded($date)
     {
-        $dateTmp = $this->toDateTimeImmutable($date, PeriodeException::DATE);
+        $dateTmp = self::toDateTimeImmutable($date, PeriodeException::DATE);
         $dateStr = $dateTmp->format('Y-m-d');
         return  $dateStr >= $this->dateDebut->format('Y-m-d') &&
                 $dateStr <= $this->dateFin->format('Y-m-d');
@@ -124,12 +124,15 @@ class Periode
      *
      * en un DateTimeImmutable
      *
-     * @param $date
+     * @param string $date
+     * @param int $exceptionCode
+     * @see PeriodeException::* constants
+     * 
      * @return \DateTimeImmutable|null
      * @throws InvalidArgumentException
      * @throws InvalidDateException
      */
-    private function toDateTimeImmutable($date, $exceptionCode)
+    static public function toDateTimeImmutable($date, $exceptionCode=PeriodeException::DATE)
     {
         $dateImmutable = null;
         if ($date instanceof \DateTimeImmutable) {
