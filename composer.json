@@ -10,7 +10,7 @@
     },
     "require": {
         "php": ">=5.3.9",
-        "symfony/symfony": "2.7.13",
+        "symfony/symfony": "2.7.*",
         "doctrine/orm": "^2.4.8",
         "doctrine/doctrine-bundle": "~1.4",
         "symfony/assetic-bundle": "~2.3",
@@ -31,14 +31,12 @@
         "twbs/bootstrap": "3.0.*",
         "jquery/jquery":  "1.11.*",
         "leafo/lessphp": "0.4.0"
-
-
-
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
         "doctrine/doctrine-fixtures-bundle": "^2.3",
-        "liip/functional-test-bundle": "1.0.*"
+        "liip/functional-test-bundle": "1.0.*",
+        "phpunit/phpunit": "5.4.*"
     },
     "scripts": {
         "post-install-cmd": [
@@ -60,7 +58,7 @@
     },
     "config": {
         "bin-dir": "bin",
-	    "secure-http":false
+	    "secure-http":true
     },
     "extra": {
         "symfony-app-dir": "app",

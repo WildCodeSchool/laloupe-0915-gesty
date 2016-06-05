@@ -38,12 +38,11 @@ use Symfony\Component\Console\Question\Question;
 use Application\Sonata\UserBundle\Entity\User;
 
 
-trait Enums {
-
-}
-
 class MigrateFilesCommand extends ContainerAwareCommand
 {
+    // old path to the upload dir
+    const PATH_OLD_UPLOAD           = '/../web/bundles/wcscantine/uploads/';
+
     // prefix used in all the filenames that will be imported
     const FILENAME_PREFIX           = 'mig_';
 
@@ -76,6 +75,7 @@ class MigrateFilesCommand extends ContainerAwareCommand
 
     private $path_original          = '';
     private $path_target            = '';
+    private $path_old_upload_folder = '';
     private $sql_file               = '';
     private $stats                  = array(
                                         'nb_users_load' => 0,
@@ -104,9 +104,17 @@ class MigrateFilesCommand extends ContainerAwareCommand
                     'original_files_path',
                     InputArgument::OPTIONAL,
                     'path of the original attached files'
+                 )
+                 ->addArgument(
+                    'old_upload_path',
+                    InputArgument::OPTIONAL,
+                    'path of the current upload folder'
+                 )
+                 ->addArgument(
+                    'target_upload_path',
+                    InputArgument::OPTIONAL,
+                    'path of the new secure upload folder'
                  );
-                 
-
     }
 
 
@@ -120,8 +128,9 @@ class MigrateFilesCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-            $this->path_target = User::getPathRootUpload();
-            
+            $this->path_target              = $this->getContainer()->getParameter('wcs_upload_absolute_path');
+            $this->path_old_upload_folder   = $this->getContainer()->get('kernel')->getRootDir().self::PATH_OLD_UPLOAD;;
+
             // IMPORTANT !!!! Respect the sequence ordering inside this method
 
             // will contains all users present in the SQL file and in the database
@@ -132,6 +141,9 @@ class MigrateFilesCommand extends ContainerAwareCommand
 
             $this->sql_file         = $input->getArgument('file');
             $this->path_original    = $input->getArgument('original_files_path');
+            $old_upload_path        = $input->getArgument('old_upload_path');
+            $target_upload_path     = $input->getArgument('target_upload_path');
+
             if (empty($this->sql_file)) {
                 $q1 = new Question('Please enter the path of the SQL file :');
                 $this->sql_file = $helper->ask( $input, $output, $q1 );
@@ -140,6 +152,14 @@ class MigrateFilesCommand extends ContainerAwareCommand
             if (empty($this->path_original)) {
                 $q2 = new Question('Please enter the path of the directory that contains the files to import :');
                 $this->path_original = $helper->ask( $input, $output, $q2 );
+            }
+
+            if (!empty($old_upload_path)) {
+                $this->path_old_upload_folder = $old_upload_path;
+            }
+
+            if (!empty($target_upload_path)) {
+                $this->path_target = $target_upload_path;
             }
 
             if (!is_file($this->sql_file)) {
@@ -171,8 +191,10 @@ class MigrateFilesCommand extends ContainerAwareCommand
                 $this->createUploadsDir($output);
                 
                 // 1 - Migrate web upload files to the secure app upload files
-                $output->writeln('  <comment>></comment> <info>1. Moving files from web/../uploads to app/uploads.</info>');
-                
+                $output->writeln('  <comment>></comment> <info>1. Moving files from old uploads folder to new folder.</info>');
+                $output->writeln('  <comment> </comment> <info>   Old folder : '.$this->path_old_upload_folder.'.</info>');
+                $output->writeln('  <comment> </comment> <info>   New folder : '.$this->path_target.'.</info>');
+
                 $this->moveWebUploadFiles();
 
                 // 2 - Delete any files copied from a previous import 
@@ -221,7 +243,6 @@ class MigrateFilesCommand extends ContainerAwareCommand
      */
     private function createUploadsDir(OutputInterface $output)
     {
-            //$appPath = __DIR__.'/../../../../app';
             $appPath = $this->getContainer()->get('kernel')->getRootDir();
 
             if (!is_writable($appPath)) {
@@ -248,10 +269,7 @@ class MigrateFilesCommand extends ContainerAwareCommand
     */
     private function moveWebUploadFiles()
     {
-            //$webPath = __DIR__.'/../../../../web';
-            $webPath = $this->getContainer()->get('kernel')->getBasePath();
-
-           $path_web_upload =  $webPath.'/bundles/wcscantine/uploads';
+            $path_web_upload = $this->path_old_upload_folder;
 
             foreach (glob($path_web_upload.'/*') as $current_web_file_path) {
                 
@@ -471,17 +489,16 @@ class MigrateFilesCommand extends ContainerAwareCommand
             // we must ensure there is no previously imported file already 
             // present in the database and in the target directory.
             $filename       = $params['filename_currently_in_db'];
-            
-            if (!empty($filename) && 
+            if (!empty($filename) &&
                 !preg_match('/^'.(self::FILENAME_PREFIX).'/', $filename) &&
                 is_file($this->path_target."/".$filename)) {
                     return;
             }
-          
+
             // build the original path
             $originalPath = $this->path_original .'/'. $params['subdir_to_import'] .'/'. $params['filename_to_import'];
 
-            // ensure the file exists        
+            // ensure the file exists
             if (!is_file($originalPath)) {
                 return '';
             }

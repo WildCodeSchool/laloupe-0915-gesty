@@ -75,27 +75,27 @@ class User extends BaseUser
      */
     public $file_impots;
 
-    const PATH_DIR_UPLOAD   = 'uploads';
-    const PATH_ROOT_UPLOAD  = '/../../../../../app/';
+    private $upload_absolute_path;
+    private $upload_folder;
 
-    static function getPathDirUpload()
+    public function setUploadFolder($folder)
     {
-        return self::PATH_DIR_UPLOAD;
+        $this->upload_folder = $folder;
     }
 
-    static function getPathRootUpload()
+    public function setUploadAbsolutePath($absolutePath)
     {
-        return __DIR__ . self::PATH_ROOT_UPLOAD . self::PATH_DIR_UPLOAD;
+        $this->upload_absolute_path = $absolutePath;
     }
 
     protected function getUploadDir()
     {
-        return self::getPathDirUpload();
+        return $this->upload_folder;
     }
 
     protected function getUploadRootDir()
     {
-        return self::getPathRootUpload();
+        return $this->upload_absolute_path;
     }
 
     public function getWebPathDomicile()

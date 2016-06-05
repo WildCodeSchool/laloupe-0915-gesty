@@ -8,8 +8,10 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: fr
-    wcs_group_tap_garderie: 0
+    locale:                   fr
+    wcs_upload_folder:        'uploads'
+    wcs_upload_absolute_path: '%kernel.root_dir%/%wcs_upload_folder%/'
+    wcs_group_tap_garderie:   0
 
 framework:
     #esi:             ~

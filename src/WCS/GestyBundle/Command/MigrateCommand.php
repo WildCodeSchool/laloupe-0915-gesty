@@ -207,7 +207,7 @@ class MigrateCommand extends ContainerAwareCommand
         if (!class_exists('Symfony\Component\Console\Question\ConfirmationQuestion')) {
             $dialog = $this->getHelperSet()->get('dialog');
 
-            return $dialog->askConfirmation($output, $question, $default);
+            return $dialog->askConfirmation($output, $question, false);
         }
 
         $questionHelper = $this->getHelperSet()->get('question');

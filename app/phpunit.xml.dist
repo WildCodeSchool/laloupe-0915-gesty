@@ -14,8 +14,14 @@
         </testsuite>
 
         <testsuite name="WCS_Test_Suite">
-            <directory>../src/*/*Bundle/Tests</directory>
-            <directory>../src/*Bundle/Tests</directory>
+            <directory>../src/Application/Sonata/AdminBundle/Tests</directory>
+            <directory>../src/Application/Sonata/UserBundle/Tests</directory>
+            <directory>../src/WCS/CalendrierBundle/Tests</directory>
+            <directory>../src/WCS/CantineBundle/Tests</directory>
+            <directory>../src/WCS/EmployeeBundle/Tests</directory>
+            <!--
+            <directory>../src/WCS/GestyBundle/Tests</directory>
+            -->
         </testsuite>
     </testsuites>
     <!--
