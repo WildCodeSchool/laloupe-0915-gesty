@@ -284,14 +284,14 @@ class EleveController extends Controller
     private function getFiles($user, $nbChildrenVoyageInscrits)
     {
         $filesArray = array();
-        $filesArray[User::TYPE_DOMICILE]    = array(
-            'libelle_justif' => 'Justificatif de domicile',
-            'exists' => is_file($user->getAbsolutePathDomicile())
-        );
-
         $filesArray[User::TYPE_PRESTATIONS] = array(
             'libelle_justif' => 'Justificatif de CAF',
             'exists' => is_file($user->getAbsolutePathPrestations())
+        );
+
+        $filesArray[User::TYPE_DOMICILE]    = array(
+            'libelle_justif' => 'Justificatif de domicile',
+            'exists' => is_file($user->getAbsolutePathDomicile())
         );
 
         $filesArray[User::TYPE_SALAIRE1]    = array(

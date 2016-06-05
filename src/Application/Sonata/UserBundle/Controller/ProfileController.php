@@ -40,6 +40,7 @@ class ProfileController extends BaseController
 
         return $this->render('SonataUserBundle:Profile:show.html.twig',array(
             'form' => $form->createView(),
+            'entity' => $entity,
             'nbChildrenVoyageInscrits' => $nbChildrenVoyageInscrits
             ));
     }
