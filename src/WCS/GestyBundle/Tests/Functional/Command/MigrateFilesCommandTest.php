@@ -51,7 +51,7 @@ class MigrateFilesCommandTest extends KernelTestCase
     protected function setUp()
     {
         // init the necessary to run the command
-        $this->mg_kernel = $this->createKernel(array('environment'=>'dev', 'debug'=>false));
+        $this->mg_kernel = $this->createKernel(array('environment'=>'test', 'debug'=>false));
         $this->mg_kernel->boot();
 
         $this->app = new Application($this->mg_kernel);
