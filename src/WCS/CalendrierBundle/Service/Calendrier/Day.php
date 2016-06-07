@@ -26,14 +26,14 @@ class Day
 
     /**
      * Day constructor.
-     * @param \DateTimeImmutable $day
+     * @param \DateTimeInterface $day
      */
-    public function __construct(\DateTimeImmutable $day)
+    public function __construct(\DateTimeInterface $day)
     {
         $this->year         = $day->format('Y');
         $this->month        = $day->format('m');
         $this->day          = $day->format('d');
-        $this->dayOfWeek    = str_replace('0', self::WEEK_SUNDAY, $day->format('w'));
+        $this->dayOfWeek    = $this->getDayOfWeekFrom($day);
         $this->off        = false;
         $this->past       = false;
     }
@@ -125,6 +125,15 @@ class Day
     public function isDayOfWeek($dayOfWeek)
     {
         return $this->dayOfWeek == $dayOfWeek;
+    }
+
+    /**
+     * @param \DateTimeInterface $date
+     * @return integer Day::* constants
+     */
+    public static function getDayOfWeekFrom(\DateTimeInterface $date)
+    {
+        return str_replace('0', self::WEEK_SUNDAY, $date->format('w'));
     }
 
     private $year;

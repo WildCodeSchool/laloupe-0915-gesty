@@ -5,8 +5,12 @@ namespace WCS\CantineBundle\Entity;
 /**
  * TacheBase
  */
-class TacheBase
+class ActivityBase
 {
+    const STATUS_REGISTERED_BUT_ABSENT  = 0;
+    const STATUS_NOT_REGISTERED         = 1;
+    const STATUS_REGISTERED_AND_PRESENT = 2;
+
     /**
      * @var integer
      */
@@ -46,13 +50,13 @@ class TacheBase
     /**
      * Set date
      *
-     * @param \DateTime $date
+     * @param \DateTimeInterface $date
      *
      * @return Tap
      */
-    public function setDate($date)
+    public function setDate(\DateTimeInterface $date)
     {
-        $this->date = $date;
+        $this->date = new \DateTime($date->format('Y-m-d H:i:s'));
 
         return $this;
     }

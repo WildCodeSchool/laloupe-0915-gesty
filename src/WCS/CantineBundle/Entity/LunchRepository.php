@@ -1,7 +1,10 @@
 <?php
 
 namespace WCS\CantineBundle\Entity;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\VarDumper\VarDumper;
+use WCS\CalendrierBundle\Service\Calendrier\Day;
 
 /**
  * LunchRepository
@@ -11,14 +14,152 @@ use Symfony\Component\Validator\Constraints\DateTime;
  */
 class LunchRepository extends ActivityRepositoryAbstract
 {
-    public function getTodayList(School $school, $options)
-    {
-        // Format the date
-        $date = new \DateTime();
-        $day = $date->format('Y-m-d');
+    /**
+     * @var OptionsResolver
+     */
+    private $weekMealResolver;
 
-        // Request pupils to the database from a certain date
-        // lien : http://symfony.com/doc/current/book/doctrine.html (src/AppBundle/Entity/ProductRepository.php)
+    /**
+     * LunchRepository constructor.
+     *
+     * @inheritdoc
+     */
+    public function __construct($em, \Doctrine\ORM\Mapping\ClassMetadata $class)
+    {
+        $this->weekMealResolver = new OptionsResolver();
+        $this->configureWeekMealOptions();
+
+        parent::__construct($em, $class);
+    }
+
+    /**
+     * Set up the configurations of options
+     * passed as argument into the following methods of this class :
+     * - getWeekDates
+     * - getWeekMeals
+     */
+    private function configureWeekMealOptions()
+    {
+        $this->weekMealResolver->setDefaults(array(
+            'date_day'          => new DateTime(),
+            'without_pork'      => false,
+            'enable_next_week'  => false,
+            'days_ofweek_off'   => array(Day::WEEK_WEDNESDAY),
+            'dates_off'          => array() // \DateTime[]
+        ));
+
+        $this->weekMealResolver->setRequired(array(
+            'without_pork',
+            'date_day'
+        ));
+    }
+
+    /**
+     * Return the week dates (first day, last day, list of days) given options passed
+     *
+     * @param array $options with the following keys :
+     * - date_day : \DateTimeInterface of the day of reference
+     * - enable_next_week : boolean - True if the week to return is the next following
+     *    the week containing the day of reference
+     * - days_ofweek_off [optional] : Day::constants[] list of days generally off in the week.
+     * - dates_off [optional] : \DateTime[] list of dates off in the week
+     *
+     * @return array associative array with the following keys :
+     * - first_day : \DateTimeImmutable of the first day of the week (the monday)
+     * - last_day : \DateTimeImmutable of the last day of the week (the friday)
+     * - days : \DateTimeImmutable[] index array of days in the week that take in account
+     *  the closed days passed in options
+     */
+    public function getWeekDates($options)
+    {
+        $options = $this->weekMealResolver->resolve($options);
+
+        if (true === $options['enable_next_week']) {
+            $firstDayFormat = ' next monday';
+            $lastDayFormat  = ' next friday';
+        }
+        else {
+            $firstDayFormat = ' monday this week';
+            $lastDayFormat  = ' friday this week';
+        }
+
+        $firstDay   = new \DateTimeImmutable( $options['date_day']->format('Y-m-d') . $firstDayFormat );
+        $lastDay    = new \DateTimeImmutable( $firstDay->format('Y-m-d') . $lastDayFormat );
+
+        $days = [];
+        $oneDay = new \DateInterval('P1D');
+        $currentDay = $firstDay;
+        while ($currentDay <= $lastDay) {
+
+            if (false === \in_array(Day::getDayOfWeekFrom($currentDay), $options['days_ofweek_off'])
+                && false === \in_array($currentDay, $options['dates_off'])
+            ) {
+                $days[] = $currentDay;
+            }
+            $currentDay = $currentDay->add($oneDay);
+        }
+
+        return array('first_day' => $firstDay, 'last_day' => $lastDay, 'days' => $days);
+    }
+
+
+    /**
+     * Return the week dates (first day, last day, list of days) given options passed
+     *
+     * @param array $options with the following keys :
+     * - date_day : \DateTimeInterface of the day of reference
+     * - enable_next_week : boolean - True if the week to return is the next following
+     *    the week containing the day of reference
+     * - days_ofweek_off [optional] : Day::constants[] list of days generally off in the week.
+     * - dates_off [optional] : \DateTime[] list of dates off in the week
+     * - without_pork : boolean :
+     *      true if the week must return only lunches without pork
+     *      false if the week must return only regular lunches.
+     *
+     * @return LunchWeekStats statistics of the week for lunches.
+     */
+    /**
+     * @param $options
+     * @return LunchWeekStats
+     */
+    public function getWeekMeals($options)
+    {
+        $dates = $this->getWeekDates($options);
+
+        $em = $this->getEntityManager();
+
+        $statsLunch = new LunchWeekStats();
+
+        foreach($dates['days'] as $day) {
+            $totalCurrentDay = $em->createQuery(
+                'SELECT COUNT(d) 
+                     FROM WCSCantineBundle:Lunch d JOIN d.eleve j 
+                     WHERE d.date LIKE :day 
+                     AND j.regimeSansPorc = :pork'
+            )
+            ->setParameter(':day',  "%".$day->format('Y-m-d')."%")
+            ->setParameter(':pork', $options['without_pork'])
+            ->getSingleScalarResult();
+
+            $statsLunch->setTotalDay(Day::getDayOfWeekFrom($day), $totalCurrentDay);
+        }
+
+        return $statsLunch;
+    }
+
+
+    /**
+     * Return the list of lunches for the given day in options
+     *
+     * @param School $school
+     * @param array $options
+     * @return array
+     */
+    public function getDayList($options)
+    {
+        $school = $options['school'];
+        $day    = $options['date_day']->format('Y-m-d');
+
         return $this->getEntityManager()
             ->createQuery(
                 'SELECT l 
@@ -33,6 +174,13 @@ class LunchRepository extends ActivityRepositoryAbstract
             ->getResult();
     }
 
+    /**
+     * Retrieve a lunch for a given date and pupil
+     *
+     * @param string $date
+     * @param Eleve $eleve
+     * @return array result of the query
+     */
     public function findByDateAndEleve($date, $eleve)
     {
         return $this->getEntityManager()
@@ -44,85 +192,13 @@ class LunchRepository extends ActivityRepositoryAbstract
             ->getResult();
     }
 
-    public function getCurrentWeekMeals()
-    {
-        $day = date('Y-m-d', strtotime('Monday this week')); //by default strtotime('last monday') returns the current day on mondays
-        $result = []; // Initialisation de l'array vide
-        for ($i=0;$i<=4;$i++)
-        {
-            $res = $this->getEntityManager()
-                ->createQuery(
-                    'SELECT COUNT(d) FROM WCSCantineBundle:Lunch d WHERE d.date LIKE :day'
-                )
-                ->setParameter(':day', "%".$day."%")
-                ->getResult();
-            array_push($result, $res[0][1]); // On push le résultat dans l'array
-            $day = date('Y-m-d', strtotime($day.' + 1 DAY')); // On ajoute un jour à la date initiale
-        }
 
-        return $result;
-    }
-
-    public function getCurrentWeekMealsWithoutPork()
-    {
-        $day = date('Y-m-d', strtotime('Monday this week')); //by default strtotime('last monday') returns the current day on mondays
-        $result = []; // Initialisation de l'array vide
-        for ($i=0;$i<=4;$i++)
-        {
-            $res = $this->getEntityManager()
-                ->createQuery(
-                    'SELECT COUNT(d) FROM WCSCantineBundle:Lunch d JOIN d.eleve j WHERE d.date LIKE :day AND j.regimeSansPorc LIKE :pork'
-                )
-                ->setParameter(':pork', 1)
-                ->setParameter(':day', "%".$day."%")
-                ->getResult();
-            array_push($result, $res[0][1]); // On push le résultat dans l'array
-            $day = date('Y-m-d', strtotime($day.' + 1 DAY')); // On ajoute un jour à la date initiale
-        }
-
-        return $result;
-    }
-
-    public function getNextWeekMeals()
-    {
-        $day = date('Y-m-d', strtotime('next monday')); //by default strtotime('last monday') returns the current day on mondays
-        $result = []; // Initialisation de l'array vide
-        for ($i=0;$i<=4;$i++)
-        {
-            $res = $this->getEntityManager()
-                ->createQuery(
-                    'SELECT COUNT(d) FROM WCSCantineBundle:Lunch d WHERE d.date LIKE :day'
-                )
-                ->setParameter(':day', "%".$day."%")
-                ->getResult();
-            array_push($result, $res[0][1]); // On push le résultat dans l'array
-            $day = date('Y-m-d', strtotime($day.' + 1 DAY')); // On ajoute un jour à la date initiale
-        }
-
-        return $result;
-    }
-
-    public function getNextWeekMealsWithoutPork()
-    {
-        $day = date('Y-m-d', strtotime('next monday')); //by default strtotime('last monday') returns the current day on mondays
-        $result = []; // Initialisation de l'array vide
-        for ($i=0;$i<=4;$i++)
-        {
-            $res = $this->getEntityManager()
-                ->createQuery(
-                    'SELECT COUNT(d) FROM WCSCantineBundle:Lunch d JOIN d.eleve j WHERE d.date LIKE :day AND j.regimeSansPorc LIKE :pork'
-                )
-                ->setParameter(':pork', 1)
-                ->setParameter(':day', "%".$day."%")
-                ->getResult();
-            array_push($result, $res[0][1]); // On push le résultat dans l'array
-            $day = date('Y-m-d', strtotime($day.' + 1 DAY')); // On ajoute un jour à la date initiale
-        }
-
-        return $result;
-    }
-
-    //Delete all lunches for one pupil
+    /**
+     * Delete all lunches for one pupil
+     *
+     * @param Eleve $eleve
+     * @return mixed
+     */
     public function removeByEleve(Eleve $eleve)
     {
         return $this->getEntityManager()
@@ -133,6 +209,9 @@ class LunchRepository extends ActivityRepositoryAbstract
             ->execute();
     }
 
+    /**
+     * @return integer the number of lunches
+     */
     public function count()
     {
         return $this->createQueryBuilder('a')

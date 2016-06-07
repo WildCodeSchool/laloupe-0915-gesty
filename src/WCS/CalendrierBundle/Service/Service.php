@@ -2,6 +2,8 @@
 namespace WCS\CalendrierBundle\Service;
 
 
+use WCS\CalendrierBundle\Service\Calendrier\ActivityType;
+use WCS\CalendrierBundle\Service\Calendrier\Day;
 use WCS\CalendrierBundle\Service\ICSFileReader\ICSFileReader;
 use WCS\CalendrierBundle\Service\PeriodesAnneeScolaire\PeriodesAnneeScolaire;
 use WCS\CalendrierBundle\Service\Calendrier\Calendrier;
@@ -11,6 +13,15 @@ class Service
     /*==========================================================================================================
         Méthodes
     ==========================================================================================================*/
+
+    public function isDayOff($activityTypeConstant, \DateTimeInterface $dateDay)
+    {
+        $d = new Day($dateDay);
+        
+        $daysOff = ActivityType::getDaysOfWeekOff($activityTypeConstant);
+
+        return  in_array($d->getDayOfWeek(), $daysOff);
+    }
 
     /**
      * renvoit le calendrier scolaire pour l'année en cours.

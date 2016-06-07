@@ -14,7 +14,7 @@ class Eleve
 
     public function __toString()
     {
-        return $this->getPrenom().' '.$this->getNom();
+        return $this->getPrenom().' '.strtoupper($this->getNom());
 
     }
 
@@ -330,6 +330,8 @@ class Eleve
     }
 
     /**
+     * Attribut utilisé par les forms types suivants
+     * - WCSEmployeeBundle:ActivityEleveType
      * @var \WCS\CantineBundle\Entity\Lunch
      */
     private $date;
@@ -339,9 +341,26 @@ class Eleve
      *
      * @return \Application\Sonata\UserBundle\Entity\User
      */
-    public function getdate()
+    public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Attribut utilisé par les forms types suivants
+     * - WCSEmployeeBundle:GarderieEleveType
+     * @var \WCS\CantineBundle\Entity\Lunch
+     */
+    private $dateHeure;
+
+    /**
+     * Get date
+     *
+     * @return \Application\Sonata\UserBundle\Entity\User
+     */
+    public function getDateHeure()
+    {
+        return $this->dateHeure;
     }
 
 

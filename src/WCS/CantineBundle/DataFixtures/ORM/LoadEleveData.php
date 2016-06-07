@@ -4,11 +4,9 @@
 namespace WCS\CantineBundle\DataFixtures\ORM;
 
 
-use Application\Sonata\UserBundle\Entity\User;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use WCS\CantineBundle\Entity\Eleve;
@@ -26,9 +24,11 @@ class LoadEleveData extends AbstractFixture implements OrderedFixtureInterface, 
         $entity->setNom('Robert');
         $entity->setPrenom('Robert');
         $entity->setDateDeNaissance(new \DateTime('2004-02-08'));
-        $entity->setRegimeSansPorc(false);
+        $entity->setRegimeSansPorc(true);
+        $entity->setAllergie('Allergie au gluten');
         $entity->setDivision($this->getReference('division-lemoue'));
         $manager->persist($entity);
+        $this->setReference("aaa-robert", $entity);
 
         $entity = new Eleve();
         $entity->setUser($this->getReference('user'));
@@ -39,6 +39,7 @@ class LoadEleveData extends AbstractFixture implements OrderedFixtureInterface, 
         $entity->setDivision($this->getReference('division-nouaille'));
         $entity->addVoyage($this->getReference("voyage_louvre"));
         $manager->persist($entity);
+        $this->setReference("aaa-arabella", $entity);
 
         $entity = new Eleve();
         $entity->setUser($this->getReference('user'));
@@ -50,6 +51,7 @@ class LoadEleveData extends AbstractFixture implements OrderedFixtureInterface, 
         $entity->addVoyage($this->getReference("voyage_versailles"));
         $entity->addVoyage($this->getReference("voyage_maintenon"));
         $manager->persist($entity);
+        $this->setReference("aaa-coralie", $entity);
 
         $entity = new Eleve();
         $entity->setUser($this->getReference('user'));
@@ -59,6 +61,7 @@ class LoadEleveData extends AbstractFixture implements OrderedFixtureInterface, 
         $entity->setRegimeSansPorc(false);
         $entity->setDivision($this->getReference('division-pichodo'));
         $manager->persist($entity);
+        $this->setReference("aaa-eliott", $entity);
 
 
 
@@ -70,6 +73,7 @@ class LoadEleveData extends AbstractFixture implements OrderedFixtureInterface, 
         $entity->setRegimeSansPorc(false);
         $entity->setDivision($this->getReference('division-catteeu'));
         $manager->persist($entity);
+        $this->setReference("twig-marine", $entity);
 
 
         $manager->flush();

@@ -22,11 +22,10 @@ class TapRepository extends ActivityRepositoryAbstract
      * @param \WCS\CantineBundle\Entity\School $school
      * @return array
      */
-    public function getTodayList(School $school, $options)
+    public function getDayList($options)
     {
-        // Format the date
-        $date = new \DateTime();
-        $now = $date->format('Y-m-d');
+        $school = $options['school'];
+        $day    = $options['date_day']->format('Y-m-d');
 
         // Request pupils to the database from a certain date
         return $this->getEntityManager()
@@ -34,11 +33,11 @@ class TapRepository extends ActivityRepositoryAbstract
                 'SELECT t FROM WCSCantineBundle:Tap t 
                  JOIN t.eleve e 
                  JOIN e.division d 
-                 WHERE t.date LIKE :now 
+                 WHERE t.date LIKE :day 
                     AND d.school = :school
                  ORDER BY e.nom'
             )
-            ->setParameter(':now', "%".$now."%")
+            ->setParameter(':day', "%".$day."%")
             ->setParameter(':school', $school)
             ->getResult();
     }

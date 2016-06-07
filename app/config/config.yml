@@ -9,9 +9,10 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale:                   fr
+    security.exception_listener.class: WCS\GestyBundle\Security\Firewall\ExceptionListener
     wcs_upload_folder:        'uploads'
     wcs_upload_absolute_path: '%kernel.root_dir%/%wcs_upload_folder%/'
-    wcs_group_tap_garderie:   0
+    wcs.datenow.date:         ''
 
 framework:
     #esi:             ~
@@ -45,8 +46,6 @@ twig:
             - 'SonataCoreBundle:Form:datepicker.html.twig'
     form_theme:
         'WCSCantineBundle:Form:form_errors.html.twig'
-    globals:
-        wcs_group_tap_garderie: '%wcs_group_tap_garderie%'
 
 # Assetic Configuration
 assetic:

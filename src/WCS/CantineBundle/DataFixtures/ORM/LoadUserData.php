@@ -108,6 +108,58 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $user7->setPhone('0678434853');
         $userManager->updateUser($user7, true);
         $this->addReference('user5', $user7);
+
+
+
+        // Creation du User employe CANTINE seule
+        $user = $userManager->createUser();
+        $user->setPlainPassword('aaa');
+        $user->setEnabled(true);
+        $user->setEmail('cantine@email.com');
+        $user->setRoles(array('ROLE_CANTINE'));
+        $user->setFirstname('Aaa');
+        $user->setLastname('Aaa');
+        $user->setPhone('0768298272');
+        $userManager->updateUser($user, true);
+        $this->addReference('employeCantine', $user);
+
+        // Creation du User employe TAP seul
+        $user = $userManager->createUser();
+        $user->setPlainPassword('aaa');
+        $user->setEnabled(true);
+        $user->setEmail('tap@email.com');
+        $user->setRoles(array('ROLE_TAP'));
+        $user->setFirstname('Aaa');
+        $user->setLastname('Aaa');
+        $user->setPhone('0768298272');
+        $userManager->updateUser($user, true);
+        $this->addReference('employeTap', $user);
+
+        // Creation du User employe GARDERIE seul
+        $user = $userManager->createUser();
+        $user->setPlainPassword('aaa');
+        $user->setEnabled(true);
+        $user->setEmail('garderie@email.com');
+        $user->setRoles(array('ROLE_GARDERIE'));
+        $user->setFirstname('Aaa');
+        $user->setLastname('Aaa');
+        $user->setPhone('0768298272');
+        $userManager->updateUser($user, true);
+        $this->addReference('employeGarderie', $user);
+
+
+        // Creation du User employe TAP/GARDERIE seul
+        $user = $userManager->createUser();
+        $user->setPlainPassword('aaa');
+        $user->setEnabled(true);
+        $user->setEmail('tapgarderie@email.com');
+        $user->setRoles(array('ROLE_TAP', 'ROLE_GARDERIE'));
+        $user->setFirstname('Aaa');
+        $user->setLastname('Aaa');
+        $user->setPhone('0768298272');
+        $userManager->updateUser($user, true);
+        $this->addReference('employeTapGarderie', $user);
+
     }
 
     public function getSecurityManager()

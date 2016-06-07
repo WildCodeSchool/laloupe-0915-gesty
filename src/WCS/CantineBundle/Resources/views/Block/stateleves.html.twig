@@ -28,102 +28,20 @@
 
         <div class="row">
             <div id="block__stateleves" class="col-md-6 blocks__statuser">
-                <h3><i class="fa fa-cutlery"></i> Repas de la semaine</h3>
-                <table id="userTable" class="table table-hover tablesorter table-bordered">
-                    <thead>
-                    <tr class="success">
-                        <th></th>
-                        <th>lundi</th>
-                        <th>mardi</th>
-                        <th>jeudi</th>
-                        <th>vendredi</th>
-                        <th>Total</th>
-                    </tr>
-                    </thead>
-                    <tr>
-                        <td>Repas sans porc</td>
-                        {% set total = 0 %}
-                        {% for key,meal in currentWeekMealsNoPork %}
-                            {% if key != 2 %}
-                                {% set total = total+meal %}
-                                <td class={{ key }}>{{ meal }}</td>
-                            {% endif %}
-                        {% endfor %}
-                        <td>{{ total }}</td>
-                    </tr>
-                    <tr>
-                        <td>Repas avec porc</td>
-                        {% set total = 0 %}
-                        {% for key,value in currentWeekMeals %}
-                            {% set meal = value-currentWeekMealsNoPork[loop.index-1] %}
-                            {% if key != 2 %}
-                                {% set total = total+meal %}
-                                <td class={{ key }}>{{ meal }}</td>
-                            {% endif %}
-                        {% endfor %}
-                        <td>{{ total }}</td>
-                    </tr>
-                    <tr>
-                        <td>Repas</td>
-                        {% set total = 0 %}
-                        {% for key,meal in currentWeekMeals %}
-                            {% if key != 2 %}
-                                {% set total = total+meal %}
-                                <td class={{ key }}>{{ meal }}</td>
-                            {% endif %}
-                        {% endfor %}
-                        <td>{{ total }}</td>
-                    </tr>
-                </table>
+                {% include 'WCSCantineBundle:Block:statsweek.html.twig' with
+                    {   'weekTitle': 'Repas de la semaine',
+                        'weekMealsNoPork': currentWeekMealsNoPork,
+                        'weekMeals': currentWeekMeals
+                    }
+                %}
             </div>
             <div class="col-md-6 blocks__statuser">
-                <h3><i class="fa fa-cutlery"></i> Repas de la semaine prochaine</h3>
-                <table class="table table-hover tablesorter table-bordered">
-                    <thead>
-                    <tr class="success">
-                        <th></th>
-                        <th>lundi</th>
-                        <th>mardi</th>
-                        <th>jeudi</th>
-                        <th>vendredi</th>
-                        <th>Total</th>
-                    </tr>
-                    </thead>
-                    <tr>
-                        <td>Repas sans porc</td>
-                        {% set total = 0 %}
-                        {% for key,meal in nextWeekMealsNoPork %}
-                            {% if key != 2 %}
-                                {% set total = total+meal %}
-                                <td class={{ key }}>{{ meal }}</td>
-                            {% endif %}
-                        {% endfor %}
-                        <td>{{ total }}</td>
-                    </tr>
-                    <tr>
-                        <td>Repas avec porc</td>
-                        {% set total = 0 %}
-                        {% for key,value in nextWeekMeals %}
-                            {% set meal = value-nextWeekMealsNoPork[loop.index-1] %}
-                            {% if key != 2 %}
-                                {% set total = total+meal %}
-                                <td class={{ key }}>{{ meal }}</td>
-                            {% endif %}
-                        {% endfor %}
-                        <td>{{ total }}</td>
-                    </tr>
-                    <tr>
-                        <td>Repas</td>
-                        {% set total = 0 %}
-                        {% for key,meal in nextWeekMeals %}
-                            {% if key != 2 %}
-                                {% set total = total+meal %}
-                                <td class={{ key }}>{{ meal }}</td>
-                            {% endif %}
-                        {% endfor %}
-                        <td>{{ total }}</td>
-                    </tr>
-                </table>
+                {% include 'WCSCantineBundle:Block:statsweek.html.twig' with
+                    {   'weekTitle': 'Repas de la semaine prochaine',
+                        'weekMealsNoPork': nextWeekMealsNoPork,
+                        'weekMeals': nextWeekMeals
+                    }
+                %}
             </div>
         </div>
     </div>

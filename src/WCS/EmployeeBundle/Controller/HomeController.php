@@ -1,7 +1,6 @@
 <?php
 namespace WCS\EmployeeBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -9,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
  * List controller.
  *
  */
-class HomeController extends Controller
+class HomeController extends EmployeeController
 {
     /**
      * @param Request $request
@@ -22,12 +21,12 @@ class HomeController extends Controller
 
     /**
      * @param Request $request
-     * @param $type_activity
+     * @param $activity
      * @return mixed
      */
-    public function showSchoolsAction(Request $request, $type_activity)
+    public function showSchoolsAction(Request $request, $activity)
     {
-        $params = $this->getParameters($type_activity);
+        $params = $this->getParameters($activity);
         if (!$params) {
             return $this->redirectToRoute('wcs_employee_home');
         }
@@ -36,54 +35,46 @@ class HomeController extends Controller
         $schools = $em->getRepository('WCSCantineBundle:School')->findBy($params['filters']);
 
         return $this->render('WCSEmployeeBundle::schools.html.twig', array(
-            'schools'          => $schools,
-            'title'            => $params['title'],
-            'route_todaylist'  => $params['route_todaylist'],
-            'type_activity'    => $type_activity
+            'title'     => $params['title'],
+            'schools'   => $schools,
+            'is_day_off'=> $this->isDayOff($activity),
+            'day_off_message' => $params['day_off_message']
         ));
     }
 
 
     /**
-     * @param $type_activity
+     * @param $activity
      * @return array|null
      */
-    protected function getParameters($type_activity)
+    protected function getParameters($activity)
     {
         $params['cantine'] = [
-            'filters'                   => array('active_cantine' => true),
-            'route_todaylist'           => 'wcs_employee_todaylist_cantine',
-            'title'                     => "Restaurant scolaire : sélectionnez l'école"
+            'filters'           => array('active_cantine' => true),
+            'title'             => "Restaurant scolaire : sélectionnez l'école",
+            'day_off_message'   => "Pas de restauration scolaire<br />aujourd'hui"
         ];
 
-        if ($this->container->getParameter('wcs_group_tap_garderie') == '1') {
-            $params['tap_garderie'] = [
-                'filters'           => array('active_tap' => true, 'active_garderie' => true),
-                'route_todaylist'   => 'wcs_employee_todaylist_tap_garderie',
-                'title'             => "TAP/Garderie : sélectionnez l'école"
-            ];
-        } else {
-            $params['tap'] = [
-                'filters'           => array('active_tap' => true),
-                'route_todaylist'   => 'wcs_employee_todaylist_tap',
-                'title'             => "TAP : sélectionnez l'école"
-            ];
+        $params['tap'] = [
+            'filters'           => array('active_tap' => true),
+            'title'             => "TAP : sélectionnez l'école",
+            'day_off_message'   => "Pas de TAP<br />aujourd'hui"
+        ];
 
-            $params['garderie_matin'] = [
-                'filters'           => array('active_garderie' => true),
-                'route_todaylist'   => 'wcs_employee_todaylist_garderie_matin',
-                'title'             => "Garderie matin : sélectionnez l'école"
-            ];
+        $params['garderie_matin'] = [
+            'filters'           => array('active_garderie' => true),
+            'title'             => "Garderie matin : sélectionnez l'école",
+            'day_off_message'   => "Pas de garderie<br />ce matin"
+        ];
 
-            $params['garderie_soir'] = [
-                'filters'           => array('active_garderie' => true),
-                'route_todaylist'   => 'wcs_employee_todaylist_garderie_soir',
-                'title'             => "Garderie soir : sélectionnez l'école"
-            ];
-        }
+        $params['garderie_soir'] = [
+            'filters'           => array('active_garderie' => true),
+            'title'             => "Garderie soir : sélectionnez l'école",
+            'day_off_message'   => "Pas de garderie<br />ce soir"
+        ];
 
-        if (isset($params[$type_activity])) {
-            return $params[$type_activity];
+        if (isset($params[$activity])) {
+            return $params[$activity];
         }
 
         return null;

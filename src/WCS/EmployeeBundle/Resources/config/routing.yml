@@ -3,55 +3,23 @@ wcs_employee_home:
     defaults: {_controller: 'WCSEmployeeBundle:Home:index' }
 
 wcs_employee_schools:
-    path: /schools/{type_activity}
+    path: /{activity}/schools
     defaults: {_controller: 'WCSEmployeeBundle:Home:showSchools' }
     methods: [GET]
 
 # ----------------------------------------------------------------------------------------
-wcs_employee_todaylist_cantine:
-    path: /cantine/todayList/{id}
-    defaults: { _controller: 'WCSEmployeeBundle:Canteen:showTodayList' }
+wcs_employee_daylist:
+    path: /{activity}/{id}/daylist
+    defaults: { _controller: 'WCSEmployeeBundle:Daylist:show' }
     requirements:
         id: \d+
     methods: [POST, GET]
 
-
-wcs_employee_todaylist_tap:
-    path: /tap/todayList/{id}
-    defaults: { _controller: 'WCSEmployeeBundle:Tap:showTodayList' }
-    requirements:
-        id: \d+
-    methods: [POST, GET]
-
-
-wcs_employee_todaylist_garderie_matin:
-    path: /garderie_matin/todayList/{id}
-    defaults: { _controller: 'WCSEmployeeBundle:GarderieMatin:showTodayList' }
-    requirements:
-        id: \d+
-    methods: [POST, GET]
-
-wcs_employee_todaylist_garderie_soir:
-    path: /garderie_soir/todayList/{id}
-    defaults: { _controller: 'WCSEmployeeBundle:GarderieSoir:showTodayList' }
-    requirements:
-        id: \d+
-    methods: [POST, GET]
-
-wcs_employee_todaylist_tap_garderie:
-    path: /tap_garderie/todayList/{id}
-    defaults: { _controller: 'WCSEmployeeBundle:TapGarderie:showTodayList' }
-    requirements:
-        id: \d+
-    methods: [POST, GET]
-
-# ----------------------------------------------------------------------------------------
-
-wcs_employee_delete_lunch:
-    path: /cantine/todayList/{id}/{id_activity}/remove
-    defaults: { _controller: "WCSEmployeeBundle:Canteen:delete" }
+wcs_employee_remove:
+    path: /{activity}/{id}/daylist/remove/{id_activity}
+    defaults: { _controller: "WCSEmployeeBundle:Daylist:remove" }
     methods: [GET, DELETE]
 
-wcs_employee_reserve_meal:
+wcs_employee_canteen_orders:
     path: /cantine/reservation
     defaults: { _controller: "WCSEmployeeBundle:Canteen:showOrders" }

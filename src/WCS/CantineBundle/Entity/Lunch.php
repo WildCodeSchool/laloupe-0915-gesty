@@ -5,7 +5,7 @@ namespace WCS\CantineBundle\Entity;
 /**
  * Lunch
  */
-class Lunch extends TacheBase
+class Lunch extends ActivityBase
 {
 
     public function __toString()

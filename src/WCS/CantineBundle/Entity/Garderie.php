@@ -97,13 +97,13 @@ class Garderie
     /**
      * Set dateHeure
      *
-     * @param \DateTime $dateHeure
+     * @param \DateTimeInterface $dateHeure
      *
      * @return Garderie
      */
-    public function setDateHeure($dateHeure)
+    public function setDateHeure(\DateTimeInterface $dateHeure)
     {
-        $this->date_heure = $dateHeure;
+        $this->date_heure = new \DateTime($dateHeure->format('Y-m-d H:i:s'));
 
         return $this;
     }

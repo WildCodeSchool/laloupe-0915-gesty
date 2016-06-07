@@ -6,20 +6,30 @@
     </div>
 
     <div class="container-fluid">
-        {% for school in schools %}
-            <div class="school school-{{ loop.index % 3 }}">
-                <a href="{{ path(route_todaylist, {'id': school.id}) }}">
-                    <button class="col-sm-offset-4 col-md-offset-4">
-                        <i class="fa fa-home fa-2x"></i>
-                        {{ school.name }}
-                    </button>
-                </a>
-            </div>
-        {% endfor %}
+        {% if is_day_off %}
+            <div class="school col-sm-offset-4 col-md-offset-4">
+                <div class="school-isdayoff">
+                    {{ day_off_message|raw }}
 
-        {% if route_todaylist == 'wcs_employee_todaylist_cantine' %}
+                </div>
+            </div>
+        {% else %}
+            {% for school in schools %}
+                <div class="school">
+                    <a href="{{ path('wcs_employee_daylist', {'activity': app.request.get('activity'), 'id': school.id}) }}">
+                        <button class="col-sm-offset-4 col-md-offset-4">
+                            <i class="fa fa-home fa-2x"></i>
+                            {{ school.name }}
+                        </button>
+                    </a>
+                </div>
+            {% endfor %}
+
+        {% endif %}
+
+        {% if app.request.get('activity') == 'cantine' %}
         <div class="commande">
-            <a href="{{ path('wcs_employee_reserve_meal') }}">
+            <a href="{{ path('wcs_employee_canteen_orders') }}">
                 <button class="col-sm-offset-4 col-md-offset-4">
                     <i class="fa fa-cutlery fa-2x"></i>
                     Commande des repas

@@ -1,6 +1,7 @@
 <?php
 
 namespace WCS\CantineBundle\Entity;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * GarderieRepository
@@ -18,21 +19,25 @@ class GarderieRepository extends ActivityRepositoryAbstract
             ->getSingleScalarResult();
     }
 
+    protected function configureDayListOptions(OptionsResolver $resolver)
+    {
+        $resolver->setRequired(array('is_morning'));
+    }
+
     /**
-     * @param \WCS\CantineBundle\Entity\School $school
      * @param array $options at least the key "is_morning" must be defined
      * @return array
      */
-    public function getTodayList(School $school, $options)
+    public function getDayList($options)
     {
-        // Format the date
-        $date = new \DateTime();
-        $now = $date->format('Y-m-d');
+        $school = $options['school'];
+
+        $day    = $options['date_day']->format('Y-m-d');
         if ($options['is_morning']) {
-            $now = $now . " 08:00";
+            $day = $day . " 08:00";
         }
         else {
-            $now = $now . " 17:00";
+            $day = $day . " 17:00";
         }
 
         // Request pupils to the database from a certain date
@@ -41,11 +46,11 @@ class GarderieRepository extends ActivityRepositoryAbstract
                 'SELECT g FROM WCSCantineBundle:Garderie g 
                  JOIN g.eleve e 
                  JOIN e.division d 
-                 WHERE g.date_heure LIKE :now 
+                 WHERE g.date_heure LIKE :day 
                     AND d.school = :school
                  ORDER BY e.nom'
             )
-            ->setParameter(':now', "%".$now."%")
+            ->setParameter(':day', "%".$day."%")
             ->setParameter(':school', $school)
             ->getResult();
     }

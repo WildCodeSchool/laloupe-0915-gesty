@@ -9,8 +9,12 @@ use WCS\CantineBundle\Entity\EleveRepository;
 
 
 
-class GarderiePresentType extends AbstractType
+class ActivityEleveType extends AbstractType
 {
+    private $entityClassName;
+    public function __construct($entityClassName){
+        $this->entityClassName = $entityClassName;
+    }
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -21,24 +25,28 @@ class GarderiePresentType extends AbstractType
             ->add('eleve', 'entity', array(
                 'class'         => 'WCSCantineBundle:Eleve',
                 'query_builder' => function(EleveRepository $er ) use ($options) {
-                    return $er->createQueryBuilder('e')
-                        ->join('e.division', 'd')
-                        ->join('d.school', 's')
-                        ->where('s.id = :id')
-                        ->andWhere('s.active_garderie = TRUE')
-                        ->setParameter('id', $options['schoolId'])
-                        ->orderBy('e.nom', 'ASC');
-                        }
+                    return $er->getQueryGetEleves($options['additional_options'] );
+                }
                 ))
             ->add('status', 'choice', array(
                 'choices' => array('1' => 'Non-Inscrit'),
                 'label' => false
-                ))
-            ->add('dateHeure', 'date', array(
+                ));
+
+        if ('WCS\CantineBundle\Entity\Garderie' == $this->entityClassName) {
+            $builder    ->add('dateHeure', 'date', array(
                 'format' => 'yyyy-MMMM-dd',
                 'label' => false
-            ))
-            ->add('Ajouter', 'submit');
+            ));
+        }
+        else {
+            $builder    ->add('date', 'date', array(
+                'format' => 'yyyy-MMMM-dd',
+                'label' => false
+            ));
+
+        }
+        $builder    ->add('Ajouter', 'submit');
 
     }
     
@@ -48,7 +56,7 @@ class GarderiePresentType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'schoolId' => 0
+            'additional_options' => array()
         ));
     }
 
@@ -57,6 +65,6 @@ class GarderiePresentType extends AbstractType
      */
     public function getName()
     {
-        return 'wcs_cantinebundle_tappresent';
+        return 'wcs_employeebundle_activity';
     }
 }

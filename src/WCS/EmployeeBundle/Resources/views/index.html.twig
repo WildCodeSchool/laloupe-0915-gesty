@@ -2,53 +2,48 @@
 {% block body %}
     <div class="container-fluid">
 
+        {% if is_granted('ROLE_CANTINE') %}
         <div class="commande">
-            <a href="{{ path('wcs_employee_schools', {'type_activity': 'cantine'}) }}">
+            <a href="{{ path('wcs_employee_schools', {'activity': 'cantine'}) }}">
                 <button class="col-sm-offset-4 col-md-offset-4">
                     <i class="fa fa-cutlery fa-2x"></i>
                     Cantine
                 </button>
             </a>
         </div>
-
-        {% if wcs_group_tap_garderie  %}
-            <div class="commande">
-                <a href="{{ path('wcs_employee_schools', {'type_activity': 'tap_garderie'}) }}">
-                    <button class="col-sm-offset-4 col-md-offset-4">
-                        <i class="fa fa-home fa-2x"></i>
-                        TAP/Garderie
-                    </button>
-                </a>
-            </div>
-
-            {% else %}
-            <div class="commande">
-                <a href="{{ path('wcs_employee_schools', {'type_activity': 'tap'}) }}">
-                    <button class="col-sm-offset-4 col-md-offset-4">
-                        <i class="fa fa-home fa-2x"></i>
-                        TAP
-                    </button>
-                </a>
-            </div>
-
-            <div class="commande">
-                <a href="{{ path('wcs_employee_schools', {'type_activity': 'garderie_matin'}) }}">
-                    <button class="col-sm-offset-4 col-md-offset-4">
-                        <i class="fa fa-home fa-2x"></i>
-                        Garderie matin
-                    </button>
-                </a>
-            </div>
-
-            <div class="commande">
-                <a href="{{ path('wcs_employee_schools', {'type_activity': 'garderie_soir'}) }}">
-                    <button class="col-sm-offset-4 col-md-offset-4">
-                        <i class="fa fa-home fa-2x"></i>
-                        Garderie soir
-                    </button>
-                </a>
-            </div>
         {% endif %}
+
+        {% if is_granted('ROLE_TAP') %}
+        <div class="commande">
+            <a href="{{ path('wcs_employee_schools', {'activity': 'tap'}) }}">
+                <button class="col-sm-offset-4 col-md-offset-4">
+                    <i class="fa fa-home fa-2x"></i>
+                    TAP
+                </button>
+            </a>
+        </div>
+        {% endif %}
+
+        {% if is_granted('ROLE_GARDERIE') %}
+        <div class="commande">
+            <a href="{{ path('wcs_employee_schools', {'activity': 'garderie_matin'}) }}">
+                <button class="col-sm-offset-4 col-md-offset-4">
+                    <i class="fa fa-home fa-2x"></i>
+                    Garderie matin
+                </button>
+            </a>
+        </div>
+
+        <div class="commande">
+            <a href="{{ path('wcs_employee_schools', {'activity': 'garderie_soir'}) }}">
+                <button class="col-sm-offset-4 col-md-offset-4">
+                    <i class="fa fa-home fa-2x"></i>
+                    Garderie soir
+                </button>
+            </a>
+        </div>
+        {% endif %}
+
     </div>
 
 {% endblock %}

@@ -58,8 +58,11 @@ security:
         connection: default
 
     role_hierarchy:
+        ROLE_CANTINE:     [ROLE_CANTINE]
+        ROLE_TAP:         [ROLE_TAP]
+        ROLE_GARDERIE:    [ROLE_GARDERIE]
         ROLE_USER:        [ROLE_USER]
-        ROLE_ADMIN:       [ROLE_ADMIN]
+        ROLE_ADMIN:       [ROLE_ADMIN, ROLE_CANTINE, ROLE_TAP, ROLE_GARDERIE]
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_SONATA_ADMIN]
 
         #SONATA:
@@ -81,7 +84,11 @@ security:
             # This config requires being logged for the whole site and having the admin role for the admin part.
             # Change these rules to adapt them to your needs
             - { path: ^/admin/, role: [ROLE_ADMIN, ROLE_SONATA_ADMIN] }
-            - { path: ^/manager/, role: [ROLE_ADMIN] }
+            - { path: ^/manager/cantine/, role: [ROLE_ADMIN, ROLE_CANTINE] }
+            - { path: ^/manager/tap/, role: [ROLE_ADMIN, ROLE_TAP] }
+            - { path: ^/manager/garderie_matin/, role: [ROLE_ADMIN, ROLE_GARDERIE] }
+            - { path: ^/manager/garderie_soir/, role: [ROLE_ADMIN, ROLE_GARDERIE] }
+            - { path: ^/manager/, role: [ROLE_ADMIN, ROLE_CANTINE, ROLE_TAP, ROLE_GARDERIE] }
             - { path: ^/*, role: [IS_AUTHENTICATED, ROLE_USER] }
 
 

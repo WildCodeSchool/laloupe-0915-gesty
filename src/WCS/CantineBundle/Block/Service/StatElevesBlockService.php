@@ -15,6 +15,7 @@ use Sonata\BlockBundle\Block\BaseBlockService;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\VarDumper\VarDumper;
 
 class StatElevesBlockService extends BaseBlockService
 {
@@ -53,37 +54,47 @@ class StatElevesBlockService extends BaseBlockService
     {
         // Totals stats
         $tots = array(
-            'users' => $this->em->getRepository('ApplicationSonataUserBundle:User')->count(),
-            'children' => $this->em->getRepository('WCSCantineBundle:Eleve')->count(),
-            'tap' => $this->em->getRepository('WCSCantineBundle:Tap')->count(),
-            'gardery' => $this->em->getRepository('WCSCantineBundle:Garderie')->count(),
-            'meals' => $this->em->getRepository('WCSCantineBundle:Lunch')->count(),
-            'schools' => $this->em->getRepository('WCSCantineBundle:School')->count()
+            'users'     => $this->em->getRepository('ApplicationSonataUserBundle:User')->count(),
+            'children'  => $this->em->getRepository('WCSCantineBundle:Eleve')->count(),
+            'tap'       => $this->em->getRepository('WCSCantineBundle:Tap')->count(),
+            'gardery'   => $this->em->getRepository('WCSCantineBundle:Garderie')->count(),
+            'meals'     => $this->em->getRepository('WCSCantineBundle:Lunch')->count(),
+            'schools'   => $this->em->getRepository('WCSCantineBundle:School')->count()
         );
 
-        //eleves stats
+        $options['date_day'] = new \DateTime();
 
-        $this->em
-            ->getRepository('WCSCantineBundle:Eleve')
-            ->findAll();
+        $repoLunch = $this->em->getRepository('WCSCantineBundle:Lunch');
 
-        $currentWeekMealsNoPork = $this->em->getRepository('WCSCantineBundle:Lunch')->getCurrentWeekMealsWithoutPork();
-        $currentWeekMeals = $this->em->getRepository('WCSCantineBundle:Lunch')->getCurrentWeekMeals();
-        $nextWeekMealsNoPork = $this->em->getRepository('WCSCantineBundle:Lunch')->getNextWeekMealsWithoutPork();
-        $nextWeekMeals = $this->em->getRepository('WCSCantineBundle:Lunch')->getNextWeekMeals();
+        // stats lunch : current week
+        $options['enable_next_week']    = false;
+
+        $options['without_pork']        = true;
+        $currentWeekMealsNoPork         = $repoLunch->getWeekMeals( $options );
+        $options['without_pork']        = false;
+        $currentWeekMeals               = $repoLunch->getWeekMeals( $options );
+
+        // stats lunch : next week
+        $options['enable_next_week']    = true;
+
+        $options['without_pork']        = true;
+        $nextWeekMealsNoPork            = $repoLunch->getWeekMeals( $options );
+        $options['without_pork']        = false;
+        $nextWeekMeals                  = $repoLunch->getWeekMeals( $options );
 
         return $this->renderResponse($blockContext->getTemplate(), array(
-            'block'     => $blockContext->getBlock(),
-            'base_template' => $this->pool->getTemplate('WCSCantineBundle:Block:stateleves.html.twig'),
-            'settings'  => $blockContext->getSettings(),
-            'currentWeekMeals'    => $currentWeekMeals,
+            'block'                     => $blockContext->getBlock(),
+            'base_template'             => $this->pool->getTemplate('WCSCantineBundle:Block:stateleves.html.twig'),
+            'settings'                  => $blockContext->getSettings(),
+            'currentWeekMeals'          => $currentWeekMeals,
             'currentWeekMealsNoPork'    => $currentWeekMealsNoPork,
-            'nextWeekMeals'    => $nextWeekMeals,
-            'nextWeekMealsNoPork'    => $nextWeekMealsNoPork,
-            'tots' => $tots
+            'nextWeekMeals'             => $nextWeekMeals,
+            'nextWeekMealsNoPork'       => $nextWeekMealsNoPork,
+            'tots'                      => $tots
 
         ), $response);
     }
+    
     /**
      * {@inheritdoc}
      */

@@ -9,10 +9,72 @@
 namespace WCS\CantineBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\VarDumper\VarDumper;
 use WCS\CalendrierBundle\Service\Periode\Periode;
 
 class EleveRepository extends EntityRepository
 {
+    /**
+     * @var \WCS\CantineBundle\Utils\OptionsFilteredResolver
+     */
+    private $resolverGetEleves;
+
+    public function __construct(
+        \Doctrine\ORM\EntityManager $em,
+        \Doctrine\ORM\Mapping\ClassMetadata $class)
+    {
+        $this->resolverGetEleves = new OptionsResolver();
+        $this->resolverGetEleves->setDefaults(
+            array(
+                'enable_canteen'    => true,
+                'enable_tap'        => false,
+                'enable_garderie'   => false,
+                'enable_voyages'    => false,
+                'school_id'         => 0
+            )
+        );
+
+        parent::__construct($em, $class);
+    }
+
+    /**
+     * @param $options
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getQueryGetEleves($options)
+    {
+        $options = $this->resolverGetEleves->resolve($options);
+
+        $q = $this->createQueryBuilder('e')
+            ->join('e.division', 'd')
+            ->join('d.school', 's')
+            ->where('s.id = :school_id')
+            ->setParameter('school_id', $options['school_id'])
+        ;
+
+        if ($options['enable_canteen']) {
+            $q->andWhere('s.active_cantine = TRUE');
+        }
+
+        if ($options['enable_tap']) {
+            $q->andWhere('s.active_tap = TRUE');
+        }
+
+        if ($options['enable_garderie']) {
+            $q->andWhere('s.active_garderie = TRUE');
+        }
+
+        if ($options['enable_voyages']) {
+            $q->andWhere('s.active_voyage = TRUE');
+        }
+
+        $q->orderBy('e.nom', 'ASC');
+
+        return $q;
+    }
+
+    
     public function findByDate($children)
     {
         // Request pupils to the database from a certain date

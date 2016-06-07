@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
-        <a href="{{ path('wcs_employee_schools', {'type_activity': 'cantine'}) }}" class="btn__retour">Retour</a>
+        <a href="{{ path('wcs_employee_schools', {'activity': 'cantine'}) }}" class="btn__retour">Retour</a>
         <center><h1>Restaurant scolaire : Nombre d'enfants inscrits par semaine</h1></center>
     </div>
 
@@ -11,7 +11,9 @@
         <div class="table-responsive">
             <table class="table">
                 <tr>
-                    <td class="text-center welcome schoolname" colspan="3">Enfants inscrits pour la semaine du {{ firstDay|date('d/m/Y') }} au {{ lastDay|date('d/m/Y') }}</td>
+                    <td class="text-center welcome schoolname" colspan="3">
+                        Enfants inscrits pour la semaine du {{ firstDay|date('d/m/Y') }} au {{ lastDay|date('d/m/Y') }}
+                    </td>
                 </tr>
 
                 <tr>
@@ -21,9 +23,9 @@
                 </tr>
 
                 <tr>
-                    <td class="todayList text-center">{{ mealsNumber }}</td>
-                    <td class="todayList text-center">{{ mealsNumberWithoutPork }}</td>
-                    <td class="todayList text-center">{{ mealsNumber + mealsNumberWithoutPork }}</td>
+                    <td class="todayList text-center">{{ totalLunchesRegular }}</td>
+                    <td class="todayList text-center">{{ totalLunchesWithoutPork }}</td>
+                    <td class="todayList text-center">{{ totalLunchesRegular + totalLunchesWithoutPork }}</td>
                 </tr>
             </table>
         </div>

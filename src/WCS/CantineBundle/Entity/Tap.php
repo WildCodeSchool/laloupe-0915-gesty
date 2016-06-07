@@ -5,6 +5,6 @@ namespace WCS\CantineBundle\Entity;
 /**
  * Tap
  */
-class Tap extends TacheBase
+class Tap extends ActivityBase
 {
 }

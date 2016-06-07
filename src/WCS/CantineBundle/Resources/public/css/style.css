@@ -177,6 +177,23 @@ p{
     margin-bottom: 20px;
     box-shadow: 0 0 1px 1px rgba(255,255,255,.8) inset, 0 1px 0 ;
 }
+
+.school .school-isdayoff
+{
+    border-radius: 1px;
+    padding:40px;
+    width:350px;
+    height:130px;
+    overflow:visible;
+    text-align:center;
+    white-space:nowrap;
+    margin-bottom: 20px;
+    background-color: #AAAAAA;
+    box-shadow: 0 0 1px 1px rgba(255,255,255,.8) inset, 0 1px 0 ;
+    font-style: italic;
+    color:white;
+}
+
 /*
 .school{
     width:350px;
