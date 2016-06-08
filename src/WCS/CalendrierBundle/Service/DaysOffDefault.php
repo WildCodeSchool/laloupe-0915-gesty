@@ -11,7 +11,7 @@ use WCS\CalendrierBundle\Service\Periode\Periode;
 
 class DaysOffDefault implements DaysOffInterface
 {
-    public function __construct(\Doctrine\ORM\EntityManager $em) {}
+    public function __construct(\Doctrine\ORM\EntityManagerInterface $em) {}
     
     /**
      * @return array of \DateTime

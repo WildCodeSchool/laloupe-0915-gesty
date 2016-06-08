@@ -4,7 +4,7 @@ namespace WCS\CalendrierBundle\Service;
 interface DaysOffInterface
 {
     public function __construct(
-        \Doctrine\ORM\EntityManager $em
+        \Doctrine\ORM\EntityManagerInterface $em
     );
 
     /**

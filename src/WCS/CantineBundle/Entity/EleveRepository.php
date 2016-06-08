@@ -10,13 +10,12 @@ namespace WCS\CantineBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\VarDumper\VarDumper;
 use WCS\CalendrierBundle\Service\Periode\Periode;
 
 class EleveRepository extends EntityRepository
 {
     /**
-     * @var \WCS\CantineBundle\Utils\OptionsFilteredResolver
+     * @var \Symfony\Component\OptionsResolver\OptionsResolver
      */
     private $resolverGetEleves;
 

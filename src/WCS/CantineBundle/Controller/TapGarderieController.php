@@ -80,12 +80,6 @@ class TapGarderieController extends Controller
                 }
             }
 
-            /*
-            $garderieCurrents = $em->getRepository("WCSCantineBundle:Garderie")->findByEleve($eleve);
-            foreach($garderieCurrents as $garderie) {
-                $em->remove($garderie);
-            }
-            */
             $temporary_garderies_to_persist = $eleve->getGarderies();
 
             $eleve_garderies_periode = $repo->findAllGarderiesForPeriode($eleve, $periode);

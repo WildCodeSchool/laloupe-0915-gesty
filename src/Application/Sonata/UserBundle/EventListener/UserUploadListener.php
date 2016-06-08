@@ -14,7 +14,6 @@ use Doctrine\ORM\Events;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Application\Sonata\UserBundle\Entity\User;
-use Symfony\Component\VarDumper\VarDumper;
 
 class UserUploadListener implements EventSubscriber
 {

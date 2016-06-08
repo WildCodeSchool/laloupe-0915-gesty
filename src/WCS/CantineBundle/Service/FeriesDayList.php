@@ -12,7 +12,7 @@ use WCS\CalendrierBundle\Service\DaysOffInterface;
 
 class FeriesDayList implements DaysOffInterface
 {
-    public function __construct(\Doctrine\ORM\EntityManager $em)
+    public function __construct(\Doctrine\ORM\EntityManagerInterface $em)
     {
         $this->repo = $em->getRepository('WCSCantineBundle:Feries');
     }

@@ -15,7 +15,6 @@ use Sonata\BlockBundle\Block\BaseBlockService;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\VarDumper\VarDumper;
 
 class StatElevesBlockService extends BaseBlockService
 {

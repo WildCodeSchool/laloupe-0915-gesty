@@ -120,6 +120,8 @@ class Service
      * Charge la liste des périodes scolaires depuis un fichier ICS
      *
      * @param $filepath
+     * @param DateNow $dateNow
+     * @param DaysOffInterface $daysOff
      * @param string date du jour au format "Y-m-d"
      */
     public function __construct($icsFilepath, DateNow $dateNow, DaysOffInterface $daysOff)

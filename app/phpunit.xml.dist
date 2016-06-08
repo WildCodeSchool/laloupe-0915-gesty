@@ -19,9 +19,7 @@
             <directory>../src/WCS/CalendrierBundle/Tests</directory>
             <directory>../src/WCS/CantineBundle/Tests</directory>
             <directory>../src/WCS/EmployeeBundle/Tests</directory>
-            <!--
             <directory>../src/WCS/GestyBundle/Tests</directory>
-            -->
         </testsuite>
     </testsuites>
     <!--

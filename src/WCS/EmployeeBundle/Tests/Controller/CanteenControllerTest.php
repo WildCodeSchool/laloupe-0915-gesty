@@ -1,12 +1,12 @@
 <?php
-
-namespace WCS\CantineBundle\Tests\Controller;
+/*
+namespace WCS\EmployeeBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
-class CanteenManagerControllerCTest extends WebTestCase
+class EmployeeControllerTest extends WebTestCase
 {
-    public function testCanteenManager()
+    public function testEmployeeManager()
     {
         $fixtures = array(
             'WCS\CantineBundle\DataFixtures\ORM\LoadUserData',
@@ -37,7 +37,7 @@ class CanteenManagerControllerCTest extends WebTestCase
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::indexAction', $client->getRequest()->attributes->get('_controller'));
+        $this->assertEquals('WCS\EmployeeBundle\Controller\HomeController::indexAction', $client->getRequest()->attributes->get('_controller'));
 
     }
 
@@ -49,8 +49,9 @@ class CanteenManagerControllerCTest extends WebTestCase
             'PHP_AUTH_USER' => 'damedecantine@email.com',
             'PHP_AUTH_PW' => 'aaa',
         ));
-        $crawler = $client->request('GET', '/canteenManager/');
-        $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::indexAction', $client->getRequest()->attributes->get('_controller'));
+
+        $crawler = $client->request('GET', '/manager/');
+        $this->assertEquals('WCS\EmployeeBundle\Controller\HomeController::indexAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $link = $crawler
@@ -62,7 +63,7 @@ class CanteenManagerControllerCTest extends WebTestCase
             //suivre redirection vers page todaylist
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::todayListAction', $client->getRequest()->attributes->get('_controller'));
+        $this->assertEquals('WCS\EmployeeBundle\Controller\HomeController::showSchoolsAction', $client->getRequest()->attributes->get('_controller'));
 
         //test bouton "Notre Dame des Fleurs"
 
@@ -70,8 +71,8 @@ class CanteenManagerControllerCTest extends WebTestCase
             'PHP_AUTH_USER' => 'damedecantine@email.com',
             'PHP_AUTH_PW' => 'aaa',
         ));
-        $crawler = $client->request('GET', '/canteenManager/');
-        $this->assertEquals('WCS\CantineBundle\Controller\CanteenManagerController::indexAction', $client->getRequest()->attributes->get('_controller'));
+        $crawler = $client->request('GET', '/manager/');
+        $this->assertEquals('WCS\EmployeeBundle\Controller\CanteenManagerController::indexAction', $client->getRequest()->attributes->get('_controller'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $link = $crawler
@@ -160,3 +161,4 @@ class CanteenManagerControllerCTest extends WebTestCase
 
     }
 }
+*/
