@@ -27,64 +27,64 @@ class LoadGarderieData extends AbstractFixture implements OrderedFixtureInterfac
 
         // Mondays morning of period between 18/04 and 05/07
         $entity = new Garderie();
-        $entity->setDateHeure(new \DateTime('2016-06-06 08:00'));
-        $entity->setStatus('0');
+        $entity->setDate(new \DateTime('2016-06-06'));
+        $entity->setEnableMorning(true);
         $entity->setEleve($this->getReference('aaa-eliott'));
         $manager->persist($entity);
 
         $entity = new Garderie();
-        $entity->setDateHeure(new \DateTime('2016-06-13 08:00'));
-        $entity->setStatus('0');
+        $entity->setDate(new \DateTime('2016-06-13'));
+        $entity->setEnableMorning(true);
         $entity->setEleve($this->getReference('aaa-eliott'));
         $manager->persist($entity);
 
         $entity = new Garderie();
-        $entity->setDateHeure(new \DateTime('2016-06-20 08:00'));
-        $entity->setStatus('0');
+        $entity->setDate(new \DateTime('2016-06-20'));
+        $entity->setEnableMorning(true);
         $entity->setEleve($this->getReference('aaa-eliott'));
         $manager->persist($entity);
 
         $entity = new Garderie();
-        $entity->setDateHeure(new \DateTime('2016-06-27 08:00'));
-        $entity->setStatus('0');
+        $entity->setDate(new \DateTime('2016-06-27'));
+        $entity->setEnableMorning(true);
         $entity->setEleve($this->getReference('aaa-eliott'));
         $manager->persist($entity);
 
         $entity = new Garderie();
-        $entity->setDateHeure(new \DateTime('2016-07-04 08:00'));
-        $entity->setStatus('0');
+        $entity->setDate(new \DateTime('2016-07-04'));
+        $entity->setEnableMorning(true);
         $entity->setEleve($this->getReference('aaa-eliott'));
         $manager->persist($entity);
 
 
         // Mondays nights of period between 18/04 and 05/07
         $entity = new Garderie();
-        $entity->setDateHeure(new \DateTime('2016-06-06 17:00'));
-        $entity->setStatus('0');
+        $entity->setDate(new \DateTime('2016-06-06'));
+        $entity->setEnableEvening(true);
         $entity->setEleve($this->getReference('aaa-eliott'));
         $manager->persist($entity);
 
         $entity = new Garderie();
-        $entity->setDateHeure(new \DateTime('2016-06-13 17:00'));
-        $entity->setStatus('0');
+        $entity->setDate(new \DateTime('2016-06-13'));
+        $entity->setEnableEvening(true);
         $entity->setEleve($this->getReference('aaa-eliott'));
         $manager->persist($entity);
 
         $entity = new Garderie();
-        $entity->setDateHeure(new \DateTime('2016-06-20 17:00'));
-        $entity->setStatus('0');
+        $entity->setDate(new \DateTime('2016-06-20'));
+        $entity->setEnableEvening(true);
         $entity->setEleve($this->getReference('aaa-eliott'));
         $manager->persist($entity);
 
         $entity = new Garderie();
-        $entity->setDateHeure(new \DateTime('2016-06-27 17:00'));
-        $entity->setStatus('0');
+        $entity->setDate(new \DateTime('2016-06-27'));
+        $entity->setEnableEvening(true);
         $entity->setEleve($this->getReference('aaa-eliott'));
         $manager->persist($entity);
 
         $entity = new Garderie();
-        $entity->setDateHeure(new \DateTime('2016-07-04 17:00'));
-        $entity->setStatus('0');
+        $entity->setDate(new \DateTime('2016-07-04'));
+        $entity->setEnableEvening(true);
         $entity->setEleve($this->getReference('aaa-eliott'));
         $manager->persist($entity);
 
@@ -92,26 +92,26 @@ class LoadGarderieData extends AbstractFixture implements OrderedFixtureInterfac
 
         // Fridays nights of period between 18/04 and 05/07
         $entity = new Garderie();
-        $entity->setDateHeure(new \DateTime('2016-06-10 17:00'));
-        $entity->setStatus('0');
+        $entity->setDate(new \DateTime('2016-06-10'));
+        $entity->setEnableEvening(true);
         $entity->setEleve($this->getReference('aaa-eliott'));
         $manager->persist($entity);
 
         $entity = new Garderie();
-        $entity->setDateHeure(new \DateTime('2016-06-17 17:00'));
-        $entity->setStatus('0');
+        $entity->setDate(new \DateTime('2016-06-17'));
+        $entity->setEnableEvening(true);
         $entity->setEleve($this->getReference('aaa-eliott'));
         $manager->persist($entity);
 
         $entity = new Garderie();
-        $entity->setDateHeure(new \DateTime('2016-06-24 17:00'));
-        $entity->setStatus('0');
+        $entity->setDate(new \DateTime('2016-06-24'));
+        $entity->setEnableEvening(true);
         $entity->setEleve($this->getReference('aaa-eliott'));
         $manager->persist($entity);
 
         $entity = new Garderie();
-        $entity->setDateHeure(new \DateTime('2016-07-01 17:00'));
-        $entity->setStatus('0');
+        $entity->setDate(new \DateTime('2016-07-01'));
+        $entity->setEnableEvening(true);
         $entity->setEleve($this->getReference('aaa-eliott'));
         $manager->persist($entity);
 

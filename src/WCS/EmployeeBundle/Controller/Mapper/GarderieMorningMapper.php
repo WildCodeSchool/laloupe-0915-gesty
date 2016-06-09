@@ -11,7 +11,7 @@ class GarderieMorningMapper implements ActivityMapperInterface
     {
         return "Garderie matin - Feuille de présence";
     }
-    
+
     /**
      * @return string fully qualified entity class name
      */
@@ -25,10 +25,8 @@ class GarderieMorningMapper implements ActivityMapperInterface
      */
     public function updateEntity($entity, \DateTimeImmutable $date_day)
     {
-        $day = $date_day->format('Y-m-d');
-        $day = $day . " 08:00:00";
-
-        $entity->setDateHeure(new \DateTimeImmutable($day));
+        $entity->setDate($date_day);
+        $entity->setEnableMorning(true);
     }
 
     /**

@@ -62,10 +62,10 @@ class DaysOfWeeks
                     $this->list_jours_tap[$d->getDayOfWeek()][] = $currentDay->format('Y-m-d');
                 }
                 if (!ActivityType::isDayOff(ActivityType::GARDERIE_MORNING, $currentDay)) {
-                    $this->list_jours_garderie[$d->getDayOfWeek() . '-1'][] = $currentDay->format('Y-m-d') . Garderie::HEURE_MATIN;
+                    $this->list_jours_garderie[$d->getDayOfWeek() . '-1'][] = $currentDay->format('Y-m-d');
                 }
                 if (!ActivityType::isDayOff(ActivityType::GARDERIE_EVENING, $currentDay)) {
-                    $this->list_jours_garderie[$d->getDayOfWeek() . '-2'][] = $currentDay->format('Y-m-d') . Garderie::HEURE_SOIR;
+                    $this->list_jours_garderie[$d->getDayOfWeek() . '-2'][] = $currentDay->format('Y-m-d');
                 }
             }
 
@@ -106,13 +106,20 @@ class DaysOfWeeks
     {
         $tmp = array();
         foreach($garderies as $garderie) {
-            foreach ($this->list_jours_garderie as $dayOfWeek => $datesheures) {
+            foreach ($this->list_jours_garderie as $dayOfWeek => $dates) {
 
-                $dateheure  = $garderie->getDateHeure()->format('Y-m-d H:i:s');
-
-                if (in_array($dateheure, $datesheures)) {
-                    $tmp[$dayOfWeek] = 1;
+                $date  = $garderie->getDate()->format('Y-m-d');
+                if (substr($dayOfWeek, -2)=='-1' && $garderie->isEnableMorning()) {
+                    if (in_array($date, $dates)) {
+                        $tmp[$dayOfWeek] = 1;
+                    }
                 }
+                if (substr($dayOfWeek, -2)=='-2' && $garderie->isEnableEvening()) {
+                    if (in_array($date, $dates)) {
+                        $tmp[$dayOfWeek] = 1;
+                    }
+                }
+
             }
         }
 

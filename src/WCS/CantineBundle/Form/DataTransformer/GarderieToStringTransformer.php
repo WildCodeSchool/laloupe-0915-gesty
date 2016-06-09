@@ -67,16 +67,29 @@ class GarderieToStringTransformer implements DataTransformerInterface
                 $found = false;
 
                 foreach($garderies_eleve as $current) {
-                    if ($current->getDateHeure()==$dateT) {
-                        $garderie = $current;
-                        $found = true;
+                    if ($current->getDate()==$dateT) {
+                        if (substr($dayOfWeek, -2)=='-1' && $current->isEnableMorning()) {
+                            $garderie = $current;
+                            $found = true;
+                        }
+                        if (substr($dayOfWeek, -2)=='-2' && $current->isEnableEvening()) {
+                            $garderie = $current;
+                            $found = true;
+                        }
+
                     }
                 }
 
                 if (!$found) {
                     $garderie = new Garderie();
                     $garderie->setEleve($this->eleve);
-                    $garderie->setDateHeure($dateT);
+                    $garderie->setDate($dateT);
+                    if (substr($dayOfWeek, -2)=='-1') {
+                        $garderie->setEnableMorning(true);
+                    }
+                    if (substr($dayOfWeek, -2)=='-2') {
+                        $garderie->setEnableEvening(true);
+                    }
 
                     $this->manager->persist($garderie);
                 }

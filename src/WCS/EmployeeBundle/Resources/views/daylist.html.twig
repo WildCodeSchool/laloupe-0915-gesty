@@ -26,48 +26,48 @@
 
                     {% if 'cantine' == app.request.get('activity') %}
 
-                    <td class="todayList text-center">Allergie(s)</td>
-                    <td class="todayList text-center">Régime sans porc</td>
+                        <td class="todayList text-center">Allergie(s)</td>
+                        <td class="todayList text-center">Régime sans porc</td>
 
                     {% endif %}
                 </tr>
 
 
                 {% for entity in entities %}
-                <tr>
-                    <td class="text-center pupil">
-                        {% if entity.status == 0 %}
-                            <input type="checkbox" class="eleve" name="eleve" value="{{ entity.id }}" />
+                    <tr>
+                        <td class="text-center pupil">
+                            {% if entity.status == 0 %}
+                                <input type="checkbox" class="eleve" name="eleve" value="{{ entity.id }}" />
 
-                        {% elseif entity.status == 1 %}
-                            <p class="eleveAjoute">PRESENT</p>
-                            <a href="{{ path('wcs_employee_remove',
+                            {% elseif entity.status == 1 %}
+                                <p class="eleveAjoute">PRESENT</p>
+                                <a href="{{ path('wcs_employee_remove',
                                 {'activity':app.request.get('activity'), 'id': app.request.get('school').id, 'id_activity': entity.id })
-                            }}">Désinscrire</a>
+                                }}">Désinscrire</a>
 
-                        {% elseif entity.status == 2 %}
-                            <p class="eleveAjoute">PRESENT</p>
+                            {% elseif entity.status == 2 %}
+                                <p class="eleveAjoute">PRESENT</p>
 
-                        {% else %}
+                            {% else %}
+
+                            {% endif %}
+                        </td>
+                        <td class="text-center">{{ entity.eleve.nom |upper}}</td>
+                        <td class="text-center">{{ entity.eleve.prenom }}</td>
+
+                        {% if 'cantine' == app.request.get('activity') %}
+
+                            <td class="text-center">{{ entity.eleve.allergie }}</td>
+                            <td class="text-center sansporc">
+                                {% if entity.eleve.regimeSansPorc == 1 %}
+                                    OUI
+                                {% else %}
+                                    NON
+                                {% endif %}
+                            </td>
 
                         {% endif %}
-                    </td>
-                    <td class="text-center">{{ entity.eleve.nom |upper}}</td>
-                    <td class="text-center">{{ entity.eleve.prenom }}</td>
-
-                    {% if 'cantine' == app.request.get('activity') %}
-
-                    <td class="text-center">{{ entity.eleve.allergie }}</td>
-                    <td class="text-center sansporc">
-                        {% if entity.eleve.regimeSansPorc == 1 %}
-                            OUI
-                        {% else %}
-                            NON
-                        {% endif %}
-                    </td>
-
-                    {% endif %}
-                </tr>
+                    </tr>
                 {% endfor %}
             </table>
 
@@ -82,11 +82,7 @@
             </div>
             <div class="hidden">
                 {{ form_widget(form_register.status) }}
-                {% if 'cantine' == app.request.get('activity') or 'tap' == app.request.get('activity') %}
-                    {{ form_widget(form_register.date) }}
-                {% else %}
-                    {{ form_widget(form_register.dateHeure) }}
-                {% endif %}
+                {{ form_widget(form_register.date) }}
             </div>
             {{ form_end(form_register) }}
 
@@ -102,14 +98,14 @@
 
                 {% if 'cantine' == app.request.get('activity') %}
 
-                <tr>
-                    <td class="text-center">Nombre de Régime sans porc :</td>
-                    <td id='total_no_pork' class="text-center"></td>
-                </tr>
-                <tr>
-                    <td class="text-center">Nombre d'enfants présents :</td>
-                    <td id='total_present' class="text-center"></td>
-                </tr>
+                    <tr>
+                        <td class="text-center">Nombre de Régime sans porc :</td>
+                        <td id='total_no_pork' class="text-center"></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Nombre d'enfants présents :</td>
+                        <td id='total_present' class="text-center"></td>
+                    </tr>
 
                 {% endif %}
 
@@ -117,8 +113,8 @@
         </div>
 
         <form action="{{
-            path('wcs_employee_daylist', {'activity': app.request.get('activity'), 'id': app.request.get('school').id})
-            }}" method="POST" {{ form_enctype(form_validate) }}>
+        path('wcs_employee_daylist', {'activity': app.request.get('activity'), 'id': app.request.get('school').id})
+        }}" method="POST" {{ form_enctype(form_validate) }}>
 
             <div class="hidden">
                 {{ form_widget(form_validate.status, {'attr' : {'class' : 'idElevesPresents'}})}}
@@ -151,7 +147,7 @@
 
             {% if 'cantine' == app.request.get('activity') %}
 
-                $("#total_no_pork").text($('.sansporc:contains("OUI")').length);
+            $("#total_no_pork").text($('.sansporc:contains("OUI")').length);
 
             {% endif %}
 

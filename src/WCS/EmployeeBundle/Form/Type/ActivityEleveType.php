@@ -27,29 +27,20 @@ class ActivityEleveType extends AbstractType
                 'query_builder' => function(EleveRepository $er ) use ($options) {
                     return $er->getQueryGetEleves($options['additional_options'] );
                 }
-                ))
+            ))
             ->add('status', 'choice', array(
                 'choices' => array('1' => 'Non-Inscrit'),
                 'label' => false
-                ));
-
-        if ('WCS\CantineBundle\Entity\Garderie' == $this->entityClassName) {
-            $builder    ->add('dateHeure', 'date', array(
-                'format' => 'yyyy-MMMM-dd',
-                'label' => false
-            ));
-        }
-        else {
-            $builder    ->add('date', 'date', array(
-                'format' => 'yyyy-MMMM-dd',
-                'label' => false
             ));
 
-        }
+        $builder    ->add('date', 'date', array(
+            'format' => 'yyyy-MMMM-dd',
+            'label' => false
+        ));
         $builder    ->add('Ajouter', 'submit');
 
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */

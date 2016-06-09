@@ -34,7 +34,7 @@ class ActivityBase
 
     public function __construct()
     {
-        $this->status = '0';
+        $this->status = self::STATUS_REGISTERED_BUT_ABSENT;
     }
 
     /**

@@ -73,7 +73,7 @@ class EleveRepository extends EntityRepository
         return $q;
     }
 
-    
+
     public function findByDate($children)
     {
         // Request pupils to the database from a certain date
@@ -99,7 +99,7 @@ class EleveRepository extends EntityRepository
             ->getResult();
 
         $count = '';
-        foreach ($dates as $date){ 
+        foreach ($dates as $date){
             if (preg_match('#^'.$dateNowFormat.'#', $date) === 1) {
                 $count = count($date);
             }
@@ -202,9 +202,9 @@ class EleveRepository extends EntityRepository
             'SELECT g
                 FROM WCSCantineBundle:Garderie g
                 WHERE g.eleve = :eleve
-                    AND g.date_heure >= :dateDebut
-                    AND g.date_heure <= :dateFin
-                ORDER BY g.date_heure ASC'
+                    AND g.date >= :dateDebut
+                    AND g.date <= :dateFin
+                ORDER BY g.date ASC'
         )
             ->setParameter(':eleve', $eleve)
             ->setParameter(':dateDebut', $periode->getDebut())

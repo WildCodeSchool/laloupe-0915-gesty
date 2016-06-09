@@ -9,7 +9,7 @@
 namespace WCS\EmployeeBundle\Controller\Mapper;
 
 
-class CanteenMapper implements ActivityMapperInterface
+class LunchMapper implements ActivityMapperInterface
 {
     /**
      * @inheritdoc
