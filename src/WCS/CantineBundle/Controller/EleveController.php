@@ -22,21 +22,6 @@ use WCS\CalendrierBundle\Service\Periode\Periode;
 class EleveController extends Controller
 {
     /**
-     * Lists all Eleve entities.
-     *
-     */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('WCSCantineBundle:Eleve')->findAll();
-
-        return $this->render('WCSCantineBundle:Eleve:index.html.twig', array(
-            'entities' => $entities,
-        ));
-    }
-
-    /**
      * Creates a new Eleve entity.
      *
      */
@@ -78,30 +63,6 @@ class EleveController extends Controller
 
 
         return $form;
-    }
-
-    /**
-     * Finds and displays a Eleve entity.
-     *
-     */
-    public function showAction($id)
-    {
-        $user = $this->getUser();
-        if (!$user) {
-            throw $this->createAccessDeniedException();
-        }
-
-        $em = $this->getDoctrine()->getManager();
-
-        $eleve = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
-
-        if (!$eleve) {
-            return $this->redirectToRoute('wcs_cantine_dashboard');
-        }
-
-        return $this->render('WCSCantineBundle:Eleve:show.html.twig', array(
-            'entity' => $eleve,
-        ));
     }
 
     /**
@@ -183,53 +144,6 @@ class EleveController extends Controller
     
 
     /**
-     * Deletes a Eleve entity.
-     *
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        $user = $this->getUser();
-        if (!$user) {
-            throw $this->createAccessDeniedException();
-        }
-
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
-
-            if (!$entity || !$entity->isCorrectParentConnected($user)) {
-                return $this->redirectToRoute('wcs_cantine_dashboard');
-            }
-
-            $em->remove($entity);
-            $em->flush();
-        }
-
-        return $this->redirect($this->generateUrl('eleve'));
-    }
-
-    /**
-     * Creates a form to delete a Eleve entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('eleve_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-
-            ->getForm();
-
-    }
-
-    /**
      * Affiche le dashboard
      *
      * @param Request       contient les paramètres passés en URL
@@ -251,12 +165,12 @@ class EleveController extends Controller
 
         // periodes TAP/Garderie
         $periodesScolaires = $this->get("wcs.calendrierscolaire")->getPeriodesAnneeRentreeScolaire();
-        $periode_tap = $periodesScolaires->getCurrentPeriodeEnClasse();
+        $periode_tap = $periodesScolaires->getCurrentOrNextPeriodeEnClasse();
 
         // récupère les days of week sélectionnés
         $daysOfWeek = new DaysOfWeeks(
             new Periode($this->get("wcs.datenow")->getDate(), $periode_tap->getFin()),
-            $this->get('wcs.feries')
+            $this->get('wcs.daysoff')
         );
 
         // récupère les taps et les garderies de chaque enfants

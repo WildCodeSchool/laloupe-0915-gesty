@@ -52,25 +52,25 @@ class HomeController extends EmployeeController
         $params['cantine'] = [
             'filters'           => array('active_cantine' => true),
             'title'             => "Restaurant scolaire : sélectionnez l'école",
-            'day_off_message'   => "Pas de restauration scolaire<br />aujourd'hui"
+            'day_off_message'   => "Pas de restauration scolaire\naujourd'hui"
         ];
 
         $params['tap'] = [
             'filters'           => array('active_tap' => true),
             'title'             => "TAP : sélectionnez l'école",
-            'day_off_message'   => "Pas de TAP<br />aujourd'hui"
+            'day_off_message'   => "Pas de TAP\naujourd'hui"
         ];
 
         $params['garderie_matin'] = [
             'filters'           => array('active_garderie' => true),
             'title'             => "Garderie matin : sélectionnez l'école",
-            'day_off_message'   => "Pas de garderie<br />ce matin"
+            'day_off_message'   => "Pas de garderie\nce matin"
         ];
 
         $params['garderie_soir'] = [
             'filters'           => array('active_garderie' => true),
             'title'             => "Garderie soir : sélectionnez l'école",
-            'day_off_message'   => "Pas de garderie<br />ce soir"
+            'day_off_message'   => "Pas de garderie\nce soir"
         ];
 
         if (isset($params[$activity])) {

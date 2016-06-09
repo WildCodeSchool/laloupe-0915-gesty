@@ -28,4 +28,14 @@ class ActivityType
     {
         return self::$daysOfWeekOff[$activityTypeConstant];
     }
+
+    public static function isDayOff($activityTypeConstant, \DateTimeInterface $dateDay)
+    {
+        $d = new Day($dateDay);
+
+        $daysOff = self::getDaysOfWeekOff($activityTypeConstant);
+
+        return \in_array($d->getDayOfWeek(), $daysOff);
+    }
+
 }

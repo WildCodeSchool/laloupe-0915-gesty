@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Form;
 use WCS\CantineBundle\Entity\Eleve;
+use WCS\CantineBundle\Form\DataTransformer\DaysOfWeeks;
 use WCS\CantineBundle\Form\Type\TapType;
 use WCS\CalendrierBundle\Service\Periode\Periode;
 
@@ -29,13 +30,24 @@ class TapGarderieController extends Controller
 
         // récupère la période scolaires en classe à la date du jour
         $periodesScolaires = $this->get("wcs.calendrierscolaire")->getPeriodesAnneeRentreeScolaire();
-        $periode_tap = $periodesScolaires->getCurrentPeriodeEnClasse();
+        $periode_tap = $periodesScolaires->getCurrentOrNextPeriodeEnClasse();
 
-        $periode_from_today = new Periode(new \DateTime(), $periode_tap->getFin());
+        // récupère les days of week sélectionnés
+        $periode_from_today = new Periode(
+            $this->get("wcs.datenow")->getDate()->format('Y-m-d'),
+            $periode_tap->getFin()
+        );
+
+        $daysOfWeek = new DaysOfWeeks(
+            $periode_from_today,
+            $this->get('wcs.daysoff')
+        );
+
+
 
         // créé le formulaire associé à l'élève
         $form = $this->createForm(
-                    new TapType( $em, $periode_from_today, $this->get('wcs.feries') ),
+                    new TapType( $em, $daysOfWeek ),
                     $eleve, array(
             'action' => $this->generateUrl('tapgarderie_inscription', array("id_eleve"=>$id_eleve)),
             'method' => 'POST'

@@ -5,23 +5,20 @@ namespace WCS\CantineBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use WCS\CalendrierBundle\Service\Periode\Periode;
+use WCS\CantineBundle\Form\DataTransformer\DaysOfWeeks;
 use WCS\CantineBundle\Form\DataTransformer\TapToStringTransformer;
 use WCS\CantineBundle\Form\DataTransformer\GarderieToStringTransformer;
-use WCS\CantineBundle\Service\FeriesDayList;
 
 
 class TapType extends AbstractType
 {
     private $manager;
-    private $periode;
-    private $feriesDayList;
+    private $daysOfWeek;
 
-    public function __construct(\Doctrine\Common\Persistence\ObjectManager $manager, Periode $periode, FeriesDayList $feriesDayList)
+    public function __construct(\Doctrine\Common\Persistence\ObjectManager $manager, DaysOfWeeks $daysOfWeek)
     {
         $this->manager = $manager;
-        $this->periode = $periode;
-        $this->feriesDayList = $feriesDayList;
+        $this->daysOfWeek = $daysOfWeek;
     }
 
 
@@ -45,10 +42,10 @@ class TapType extends AbstractType
         ;
 
         $builder->get('taps')
-            ->addModelTransformer( new TapToStringTransformer($this->manager, $builder->getData(), $this->periode, $this->feriesDayList) );
+            ->addModelTransformer( new TapToStringTransformer($this->manager, $builder->getData(), $this->daysOfWeek) );
 
         $builder->get('garderies')
-            ->addModelTransformer( new GarderieToStringTransformer($this->manager, $builder->getData(), $this->periode, $this->feriesDayList) );
+            ->addModelTransformer( new GarderieToStringTransformer($this->manager, $builder->getData(), $this->daysOfWeek) );
     }
 
     /**

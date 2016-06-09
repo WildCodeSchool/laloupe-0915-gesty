@@ -10,11 +10,11 @@ namespace WCS\CantineBundle\Service;
 
 use WCS\CalendrierBundle\Service\DaysOffInterface;
 
-class FeriesDayList implements DaysOffInterface
+class AdditionalDayOffList implements DaysOffInterface
 {
     public function __construct(\Doctrine\ORM\EntityManagerInterface $em)
     {
-        $this->repo = $em->getRepository('WCSCantineBundle:Feries');
+        $this->repoFeries = $em->getRepository('WCSCantineBundle:Feries');
     }
 
     /**
@@ -22,17 +22,25 @@ class FeriesDayList implements DaysOffInterface
      */
     public function findDatesWithin(\WCS\CalendrierBundle\Service\Periode\Periode $periode)
     {
-        $this->datesDayOffArray = $this->repo->findListDateTimes(
+        $dayOffArray = $this->repoFeries->findListDateTimes(
             $periode->getFin()->format('Y')
         );
         
-        if (is_null($this->datesDayOffArray)) {
+        if (is_null($dayOffArray)) {
             return array();
         }
 
-        return $this->datesDayOffArray;
+        return $dayOffArray;
     }
 
-    private $datesDayOffArray;
-    private $repo;
+    /**
+     * @inheritdoc
+     */
+    public function isOff(\DateTimeInterface $date)
+    {
+        $daysOffArray = $this->repoFeries->findListDateTimes($date->format('Y'));
+        return (in_array($date, $daysOffArray));
+    }
+
+    private $repoFeries;
 }

@@ -32,6 +32,7 @@
 
 namespace WCS\CalendrierBundle\Service\Calendrier;
 
+use Symfony\Component\VarDumper\VarDumper;
 use WCS\CalendrierBundle\Service\PeriodesAnneeScolaire\PeriodesAnneeScolaire;
 
 
@@ -192,13 +193,17 @@ class Calendrier
      */
     private function addDaysWithAttribute($array_days, $methodName, $attributeValue)
     {
-        foreach($array_days as $jour) {
-            $year   = $jour->format('Y');
-            $month  = $jour->format('m');
-            $day    = $jour->format('d');
-            $d = &$this->days[$month][$day];
-            if ($d->getYear()==$year) {
-                $d->{$methodName}($attributeValue);
+        if ($this->date_today > $this->periodesScolaire->getAnneeScolaire()->getDebut()->format('Y-m-d')) {
+            foreach ($array_days as $jour) {
+                $year = $jour->format('Y');
+                $month = $jour->format('m');
+                $day = $jour->format('d');
+
+                $d = &$this->days[$month][$day];
+                if ($d->getYear() == $year) {
+                    $d->{$methodName}($attributeValue);
+                }
+
             }
         }
     }

@@ -1,3 +1,4 @@
 voyage_inscription:
     path:     /inscription/{id_eleve}
     defaults: { _controller: "WCSCantineBundle:Voyage:inscrire" }
+    methods: [GET, POST]

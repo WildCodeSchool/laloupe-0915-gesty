@@ -1,6 +1,7 @@
 wcs_employee_home:
     path: /
     defaults: {_controller: 'WCSEmployeeBundle:Home:index' }
+    methods: [GET]
 
 wcs_employee_schools:
     path: /{activity}/schools
@@ -23,3 +24,4 @@ wcs_employee_remove:
 wcs_employee_canteen_orders:
     path: /cantine/reservation
     defaults: { _controller: "WCSEmployeeBundle:Canteen:showOrders" }
+    methods: [GET, POST]

@@ -110,9 +110,21 @@ class PeriodesAnneeScolaire
      * @param $date
      * @return null|\WCS\CalendrierBundle\Service\Periode\Periode
      */
-    public function getCurrentPeriodeEnClasse()
+    public function getCurrentOrNextPeriodeEnClasse()
     {
-        return $this->current_en_classe;
+        $dateDay = new \DateTimeImmutable($this->date_du_jour);
+
+        foreach($this->list_enclasse as $periode) {
+            if ($periode->isDateIncluded($this->date_du_jour)) {
+                return $periode;
+            }
+            // cela signifie qu'à la date du jour la période en classe est passée
+            // donc on prend la suivante
+            if ($periode->getDebut() > $dateDay) {
+                return $periode;
+            }
+        }
+        return null;
     }
 
     /*==========================================================================================================
@@ -185,8 +197,6 @@ class PeriodesAnneeScolaire
             }
         }
         $this->list_enclasse = new ListPeriodes($enClasses);
-
-        $this->current_en_classe = $this->findEnClasseFrom($this->date_du_jour);
     }
 
     /**
@@ -208,6 +218,4 @@ class PeriodesAnneeScolaire
      * @var string date au format 'Y-m-d'
      */
     private $date_du_jour;
-
-    private $current_en_classe;
 }

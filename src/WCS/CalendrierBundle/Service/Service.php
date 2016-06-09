@@ -5,6 +5,7 @@ namespace WCS\CalendrierBundle\Service;
 use WCS\CalendrierBundle\Service\Calendrier\ActivityType;
 use WCS\CalendrierBundle\Service\Calendrier\Day;
 use WCS\CalendrierBundle\Service\ICSFileReader\ICSFileReader;
+use WCS\CalendrierBundle\Service\Periode\Periode;
 use WCS\CalendrierBundle\Service\PeriodesAnneeScolaire\PeriodesAnneeScolaire;
 use WCS\CalendrierBundle\Service\Calendrier\Calendrier;
 
@@ -16,11 +17,11 @@ class Service
 
     public function isDayOff($activityTypeConstant, \DateTimeInterface $dateDay)
     {
-        $d = new Day($dateDay);
+        if ($this->daysOff->isOff($dateDay)) {
+            return true;
+        }
         
-        $daysOff = ActivityType::getDaysOfWeekOff($activityTypeConstant);
-
-        return  in_array($d->getDayOfWeek(), $daysOff);
+        return ActivityType::isDayOff($activityTypeConstant, $dateDay);
     }
 
     /**
@@ -124,7 +125,11 @@ class Service
      * @param DaysOffInterface $daysOff
      * @param string date du jour au format "Y-m-d"
      */
-    public function __construct($icsFilepath, DateNow $dateNow, DaysOffInterface $daysOff)
+    public function __construct(
+        $icsFilepath,
+        DateNow $dateNow,
+        DaysOffInterface $daysOff
+    )
     {
         $this->daysOff = $daysOff;
         $this->cals = array();
