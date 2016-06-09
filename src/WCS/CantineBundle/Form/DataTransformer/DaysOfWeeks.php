@@ -6,7 +6,6 @@ namespace WCS\CantineBundle\Form\DataTransformer;
 use WCS\CalendrierBundle\Service\Calendrier\ActivityType;
 use WCS\CalendrierBundle\Service\Periode\Periode;
 use WCS\CalendrierBundle\Service\Calendrier\Day;
-use WCS\CantineBundle\Entity\Garderie;
 use WCS\CantineBundle\Service\AdditionalDayOffList;
 
 

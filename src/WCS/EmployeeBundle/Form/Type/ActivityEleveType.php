@@ -11,10 +11,6 @@ use WCS\CantineBundle\Entity\EleveRepository;
 
 class ActivityEleveType extends AbstractType
 {
-    private $entityClassName;
-    public function __construct($entityClassName){
-        $this->entityClassName = $entityClassName;
-    }
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -31,13 +27,12 @@ class ActivityEleveType extends AbstractType
             ->add('status', 'choice', array(
                 'choices' => array('1' => 'Non-Inscrit'),
                 'label' => false
-            ));
-
-        $builder    ->add('date', 'date', array(
+            ))
+            ->add('date', 'date', array(
             'format' => 'yyyy-MMMM-dd',
             'label' => false
-        ));
-        $builder    ->add('Ajouter', 'submit');
+            ))
+            ->add('Ajouter', 'submit');
 
     }
 
