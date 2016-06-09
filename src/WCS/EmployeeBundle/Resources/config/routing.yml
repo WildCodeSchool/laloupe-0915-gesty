@@ -24,4 +24,4 @@ wcs_employee_remove:
 wcs_employee_canteen_orders:
     path: /cantine/reservation
     defaults: { _controller: "WCSEmployeeBundle:Canteen:showOrders" }
-    methods: [GET, POST]
+    methods: [GET]

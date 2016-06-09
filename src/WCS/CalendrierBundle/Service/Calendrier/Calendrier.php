@@ -32,7 +32,6 @@
 
 namespace WCS\CalendrierBundle\Service\Calendrier;
 
-use Symfony\Component\VarDumper\VarDumper;
 use WCS\CalendrierBundle\Service\PeriodesAnneeScolaire\PeriodesAnneeScolaire;
 
 

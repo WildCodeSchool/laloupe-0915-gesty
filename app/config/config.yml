@@ -17,7 +17,7 @@ parameters:
 framework:
     #esi:             ~
     translator:      { fallbacks: fr}
-    secret:          "NothingButApplicationGestyRedoneByWCS@June2016"
+    secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
         strict_requirements: ~

@@ -87,7 +87,10 @@ class MigrateFilesCommandTest extends KernelTestCase
 
     protected function tearDown()
     {
-
+        // clean up the new upload folder
+        foreach (glob($this->path_new_uploads.'/*') as $absoluteFilePath) {
+            unlink($absoluteFilePath);
+        }
     }
 
     /**
