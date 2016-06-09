@@ -103,7 +103,7 @@ services:
       sonata.admin.inscription:
               class: WCS\CantineBundle\Admin\InscriptionAdmin
               tags:
-                  - { name: sonata.admin, manager_type: orm, group: "wcs.group.voyage", label: "Incription" }
+                  - { name: sonata.admin, manager_type: orm, group: "wcs.group.voyage", label: "Incription élève" }
               arguments:
                   - ~
                   - WCS\CantineBundle\Entity\Eleve
