@@ -10,6 +10,7 @@ class DateNow
      *
      * DateNow constructor.
      * @param string $dateStr date formatted with 'Y-m-d' or ''
+     * @throws DateNowException if the date is not valid
      */
     public function __construct($dateStr='')
     {

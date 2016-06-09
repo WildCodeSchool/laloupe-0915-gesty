@@ -1,15 +1,10 @@
 <?php
-//WCS/CantineBundle/Admin/DivisionAdmin.php
 namespace WCS\CantineBundle\Admin;
 
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
-use WCS\CantineBundle\Entity\Division;
 
 
 class VoyageAdmin extends Admin
@@ -19,7 +14,7 @@ class VoyageAdmin extends Admin
      */
     protected $em;
 
-    public function __construct($code, $class, $baseControllerName, \Doctrine\ORM\EntityManager $entityManager)
+    public function __construct($code, $class, $baseControllerName, \Doctrine\ORM\EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
         parent::__construct($code, $class, $baseControllerName);

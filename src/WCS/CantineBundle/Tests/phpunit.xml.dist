@@ -10,8 +10,8 @@
 >
     <testsuites>
 
-        <testsuite name="migration">
-            <directory>../Tests/Functional/</directory>
+        <testsuite name="employee">
+            <directory>../Tests/*/</directory>
         </testsuite>
 
     </testsuites>

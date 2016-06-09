@@ -1,7 +1,3 @@
-wcs_cantine_feries:
-    resource: "@WCSCantineBundle/Resources/config/routing/feries.yml"
-    prefix:   /feries
-
 gesty_cantine_eleve:
     resource: "@WCSCantineBundle/Resources/config/routing/eleve.yml"
     prefix:   /
@@ -18,18 +14,17 @@ gesty_cantine_voyage:
     resource: "@WCSCantineBundle/Resources/config/routing/voyage.yml"
     prefix:   /voyage
 
-#gesty_activity_manager:
-#    resource: "@WCSCantineBundle/Resources/config/routing/activity_manager.yml"
-#    prefix:   /manager
-
 wcs_cantine_dashboard:
     path: /dashboard
     defaults: { _controller: "WCSCantineBundle:Eleve:dashboard"  }
+    methods: [GET]
 
 gesty_parent_download:
     path: /download/{type_file}
     defaults: { _controller: "WCSCantineBundle:Download:downloadParent"  }
+    methods: [GET]
 
 gesty_comptable_download:
     path: /download/{type_file}/{id_user}
     defaults: { _controller: "WCSCantineBundle:Download:downloadComptable"  }
+    methods: [GET]

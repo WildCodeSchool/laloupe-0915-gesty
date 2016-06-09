@@ -1,10 +1,12 @@
 <?php
 namespace WCS\CalendrierBundle\Tests\Integration\Service;
 
+use WCS\CalendrierBundle\Service\DateNow;
+use WCS\CalendrierBundle\Service\DaysOffInterface;
 use WCS\CalendrierBundle\Service\Service;
 use WCS\CalendrierBundle\Service\PeriodesAnneeScolaire\PeriodesAnneeScolaire;
 
-class CalendrierServiceTest extends \PhpUnit_Framework_TestCase
+class CalendrierServiceTest extends \PHPUnit_Framework_TestCase
 {
     protected $file = '';
     /**
@@ -15,7 +17,11 @@ class CalendrierServiceTest extends \PhpUnit_Framework_TestCase
     protected function setUp()
     {
         $this->file = __DIR__ . '/../../Files/Calendrier_Scolaire_Zone_B.ics';
-        $this->service = new Service($this->file);
+        $dateNow = new DateNow('2016-01-01');
+
+
+        $mockDaysOff = $this->createMock(DaysOffInterface::class);
+        $this->service = new Service($this->file, $dateNow, $mockDaysOff);
     }
 
     public function providerPeriodesScolaires()

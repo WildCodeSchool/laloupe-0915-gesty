@@ -11,13 +11,19 @@ use WCS\CalendrierBundle\Service\Periode\Periode;
 
 class DaysOffDefault implements DaysOffInterface
 {
-    public function __construct(\Doctrine\ORM\EntityManager $em) {}
-    
     /**
      * @return array of \DateTime
      */
     public function findDatesWithin(Periode $periode)
     {
         return array();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isOff(\DateTimeInterface $date)
+    {
+        return false;
     }
 }

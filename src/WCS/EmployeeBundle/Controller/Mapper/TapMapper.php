@@ -12,7 +12,7 @@ class TapMapper implements ActivityMapperInterface
     {
         return "TAP - Feuille de présence";
     }
-
+    
     /**
      * @return string fully qualified entity class name
      */

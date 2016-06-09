@@ -15,6 +15,7 @@ class DashboardController extends Controller
         {
             return $this->redirectToRoute('sonata_user_security_login');
         }
+        
         if ($role->isGranted('ROLE_ADMIN') ||
             $role->isGranted('ROLE_CANTINE') ||
             $role->isGranted('ROLE_TAP') ||

@@ -52,7 +52,11 @@ class CantineController extends Controller
         // la réservation à la cantine ne peut être effectué que 7 jours après
         // la date du jour (soit le 8e jour)
         // on désactive donc le jour actuel et les 7 jours suivants.
-        $calendrier->addDaysPastFrom(new \DateTimeImmutable($calendrier->getDateToday()), new \DateInterval('P8D'));
+        if (!is_null($calendrier)) {
+            $calendrier->addDaysPastFrom(
+                new \DateTimeImmutable($calendrier->getDateToday()), new \DateInterval('P8D')
+            );
+        }
 
         // créé le formulaire associé à l'élève
         $form = $this->createForm(new CantineType( $em ), $eleve, array(

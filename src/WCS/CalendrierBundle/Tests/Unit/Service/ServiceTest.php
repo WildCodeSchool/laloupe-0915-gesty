@@ -1,28 +1,25 @@
 <?php
 namespace WCS\CalendrierBundle\Tests\Unit\Service;
 
+use WCS\CalendrierBundle\Service\DateNow;
+use WCS\CalendrierBundle\Service\DaysOffInterface;
 use WCS\CalendrierBundle\Service\Service;
 use WCS\CalendrierBundle\Service\Periode\Periode;
 
 
-class ServiceTest extends \PhpUnit_Framework_TestCase
+class ServiceTest extends \PHPUnit_Framework_TestCase
 {
     protected $file = '';
+    protected $dateNow;
+    protected $mockDayOff;
 
     protected function setUp()
     {
         $this->file = __DIR__ . '/../../Files/Calendrier_Scolaire_Zone_B.ics';
+        $this->dateNow = new DateNow('2016-01-01');
+        $this->mockDayOff = $this->createMock(DaysOffInterface::class);
     }
 
-
-    /*==================================================================
-     * Test si les exceptions sont bien relayées
-     ==================================================================*/
-    public function testException()
-    {
-        $this->setExpectedException('\Exception');
-        new Service('', true);
-    }
 
     /*==================================================================
      * Test la récupération du calendrier pour une année donnée
@@ -41,7 +38,7 @@ class ServiceTest extends \PhpUnit_Framework_TestCase
      */
     public function testRecupererAnneeScolaire($anneeScolaire, $expectedDateDebut, $expectedDateFin)
     {
-        $calService = new Service($this->file);
+        $calService = new Service($this->file, $this->dateNow, $this->mockDayOff);
         $calService->selectRentreeScolaire($anneeScolaire);
         $cal = $calService->getPeriodesAnneeRentreeScolaire();
 
@@ -65,7 +62,7 @@ class ServiceTest extends \PhpUnit_Framework_TestCase
      */
     public function testRecupererCalendrierScolaire($anneeScolaire, $expectedDateDebut, $expectedDateFin)
     {
-        $calService = new Service($this->file);
+        $calService = new Service($this->file, $this->dateNow, $this->mockDayOff);
         $calService->selectRentreeScolaire($anneeScolaire);
         $cal = $calService->getCalendrierRentreeScolaire();
 
@@ -89,7 +86,7 @@ class ServiceTest extends \PhpUnit_Framework_TestCase
      */
     public function testRecupererNombreAnneesScolaires()
     {
-        $calService = new Service($this->file);
+        $calService = new Service($this->file, $this->dateNow, $this->mockDayOff);
         $this->assertEquals(3, $calService->getNbAnneeScolaires());
     }
 
@@ -99,7 +96,7 @@ class ServiceTest extends \PhpUnit_Framework_TestCase
      */
     public function testRecupererNullSiCalendrierIntrouvable()
     {
-        $calService = new Service($this->file);
+        $calService = new Service($this->file, $this->dateNow, $this->mockDayOff);
         $calService->selectRentreeScolaire('2019');
         $cal = $calService->getCalendrierRentreeScolaire();
 
@@ -112,7 +109,7 @@ class ServiceTest extends \PhpUnit_Framework_TestCase
      */
     public function testRecupererNullSiPeriodesScolaireIntrouvable()
     {
-        $calService = new Service($this->file);
+        $calService = new Service($this->file, $this->dateNow, $this->mockDayOff);
         $calService->selectRentreeScolaire('2019');
         $cal = $calService->getPeriodesAnneeRentreeScolaire();
 
@@ -147,7 +144,7 @@ class ServiceTest extends \PhpUnit_Framework_TestCase
      */
     public function testRecupererAnneeScolaireParDateDuJour($dateDuJour, $expectedDateDebut, $expectedDateFin)
     {
-        $calService = new Service($this->file);
+        $calService = new Service($this->file, $this->dateNow, $this->mockDayOff);
         $calService->selectRentreeScolaireAvecDate($dateDuJour);
         $cal = $calService->getCalendrierRentreeScolaire();
 
@@ -174,13 +171,11 @@ class ServiceTest extends \PhpUnit_Framework_TestCase
 
     public function testRecupererAnneeScolaireSansDate()
     {
-        $calService = new Service($this->file);
+        $calService = new Service($this->file, $this->dateNow, $this->mockDayOff);
         $cal = $calService->getCalendrierRentreeScolaire();
 
-        $date_now = new \DateTime();
-
         $this->assertEquals(
-            $date_now->format('Y-m-d'),
+            $this->dateNow->getDateStr(),
             $cal->getDateToday()
         );
 

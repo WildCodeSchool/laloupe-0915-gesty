@@ -11,7 +11,7 @@ class GarderieEveningMapper implements ActivityMapperInterface
     {
         return "Garderie soir - Feuille de présence";
     }
-
+    
     /**
      * @return string fully qualified entity class name
      */

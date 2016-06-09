@@ -1,12 +1,10 @@
 <?php
-//WCS/CantineBundle/Admin/TapAdmin.php
 namespace WCS\CantineBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
 
 
 class TapAdmin extends Admin

@@ -3,16 +3,15 @@
 namespace WCS\CantineBundle\Form\DataTransformer;
 
 
+use WCS\CalendrierBundle\Service\Calendrier\ActivityType;
 use WCS\CalendrierBundle\Service\Periode\Periode;
 use WCS\CalendrierBundle\Service\Calendrier\Day;
-use WCS\CantineBundle\Service\FeriesDayList;
+use WCS\CantineBundle\Entity\Garderie;
+use WCS\CantineBundle\Service\AdditionalDayOffList;
 
 
 class DaysOfWeeks
 {
-    const HEURE_MATIN   = ' 08:00:00';
-    const HEURE_SOIR    = ' 17:00:00';
-
     private $list_jours_tap       = array();
     private $list_jours_garderie  = array();
     private $periode = null;
@@ -43,10 +42,10 @@ class DaysOfWeeks
     }
 
 
-    public function __construct(Periode $periode, FeriesDayList $feriesDayList)
+    public function __construct(Periode $periode, AdditionalDayOffList $dayOffList)
     {
         $this->periode  = $periode;
-        $feriesArray    = $feriesDayList->findDatesWithin($periode);
+        $dayOffArray    = $dayOffList->findDatesWithin($periode);
 
         $currentDay     = $this->periode->getDebut();
         $end            = new \DateTimeImmutable($this->periode->getFin()->format('Y-m-d'));
@@ -57,18 +56,16 @@ class DaysOfWeeks
             // enregistre les infos sur la journée dans le calendrier
             $d = new Day($currentDay);
 
-            $index = array_search($currentDay, $feriesArray);
+            $index = array_search($currentDay, $dayOffArray);
             if ($index===FALSE) {
-                // les taps
-                if ($d->isDayOfWeek(Day::WEEK_TUESDAY) || $d->isDayOfWeek(Day::WEEK_THURSDAY)) {
+                if (!ActivityType::isDayOff(ActivityType::TAP, $currentDay)) {
                     $this->list_jours_tap[$d->getDayOfWeek()][] = $currentDay->format('Y-m-d');
                 }
-
-                // les garderies
-                $this->list_jours_garderie[$d->getDayOfWeek() . '-1'][] = $currentDay->format('Y-m-d') . self::HEURE_MATIN;
-
-                if (false === $d->isDayOfWeek(Day::WEEK_WEDNESDAY)) {
-                    $this->list_jours_garderie[$d->getDayOfWeek() . '-2'][] = $currentDay->format('Y-m-d') . self::HEURE_SOIR;
+                if (!ActivityType::isDayOff(ActivityType::GARDERIE_MORNING, $currentDay)) {
+                    $this->list_jours_garderie[$d->getDayOfWeek() . '-1'][] = $currentDay->format('Y-m-d') . Garderie::HEURE_MATIN;
+                }
+                if (!ActivityType::isDayOff(ActivityType::GARDERIE_EVENING, $currentDay)) {
+                    $this->list_jours_garderie[$d->getDayOfWeek() . '-2'][] = $currentDay->format('Y-m-d') . Garderie::HEURE_SOIR;
                 }
             }
 
@@ -78,7 +75,7 @@ class DaysOfWeeks
     }
 
     /**
-     * @param $taps
+     * @param \WCS\CantineBundle\Entity\Tap[] $taps
      * @return array
      */
     public function getTapSelectionToArray($taps)
@@ -102,7 +99,7 @@ class DaysOfWeeks
     }
 
     /**
-     * @param $garderies
+     * @param \WCS\CantineBundle\Entity\Garderie[] $garderies
      * @return array
      */
     public function getGarderieSelectionToArray($garderies)

@@ -44,10 +44,11 @@
 
             <div class="my-home col-md-6">
                 <h1>Mon Foyer <span class="created__at">(Créé le {{ app.user.createdAt|date('d-m-Y') }})</span></h1>
+                Etat de votre inscription :
                 {% if app.user.validation == 0 %}
                     <h3 class="validation"><span class="label label-warning">En attente de validation</span></h3></br>
                 {% else %}
-                    <h3 class="validation"><span class="label label-success"> Validé</span></h3></br>
+                    <h3 class="validation"><span class="label label-success"> Validée</span></h3></br>
                 {% endif %}
 
                 <p> {{ app.user }} </p><br/>

@@ -3,7 +3,6 @@
 namespace WCS\CantineBundle\Entity;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\DateTime;
-use Symfony\Component\VarDumper\VarDumper;
 use WCS\CalendrierBundle\Service\Calendrier\Day;
 
 /**

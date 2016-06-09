@@ -5,6 +5,6 @@ services:
         tags:
             - { name: sonata.block }
 
-    wcs.feries:
-        class: WCS\CantineBundle\Service\FeriesDayList
+    wcs.daysoff:
+        class: WCS\CantineBundle\Service\AdditionalDayOffList
         arguments: ['@doctrine.orm.entity_manager']

@@ -1,3 +1,4 @@
 cantine_inscription:
     path:     /inscription/{id_eleve}
     defaults: { _controller: "WCSCantineBundle:Cantine:inscrire" }
+    methods: [GET, POST]

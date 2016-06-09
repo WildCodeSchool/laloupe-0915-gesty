@@ -23,6 +23,7 @@ security:
                 use_forward:    false
                 check_path:     /admin/login_check
                 failure_path:   null
+                require_previous_session: false
             logout:
                 path:           /admin/logout
                 target:         /admin/login
@@ -44,6 +45,7 @@ security:
                 use_forward:    false
                 check_path:     /login_check
                 failure_path:   null
+                require_previous_session: false
             logout:             true
             anonymous:          true
             remember_me:

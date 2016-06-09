@@ -7,6 +7,9 @@ namespace WCS\CantineBundle\Entity;
  */
 class Garderie
 {
+    const HEURE_MATIN   = ' 08:00:00';
+    const HEURE_SOIR    = ' 17:00:00';
+
     /**
      * @var integer
      */

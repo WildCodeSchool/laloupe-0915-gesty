@@ -32,7 +32,6 @@
                     {{ form_widget(form.prenom) }} <br/>
                 </div>
                 <div class="form-group">
-                    {# if "now"|date("n") < 5 #}
                     {% if "now"|date("n") < 7 %}
                         <label for="etablissement">Classe en septembre {{ "now"|date("Y") - 1 }}</label>
                     {% else %}

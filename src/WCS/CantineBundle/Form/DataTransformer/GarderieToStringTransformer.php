@@ -3,10 +3,8 @@ namespace WCS\CantineBundle\Form\DataTransformer;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
-use WCS\CalendrierBundle\Service\Periode\Periode;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Entity\Garderie;
-use WCS\CantineBundle\Service\FeriesDayList;
 
 
 class GarderieToStringTransformer implements DataTransformerInterface
@@ -20,20 +18,16 @@ class GarderieToStringTransformer implements DataTransformerInterface
      */
     private $daysOfWeek;
 
-    public function __construct(ObjectManager $manager, Eleve $eleve, Periode $periode, FeriesDayList $feriesDayList)
+    public function __construct(ObjectManager $manager, Eleve $eleve, DaysOfWeeks $daysOfWeek)
     {
         $this->manager = $manager;
         $this->eleve = $eleve;
-        $this->daysOfWeek = new DaysOfWeeks($periode, $feriesDayList);
+        $this->daysOfWeek = $daysOfWeek;
     }
 
     /**
-     * transforme recoit une liste de "tap" de l'élève
-     * récupère la date de chacun, puis renvoit une chaine
-     * contenant uniquement les dates, formattées (Y-m-d) et séparées par un ";"
-     *
-     * @param  array $taps
-     * @return string
+     * @param  Garderie[] $garderies
+     * @return string indice des jours de la semaine séparé par des ";"
      */
     public function transform($garderies)
     {
@@ -45,11 +39,8 @@ class GarderieToStringTransformer implements DataTransformerInterface
     }
 
     /**
-     * Récupère une chaine de dates formattées (Y-m-d) séparées par un ";"
-     * et renvoit une liste de "tap" pour l'élève pour chacune des dates.
-     *
-     * @param  string $daysOfWeekString indice des jours de la semaine ";"
-     * @return array de Taps renvoit une liste d'entité "Tap" pour cet élève ou une liste vide
+     * @param  string $daysOfWeekString indice des jours de la semaine séparé par des ";"
+     * @return Garderie[]|null
      */
     public function reverseTransform($daysOfWeekString)
     {

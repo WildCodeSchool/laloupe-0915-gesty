@@ -13,7 +13,7 @@ interface ActivityMapperInterface
      * @return string fully qualified entity class name
      */
     public function getEntityClassName();
-
+    
     /**
      * @return array index array of options expected by the EntityRepository:getDayList
      */

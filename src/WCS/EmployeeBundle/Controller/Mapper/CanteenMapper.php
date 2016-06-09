@@ -18,7 +18,7 @@ class CanteenMapper implements ActivityMapperInterface
     {
         return "Restaurant scolaire - Feuille de présence";
     }
-
+    
     /**
      * @inheritdoc
      */
