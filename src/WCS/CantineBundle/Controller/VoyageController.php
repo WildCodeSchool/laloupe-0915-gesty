@@ -32,19 +32,20 @@ class VoyageController extends Controller
         }
 
         // créer une instance d'un formulaire
-        // dans un premiér temps on definit les paramêtres de notre futur FORM en Html
-        // ensuite on créer une instance de formulaire avec les paramêtre que l'on a crée
-        // et que l'on passera a notre vue twig
 
-        $formparams = array(
+        $options = array(
             'method' => 'POST',
             'action' => $this->generateUrl('voyage_inscription', array(
                 'id_eleve' => $id_eleve
-            ))
+            )),
+            'division' => $eleve->getDivision(),
+            'date_day' => $this->get('wcs.datenow')->getDate()
         );
 
-        $form = $this->createForm(new VoyageType($eleve->getDivision()), $eleve, $formparams);
+        $form = $this->createForm(new VoyageType(), $eleve, $options);
 
+
+        // gère la requête du formulaire
 
         $form->handleRequest($request);
         if ($form->isValid()) {

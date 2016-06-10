@@ -22,15 +22,12 @@ class AdditionalDayOffList implements DaysOffInterface
      */
     public function findDatesWithin(\WCS\CalendrierBundle\Service\Periode\Periode $periode)
     {
-        $dayOffArray = $this->repoFeries->findListDateTimes(
-            $periode->getFin()->format('Y')
+        $daysOffArray = $this->repoFeries->findListDatesWithin(
+            $periode->getDebut(),
+            $periode->getFin()
         );
-        
-        if (is_null($dayOffArray)) {
-            return array();
-        }
 
-        return $dayOffArray;
+        return $daysOffArray;
     }
 
     /**
@@ -38,7 +35,12 @@ class AdditionalDayOffList implements DaysOffInterface
      */
     public function isOff(\DateTimeInterface $date)
     {
-        $daysOffArray = $this->repoFeries->findListDateTimes($date->format('Y'));
+        $daysOffArray = $this->repoFeries->findListDatesWithin(
+            $date,
+            $date
+        );
+        //return $this->repoFeries->isOff($date);
+        //$daysOffArray = $this->repoFeries->findListDateTimes($date->format('Y'));
         return (in_array($date, $daysOffArray));
     }
 

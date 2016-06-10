@@ -72,9 +72,9 @@ class School
     {
         $this->divisions = new \Doctrine\Common\Collections\ArrayCollection();
         $this->active_cantine = true;
-        $this->active_tap = true;
-        $this->active_garderie = true;
-        $this->active_voyage = true;
+        $this->active_tap = false;
+        $this->active_garderie = false;
+        $this->active_voyage = false;
     }
 
     /**

@@ -98,7 +98,6 @@ services:
                  - ~
                  - WCS\CantineBundle\Entity\Voyage
                  - ~
-                 - '@doctrine.orm.entity_manager'
 
 #      sonata.admin.inscription:
 #              class: WCS\CantineBundle\Admin\InscriptionAdmin
