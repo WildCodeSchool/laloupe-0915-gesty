@@ -5,40 +5,37 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Validator\ErrorElement;
+use WCS\CantineBundle\Entity\DivisionRepository;
 
 
 class VoyageAdmin extends Admin
 {
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
-    protected $em;
-
-    public function __construct($code, $class, $baseControllerName, \Doctrine\ORM\EntityManagerInterface $entityManager)
-    {
-        $this->em = $entityManager;
-        parent::__construct($code, $class, $baseControllerName);
-    }
-
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $query = $this->em->getRepository('WCSCantineBundle:Voyage')->findByDivisions();
-
         $formMapper
-            ->add('libelle', null)
+            ->add('libelle', null, array('required'=>false))
 
-            ->add('divisions', 'sonata_type_model', array(
-                'query' => $query,
-                'multiple' => true,
-                'mapped' => true,
-                'btn_add' => false
-            ))
+            ->add('divisions',
+                'entity',
+                array(
+                    'class'   => 'WCSCantineBundle:Division',
+
+                    'query_builder' => function(DivisionRepository $er) {
+                        return $er->getQueryVoyagesAutorises();
+                    },
+                    'multiple' => true,
+                    'required'  => false,
+                    'mapped' => true
+                )
+            )
 
             ->add('date_debut','sonata_type_datetime_picker',(array(
                 'label'=>'Date',
                 'format' => 'dd/MM/y HH:mm'
             )))
+
             ->add('date_fin','sonata_type_datetime_picker',(array(
                 'label'=>'Date',
                 'format' => 'dd/MM/y HH:mm'
