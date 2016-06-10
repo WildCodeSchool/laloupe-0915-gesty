@@ -17,12 +17,6 @@ class InscriptionAdmin extends Admin
             ->add('user',null,array('label'=>'Email des parents'))
             ->add('nom','text')
             ->add('prenom', 'text')
-            ->add('dateDeNaissance', 'date', array(
-                'format' => 'dd-MM-yyyy',
-                'years' =>  range(\date("Y") - 11, \date("Y") - 2),))
-            ->add('division', 'entity', array(
-                'class' => 'WCSCantineBundle:Division',
-                'required'=>true ))
         ;
     }
 
@@ -32,10 +26,6 @@ class InscriptionAdmin extends Admin
         $datagridMapper
             ->add('nom')
             ->add('prenom')
-            ->add('dateDeNaissance')
-            ->add('division',null, array('label'=>'Classe'))
-
-
         ;
     }
 
@@ -45,13 +35,6 @@ class InscriptionAdmin extends Admin
             ->add('user',null,array('label'=>'Email des parents'))
             ->add('nom','text')
             ->add('prenom', 'text')
-            ->add('dateDeNaissance', 'date', array(
-                'format' => 'd-M-Y',
-                'years' =>  range(\date("Y") - 11, \date("Y") - 2),))
-            ->add('division', 'entity', array(
-                'class' => 'WCSCantineBundle:Division',
-                'required'=>true,
-                'label' => 'classe'))
         ;
 
     }
@@ -63,9 +46,6 @@ class InscriptionAdmin extends Admin
             ->addIdentifier('id')
             ->add('nom', 'text')
             ->add('prenom', 'text')
-            ->add('dateDeNaissance', 'date', array('format' => 'd/m/Y',))
-            ->add('division','choice', array('label'=>'Classe'))
-            ->add('user',null, array('label'=>'Email des parents'))
             ->add('_action', 'actions', array('actions' => array(
                 'edit' => array(),
                 'delete' => array(),
