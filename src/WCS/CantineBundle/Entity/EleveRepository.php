@@ -213,6 +213,40 @@ class EleveRepository extends EntityRepository
     }
 
 
+    public function getQueryElevesAutorisesEnTAP()
+    {
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+
+        $qb->select('e')
+            ->from('WCSCantineBundle:eleve', 'e')
+            ->join('e.division', 'd')
+            ->join('d.school' , 's')
+            ->where("s.active_tap = TRUE")
+            ->orderBy('e.nom');
+
+
+
+        return $qb;
+    }
+
+    public function getQueryElevesAutorisesEnGarderie()
+    {
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+
+        $qb->select('e')
+            ->from('WCSCantineBundle:eleve', 'e')
+            ->join('e.division', 'd')
+            ->join('d.school' , 's')
+            ->where("s.active_garderie = TRUE")
+            ->orderBy('e.nom');
+
+
+
+        return $qb;
+    }
+
 }
 
 

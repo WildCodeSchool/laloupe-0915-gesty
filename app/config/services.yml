@@ -52,7 +52,7 @@ services:
       sonata.admin.tap:
             class: WCS\CantineBundle\Admin\TapAdmin
             tags:
-                - { name: sonata.admin, manager_type: orm, group: "wcs.group.tapgarderie", label: "TAP" }
+                - { name: sonata.admin, manager_type: orm, group: "wcs.group.tapgarderie", label: "Inscriptions TAP" }
             arguments:
                  - ~
                  - WCS\CantineBundle\Entity\Tap
@@ -61,7 +61,7 @@ services:
       sonata.admin.garderie:
             class: WCS\CantineBundle\Admin\GarderieAdmin
             tags:
-                - { name: sonata.admin, manager_type: orm, group: "wcs.group.tapgarderie", label: "Garderie" }
+                - { name: sonata.admin, manager_type: orm, group: "wcs.group.tapgarderie", label: "Inscriptions Garderie" }
             arguments:
                 - ~
                 - WCS\CantineBundle\Entity\Garderie
@@ -100,11 +100,11 @@ services:
                  - ~
                  - '@doctrine.orm.entity_manager'
 
-      sonata.admin.inscription:
-              class: WCS\CantineBundle\Admin\InscriptionAdmin
-              tags:
-                  - { name: sonata.admin, manager_type: orm, group: "wcs.group.voyage", label: "Incription" }
-              arguments:
-                  - ~
-                  - WCS\CantineBundle\Entity\Eleve
-                  - ~
+#      sonata.admin.inscription:
+#              class: WCS\CantineBundle\Admin\InscriptionAdmin
+#              tags:
+#                  - { name: sonata.admin, manager_type: orm, group: "wcs.group.voyage", label: "Incription" }
+#              arguments:
+#                  - ~
+#                  - WCS\CantineBundle\Entity\Eleve
+#                  - ~

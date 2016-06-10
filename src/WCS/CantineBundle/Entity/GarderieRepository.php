@@ -31,34 +31,23 @@ class GarderieRepository extends ActivityRepositoryAbstract
     public function getDayList($options)
     {
         $school = $options['school'];
-
         $day    = $options['date_day']->format('Y-m-d');
 
+        $queryBuilder = $this->createQueryBuilder('g')
+            ->join('g.eleve', 'e')
+            ->join('e.division', 'd')
+            ->where('g.date LIKE :day')
+            ->andWhere('d.school = :school')
+            ->setParameter(':day', "%".$day."%")
+            ->setParameter(':school', $school);
+
         if ($options['is_morning']) {
-            $enable_morning = true;
-            $enable_evening = false;
+            $queryBuilder->andWhere('g.enable_morning = TRUE');
         }
         else {
-            $enable_morning = false;
-            $enable_evening = true;
+            $queryBuilder->andWhere('g.enable_evening = TRUE');
         }
 
-        // Request pupils to the database from a certain date
-        return $this->getEntityManager()
-            ->createQuery(
-                'SELECT g FROM WCSCantineBundle:Garderie g 
-                 JOIN g.eleve e 
-                 JOIN e.division d 
-                 WHERE g.date LIKE :day 
-                    AND d.school = :school
-                    AND g.enable_morning = :enable_morning
-                    AND g.enable_evening = :enable_evening
-                 ORDER BY e.nom'
-            )
-            ->setParameter(':day', "%".$day."%")
-            ->setParameter(':enable_morning', $enable_morning)
-            ->setParameter(':enable_evening', $enable_evening)
-            ->setParameter(':school', $school)
-            ->getResult();
+        return $queryBuilder->getQuery()->getResult();
     }
 }

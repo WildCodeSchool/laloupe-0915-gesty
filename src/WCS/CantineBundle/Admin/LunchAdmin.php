@@ -6,6 +6,7 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use WCS\CantineBundle\Entity\ActivityBase;
 
 class LunchAdmin extends Admin
 {
@@ -22,9 +23,9 @@ class LunchAdmin extends Admin
             ->add('status', 'choice', array(
                 'choices' => array(
                     null => 'Choisissez le statut',
-                    '0' => 'Inscrit mais absent',
-                    '1' => 'Non-Inscrit',
-                    '2' => 'Inscrit et présent',
+                    ActivityBase::STATUS_REGISTERED_BUT_ABSENT  => 'Inscrit mais absent',
+                    ActivityBase::STATUS_NOT_REGISTERED         => 'Non-Inscrit',
+                    ActivityBase::STATUS_REGISTERED_AND_PRESENT => 'Inscrit et présent',
                 ),
                 'label' => false,
                 'required' => false
@@ -58,9 +59,9 @@ class LunchAdmin extends Admin
             ->add('status', 'choice', array(
                 'choices' => array(
                     null => 'Choisissez le statut',
-                    '0' => 'Inscrit mais absent',
-                    '1' => 'Non-Inscrit',
-                    '2' => 'Inscrit et présent',
+                    ActivityBase::STATUS_REGISTERED_BUT_ABSENT  => 'Inscrit mais absent',
+                    ActivityBase::STATUS_NOT_REGISTERED         => 'Non-Inscrit',
+                    ActivityBase::STATUS_REGISTERED_AND_PRESENT => 'Inscrit et présent',
                 ),
                 'label' => false
             ))
