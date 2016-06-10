@@ -105,7 +105,7 @@ class DaylistController extends EmployeeController
     public function __construct()
     {
         $this->listActivityMappers = [
-            'cantine'           => new Mapper\CanteenMapper(),
+            'cantine'           => new Mapper\LunchMapper(),
             'tap'               => new Mapper\TapMapper(),
             'garderie_matin'    => new Mapper\GarderieMorningMapper(),
             'garderie_soir'     => new Mapper\GarderieEveningMapper()

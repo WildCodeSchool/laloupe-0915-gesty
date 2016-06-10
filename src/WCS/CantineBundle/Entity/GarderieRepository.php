@@ -33,11 +33,14 @@ class GarderieRepository extends ActivityRepositoryAbstract
         $school = $options['school'];
 
         $day    = $options['date_day']->format('Y-m-d');
+
         if ($options['is_morning']) {
-            $day = $day . " 08:00";
+            $enable_morning = true;
+            $enable_evening = false;
         }
         else {
-            $day = $day . " 17:00";
+            $enable_morning = false;
+            $enable_evening = true;
         }
 
         // Request pupils to the database from a certain date
@@ -46,11 +49,15 @@ class GarderieRepository extends ActivityRepositoryAbstract
                 'SELECT g FROM WCSCantineBundle:Garderie g 
                  JOIN g.eleve e 
                  JOIN e.division d 
-                 WHERE g.date_heure LIKE :day 
+                 WHERE g.date LIKE :day 
                     AND d.school = :school
+                    AND g.enable_morning = :enable_morning
+                    AND g.enable_evening = :enable_evening
                  ORDER BY e.nom'
             )
             ->setParameter(':day', "%".$day."%")
+            ->setParameter(':enable_morning', $enable_morning)
+            ->setParameter(':enable_evening', $enable_evening)
             ->setParameter(':school', $school)
             ->getResult();
     }

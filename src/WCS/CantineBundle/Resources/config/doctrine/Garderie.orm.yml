@@ -9,13 +9,23 @@ WCS\CantineBundle\Entity\Garderie:
             generator:
                 strategy: AUTO
     fields:
-        date_heure:
-            type: datetime
+        date:
+            type: date
             nullable: true
         status:
             type: integer
             length: 1
             nullable: true
+        enable_morning:
+            type: boolean
+            nullable: false
+            options:
+                default: false
+        enable_evening:
+            type: boolean
+            nullable: false
+            options:
+                default: false
 
     lifecycleCallbacks: {  }
 

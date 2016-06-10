@@ -5,119 +5,61 @@ namespace WCS\CantineBundle\Entity;
 /**
  * Garderie
  */
-class Garderie
+class Garderie extends ActivityBase
 {
-    const HEURE_MATIN   = ' 08:00:00';
-    const HEURE_SOIR    = ' 17:00:00';
+    /**
+     * @var bool
+     */
+    private $enable_morning;
 
     /**
-     * @var integer
+     * @var bool
      */
-    private $id;
+    private $enable_evening;
 
     /**
-     * @var integer
+     * Garderie constructor.
      */
-    private $status;
-
-    /**
-     * @var \WCS\CantineBundle\Entity\Eleve
-     */
-    private $eleve;
-
-    /**
-     * @var \DateTime
-     */
-    private $date_heure;
-
     public function __construct()
     {
-        $this->status = '0';
+        parent::__construct();
+        $this->enable_evening = false;
+        $this->enable_morning = false;
     }
 
-
     /**
-     * Get id
-     *
-     * @return integer
+     * @return boolean
      */
-    public function getId()
+    public function isEnableEvening()
     {
-        return $this->id;
+        return $this->enable_evening;
     }
 
-
+    /**
+     * @return boolean
+     */
+    public function isEnableMorning()
+    {
+        return $this->enable_morning;
+    }
 
     /**
-     * Set status
-     *
-     * @param integer $status
-     *
-     * @return Garderie
+     * @param boolean $enable_evening
+     * @return $this
      */
-    public function setStatus($status)
+    public function setEnableEvening($enable_evening)
     {
-        $this->status = $status;
-
+        $this->enable_evening = $enable_evening;
         return $this;
     }
 
     /**
-     * Get status
-     *
-     * @return integer
+     * @param boolean $enable_morning
+     * @return $this
      */
-    public function getStatus()
+    public function setEnableMorning($enable_morning)
     {
-        return $this->status;
-    }
-
-    /**
-     * Set eleve
-     *
-     * @param \WCS\CantineBundle\Entity\Eleve $eleve
-     *
-     * @return Garderie
-     */
-    public function setEleve(\WCS\CantineBundle\Entity\Eleve $eleve = null)
-    {
-        $this->eleve = $eleve;
-
+        $this->enable_morning = $enable_morning;
         return $this;
-    }
-
-    /**
-     * Get eleve
-     *
-     * @return \WCS\CantineBundle\Entity\Eleve
-     */
-    public function getEleve()
-    {
-        return $this->eleve;
-    }
-
-
-    /**
-     * Set dateHeure
-     *
-     * @param \DateTimeInterface $dateHeure
-     *
-     * @return Garderie
-     */
-    public function setDateHeure(\DateTimeInterface $dateHeure)
-    {
-        $this->date_heure = new \DateTime($dateHeure->format('Y-m-d H:i:s'));
-
-        return $this;
-    }
-
-    /**
-     * Get dateHeure
-     *
-     * @return \DateTime
-     */
-    public function getDateHeure()
-    {
-        return $this->date_heure;
     }
 }

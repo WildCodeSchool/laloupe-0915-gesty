@@ -3,7 +3,7 @@ namespace WCS\EmployeeBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class CanteenController extends EmployeeController
+class LunchController extends EmployeeController
 {
     public function showOrdersAction(Request $request)
     {
