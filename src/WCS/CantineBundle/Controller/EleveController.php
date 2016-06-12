@@ -61,7 +61,6 @@ class EleveController extends Controller
             'method' => 'POST',
         ));
 
-
         return $form;
     }
 
@@ -69,21 +68,8 @@ class EleveController extends Controller
      * Displays a form to edit an existing Eleve entity.
      *
      */
-    public function editAction($id)
+    public function editAction(Request $request, Eleve $eleve)
     {
-        $user = $this->getUser();
-        if (!$user) {
-            throw $this->createAccessDeniedException();
-        }
-
-        // Récupère les informations de l'élève
-        $em = $this->getDoctrine()->getManager();
-
-        $eleve = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
-        if (!$eleve || !$eleve->isCorrectParentConnected($user)) {
-            return $this->redirectToRoute('wcs_cantine_dashboard');
-        }
-
         $editForm = $this->createEditForm($eleve);
 
         return $this->render('WCSCantineBundle:Eleve:edit.html.twig', array(
@@ -114,21 +100,13 @@ class EleveController extends Controller
      *
      */
 
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, Eleve $eleve)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $user = $this->getUser();
-        $eleve = $em->getRepository('WCSCantineBundle:Eleve')->find($id);
-
-        if (!$user || !$eleve || !$eleve->isCorrectParentConnected($user)) {
-            return $this->redirectToRoute('wcs_cantine_dashboard');
-        }
-
         $editForm = $this->createEditForm($eleve);
 
         $editForm->handleRequest($request);
         if ($editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
             $em->persist($eleve);
             $em->flush();
 
@@ -146,7 +124,7 @@ class EleveController extends Controller
     /**
      * Affiche le dashboard
      *
-     * @param Request       contient les paramètres passés en URL
+     * @param Request $request  contient les paramètres passés en URL
      *
      * @return Response     renvoit une reponse HTTP après rendu du template dashboard
      */
@@ -174,6 +152,9 @@ class EleveController extends Controller
         );
 
         // récupère les taps et les garderies de chaque enfants
+        /**
+         * @var Eleve $child
+         */
         $children_activities = array();
         foreach ($children as $child) {
             $children_activities[$child->getId()]["taps"]         = $daysOfWeek->getTapSelectionToArray($child->getTaps());
@@ -195,7 +176,7 @@ class EleveController extends Controller
      * @param $nbChildrenVoyageInscrits
      * @return array
      */
-    private function getFiles($user, $nbChildrenVoyageInscrits)
+    private function getFiles(User $user, $nbChildrenVoyageInscrits)
     {
         $filesArray = array();
         $filesArray[User::TYPE_PRESTATIONS] = array(

@@ -8,3 +8,9 @@ services:
     wcs.daysoff:
         class: WCS\CantineBundle\Service\AdditionalDayOffList
         arguments: ['@doctrine.orm.entity_manager']
+
+    wcs.eleve.paramconverter:
+        class: WCS\CantineBundle\Request\ParamConverter\EleveParamConverter
+        tags:
+            - { name: request.param_converter, priority: 1, converter: wcs.eleve.paramconverter }
+        arguments: ['@service_container']

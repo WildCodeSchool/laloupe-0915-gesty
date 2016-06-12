@@ -16,26 +16,15 @@ class CantineController extends Controller
 {
     /**
      * @param Request $request
-     * @param $id_eleve
+     * @param Eleve $eleve
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      * @throws \Exception
      */
-    public function inscrireAction(Request $request, $id_eleve)
+    public function inscrireAction(Request $request, Eleve $eleve)
     {
         // récupère les instances de Doctrine et de Calendrier pour l'année en cours
         $em             = $this->getDoctrine()->getManager();
         $calendrier     = $this->get("wcs.calendrierscolaire")->getCalendrierRentreeScolaire();
-
-        // récupère l'utilisateur connecté
-        $user = $this->getUser();
-
-        // récupère la fiche de l'élève sélectionné
-        $eleve = $em->getRepository("WCSCantineBundle:Eleve")->find($id_eleve);
-
-        if (!$user || !$eleve || !$eleve->isCorrectParentConnected($user)) {
-            return $this->redirectToRoute('wcs_cantine_dashboard');
-        }
-
 
         // récupère la liste des réservations effectuée
         // cette info est utile uniquement pour la gestion du formulaire dans Twig
@@ -44,6 +33,9 @@ class CantineController extends Controller
         // afin de ne pas être effacées de la base. Par ailleurs, on ne peut tout afficher
         // au risque du coup d'enregistrer des réservations qui n'ont pas été sélectionnées
         $listLunchesSelected = array();
+        /**
+         * @var \WCS\CantineBundle\Entity\Lunch $lunch
+         */
         foreach($eleve->getLunches() as $lunch) {
             $listLunchesSelected[] = $lunch->getDate()->format("Y-m-d");
         }
@@ -60,7 +52,7 @@ class CantineController extends Controller
 
         // créé le formulaire associé à l'élève
         $form = $this->createForm(new CantineType( $em ), $eleve, array(
-            'action' => $this->generateUrl('cantine_inscription', array("id_eleve"=>$id_eleve)),
+            'action' => $this->generateUrl('cantine_inscription', array("id"=>$eleve->getId())),
             'method' => 'POST'
         ));
 

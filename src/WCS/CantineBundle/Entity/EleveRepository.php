@@ -74,6 +74,26 @@ class EleveRepository extends EntityRepository
     }
 
 
+    /**
+     * @param $id
+     * @param $parent_user
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findByIdAndParent($id, $parent_user)
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.id = :id')
+            ->andWhere('e.user = :parent_user')
+            ->setParameter(':id', $id)
+            ->setParameter(':parent_user', $parent_user )
+            ->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param $children
+     * @return array
+     */
     public function findByDate($children)
     {
         // Request pupils to the database from a certain date

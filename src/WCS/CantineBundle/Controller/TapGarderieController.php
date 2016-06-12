@@ -11,23 +11,8 @@ use WCS\CalendrierBundle\Service\Periode\Periode;
 
 class TapGarderieController extends Controller
 {
-    public function inscrireAction(Request $request, $id_eleve)
+    public function inscrireAction(Request $request, Eleve $eleve)
     {
-        // récupère l'utilisateur actuellement connecté
-        $user = $this->getUser();
-        if (!$user) {
-            throw $this->createAccessDeniedException();
-        }
-
-        // récupère une instance de Doctrine
-        $em = $this->getDoctrine()->getManager();
-
-        // récupère un  enfants
-        $eleve = $em->getRepository("WCSCantineBundle:Eleve")->find($id_eleve);
-        if (!$eleve || !$eleve->isCorrectParentConnected($user)) {
-            return $this->redirectToRoute('wcs_cantine_dashboard');
-        }
-
         // récupère la période scolaires en classe à la date du jour
         $periodesScolaires = $this->get("wcs.calendrierscolaire")->getPeriodesAnneeRentreeScolaire();
         $periode_tap = $periodesScolaires->getCurrentOrNextPeriodeEnClasse();
@@ -44,13 +29,14 @@ class TapGarderieController extends Controller
         );
 
 
-
         // créé le formulaire associé à l'élève
+        $em = $this->getDoctrine()->getManager();
+
         $form = $this->createForm(
-                    new TapType( $em, $daysOfWeek ),
-                    $eleve, array(
-            'action' => $this->generateUrl('tapgarderie_inscription', array("id_eleve"=>$id_eleve)),
-            'method' => 'POST'
+            new TapType( $em, $daysOfWeek ),
+            $eleve, array(
+                'action' => $this->generateUrl('tapgarderie_inscription', array("id"=>$eleve->getId())),
+                'method' => 'POST'
         ));
 
         // traite les infos saisies dans le formulaire

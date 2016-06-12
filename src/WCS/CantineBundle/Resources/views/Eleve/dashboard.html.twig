@@ -220,7 +220,7 @@
                                             {% endfor %}
                                         </div>
 
-                                        <a href="{{ path('cantine_inscription', { 'id_eleve': child.id }) }}" class="btn btn-primary">Inscription Cantine</a>
+                                        <a href="{{ path('cantine_inscription', { 'id': child.id }) }}" class="btn btn-primary">Inscription Cantine</a>
                                         <br />
                                         <br />
                                         <div class="panel panel-default">
@@ -289,7 +289,7 @@
                                         </div>
                                         {% endif %}
 
-                                        <a href="{{ path('tapgarderie_inscription', {'id_eleve':child.id}) }}" class="btn btn-primary">Inscription TAP/Garderie</a>
+                                        <a href="{{ path('tapgarderie_inscription', {'id':child.id}) }}" class="btn btn-primary">Inscription TAP/Garderie</a>
                                     </div>
                                 {% else %}
                                     <div>
@@ -328,7 +328,7 @@
                                             Votre enfant n'est inscrit à aucun voyage.
                                         {% endif %}
 
-                                        <a href="{{ path('voyage_inscription', {'id_eleve':child.id}) }}" class="btn btn-primary">Inscription Voyage Scolaire</a>
+                                        <a href="{{ path('voyage_inscription', {'id':child.id}) }}" class="btn btn-primary">Inscription Voyage Scolaire</a>
                                     </div>
                                 {% else %}
                                     <div>
