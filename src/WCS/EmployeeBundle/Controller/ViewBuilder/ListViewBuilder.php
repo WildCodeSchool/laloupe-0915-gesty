@@ -1,24 +1,27 @@
 <?php
-namespace WCS\EmployeeBundle\Controller;
+namespace WCS\EmployeeBundle\Controller\ViewBuilder;
 
-
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use WCS\CantineBundle\Entity\School;
+use WCS\EmployeeBundle\Controller\Mapper\ActivityMapperInterface;
 use WCS\EmployeeBundle\Form\Type\ActivityEleveType;
 
 
-class RegisterController extends EmployeeController
+class ListViewBuilder extends ViewBuilderAbstract
 {
     private $mapper;
 
     /**
      * RegisterController constructor.
-     * @param Mapper\ActivityMapperInterface $mapper
+     * @param ActivityMapperInterface $mapper
+     * @param ContainerInterface $container
      */
-    public function __construct(Mapper\ActivityMapperInterface $mapper)
+    public function __construct(ActivityMapperInterface $mapper, $container)
     {
         $this->mapper = $mapper;
+        parent::__construct($container);
     }
 
     /**
@@ -27,7 +30,7 @@ class RegisterController extends EmployeeController
      * @param $activity
      * @return array
      */
-    public function showAction(Request $request, School $school, $activity)
+    public function buildView(Request $request, School $school, $activity)
     {
         $options = array_merge(
             $this->mapper->getDayListAdditionalOptions(),
@@ -79,7 +82,7 @@ class RegisterController extends EmployeeController
                 $entity, $this->getDateDay()
             );
 
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrineManager();
             $em->persist($entity);
             $em->flush();
             return true;

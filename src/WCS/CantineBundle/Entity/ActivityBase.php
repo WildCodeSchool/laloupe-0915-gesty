@@ -32,9 +32,22 @@ class ActivityBase
     protected $eleve;
 
 
+    /**
+     * ActivityBase constructor.
+     */
     public function __construct()
     {
         $this->status = self::STATUS_REGISTERED_BUT_ABSENT;
+    }
+
+    /**
+     * Utile pour sonata
+     * @return string renvoit le __toString de l'eleve
+     */
+    public function __toString()
+    {
+        return (string) $this->getEleve(). " inscrit le ".$this->getDate()->format('d/m/Y');
+
     }
 
     /**

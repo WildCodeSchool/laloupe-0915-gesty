@@ -1,6 +1,7 @@
 <?php
 
-namespace Application\Sonata\UserBundle\Controller;
+namespace WCS\CantineBundle\Controller;
+//namespace Application\Sonata\UserBundle\Controller;
 
 use Application\Sonata\UserBundle\Form\Type\ProfileType;
 use Sonata\UserBundle\Controller\ProfileFOSUser1Controller as BaseController;
@@ -9,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ProfileController extends BaseController
 {
-    public function setProfileAction(Request $request)
+    public function editAction(Request $request)
     {
         $entity = $this->getUser();
         $form    = $this->createForm(new ProfileType(), $entity);
@@ -29,7 +30,10 @@ class ProfileController extends BaseController
 
         // récupère le nombre d'enfants dont la classe propose un voyage scolaire à effectuer durant l'année scolaire
 
-        $nbChildrenVoyageInscrits = $em->getRepository('WCSCantineBundle:Eleve')->findNbEnfantInscritsVoyage($entity);
+        $nbChildrenVoyageInscrits = $em->getRepository('WCSCantineBundle:Eleve')->findNbEnfantInscritsVoyage(
+            $entity,
+            $this->get('wcs.datenow')->getDate()
+        );
 
         // si un formulaire contient plus d'un bouton submit mettre le elseif
 
@@ -38,7 +42,8 @@ class ProfileController extends BaseController
             ->add('success1', 'Si 1ère inscription N\'oubliez pas d\'inscrire votre(vos) enfant(s) à l\'étape suivante svp!')
         ;
 
-        return $this->render('SonataUserBundle:Profile:show.html.twig',array(
+        return $this->render('WCSCantineBundle:Eleve:edit_parent.html.twig', //'SonataUserBundle:Profile:show.html.twig',
+            array(
             'form' => $form->createView(),
             'entity' => $entity,
             'nbChildrenVoyageInscrits' => $nbChildrenVoyageInscrits

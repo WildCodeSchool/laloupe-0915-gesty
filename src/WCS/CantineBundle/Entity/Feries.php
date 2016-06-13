@@ -84,6 +84,15 @@ class Feries
      */
     private $noel;
 
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return "Jour fériés pour l'année ".$this->annee;
+    }
+
     /**
      * @return \DateTime
      */
@@ -91,6 +100,7 @@ class Feries
     {
         return $this->armistice;
     }
+
 
     /**
      * @return \DateTime

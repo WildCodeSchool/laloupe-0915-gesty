@@ -5,7 +5,6 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Validator\ErrorElement;
 use WCS\CantineBundle\Entity\DivisionRepository;
 
 
@@ -31,6 +30,11 @@ class VoyageAdmin extends Admin
                 )
             )
 
+            ->add('estAnnule', null, array('label'=>"Voyage/sortie annulée ?"))
+
+            ->add('estSortieScolaire', null, array('label'=>"Cocher s'il s'agit uniquement d'une sortie scolaire ?"))
+
+
             ->add('date_debut','sonata_type_datetime_picker',(array(
                 'label'=>'Date',
                 'format' => 'dd/MM/y HH:mm'
@@ -49,7 +53,6 @@ class VoyageAdmin extends Admin
     {
         $datagridMapper
             ->add('libelle', null)
-            //->add('eleves', null)
             ->add('divisions')
             ->add('date_debut', 'doctrine_orm_datetime_range', array(
                 'widget' => 'single_text',
@@ -68,11 +71,10 @@ class VoyageAdmin extends Admin
     {
         $listMapper
             ->add('libelle', null)
-            ->addIdentifier('id')
-            //->add('eleves', null)
             ->add('divisions')
 
 
+            ->add('estSortieScolaire', null, array('label' => 'Sortie scolaire ?'))
 
             ->add('date_debut', 'date', array(
                 'format' => 'd/m/Y H:i',
@@ -82,7 +84,7 @@ class VoyageAdmin extends Admin
                 'format' => 'd/m/Y H:i',
                 'label' => false
             ))
-            ->add('estAnnule')
+            ->add('estAnnule', null, array('label' => 'Annulé ?'))
             ->add('_action', 'actions', array('label' => 'Action', 'actions' => array(
                 'edit' => array(),
                 'delete' => array()

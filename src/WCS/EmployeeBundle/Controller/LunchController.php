@@ -3,11 +3,11 @@ namespace WCS\EmployeeBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class LunchController extends EmployeeController
+class LunchController extends ActivityControllerBase
 {
     public function showOrdersAction(Request $request)
     {
-        $repo = $this->getRepository('WCSCantineBundle:Lunch');
+        $repo = $this->getDoctrine()->getManager()->getRepository('WCSCantineBundle:Lunch');
 
         $options = array(
             'date_day'          => $this->getDateDay(),

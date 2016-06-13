@@ -18,7 +18,7 @@ class LunchAdmin extends Admin
             ->add('eleve', null, array(), array('admin_code'=>'sonata.admin.eleve'))
             ->add('date','sonata_type_date_picker',(array(
                 'label'=>'Date',
-                'format' => 'dd-MM-y'
+                'format' => 'dd/MM/y'
             )))
             ->add('status', 'choice', array(
                 'choices' => array(
@@ -50,7 +50,6 @@ class LunchAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('id')
             ->add('eleve', null, array('admin_code'=>'sonata.admin.eleve'))
             ->add('date', 'date', array(
                 'format' => 'd/m/Y',

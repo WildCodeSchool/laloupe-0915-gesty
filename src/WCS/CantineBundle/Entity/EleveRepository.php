@@ -106,28 +106,6 @@ class EleveRepository extends EntityRepository
             ->getResult();
     }
 
-    public function getNumberMonthMeals($eleve_id)
-    {
-        $dateNow = new \Datetime();
-        $dateNowFormat = date_format($dateNow, ('Y-m'));
-
-        $dates = $this->getEntityManager()
-            ->createQuery(
-                'SELECT e FROM WCSCantineBundle:Lunch e WHERE e. LIKE :eleve'
-            )
-            ->setParameter(':eleve', "%".$eleve_id."%")
-            ->getResult();
-
-        $count = '';
-        foreach ($dates as $date){
-            if (preg_match('#^'.$dateNowFormat.'#', $date) === 1) {
-                $count = count($date);
-            }
-        }
-        return $count;
-
-    }
-
     public function count()
     {
         return $this->createQueryBuilder('a')
@@ -164,21 +142,19 @@ class EleveRepository extends EntityRepository
     /**
      * @param $userParent \Application\Sonata\UserBundle\Entity\User
      */
-    public function findNbEnfantInscritsVoyage($userParent)
+    public function findNbEnfantInscritsVoyage($userParent, \DateTimeInterface $date_day)
     {
         $em = $this->getEntityManager();
-
-        $now = new \DateTime();
 
         $query = $em->createQuery(
             "SELECT COUNT(el)
              FROM WCSCantineBundle:Eleve el
              JOIN el.voyages voys
              WHERE el.user=:user
-                AND voys.date_debut >= :now"
+                AND voys.date_debut >= :date_day"
         )
             ->setParameter("user", $userParent)
-            ->setParameter("now", $now->format('Y-m-d H:i:s'));
+            ->setParameter("date_day", $date_day->format('Y-m-d H:i:s'));
 
         $results = $query->setMaxResults(1)->getOneOrNullResult();
 

@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use WCS\CantineBundle\Entity\Eleve;
-use WCS\CantineBundle\Form\Model\EleveFormEntity;
+use WCS\CantineBundle\Form\FormEntity\EleveFormEntity;
 
 
 class EleveHandler

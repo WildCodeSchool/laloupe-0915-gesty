@@ -10,17 +10,29 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class EleveAdmin extends Admin
 {
+    /**
+     * @var \WCS\CalendrierBundle\Service\DateNow
+     */
+    private $date_now_service;
+
+    public function __construct($code, $class, $baseControllerName, \WCS\CalendrierBundle\Service\DateNow $date_now_service)
+    {
+        $this->date_now_service = $date_now_service;
+        parent::__construct($code, $class, $baseControllerName);
+    }
 
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $year = $this->date_now_service->getDate()->format('Y');
+
         $formMapper
             ->add('user',null,array('label'=>'Email des parents'))
             ->add('nom','text')
             ->add('prenom', 'text')
             ->add('dateDeNaissance', 'date', array(
                 'format' => 'dd-MM-yyyy',
-                'years' =>  range(\date("Y") - 11, \date("Y") - 2),))
+                'years' =>  range($year - 11, $year - 2),))
             ->add('regimeSansPorc', null, array('required' => false))
             ->add('allergie',null ,array('required' => false))
             ->add('division', 'entity', array(
@@ -44,13 +56,15 @@ class EleveAdmin extends Admin
 
     protected function configureShowFields(ShowMapper $datagridMapper)
     {
+        $year = $this->date_now_service->getDate()->format('Y');
+
         $datagridMapper
             ->add('user',null,array('label'=>'Email des parents'))
             ->add('nom','text')
             ->add('prenom', 'text')
             ->add('dateDeNaissance', 'date', array(
                 'format' => 'd-M-Y',
-                'years' =>  range(\date("Y") - 11, \date("Y") - 2),))
+                'years' =>  range($year - 11, $year - 2),))
             ->add('regimeSansPorc', null, array('required' => false))
             ->add('allergie',null ,array('required' => false))
             ->add('division', 'entity', array(
@@ -65,7 +79,6 @@ class EleveAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('id')
             ->add('nom', 'text')
             ->add('prenom', 'text')
             ->add('dateDeNaissance', 'date', array('format' => 'd/m/Y',))

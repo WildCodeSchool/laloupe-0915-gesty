@@ -5,8 +5,11 @@ namespace WCS\EmployeeBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use WCS\CantineBundle\Entity\School;
 use WCS\EmployeeBundle\Controller\Mapper\ActivityMapperInterface;
+use WCS\EmployeeBundle\Controller\ViewBuilder\ListViewBuilder;
+use WCS\EmployeeBundle\Controller\ViewBuilder\ValidateViewBuilder;
 
-class DaylistController extends EmployeeController
+
+class DaylistController extends ActivityControllerBase
 {
     /**
      * @param Request $request
@@ -22,29 +25,34 @@ class DaylistController extends EmployeeController
         }
 
         // get the mapper
+
         $mapper = $this->getActivityMapper($activity);
         if (is_null($mapper)) {
             return $this->redirectToRoute('wcs_employee_home');
         }
 
-        // the register controller
-        $ctrl_register = new RegisterController($mapper);
-        $ctrl_register->setContainer($this->container);
-        $register_infos = $ctrl_register->showAction($request, $school, $activity);
-        if (!empty($register_infos['redirect_to'])) {
-            return $this->redirect( $register_infos['redirect_to'] );
+        // set up the list view builder
+
+        $viewBuilder = new ListViewBuilder($mapper, $this->container);
+        $list_infos = $viewBuilder->buildView($request, $school, $activity);
+
+        if (!empty($list_infos['redirect_to'])) {
+            return $this->redirect( $list_infos['redirect_to'] );
         }
 
-        // the validation controller
-        $ctrl_validate = new ValidateController($mapper);
-        $ctrl_validate->setContainer($this->container);
-        $validate_infos = $ctrl_validate->showAction($request, $school, $activity);
+        // set up the validation view builder
+
+        $viewBuilder = new ValidateViewBuilder($mapper, $this->container);
+        $validate_infos = $viewBuilder->buildView($request, $school, $activity);
+
         if (!empty($validate_infos['redirect_to'])) {
             return $this->redirect( $validate_infos['redirect_to'] );
         }
 
         // return the response with parameters
-        $data = array_merge($register_infos, $validate_infos);
+
+        $data = array_merge($list_infos, $validate_infos);
+
         $data['title']      = $mapper->getTodayListTitle();
         $data['date_day']   = $this->getDateDay();
 
@@ -73,7 +81,7 @@ class DaylistController extends EmployeeController
         }
 
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository($mapper->getEntityClassName())->find($id_activity);
         $em->remove($entity);
         $em->flush();
@@ -83,7 +91,6 @@ class DaylistController extends EmployeeController
             array('activity' => $activity, 'id' => $school->getId())
         );
     }
-
 
 
     /**

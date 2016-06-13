@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 {% block body %}
     {% if children == null %}
-        <div class="modal fade" tabindex="-1" data-backdrop="show" role="dialog"id="myModal">
+        <div class="modal fade" tabindex="-1" data-backdrop="show" role="dialog" id="myModal">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -126,7 +126,8 @@
                     {% endfor %}
                 </div>
             {% endif %}
-            <a href="{{ path('sonata_user_profile_show') }}"><input type="button" value="Modifier mes informations"class="btn btn-primary"></a>
+
+            <a href="{{ path('wcs_cantine_profil') }}"><input type="button" value="Modifier mes informations"class="btn btn-primary"></a>
             <a href="{{ path('eleve_create') }}" class="btn btn-primary">Enregistrer mon(mes) enfant(s)</a>
             <a href="https://www.tipi.budget.gouv.fr/tpa/accueilportail.web"target="_blank"><input type="button" value="paiement Carte Bleue via plateforme sécurisée"> </a>
 

@@ -51,7 +51,6 @@ class DivisionAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('id')
             ->add('grade', 'text',(array('label'=>'Classe')))
             ->add('headTeacher', 'text',(array('label'=>'Instituteur')))
             ->add('school',null,(array('label'=>'Ecole')))

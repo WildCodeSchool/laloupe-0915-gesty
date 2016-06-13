@@ -13,6 +13,20 @@ class Service
         Méthodes
     ==========================================================================================================*/
 
+    /**
+     * @return Periode\Periode
+     */
+    public function getAnneeScolaire()
+    {
+        return $this->getCalendrierRentreeScolaire()->getPeriodesScolaire()->getAnneeScolaire();
+    }
+
+
+    /**
+     * @param $activityTypeConstant
+     * @param \DateTimeInterface $dateDay
+     * @return bool
+     */
     public function isDayOff($activityTypeConstant, \DateTimeInterface $dateDay)
     {
         if ($this->daysOff->isOff($dateDay)) {
@@ -121,7 +135,6 @@ class Service
      * @param $filepath
      * @param DateNow $dateNow
      * @param DaysOffInterface $daysOff
-     * @param string date du jour au format "Y-m-d"
      */
     public function __construct(
         $icsFilepath,

@@ -12,6 +12,7 @@ services:
                - ~
                - WCS\CantineBundle\Entity\Eleve
                - ~
+               - '@wcs.datenow'
 
       sonata.admin.division:
            class: WCS\CantineBundle\Admin\DivisionAdmin
@@ -39,6 +40,7 @@ services:
                - ~
                - WCS\CantineBundle\Entity\Feries
                - ~
+               - '@wcs.datenow'
 
       sonata.admin.lunch:
            class: WCS\CantineBundle\Admin\LunchAdmin
@@ -73,12 +75,6 @@ services:
             tags:
                 - { name: "form.type", alias: "application_sonata_user_profile"}
 
-#      wcs.eleve.profile.form.type:
-#            class: WCS\CantineBundle\Form\Type\EleveType
-#            arguments: [ "WCS\\CantineBundle\\Entity\\Eleve"]
-#            tags:
-#                - {name: "form.type", alias: "wcs_cantinebundle_eleve"}
-
       application.sonata_user_listener:
             class: Application\Sonata\UserBundle\EventListener\EditProfileListener
             tags:
@@ -93,7 +89,7 @@ services:
       sonata.admin.voyage:
              class: WCS\CantineBundle\Admin\VoyageAdmin
              tags:
-                 - { name: sonata.admin, manager_type: orm, group: "wcs.group.voyage", label: "Liste des voyages" }
+                 - { name: sonata.admin, manager_type: orm, group: "wcs.group.voyage", label: "Liste des voyages/sorties" }
              arguments:
                  - ~
                  - WCS\CantineBundle\Entity\Voyage

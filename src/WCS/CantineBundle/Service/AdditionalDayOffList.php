@@ -39,8 +39,6 @@ class AdditionalDayOffList implements DaysOffInterface
             $date,
             $date
         );
-        //return $this->repoFeries->isOff($date);
-        //$daysOffArray = $this->repoFeries->findListDateTimes($date->format('Y'));
         return (in_array($date, $daysOffArray));
     }
 

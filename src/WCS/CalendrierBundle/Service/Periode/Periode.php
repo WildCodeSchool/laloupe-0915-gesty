@@ -9,9 +9,10 @@ use WCS\CalendrierBundle\Service\Periode\Exception\IllSortedDatesException;
 use WCS\CalendrierBundle\Service\Periode\Exception\InvalidArgumentException;
 use WCS\CalendrierBundle\Service\Periode\Exception\InvalidDateException;
 use WCS\CalendrierBundle\Service\Periode\Exception\PeriodeException;
+use WCS\CalendrierBundle\Utils\DatesPeriodIterator;
 
 
-class Periode
+class Periode implements PeriodeInterface
 {
 
     /*--------------------------------------------------------------------------------
@@ -162,6 +163,10 @@ class Periode
     }
 
 
+    public function getDayIterator()
+    {
+        return new DatesPeriodIterator($this, new \DateInterval('P1D'));
+    }
 
     /*--------------------------------------------------------------------------------
       ATTRIBUTS

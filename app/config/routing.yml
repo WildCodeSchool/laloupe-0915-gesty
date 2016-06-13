@@ -29,6 +29,8 @@ sonata_user_resetting:
     resource: "@SonataUserBundle/Resources/config/routing/sonata_resetting_1.xml"
     prefix: /resetting
 
+    methods: [GET, POST]
+
 sonata_user_profile:
     resource: "@ApplicationSonataUserBundle/Resources/config/routing/sonata_profile_1.xml"
     prefix: /profile
@@ -39,9 +41,13 @@ sonata_user_register:
     resource: "@SonataUserBundle/Resources/config/routing/sonata_registration_1.xml"
     prefix: /register
 
+    methods: [GET, POST]
+
 sonata_user_change_password:
     resource: "@SonataUserBundle/Resources/config/routing/sonata_change_password_1.xml"
     prefix: /profile
+
+    methods: [GET, POST]
 
 sonata_user:
     resource: '@SonataUserBundle/Resources/config/routing/admin_security.xml'

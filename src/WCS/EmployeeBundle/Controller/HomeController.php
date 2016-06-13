@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
  * List controller.
  *
  */
-class HomeController extends EmployeeController
+class HomeController extends ActivityControllerBase
 {
     /**
      * @param Request $request

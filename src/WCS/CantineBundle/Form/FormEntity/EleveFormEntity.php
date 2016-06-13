@@ -1,11 +1,9 @@
 <?php
+namespace WCS\CantineBundle\Form\FormEntity;
 
-namespace WCS\CantineBundle\Form\Model;
+
 use WCS\CantineBundle\Entity\Eleve;
 
-/**
- * EleveForm
- */
 class EleveFormEntity extends Eleve
 {
     /**
@@ -17,7 +15,7 @@ class EleveFormEntity extends Eleve
         return $this->getNom();
     }
 
-   /**
+    /**
      * @var boolean
      */
     private $certifie;
@@ -27,7 +25,7 @@ class EleveFormEntity extends Eleve
      *
      * @param boolean $certifie
      *
-     * @return EleveNew
+     * @return $this
      */
     public function setCertifie($certifie)
     {
@@ -45,4 +43,5 @@ class EleveFormEntity extends Eleve
     {
         return $this->certifie;
     }
+
 }
