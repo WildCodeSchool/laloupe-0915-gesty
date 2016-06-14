@@ -10,10 +10,10 @@ class ActivityType
     const GARDERIE_EVENING  = 4;
 
     private static $daysOfWeekOff = [
-        self::CANTEEN               => [Day::WEEK_WEDNESDAY],
-        self::TAP                   => [Day::WEEK_MONDAY, Day::WEEK_WEDNESDAY, Day::WEEK_FRIDAY],
-        self::GARDERIE_MORNING      => [],
-        self::GARDERIE_EVENING      => [Day::WEEK_WEDNESDAY]
+        self::CANTEEN               => [Day::WEEK_WEDNESDAY, Day::WEEK_SATURDAY, Day::WEEK_SUNDAY],
+        self::TAP                   => [Day::WEEK_MONDAY, Day::WEEK_WEDNESDAY, Day::WEEK_FRIDAY, Day::WEEK_SATURDAY, Day::WEEK_SUNDAY],
+        self::GARDERIE_MORNING      => [Day::WEEK_SATURDAY, Day::WEEK_SUNDAY],
+        self::GARDERIE_EVENING      => [Day::WEEK_WEDNESDAY, Day::WEEK_SATURDAY, Day::WEEK_SUNDAY]
     ];
 
     /**

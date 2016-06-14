@@ -1,15 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: rod
- * Date: 06/06/16
- * Time: 12:11
- */
-
-namespace WCS\CantineBundle\Entity;
+namespace WCS\CalendrierBundle\Utils;
 use WCS\CalendrierBundle\Service\Calendrier\Day;
 
-class LunchWeekStats
+class WeekStats
 {
     /**
      * @var \integer[]
@@ -17,7 +10,7 @@ class LunchWeekStats
     private $total_per_days = array();
 
     public function __construct(){
-        $this->total_per_days = array_pad([], 4, 0);
+        $this->total_per_days = array_pad([], 7, 0);
     }
     /**
      * @return \integer
@@ -38,6 +31,14 @@ class LunchWeekStats
     /**
      * @return \integer
      */
+    public function getTotalWednesday()
+    {
+        return $this->total_per_days[Day::WEEK_WEDNESDAY];
+    }
+
+    /**
+     * @return \integer
+     */
     public function getTotalThursday()
     {
         return $this->total_per_days[Day::WEEK_THURSDAY];
@@ -49,6 +50,22 @@ class LunchWeekStats
     public function getTotalFriday()
     {
         return $this->total_per_days[Day::WEEK_FRIDAY];
+    }
+
+    /**
+     * @return \integer
+     */
+    public function getTotalSaturday()
+    {
+        return $this->total_per_days[Day::WEEK_SATURDAY];
+    }
+
+    /**
+     * @return \integer
+     */
+    public function getTotalSunday()
+    {
+        return $this->total_per_days[Day::WEEK_SUNDAY];
     }
 
     /**

@@ -12,6 +12,7 @@ services:
                - ~
                - WCS\CantineBundle\Entity\Eleve
                - ~
+               - '@wcs.datenow'
 
       sonata.admin.division:
            class: WCS\CantineBundle\Admin\DivisionAdmin
@@ -39,6 +40,7 @@ services:
                - ~
                - WCS\CantineBundle\Entity\Feries
                - ~
+               - '@wcs.datenow'
 
       sonata.admin.lunch:
            class: WCS\CantineBundle\Admin\LunchAdmin
@@ -52,7 +54,7 @@ services:
       sonata.admin.tap:
             class: WCS\CantineBundle\Admin\TapAdmin
             tags:
-                - { name: sonata.admin, manager_type: orm, group: "wcs.group.tapgarderie", label: "TAP" }
+                - { name: sonata.admin, manager_type: orm, group: "wcs.group.tapgarderie", label: "Inscriptions TAP" }
             arguments:
                  - ~
                  - WCS\CantineBundle\Entity\Tap
@@ -61,7 +63,7 @@ services:
       sonata.admin.garderie:
             class: WCS\CantineBundle\Admin\GarderieAdmin
             tags:
-                - { name: sonata.admin, manager_type: orm, group: "wcs.group.tapgarderie", label: "Garderie" }
+                - { name: sonata.admin, manager_type: orm, group: "wcs.group.tapgarderie", label: "Inscriptions Garderie" }
             arguments:
                 - ~
                 - WCS\CantineBundle\Entity\Garderie
@@ -72,12 +74,6 @@ services:
             arguments: [ "Application\\Sonata\\UserBundle\\Entity\\User" ]
             tags:
                 - { name: "form.type", alias: "application_sonata_user_profile"}
-
-#      wcs.eleve.profile.form.type:
-#            class: WCS\CantineBundle\Form\Type\EleveType
-#            arguments: [ "WCS\\CantineBundle\\Entity\\Eleve"]
-#            tags:
-#                - {name: "form.type", alias: "wcs_cantinebundle_eleve"}
 
       application.sonata_user_listener:
             class: Application\Sonata\UserBundle\EventListener\EditProfileListener
@@ -93,12 +89,12 @@ services:
       sonata.admin.voyage:
              class: WCS\CantineBundle\Admin\VoyageAdmin
              tags:
-                 - { name: sonata.admin, manager_type: orm, group: "wcs.group.voyage", label: "Liste des voyages" }
+                 - { name: sonata.admin, manager_type: orm, group: "wcs.group.voyage", label: "Liste des voyages/sorties" }
              arguments:
                  - ~
                  - WCS\CantineBundle\Entity\Voyage
                  - ~
-                 - '@doctrine.orm.entity_manager'
+
 
       sonata.admin.inscription:
               class: WCS\CantineBundle\Admin\InscriptionAdmin
@@ -108,3 +104,4 @@ services:
                   - ~
                   - WCS\CantineBundle\Entity\Eleve
                   - ~
+

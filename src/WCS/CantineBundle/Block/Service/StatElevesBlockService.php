@@ -1,6 +1,5 @@
 <?php
 
-// src/WCS/CantineBundle/Block
 namespace WCS\CantineBundle\Block\Service;
 
 
@@ -12,14 +11,15 @@ use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\AdminBundle\Admin\Pool;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Block\BaseBlockService;
-use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Security\Core\SecurityContext;
+use WCS\CalendrierBundle\Service\DateNow;
 
 class StatElevesBlockService extends BaseBlockService
 {
     /**
-     * @var SecurityContextInterface
+     * @var \Symfony\Component\Security\Core\SecurityContextInterface
      */
     protected $securityContext;
 
@@ -28,15 +28,38 @@ class StatElevesBlockService extends BaseBlockService
      */
     protected $em;
 
+    /**
+     * @var \WCS\CalendrierBundle\Service\DateNow
+     */
+    private $date_now_service;
 
-    public function __construct($name, EngineInterface $templating, Pool $pool, EntityManager $em, SecurityContext $securityContext)
+
+    /**
+     * StatElevesBlockService constructor.
+     * @param string $name
+     * @param EngineInterface $templating
+     * @param Pool $pool
+     * @param EntityManager $em
+     * @param SecurityContext $securityContext
+     * @param DateNow $dateNow
+     */
+    public function __construct(
+        $name,
+        EngineInterface $templating,
+        Pool $pool,
+        EntityManager $em,
+        SecurityContext $securityContext,
+        DateNow $dateNow
+    )
     {
         parent::__construct($name, $templating);
 
-        $this->pool = $pool;
-        $this->em = $em;
-        $this->securityContext = $securityContext;
+        $this->pool             = $pool;
+        $this->em               = $em;
+        $this->securityContext  = $securityContext;
+        $this->date_now_service = $dateNow;
     }
+
 
     /**
      * {@inheritdoc}
@@ -61,7 +84,7 @@ class StatElevesBlockService extends BaseBlockService
             'schools'   => $this->em->getRepository('WCSCantineBundle:School')->count()
         );
 
-        $options['date_day'] = new \DateTime();
+        $options['date_day'] = $this->date_now_service->getDate();
 
         $repoLunch = $this->em->getRepository('WCSCantineBundle:Lunch');
 
@@ -93,7 +116,8 @@ class StatElevesBlockService extends BaseBlockService
 
         ), $response);
     }
-    
+
+
     /**
      * {@inheritdoc}
      */
@@ -104,16 +128,22 @@ class StatElevesBlockService extends BaseBlockService
             'template' => 'WCSCantineBundle:Block:stateleves.html.twig' // Le template à render dans execute()
         ));
     }
+
+    /**
+     * @return array
+     */
     public function getDefaultSettings()
     {
         return array();
     }
+
     /**
      * {@inheritdoc}
      */
     public function validateBlock(ErrorElement $errorElement, BlockInterface $block)
     {
     }
+    
     /**
      * {@inheritdoc}
      */

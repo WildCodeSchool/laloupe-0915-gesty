@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 {% block body %}
     {% if children == null %}
-        <div class="modal fade" tabindex="-1" data-backdrop="show" role="dialog"id="myModal">
+        <div class="modal fade" tabindex="-1" data-backdrop="show" role="dialog" id="myModal">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -126,7 +126,8 @@
                     {% endfor %}
                 </div>
             {% endif %}
-            <a href="{{ path('sonata_user_profile_show') }}"><input type="button" value="Modifier mes informations"class="btn btn-primary"></a>
+
+            <a href="{{ path('wcs_cantine_profil') }}"><input type="button" value="Modifier mes informations"class="btn btn-primary"></a>
             <a href="{{ path('eleve_create') }}" class="btn btn-primary">Enregistrer mon(mes) enfant(s)</a>
             <a href="https://www.tipi.budget.gouv.fr/tpa/accueilportail.web"target="_blank"><input type="button" value="paiement Carte Bleue via plateforme sécurisée"> </a>
 
@@ -220,7 +221,7 @@
                                             {% endfor %}
                                         </div>
 
-                                        <a href="{{ path('cantine_inscription', { 'id_eleve': child.id }) }}" class="btn btn-primary">Inscription Cantine</a>
+                                        <a href="{{ path('cantine_inscription', { 'id': child.id }) }}" class="btn btn-primary">Inscription Cantine</a>
                                         <br />
                                         <br />
                                         <div class="panel panel-default">
@@ -289,7 +290,7 @@
                                         </div>
                                         {% endif %}
 
-                                        <a href="{{ path('tapgarderie_inscription', {'id_eleve':child.id}) }}" class="btn btn-primary">Inscription TAP/Garderie</a>
+                                        <a href="{{ path('tapgarderie_inscription', {'id':child.id}) }}" class="btn btn-primary">Inscription TAP/Garderie</a>
                                     </div>
                                 {% else %}
                                     <div>
@@ -328,7 +329,7 @@
                                             Votre enfant n'est inscrit à aucun voyage.
                                         {% endif %}
 
-                                        <a href="{{ path('voyage_inscription', {'id_eleve':child.id}) }}" class="btn btn-primary">Inscription Voyage Scolaire</a>
+                                        <a href="{{ path('voyage_inscription', {'id':child.id}) }}" class="btn btn-primary">Inscription Voyage Scolaire</a>
                                     </div>
                                 {% else %}
                                     <div>

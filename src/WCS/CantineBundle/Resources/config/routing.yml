@@ -19,6 +19,11 @@ wcs_cantine_dashboard:
     defaults: { _controller: "WCSCantineBundle:Eleve:dashboard"  }
     methods: [GET]
 
+wcs_cantine_profil:
+    path: /profil
+    defaults: { _controller: "WCSCantineBundle:Profile:edit"}
+    methods: [GET, POST]
+
 gesty_parent_download:
     path: /download/{type_file}
     defaults: { _controller: "WCSCantineBundle:Download:downloadParent"  }

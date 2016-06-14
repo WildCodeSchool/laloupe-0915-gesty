@@ -1,4 +1,4 @@
 tapgarderie_inscription:
-    path:     /inscription/{id_eleve}
+    path:     /inscription/{id}
     defaults: { _controller: "WCSCantineBundle:TapGarderie:inscrire" }
     methods: [GET, POST]

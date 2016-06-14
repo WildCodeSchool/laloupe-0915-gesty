@@ -8,13 +8,7 @@ namespace WCS\CantineBundle\Entity;
 class Lunch extends ActivityBase
 {
 
-    public function __toString()
-    {
-        return (string) $this->getEleve();
-
-    }
-
-    public function getStringDate()
+     public function getStringDate()
     {
         return $this->date->format('Y-m-d');
     }

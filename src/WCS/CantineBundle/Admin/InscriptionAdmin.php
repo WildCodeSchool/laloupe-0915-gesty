@@ -14,12 +14,9 @@ class InscriptionAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            //->add('voyage', null, array('admin_code'=>'sonata.admin.voyages'))
+            ->add('voyages', null, array('admin_code'=>'sonata.admin.voyages'))
             ->add('nom','text')
             ->add('prenom', 'text')
-            ->add('division', 'entity', array(
-                'class' => 'WCSCantineBundle:Division',
-                'required'=>true ))
         ;
     }
 
@@ -29,24 +26,15 @@ class InscriptionAdmin extends Admin
         $datagridMapper
             ->add('nom')
             ->add('prenom')
-            //->add('dateDeNaissance')
             ->add('division',null, array('label'=>'Classe'))
-
-
         ;
     }
 
     protected function configureShowFields(ShowMapper $datagridMapper)
     {
         $datagridMapper
-            //->add('user',null,array('label'=>'Email des parents'))
             ->add('nom','text')
             ->add('prenom', 'text')
-
-            ->add('division', 'entity', array(
-                'class' => 'WCSCantineBundle:Division',
-                'required'=>true,
-                'label' => 'classe'))
         ;
 
     }

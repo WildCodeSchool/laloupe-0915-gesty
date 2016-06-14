@@ -234,14 +234,14 @@ sonata_admin:
                 label: Voyages
                 items:
                     - sonata.admin.voyage
-                    - sonata.admin.inscription
+                    #- sonata.admin.inscription
 
             wcs.group.tapgarderie:
-                            icon: '<i class="fa fa-tag"></i>'
-                            label: TAP-Garderie
-                            items:
-                                - sonata.admin.tap
-                                - sonata.admin.garderie
+                icon: '<i class="fa fa-tag"></i>'
+                label: TAP-Garderie
+                items:
+                    - sonata.admin.tap
+                    - sonata.admin.garderie
 
             wcs.group.feries:
                 icon: '<i class="fa fa-cogs"></i>'

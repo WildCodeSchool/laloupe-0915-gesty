@@ -1,10 +1,25 @@
 services:
     sonata.block.service.stat:
         class: WCS\CantineBundle\Block\Service\StatElevesBlockService
-        arguments: [ "sonata.block.service.stat", '@templating', '@sonata.admin.pool', '@doctrine.orm.entity_manager', '@security.context']
+        arguments:
+            - "sonata.block.service.stat"
+            - '@templating'
+            - '@sonata.admin.pool'
+            - '@doctrine.orm.entity_manager'
+            - '@security.context'
+            - '@wcs.datenow'
         tags:
             - { name: sonata.block }
 
     wcs.daysoff:
         class: WCS\CantineBundle\Service\AdditionalDayOffList
         arguments: ['@doctrine.orm.entity_manager']
+
+    wcs.eleve.paramconverter:
+        class: WCS\CantineBundle\Request\ParamConverter\EleveParamConverter
+        tags:
+            - { name: request.param_converter, priority: 1, converter: wcs.eleve.paramconverter }
+        arguments:
+            - '@doctrine'
+            - '@security.token_storage'
+            - '@router'

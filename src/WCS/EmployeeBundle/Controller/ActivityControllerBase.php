@@ -1,29 +1,19 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: rod
+ * Date: 13/06/16
+ * Time: 11:35
+ */
+
 namespace WCS\EmployeeBundle\Controller;
+
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use WCS\CalendrierBundle\Service\Calendrier\ActivityType;
 
-class EmployeeController extends Controller
+class ActivityControllerBase extends Controller
 {
-    /**
-     * @return \DateTimeImmutable the "date now" defined by the service
-     */
-    protected function getDateDay()
-    {
-        return $this->container->get('wcs.datenow')->getDate();
-    }
-
-    /**
-     * @return \WCS\CantineBundle\Entity\ActivityRepositoryAbstract
-     */
-    protected function getRepository($entityName)
-    {
-        return $this->getDoctrine()
-            ->getEntityManager()
-            ->getRepository($entityName);
-    }
-
     /**
      * @param $activity
      * @return bool
@@ -42,4 +32,14 @@ class EmployeeController extends Controller
             $this->getDateDay()
         );
     }
+
+    /**
+     * @return \DateTimeImmutable the "date now" defined by the service
+     */
+    protected function getDateDay()
+    {
+        return $this->container->get('wcs.datenow')->getDate();
+    }
+
+
 }

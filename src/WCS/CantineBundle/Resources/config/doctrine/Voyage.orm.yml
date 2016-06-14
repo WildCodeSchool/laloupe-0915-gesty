@@ -22,6 +22,12 @@ WCS\CantineBundle\Entity\Voyage:
             type: boolean
             column: est_annule
             nullable: false
+        estSortieScolaire:
+            type: boolean
+            column: est_sortie_scolaire
+            nullable: false
+            options:
+                default: false
 
     lifecycleCallbacks: {  }
 

@@ -2,8 +2,9 @@
 
 namespace WCS\CantineBundle\Entity;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\DateTime;
 use WCS\CalendrierBundle\Service\Calendrier\Day;
+use WCS\CalendrierBundle\Service\Periode\Periode;
+use WCS\CalendrierBundle\Utils\WeekStats;
 
 /**
  * LunchRepository
@@ -39,8 +40,17 @@ class LunchRepository extends ActivityRepositoryAbstract
      */
     private function configureWeekMealOptions()
     {
+        $this->weekMealResolver->setDefined(array(
+            'date_day',
+            'without_pork',
+            'enable_next_week',
+            'days_ofweek_off',
+            'dates_off'
+        ));
+
+        $this->weekMealResolver->setAllowedTypes('date_day', \DateTimeInterface::class);
+
         $this->weekMealResolver->setDefaults(array(
-            'date_day'          => new DateTime(),
             'without_pork'      => false,
             'enable_next_week'  => false,
             'days_ofweek_off'   => array(Day::WEEK_WEDNESDAY),
@@ -85,17 +95,15 @@ class LunchRepository extends ActivityRepositoryAbstract
         $firstDay   = new \DateTimeImmutable( $options['date_day']->format('Y-m-d') . $firstDayFormat );
         $lastDay    = new \DateTimeImmutable( $firstDay->format('Y-m-d') . $lastDayFormat );
 
+        $periode = new Periode($firstDay, $lastDay);
         $days = [];
-        $oneDay = new \DateInterval('P1D');
-        $currentDay = $firstDay;
-        while ($currentDay <= $lastDay) {
+        foreach($periode->getDayIterator() as $date) {
 
-            if (false === \in_array(Day::getDayOfWeekFrom($currentDay), $options['days_ofweek_off'])
-                && false === \in_array($currentDay, $options['dates_off'])
+            if (false === \in_array(Day::getDayOfWeekFrom($date), $options['days_ofweek_off'])
+                && false === \in_array($date, $options['dates_off'])
             ) {
-                $days[] = $currentDay;
+                $days[] = $date;
             }
-            $currentDay = $currentDay->add($oneDay);
         }
 
         return array('first_day' => $firstDay, 'last_day' => $lastDay, 'days' => $days);
@@ -115,11 +123,11 @@ class LunchRepository extends ActivityRepositoryAbstract
      *      true if the week must return only lunches without pork
      *      false if the week must return only regular lunches.
      *
-     * @return LunchWeekStats statistics of the week for lunches.
+     * @return WeekStats statistics of the week for lunches.
      */
     /**
      * @param $options
-     * @return LunchWeekStats
+     * @return WeekStats
      */
     public function getWeekMeals($options)
     {
@@ -127,7 +135,7 @@ class LunchRepository extends ActivityRepositoryAbstract
 
         $em = $this->getEntityManager();
 
-        $statsLunch = new LunchWeekStats();
+        $statsLunch = new WeekStats();
 
         foreach($dates['days'] as $day) {
             $totalCurrentDay = $em->createQuery(

@@ -1,5 +1,6 @@
 WCS\CantineBundle\Entity\Division:
     type: entity
+    repositoryClass: WCS\CantineBundle\Entity\DivisionRepository
     id:
         id:
             type: integer

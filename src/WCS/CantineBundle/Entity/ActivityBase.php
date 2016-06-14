@@ -7,9 +7,9 @@ namespace WCS\CantineBundle\Entity;
  */
 class ActivityBase
 {
-    const STATUS_REGISTERED_BUT_ABSENT  = 0;
-    const STATUS_NOT_REGISTERED         = 1;
-    const STATUS_REGISTERED_AND_PRESENT = 2;
+    const STATUS_REGISTERED_BUT_ABSENT  = '0';
+    const STATUS_NOT_REGISTERED         = '1';
+    const STATUS_REGISTERED_AND_PRESENT = '2';
 
     /**
      * @var integer
@@ -32,9 +32,23 @@ class ActivityBase
     protected $eleve;
 
 
+    /**
+     * ActivityBase constructor.
+     */
     public function __construct()
     {
         $this->status = self::STATUS_REGISTERED_BUT_ABSENT;
+        $this->date = new \DateTime();
+    }
+
+    /**
+     * Utile pour sonata
+     * @return string renvoit le __toString de l'eleve
+     */
+    public function __toString()
+    {
+        return (string) $this->getEleve(). " inscrit le ".$this->getDate()->format('d/m/Y');
+
     }
 
     /**

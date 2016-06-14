@@ -10,44 +10,32 @@ namespace WCS\CantineBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Form\Type\VoyageType;
 
 
 class VoyageController extends Controller
 {
-    public function inscrireAction(Request $request,$id_eleve)
+    public function inscrireAction(Request $request, Eleve $eleve)
     {
-        $user = $this->getUser();
-        if (!$user) {
-            throw $this->createAccessDeniedException();
-        }
-
-        // récupère une instance de Doctrine
-        $em = $this->getDoctrine()->getManager();
-
-        // récupère la fiche élève depuis la base de données
-        $eleve = $em->getRepository("WCSCantineBundle:Eleve")->find($id_eleve);
-        if (!$eleve || !$eleve->isCorrectParentConnected($user)) {
-            return $this->redirectToRoute('wcs_cantine_dashboard');
-        }
-
         // créer une instance d'un formulaire
-        // dans un premiér temps on definit les paramêtres de notre futur FORM en Html
-        // ensuite on créer une instance de formulaire avec les paramêtre que l'on a crée
-        // et que l'on passera a notre vue twig
-
-        $formparams = array(
+        $options = array(
             'method' => 'POST',
             'action' => $this->generateUrl('voyage_inscription', array(
-                'id_eleve' => $id_eleve
-            ))
+                'id' => $eleve->getId()
+            )),
+            'division' => $eleve->getDivision(),
+            'date_day' => $this->get('wcs.datenow')->getDate()
         );
 
-        $form = $this->createForm(new VoyageType($eleve->getDivision()), $eleve, $formparams);
+        $form = $this->createForm(new VoyageType(), $eleve, $options);
 
+
+        // gère la requête du formulaire
 
         $form->handleRequest($request);
         if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
             $em->persist($eleve);
             $em->flush();
 

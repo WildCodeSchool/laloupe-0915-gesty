@@ -1,22 +1,25 @@
 <?php
-namespace WCS\EmployeeBundle\Controller;
+namespace WCS\EmployeeBundle\Controller\ViewBuilder;
 
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use WCS\CantineBundle\Entity\ActivityBase;
 use WCS\CantineBundle\Entity\School;
+use WCS\EmployeeBundle\Controller\Mapper\ActivityMapperInterface;
 use WCS\EmployeeBundle\Form\Type\StatusType;
 
-class ValidateController extends EmployeeController
+
+class ValidateViewBuilder extends ViewBuilderAbstract
 {
     private $mapper;
 
     /**
      * ValidateController constructor.
-     * @param Mapper\ActivityMapperInterface $mapper
+     * @param ActivityMapperInterface $mapper
      */
-    public function __construct(Mapper\ActivityMapperInterface $mapper)
+    public function __construct(ActivityMapperInterface $mapper)
     {
         $this->mapper = $mapper;
     }
@@ -27,7 +30,7 @@ class ValidateController extends EmployeeController
      * @param $activity
      * @return array
      */
-    public function showAction(Request $request, School $school, $activity)
+    public function buildView(Request $request, School $school, $activity)
     {
         $entityClassName = $this->mapper->getEntityClassName();
 
@@ -59,7 +62,7 @@ class ValidateController extends EmployeeController
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
 
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrineManager();
             $repo = $em->getRepository($this->mapper->getEntityClassName());
 
             foreach (explode(',', $form["status"]->getData()) as $id)

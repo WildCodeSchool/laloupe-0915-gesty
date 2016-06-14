@@ -74,6 +74,26 @@ class EleveRepository extends EntityRepository
     }
 
 
+    /**
+     * @param $id
+     * @param $parent_user
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findByIdAndParent($id, $parent_user)
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.id = :id')
+            ->andWhere('e.user = :parent_user')
+            ->setParameter(':id', $id)
+            ->setParameter(':parent_user', $parent_user )
+            ->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param $children
+     * @return array
+     */
     public function findByDate($children)
     {
         // Request pupils to the database from a certain date
@@ -84,28 +104,6 @@ class EleveRepository extends EntityRepository
             )
             ->setParameter(':eleve', "%".$children."%")
             ->getResult();
-    }
-
-    public function getNumberMonthMeals($eleve_id)
-    {
-        $dateNow = new \Datetime();
-        $dateNowFormat = date_format($dateNow, ('Y-m'));
-
-        $dates = $this->getEntityManager()
-            ->createQuery(
-                'SELECT e FROM WCSCantineBundle:Lunch e WHERE e. LIKE :eleve'
-            )
-            ->setParameter(':eleve', "%".$eleve_id."%")
-            ->getResult();
-
-        $count = '';
-        foreach ($dates as $date){
-            if (preg_match('#^'.$dateNowFormat.'#', $date) === 1) {
-                $count = count($date);
-            }
-        }
-        return $count;
-
     }
 
     public function count()
@@ -144,21 +142,19 @@ class EleveRepository extends EntityRepository
     /**
      * @param $userParent \Application\Sonata\UserBundle\Entity\User
      */
-    public function findNbEnfantInscritsVoyage($userParent)
+    public function findNbEnfantInscritsVoyage($userParent, \DateTimeInterface $date_day)
     {
         $em = $this->getEntityManager();
-
-        $now = new \DateTime();
 
         $query = $em->createQuery(
             "SELECT COUNT(el)
              FROM WCSCantineBundle:Eleve el
              JOIN el.voyages voys
              WHERE el.user=:user
-                AND voys.date_debut >= :now"
+                AND voys.date_debut >= :date_day"
         )
             ->setParameter("user", $userParent)
-            ->setParameter("now", $now->format('Y-m-d H:i:s'));
+            ->setParameter("date_day", $date_day->format('Y-m-d H:i:s'));
 
         $results = $query->setMaxResults(1)->getOneOrNullResult();
 
@@ -212,6 +208,40 @@ class EleveRepository extends EntityRepository
         return $query->getResult();
     }
 
+
+    public function getQueryElevesAutorisesEnTAP()
+    {
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+
+        $qb->select('e')
+            ->from('WCSCantineBundle:eleve', 'e')
+            ->join('e.division', 'd')
+            ->join('d.school' , 's')
+            ->where("s.active_tap = TRUE")
+            ->orderBy('e.nom');
+
+
+
+        return $qb;
+    }
+
+    public function getQueryElevesAutorisesEnGarderie()
+    {
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+
+        $qb->select('e')
+            ->from('WCSCantineBundle:eleve', 'e')
+            ->join('e.division', 'd')
+            ->join('d.school' , 's')
+            ->where("s.active_garderie = TRUE")
+            ->orderBy('e.nom');
+
+
+
+        return $qb;
+    }
 
 }
 

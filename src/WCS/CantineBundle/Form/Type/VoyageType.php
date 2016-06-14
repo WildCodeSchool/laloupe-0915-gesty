@@ -10,13 +10,6 @@ use WCS\CantineBundle\Entity\VoyageRepository;
 
 class VoyageType extends AbstractType
 {
-    private static $division;
-
-    public function __construct($division)
-    {
-        self::$division = $division;
-    }
-
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -30,9 +23,9 @@ class VoyageType extends AbstractType
             ->add('voyages', 'entity', array(
                 'class'   => 'WCSCantineBundle:Voyage',
 
-                'query_builder' => function(VoyageRepository $er)
+                'query_builder' => function(VoyageRepository $er) use ($options)
                 {
-                    return $er->findByDivisionsAnneeScolaire(array('division'=>self::$division));
+                    return $er->getQueryByEnabledAndDivisions($options);
                 },
 
                 'expanded' => true,
@@ -51,6 +44,8 @@ class VoyageType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'WCS\CantineBundle\Entity\Eleve'
         ));
+
+        $resolver->setDefined(array('date_day', 'division'));
     }
 
     /**

@@ -33,6 +33,11 @@ class Voyage
     private $estAnnule;
 
     /**
+     * @var boolean
+     */
+    private $estSortieScolaire;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $eleves;
@@ -51,7 +56,8 @@ class Voyage
         $this->divisions = new \Doctrine\Common\Collections\ArrayCollection();
         $this->date_debut = new \DateTime();
         $this->date_fin = new  \DateTime();
-        $this->estAnnule = FALSE;
+        $this->estAnnule = false;
+        $this->estSortieScolaire = false;
     }
 
     /**
@@ -220,6 +226,25 @@ class Voyage
     {
         return $this->estAnnule;
     }
+
+
+    /**
+     * @return boolean
+     */
+    public function getEstSortieScolaire()
+    {
+        return $this->estSortieScolaire;
+    }
+
+    /**
+     * @param boolean $estSortieScolaire
+     */
+    public function setEstSortieScolaire($estSortieScolaire)
+    {
+        $this->estSortieScolaire = $estSortieScolaire;
+        return $this;
+    }
+
 
     /**
      * Add division

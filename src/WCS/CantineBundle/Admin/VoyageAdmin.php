@@ -5,40 +5,41 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use WCS\CantineBundle\Entity\DivisionRepository;
 
 
 class VoyageAdmin extends Admin
 {
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
-    protected $em;
-
-    public function __construct($code, $class, $baseControllerName, \Doctrine\ORM\EntityManagerInterface $entityManager)
-    {
-        $this->em = $entityManager;
-        parent::__construct($code, $class, $baseControllerName);
-    }
-
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $query = $this->em->getRepository('WCSCantineBundle:Voyage')->findByDivisions();
-
         $formMapper
-            ->add('libelle', null)
+            ->add('libelle', null, array('required'=>false))
 
-            ->add('divisions', 'sonata_type_model', array(
-                'query' => $query,
-                'multiple' => true,
-                'mapped' => true,
-                'btn_add' => false
-            ))
+            ->add('divisions',
+                'entity',
+                array(
+                    'class'   => 'WCSCantineBundle:Division',
+
+                    'query_builder' => function(DivisionRepository $er) {
+                        return $er->getQueryVoyagesAutorises();
+                    },
+                    'multiple' => true,
+                    'required'  => false,
+                    'mapped' => true
+                )
+            )
+
+            ->add('estAnnule', null, array('label'=>"Voyage/sortie annulée ?"))
+
+            ->add('estSortieScolaire', null, array('label'=>"Cocher s'il s'agit uniquement d'une sortie scolaire ?"))
+
 
             ->add('date_debut','sonata_type_datetime_picker',(array(
                 'label'=>'Date',
                 'format' => 'dd/MM/y HH:mm'
             )))
+
             ->add('date_fin','sonata_type_datetime_picker',(array(
                 'label'=>'Date',
                 'format' => 'dd/MM/y HH:mm'
@@ -52,7 +53,6 @@ class VoyageAdmin extends Admin
     {
         $datagridMapper
             ->add('libelle', null)
-            //->add('eleves', null)
             ->add('divisions')
             ->add('date_debut', 'doctrine_orm_datetime_range', array(
                 'widget' => 'single_text',
@@ -71,11 +71,10 @@ class VoyageAdmin extends Admin
     {
         $listMapper
             ->add('libelle', null)
-            ->addIdentifier('id')
-            //->add('eleves', null)
             ->add('divisions')
 
 
+            ->add('estSortieScolaire', null, array('label' => 'Sortie scolaire ?'))
 
             ->add('date_debut', 'date', array(
                 'format' => 'd/m/Y H:i',
@@ -85,7 +84,7 @@ class VoyageAdmin extends Admin
                 'format' => 'd/m/Y H:i',
                 'label' => false
             ))
-            ->add('estAnnule')
+            ->add('estAnnule', null, array('label' => 'Annulé ?'))
             ->add('_action', 'actions', array('label' => 'Action', 'actions' => array(
                 'edit' => array(),
                 'delete' => array()
