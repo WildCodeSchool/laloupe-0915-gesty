@@ -7,7 +7,7 @@ use WCS\CalendrierBundle\Service\ICSFileReader\Exception\InvalidFileException;
 use WCS\CalendrierBundle\Service\ICSFileReader\Exception\NoFilenameException;
 
 
-class ICSFileReaderTest extends \PhpUnit_Framework_TestCase
+class ICSFileReaderTest extends \PHPUnit_Framework_TestCase
 {
     private static $file_correct = __DIR__ . "/../../../Files/Calendrier_Scolaire_Zone_B.ics";
     private static $file_invalid = __DIR__ . "/../../../Files/fake.ics";

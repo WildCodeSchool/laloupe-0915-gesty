@@ -15,7 +15,7 @@ use WCS\CalendrierBundle\Service\Periode\Exception\InvalidDateException;
 use WCS\CalendrierBundle\Service\Periode\Exception\IllSortedDatesException;
 use WCS\CalendrierBundle\Service\Periode\Exception\PeriodeException;
 
-class PeriodeTest extends \PhpUnit_Framework_TestCase
+class PeriodeTest extends \PHPUnit_Framework_TestCase
 {
     /*==================================================================
      * Fournit un jeu de tests pour des dates ayant un type attendu.

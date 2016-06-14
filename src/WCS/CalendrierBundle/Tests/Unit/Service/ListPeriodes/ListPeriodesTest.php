@@ -4,7 +4,7 @@ namespace WCS\CalendrierBundle\Tests\Unit\Service\ListPeriodes;
 use WCS\CalendrierBundle\Service\ListPeriodes\ListPeriodes;
 use WCS\CalendrierBundle\Service\Periode\Periode;
 
-class ListPeriodesTest extends \PhpUnit_Framework_TestCase
+class ListPeriodesTest extends \PHPUnit_Framework_TestCase
 {
     /*==================================================================
      * Test : Constructor
