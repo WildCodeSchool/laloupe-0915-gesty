@@ -19,10 +19,9 @@ class ValidateViewBuilder extends ViewBuilderAbstract
      * ValidateController constructor.
      * @param ActivityMapperInterface $mapper
      */
-    public function __construct(ActivityMapperInterface $mapper, ContainerInterface $container)
+    public function __construct(ActivityMapperInterface $mapper)
     {
         $this->mapper = $mapper;
-        parent::__construct($container);
     }
 
     /**

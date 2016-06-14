@@ -10,7 +10,7 @@
  *
  */
 
-namespace Application\Sonata\UserBundle\Form\Type;
+namespace WCS\CantineBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Sonata\UserBundle\Model\UserInterface;

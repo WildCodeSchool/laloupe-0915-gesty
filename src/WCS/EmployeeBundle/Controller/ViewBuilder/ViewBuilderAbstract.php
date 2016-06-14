@@ -2,9 +2,7 @@
 namespace WCS\EmployeeBundle\Controller\ViewBuilder;
 
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use WCS\CantineBundle\Entity\School;
@@ -19,15 +17,6 @@ abstract class ViewBuilderAbstract extends ContainerAware
      */
     abstract public function buildView(Request $request, School $school, $activity);
 
-
-    /**
-     * ServiceWrapper constructor.
-     * @param ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->setContainer($container);
-    }
 
     /**
      * return the repository of the given entity

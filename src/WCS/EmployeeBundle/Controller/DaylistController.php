@@ -33,7 +33,8 @@ class DaylistController extends ActivityControllerBase
 
         // set up the list view builder
 
-        $viewBuilder = new ListViewBuilder($mapper, $this->container);
+        $viewBuilder = new ListViewBuilder($mapper);
+        $viewBuilder->setContainer($this->container);
         $list_infos = $viewBuilder->buildView($request, $school, $activity);
 
         if (!empty($list_infos['redirect_to'])) {
@@ -42,7 +43,8 @@ class DaylistController extends ActivityControllerBase
 
         // set up the validation view builder
 
-        $viewBuilder = new ValidateViewBuilder($mapper, $this->container);
+        $viewBuilder = new ValidateViewBuilder($mapper);
+        $viewBuilder->setContainer($this->container);
         $validate_infos = $viewBuilder->buildView($request, $school, $activity);
 
         if (!empty($validate_infos['redirect_to'])) {

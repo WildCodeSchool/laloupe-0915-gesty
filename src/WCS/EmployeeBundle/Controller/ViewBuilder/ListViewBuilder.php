@@ -18,10 +18,9 @@ class ListViewBuilder extends ViewBuilderAbstract
      * @param ActivityMapperInterface $mapper
      * @param ContainerInterface $container
      */
-    public function __construct(ActivityMapperInterface $mapper, $container)
+    public function __construct(ActivityMapperInterface $mapper)
     {
         $this->mapper = $mapper;
-        parent::__construct($container);
     }
 
     /**

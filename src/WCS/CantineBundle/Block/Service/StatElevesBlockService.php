@@ -4,8 +4,8 @@ namespace WCS\CantineBundle\Block\Service;
 
 
 use Sonata\BlockBundle\Block\BlockContextInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\AdminBundle\Admin\Pool;
@@ -13,6 +13,8 @@ use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Block\BaseBlockService;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Security\Core\SecurityContext;
+use WCS\CalendrierBundle\Service\DateNow;
 
 class StatElevesBlockService extends BaseBlockService
 {
@@ -31,15 +33,33 @@ class StatElevesBlockService extends BaseBlockService
      */
     private $date_now_service;
 
-    public function __construct( $name, ContainerInterface $container )
-    {
-        parent::__construct($name, $container->get('templating'));
 
-        $this->date_now_service     = $container->get('wcs.datenow');
-        $this->pool                 = $container->get('sonata.admin.pool');
-        $this->em                   = $container->get('doctrine.orm.entity_manager');
-        $this->securityContext      = $container->get('security.context');
+    /**
+     * StatElevesBlockService constructor.
+     * @param string $name
+     * @param EngineInterface $templating
+     * @param Pool $pool
+     * @param EntityManager $em
+     * @param SecurityContext $securityContext
+     * @param DateNow $dateNow
+     */
+    public function __construct(
+        $name,
+        EngineInterface $templating,
+        Pool $pool,
+        EntityManager $em,
+        SecurityContext $securityContext,
+        DateNow $dateNow
+    )
+    {
+        parent::__construct($name, $templating);
+
+        $this->pool             = $pool;
+        $this->em               = $em;
+        $this->securityContext  = $securityContext;
+        $this->date_now_service = $dateNow;
     }
+
 
     /**
      * {@inheritdoc}

@@ -38,6 +38,7 @@ class ActivityBase
     public function __construct()
     {
         $this->status = self::STATUS_REGISTERED_BUT_ABSENT;
+        $this->date = new \DateTime();
     }
 
     /**

@@ -2,11 +2,13 @@
 namespace WCS\CantineBundle\Request\ParamConverter;
 
 
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Class EleveParamConverter
@@ -20,11 +22,20 @@ class EleveParamConverter implements ParamConverterInterface
     const REDIRECT_TO_ROUTE_FORBIDDENACCESS = 'fos_user_security_logout';
 
     /**
-     * @param ContainerInterface $container Service container
+     * EleveParamConverter constructor.
+     * @param ManagerRegistry $managerRegistry
+     * @param TokenStorageInterface $securityToken
+     * @param Router $router
      */
-    public function __construct( ContainerInterface $container )
+    public function __construct(
+        ManagerRegistry $managerRegistry,
+        TokenStorageInterface $securityToken,
+        Router $router
+    )
     {
-        $this->container = $container;
+        $this->managerRegistry = $managerRegistry;
+        $this->router = $router;
+        $this->security_token_storage = $securityToken;
     }
 
 
@@ -89,29 +100,14 @@ class EleveParamConverter implements ParamConverterInterface
 
 
     /**
-     * @param string $name of the service
-     * @return object
-     * @throws \LogicException if the service is not available.
-     */
-    private function getService($name)
-    {
-        $service = $this->container->get($name);
-        if (!$service) {
-            throw new \LogicException("$name service unavailable");
-        }
-        return $service;
-    }
-
-    /**
      * @return \Doctrine\Bundle\DoctrineBundle\Registry
      */
     private function getDoctrine()
     {
-        $doctrine =  $this->getService('doctrine');
-        if (!count($doctrine->getManagers())) {
+        if (!count($this->managerRegistry->getManagers())) {
             throw new \LogicException("Doctrine : no managers found");
         }
-        return $doctrine;
+        return $this->managerRegistry;
     }
 
     /**
@@ -119,7 +115,7 @@ class EleveParamConverter implements ParamConverterInterface
      */
     private function getToken()
     {
-        return $this->getService('security.token_storage')->getToken();
+        return $this->security_token_storage->getToken();
     }
 
 
@@ -128,14 +124,12 @@ class EleveParamConverter implements ParamConverterInterface
      */
     private function redirectTo($route)
     {
-        $url = $this->getService('router')->generate($route);
+        $url = $this->router->generate($route);
 
         throw new HttpException('302', null, null, array('Location'=>$url), 0);
     }
 
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
+    private $managerRegistry;
+    private $router;
+    private $security_token_storage;
 }
