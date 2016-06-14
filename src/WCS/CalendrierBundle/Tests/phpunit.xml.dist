@@ -12,6 +12,7 @@
 
         <testsuite name="Calendrier_Scolaire_Integration_Test_Suite">
             <directory>../Tests/Integration/</directory>
+            <directory>../Tests/Func/</directory>
         </testsuite>
 
         <testsuite name="Calendrier_Scolaire_Unit_Test_Suite">
@@ -21,6 +22,5 @@
     </testsuites>
     <php>
         <server name="KERNEL_DIR" value="../../../../app/" />
-        <env name="BOOTSTRAP_CLEAR_CACHE_ENV" value="test"/>
     </php>
 </phpunit>

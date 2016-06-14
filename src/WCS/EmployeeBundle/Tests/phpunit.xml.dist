@@ -17,6 +17,5 @@
     </testsuites>
     <php>
         <server name="KERNEL_DIR" value="../../../../app/" />
-        <env name="BOOTSTRAP_CLEAR_CACHE_ENV" value="test"/>
     </php>
 </phpunit>
