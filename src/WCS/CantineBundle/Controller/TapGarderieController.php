@@ -13,19 +13,33 @@ class TapGarderieController extends Controller
 {
     public function inscrireAction(Request $request, Eleve $eleve)
     {
+        //------------------------------------------------------------------------
         // récupère la période scolaires en classe à la date du jour
+        //------------------------------------------------------------------------
         $periodesScolaires = $this->get("wcs.calendrierscolaire")->getPeriodesAnneeRentreeScolaire();
         $periode_tap = $periodesScolaires->getCurrentOrNextPeriodeEnClasse();
 
-        // récupère les days of week sélectionnés
+        //------------------------------------------------------------------------
+        // inscriptions possible à partir de la date du jour + un délai de N jours
+        // pour les tap/garderies
+        //------------------------------------------------------------------------
+        $first_day_available = $this->get("wcs.datenow")->getFirstDayAvailable('tap_garderie');
+
+        //------------------------------------------------------------------------
+        // récupère toutes les dates de la période
+        // pour chaque jour d'une semaine
+        //------------------------------------------------------------------------
+        
+        // prépare la période à partir de "demain" jusqu'au dernier jour de la période de classe
         $periode_from_today = new Periode(
-            $this->get("wcs.datenow")->getDate()->format('Y-m-d'),
+            $first_day_available->format('Y-m-d'),
             $periode_tap->getFin()
         );
 
         $daysOfWeek = new DaysOfWeeks(
             $periode_from_today,
-            $this->get('wcs.daysoff')
+            $this->get('wcs.daysoff'),
+            $eleve
         );
 
 
@@ -50,6 +64,7 @@ class TapGarderieController extends Controller
             array(
                 "eleve" => $eleve,
                 "periode_tap" => $periode_tap,
+                "first_day_available" => $first_day_available,
                 "form" => $form->createView()
                 )
         );

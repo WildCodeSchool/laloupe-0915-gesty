@@ -10,7 +10,8 @@ namespace WCS\EmployeeBundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use WCS\CalendrierBundle\Service\Calendrier\ActivityType;
+//use WCS\CalendrierBundle\Service\Calendrier\ActivityType;
+use WCS\CantineBundle\Entity\ActivityType;
 
 class ActivityControllerBase extends Controller
 {

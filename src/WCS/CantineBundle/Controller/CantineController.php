@@ -40,13 +40,19 @@ class CantineController extends Controller
             $listLunchesSelected[] = $lunch->getDate()->format("Y-m-d");
         }
 
+        //------------------------------------------------------------------------
+        // inscriptions possible à partir de la date du jour + un délai de N jours
+        // pour les voyages
+        //------------------------------------------------------------------------
+        $first_day_available = $this->get("wcs.datenow")->getFirstDayAvailable('canteen');
 
         // la réservation à la cantine ne peut être effectué que 7 jours après
         // la date du jour (soit le 8e jour)
         // on désactive donc le jour actuel et les 7 jours suivants.
         if (!is_null($calendrier)) {
             $calendrier->addDaysPastFrom(
-                new \DateTimeImmutable($calendrier->getDateToday()), new \DateInterval('P8D')
+                //new \DateTimeImmutable($calendrier->getDateToday()), new \DateInterval('P8D')
+                $this->get("wcs.datenow")->getDate(), new \DateInterval('P8D')
             );
         }
 
@@ -69,6 +75,7 @@ class CantineController extends Controller
                 "form" => $form->createView(),
                 "eleve" => $eleve,
                 "calendrier" => $calendrier,
+                "first_day_available" => $first_day_available,
                 "listLunchesSelected" => $listLunchesSelected
             )
         );

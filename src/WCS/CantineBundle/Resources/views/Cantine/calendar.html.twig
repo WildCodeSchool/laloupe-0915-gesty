@@ -135,17 +135,23 @@
         </div>
     </div>
 </div>
+    Vous pouvez inscrire votre enfant à partir du <strong>{{ first_day_available|date('d/m/Y') }}</strong>
+    <br />
+    <br />
+    <br />
 
 
 <script>
     window.addEventListener('load', function(){
-
+        {#
         {% set firstDate = calendrier.periodesScolaire.anneeScolaire.debut|date('Y-m-d') %}
-        {% if calendrier.dateToday < firstDate %}
+        {% if first_day_available|date('Y-m-d') < firstDate %}
             var today = new Date('{{ firstDate }}');
         {% else %}
-            var today = new Date('{{ calendrier.dateToday }}');
+            var today = new Date('{{ first_day_available|date('Y-m-d') }}');
         {% endif %}
+#}
+        var today = new Date('{{ first_day_available|date('Y-m-d') }}');
 
         // ---------------------------------------------------------------------------------------------------
         // affiche le calendrier correspondant au mois donné et masque les autres

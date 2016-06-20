@@ -1,0 +1,23 @@
+WCS\CantineBundle\Entity\SchoolYear:
+    type: entity
+    table: schoolyear
+    repositoryClass: WCS\CantineBundle\Entity\SchoolYearRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        begin_date:
+            type: date
+        end_date:
+            type: date
+        url_icalendar_holidays:
+            type: string
+            length: 255
+        filename_icalendar_holidays:
+            type: string
+            length: 255
+
+    lifecycleCallbacks: {   }

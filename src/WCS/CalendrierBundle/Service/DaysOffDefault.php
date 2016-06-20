@@ -14,7 +14,8 @@ class DaysOffDefault implements DaysOffInterface
     /**
      * @return array of \DateTime
      */
-    public function findDatesWithin(Periode $periode)
+    public function findDatesWithin(Periode $periode,
+                                    array $options)
     {
         return array();
     }
@@ -22,7 +23,8 @@ class DaysOffDefault implements DaysOffInterface
     /**
      * @inheritdoc
      */
-    public function isOff(\DateTimeInterface $date)
+    public function isOff(\DateTimeInterface $date,
+                          array $options)
     {
         return false;
     }

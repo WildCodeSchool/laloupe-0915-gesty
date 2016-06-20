@@ -32,11 +32,23 @@
         {# ------------------------Liste des Voyages------------------------- #}
         <div class="col-md-12">
             <h3>Les voyages scolaires (2015-2016)</h3>
-            <div class="form-group">
-                <blockquote>
-                    {{ form_widget(form.voyages) }}
-                </blockquote>
-            </div>
+            {% if form.voyages|length %}
+                <div class="form-group">
+                    <blockquote>
+                        {{ form_widget(form.voyages) }}
+                    </blockquote>
+                </div>
+                Le premier jour d'inscription est ouvert à partir du <strong>{{ first_day_available|date('d/m/Y') }}</strong>
+            {% else %}
+                <div class="form-group">
+                    <blockquote>
+                    Aucun voyage à venir n'est prévu par l'école.
+                    </blockquote>
+                </div>
+            {% endif %}
+            <br />
+            <br />
+            <br />
         </div>
 
 

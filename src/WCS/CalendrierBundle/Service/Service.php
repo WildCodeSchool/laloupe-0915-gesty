@@ -2,7 +2,7 @@
 namespace WCS\CalendrierBundle\Service;
 
 
-use WCS\CalendrierBundle\Service\Calendrier\ActivityType;
+//use WCS\CalendrierBundle\Service\Calendrier\ActivityType;
 use WCS\CalendrierBundle\Service\ICSFileReader\ICSFileReader;
 use WCS\CalendrierBundle\Service\PeriodesAnneeScolaire\PeriodesAnneeScolaire;
 use WCS\CalendrierBundle\Service\Calendrier\Calendrier;
@@ -27,13 +27,16 @@ class Service
      * @param \DateTimeInterface $dateDay
      * @return bool
      */
-    public function isDayOff($activityTypeConstant, \DateTimeInterface $dateDay)
+    public function isDayOff(\DateTimeInterface $dateDay, $options=array())
     {
-        if ($this->daysOff->isOff($dateDay)) {
+        /*
+        if ($this->daysOff->isOff($dateDay, $options)) {
             return true;
         }
         
         return ActivityType::isDayOff($activityTypeConstant, $dateDay);
+        */
+        return $this->daysOff->isOff($dateDay, $options);
     }
 
     /**
@@ -145,7 +148,7 @@ class Service
         $this->daysOff = $daysOff;
         $this->cals = array();
 
-        $this->selectRentreeScolaireAvecDate( $dateNow->getDateStr('Y-m-d') );
+        $this->selectRentreeScolaireAvecDate( $dateNow->getDate()->format('Y-m-d') );
         
         $this->loadFromFile($icsFilepath);
     }

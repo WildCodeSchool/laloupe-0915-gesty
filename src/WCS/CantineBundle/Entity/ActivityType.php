@@ -1,6 +1,8 @@
 <?php
-namespace WCS\CalendrierBundle\Service\Calendrier;
+//namespace WCS\CalendrierBundle\Service\Calendrier;
+namespace WCS\CantineBundle\Entity;
 
+use WCS\CalendrierBundle\Service\Calendrier\Day;
 
 class ActivityType
 {
