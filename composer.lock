@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7f0d614b06088dfd0621199506cad0a0",
-    "content-hash": "705215b6cd0590c0e235b2cbcac6f884",
+    "hash": "0c067c516ee5ea412e43519d973ed736",
+    "content-hash": "4f2efd056191fa19b1d4bccf7f2206ff",
     "packages": [
         {
             "name": "braincrafted/bootstrap-bundle",
@@ -4196,6 +4196,61 @@
                 "logging"
             ],
             "time": "2016-04-13 16:21:01"
+        },
+        {
+            "name": "symfony/phpunit-bridge",
+            "version": "v3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/phpunit-bridge.git",
+                "reference": "f5e7cdc9b5cd3f7d9b0228692cd6ec5736c3b074"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/f5e7cdc9b5cd3f7d9b0228692cd6ec5736c3b074",
+                "reference": "f5e7cdc9b5cd3f7d9b0228692cd6ec5736c3b074",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "symfony/debug": "For tracking deprecated interfaces usages at runtime with DebugClassLoader"
+            },
+            "type": "symfony-bridge",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.1-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Bridge\\PhpUnit\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony PHPUnit Bridge",
+            "homepage": "https://symfony.com",
+            "time": "2016-04-12 18:27:47"
         },
         {
             "name": "symfony/polyfill-apcu",

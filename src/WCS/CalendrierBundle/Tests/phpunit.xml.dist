@@ -10,17 +10,21 @@
 >
     <testsuites>
 
-        <testsuite name="Calendrier_Scolaire_Integration_Test_Suite">
+        <testsuite name="unit">
+            <directory>../Tests/Unit/</directory>
+        </testsuite>
+
+
+        <testsuite name="integration">
             <directory>../Tests/Integration/</directory>
         </testsuite>
 
-        <testsuite name="Calendrier_Scolaire_Unit_Test_Suite">
-            <directory>../Tests/Unit/</directory>
+        <testsuite name="func">
+            <directory>../Tests/Func/</directory>
         </testsuite>
 
     </testsuites>
     <php>
         <server name="KERNEL_DIR" value="../../../../app/" />
-        <env name="BOOTSTRAP_CLEAR_CACHE_ENV" value="test"/>
     </php>
 </phpunit>

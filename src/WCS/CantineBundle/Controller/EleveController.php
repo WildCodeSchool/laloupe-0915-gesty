@@ -141,7 +141,7 @@ class EleveController extends Controller
             throw $this->createAccessDeniedException();
         }
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         // liste des enfants
         $children                   = $em->getRepository("WCSCantineBundle:Eleve")->findChildren($user);

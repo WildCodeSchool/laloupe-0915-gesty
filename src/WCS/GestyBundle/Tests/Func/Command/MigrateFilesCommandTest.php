@@ -4,7 +4,7 @@
  * http://symfony.com/doc/current/cookbook/console/console_command.html#testing-commands
  * http://symfony.com/doc/current/components/console/helpers/questionhelper.html#testing-a-command-that-expects-input
  */
-namespace WCS\GestyBundle\Tests;
+namespace src\WCS\GestyBundle\Tests\Func\Command;
 
 
 use Symfony\Component\Console\Command\Command;
@@ -51,7 +51,7 @@ class MigrateFilesCommandTest extends KernelTestCase
     protected function setUp()
     {
         // init the necessary to run the command
-        $this->mg_kernel = $this->createKernel(array('environment'=>'test', 'debug'=>false));
+        $this->mg_kernel = $this->createKernel();
         $this->mg_kernel->boot();
 
         $this->app = new Application($this->mg_kernel);
