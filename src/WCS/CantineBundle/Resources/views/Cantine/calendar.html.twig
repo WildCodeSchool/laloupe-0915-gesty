@@ -4,8 +4,8 @@
 {% if calendrier %}
 <!-- Année scolaire -->
 <div class="anneescolaire">
-    {{ calendrier.periodesScolaire.anneeScolaire.debut|date('Y') }}
-    / {{ calendrier.periodesScolaire.anneeScolaire.fin|date('Y') }}
+    {{ calendrier.periodesAnneeScolaire.anneeScolaire.debut|date('Y') }}
+    / {{ calendrier.periodesAnneeScolaire.anneeScolaire.fin|date('Y') }}
 </div>
 
 <!-- Jours habituels d'inscription à la cantine -->
@@ -39,8 +39,8 @@
     <!-- page du mois -->
 <div class="">
 
-        {% for month in calendrier.months %}
-            <div class="month" id="month{{ month }}" style="display:none;">
+        {% for month in calendrier.periodesAnneeScolaire.months %}
+            <div class="month" id="month{{ month|date('m') }}" style="display:none;">
                 <table>
                     <thead>
                         <tr>
@@ -59,7 +59,7 @@
                             une ligne du tableau = une semaine dans le mois
                         #}
                         <tr>
-                        {% for jour in calendrier.days(month) %}
+                        {% for jour in calendrier.days(month|date('m')) %}
                             {#
                                 on affiche des cellules vides si le mois commence au cours de la semaine.
                             #}
@@ -71,14 +71,16 @@
                                 selon les particularités de la journée, la cellule est affichée différemment
                             #}
 
+                            {% set isReserved = eleve.dateInLunches(jour.dateString) %}
+
                             {% if jour.isOff %}
                                 <td class="inactif">
 
-                            {% elseif jour.isPast %}
+                            {% elseif jour.dateString < first_day_available|date('Y-m-d') %}
                                 {% set disabled='disabled="disabled"' %}
 
                                 <td class="calendar-reservation-over">
-                                {% if jour.__toString in listLunchesSelected %}
+                                {% if isReserved %}
                                     <input disabled="disabled" class="calendar-checkbox day{{ jour.dayOfWeek }}" type="checkbox" value="{{ jour }}" name="dates[]">
                                 {% else %}
                                     <input disabled="disabled" class="calendar-checkbox day{{ jour.dayOfWeek }}" type="checkbox" value="" name="dates[]">
@@ -86,7 +88,7 @@
 
                             {% else %}
 
-                                {% if jour.__toString in listLunchesSelected %}
+                                {% if isReserved %}
                                 <td class="calendar-reserved">
                                 {% else %}
                                 <td>
@@ -135,17 +137,23 @@
         </div>
     </div>
 </div>
+    Vous pouvez inscrire votre enfant à partir du <strong>{{ first_day_available|date('d/m/Y') }}</strong>
+    <br />
+    <br />
+    <br />
 
 
 <script>
     window.addEventListener('load', function(){
-
+        {#
         {% set firstDate = calendrier.periodesScolaire.anneeScolaire.debut|date('Y-m-d') %}
-        {% if calendrier.dateToday < firstDate %}
+        {% if first_day_available|date('Y-m-d') < firstDate %}
             var today = new Date('{{ firstDate }}');
         {% else %}
-            var today = new Date('{{ calendrier.dateToday }}');
+            var today = new Date('{{ first_day_available|date('Y-m-d') }}');
         {% endif %}
+#}
+        var today = new Date('{{ first_day_available|date('Y-m-d') }}');
 
         // ---------------------------------------------------------------------------------------------------
         // affiche le calendrier correspondant au mois donné et masque les autres

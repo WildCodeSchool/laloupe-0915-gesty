@@ -10,6 +10,7 @@ namespace WCS\CantineBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use WCS\CantineBundle\Entity\ActivityType;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Form\Type\VoyageType;
 
@@ -18,6 +19,15 @@ class VoyageController extends Controller
 {
     public function inscrireAction(Request $request, Eleve $eleve)
     {
+        //------------------------------------------------------------------------
+        // inscriptions possible à partir de la date du jour + un délai de N jours
+        // pour les voyages
+        //------------------------------------------------------------------------
+        $first_day_available = ActivityType::getFirstDayAvailable(
+            ActivityType::TRAVEL,
+            $this->get('wcs.datenow')
+        );
+
         // créer une instance d'un formulaire
         $options = array(
             'method' => 'POST',
@@ -25,7 +35,7 @@ class VoyageController extends Controller
                 'id' => $eleve->getId()
             )),
             'division' => $eleve->getDivision(),
-            'date_day' => $this->get('wcs.datenow')->getDate()
+            'date_day' => $first_day_available
         );
 
         $form = $this->createForm(new VoyageType(), $eleve, $options);
@@ -45,6 +55,7 @@ class VoyageController extends Controller
 
         return $this->render("WCSCantineBundle:Voyage:inscription.html.twig", array(
             "eleve" => $eleve,
+            "first_day_available" => $first_day_available,
             "form" => $form->createView()
         ));
     }

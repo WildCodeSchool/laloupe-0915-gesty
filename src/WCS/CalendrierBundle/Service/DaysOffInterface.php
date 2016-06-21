@@ -4,17 +4,23 @@ namespace WCS\CalendrierBundle\Service;
 interface DaysOffInterface
 {
     /**
+     * @param \WCS\CalendrierBundle\Service\Periode\Periode $periode
+     * @param array $options customizable options
      * @return array of dates
      */
-    public function findDatesWithin(
-        \WCS\CalendrierBundle\Service\Periode\Periode $periode
+    function findDatesWithin(
+        \WCS\CalendrierBundle\Service\Periode\Periode $periode,
+        array $options
     );
 
     /**
      * @param \DateTimeInterface $date
+     * @param array $options customizable options
      * @return bool
      */
-    public function isOff(
-        \DateTimeInterface $date
+    function isOff(
+        \DateTimeInterface $date,
+        array $options
     );
+
 }

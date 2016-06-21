@@ -273,6 +273,23 @@ class Eleve
     }
 
     /**
+     * @param string $dateStr date in format 'Y-m-d'
+     * @return bool True if lunches contains the date
+     */
+    public function isDateInLunches($dateStr)
+    {
+        /**
+         * @var \WCS\CantineBundle\Entity\Lunch $lunch
+         */
+        foreach($this->lunches as $lunch) {
+            if ($lunch->getDate()->format('Y-m-d') === $dateStr) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Set user
      *
      * @param \Application\Sonata\UserBundle\Entity\User $user

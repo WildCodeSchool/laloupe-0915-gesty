@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Form;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+use WCS\CantineBundle\Entity\ActivityType;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Form\Type\CantineType;
 
@@ -26,28 +27,15 @@ class CantineController extends Controller
         $em             = $this->getDoctrine()->getManager();
         $calendrier     = $this->get("wcs.calendrierscolaire")->getCalendrierRentreeScolaire();
 
-        // récupère la liste des réservations effectuée
-        // cette info est utile uniquement pour la gestion du formulaire dans Twig
-        // En effet on doit supprimer toutes les réservations qui ne sont pas retournées
-        // par le formulaire, hors les réservations effectuées, mais passées doivent être présentes
-        // afin de ne pas être effacées de la base. Par ailleurs, on ne peut tout afficher
-        // au risque du coup d'enregistrer des réservations qui n'ont pas été sélectionnées
-        $listLunchesSelected = array();
-        /**
-         * @var \WCS\CantineBundle\Entity\Lunch $lunch
-         */
-        foreach($eleve->getLunches() as $lunch) {
-            $listLunchesSelected[] = $lunch->getDate()->format("Y-m-d");
-        }
+        // inscriptions possible à partir d'un délai de N jours pour la cantine
+        $first_day_available = ActivityType::getFirstDayAvailable(
+            ActivityType::CANTEEN,
+            $this->get('wcs.datenow')
+        );
 
-
-        // la réservation à la cantine ne peut être effectué que 7 jours après
-        // la date du jour (soit le 8e jour)
-        // on désactive donc le jour actuel et les 7 jours suivants.
-        if (!is_null($calendrier)) {
-            $calendrier->addDaysPastFrom(
-                new \DateTimeImmutable($calendrier->getDateToday()), new \DateInterval('P8D')
-            );
+        $datedebutAnnee = $calendrier->getPeriodesAnneeScolaire()->getAnneeScolaire()->getDebut();
+        if ($first_day_available < $datedebutAnnee) {
+            $first_day_available = $datedebutAnnee;
         }
 
         // créé le formulaire associé à l'élève
@@ -66,10 +54,10 @@ class CantineController extends Controller
         return $this->render(
             'WCSCantineBundle:Cantine:inscription.html.twig',
             array(
-                "form" => $form->createView(),
-                "eleve" => $eleve,
-                "calendrier" => $calendrier,
-                "listLunchesSelected" => $listLunchesSelected
+                "form"                  => $form->createView(),
+                "eleve"                 => $eleve,
+                "calendrier"            => $calendrier,
+                "first_day_available"   => $first_day_available
             )
         );
 

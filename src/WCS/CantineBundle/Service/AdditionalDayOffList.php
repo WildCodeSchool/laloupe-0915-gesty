@@ -1,28 +1,33 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: rod
- * Date: 30/05/16
- * Time: 17:06
- */
-
 namespace WCS\CantineBundle\Service;
 
 use WCS\CalendrierBundle\Service\DaysOffInterface;
+use WCS\CantineBundle\Entity\ActivityType;
 
 class AdditionalDayOffList implements DaysOffInterface
 {
+    /**
+     * @var \Doctrine\ORM\EntityManagerInterface
+     */
+    private $manager;
+
     public function __construct(\Doctrine\ORM\EntityManagerInterface $em)
     {
-        $this->repoFeries = $em->getRepository('WCSCantineBundle:Feries');
+        $this->manager = $em;
     }
 
     /**
      * @return array of \DateTime
+     * @param array $options associative array with the followin keys
+     *      - "activity_type" : ActivityType::const**
+     *      - "eleve" : Entity Eleve
      */
-    public function findDatesWithin(\WCS\CalendrierBundle\Service\Periode\Periode $periode)
+    public function findDatesWithin(
+        \WCS\CalendrierBundle\Service\Periode\Periode $periode,
+        array $options = array()
+    )
     {
-        $daysOffArray = $this->repoFeries->findListDatesWithin(
+        $daysOffArray = $this->manager->getRepository('WCSCantineBundle:Feries')->findListDatesWithin(
             $periode->getDebut(),
             $periode->getFin()
         );
@@ -32,15 +37,26 @@ class AdditionalDayOffList implements DaysOffInterface
 
     /**
      * @inheritdoc
+     * @param array $options associative array with the followin keys
+     *      - "activity_type" : ActivityType::const**
+     *      - "eleve" : Entity Eleve
      */
-    public function isOff(\DateTimeInterface $date)
+    public function isOff(
+        \DateTimeInterface $date,
+        array $options = array()
+    )
     {
-        $daysOffArray = $this->repoFeries->findListDatesWithin(
+        $isUsualActivityDayOff = ActivityType::isDayOff($options["activity_type"], $date);
+        return $isUsualActivityDayOff;
+
+        $daysOffArray = $this->manager->getRepository('WCSCantineBundle:Feries')->findListDatesWithin(
             $date,
             $date
         );
-        return (in_array($date, $daysOffArray));
-    }
+        $isDayOff = (in_array($date, $daysOffArray));
+        if (true === $isDayOff) {
+            return $isDayOff;
+        }
 
-    private $repoFeries;
+    }
 }

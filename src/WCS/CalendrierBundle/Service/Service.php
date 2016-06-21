@@ -1,9 +1,7 @@
 <?php
 namespace WCS\CalendrierBundle\Service;
 
-
-use WCS\CalendrierBundle\Service\Calendrier\ActivityType;
-use WCS\CalendrierBundle\Service\ICSFileReader\ICSFileReader;
+use WCS\CalendrierBundle\Service\ICalendarFileReader\ICalendarFileReader;
 use WCS\CalendrierBundle\Service\PeriodesAnneeScolaire\PeriodesAnneeScolaire;
 use WCS\CalendrierBundle\Service\Calendrier\Calendrier;
 
@@ -18,7 +16,7 @@ class Service
      */
     public function getAnneeScolaire()
     {
-        return $this->getCalendrierRentreeScolaire()->getPeriodesScolaire()->getAnneeScolaire();
+        return $this->getCalendrierRentreeScolaire()->getPeriodesAnneeScolaire()->getAnneeScolaire();
     }
 
 
@@ -27,13 +25,9 @@ class Service
      * @param \DateTimeInterface $dateDay
      * @return bool
      */
-    public function isDayOff($activityTypeConstant, \DateTimeInterface $dateDay)
+    public function isDayOff(\DateTimeInterface $dateDay, $options=array())
     {
-        if ($this->daysOff->isOff($dateDay)) {
-            return true;
-        }
-        
-        return ActivityType::isDayOff($activityTypeConstant, $dateDay);
+        return $this->daysOff->isOff($dateDay, $options);
     }
 
     /**
@@ -60,7 +54,7 @@ class Service
         if (!$cal) {
             return null;
         }
-        return $cal->getPeriodesScolaire();
+        return $cal->getPeriodesAnneeScolaire();
     }
 
 
@@ -91,7 +85,7 @@ class Service
         $tmp = \DateTime::createFromFormat('Y-m-d', $date_jour);
         $now_year = $tmp->format('Y');
 
-        if ($date_jour >= "$now_year-01-01" && $date_jour <= "$now_year-07-31") {
+        if ($date_jour >= "$now_year-01-01" && $date_jour <= "$now_year-07-05") {
             $this->annee_rentree_from_today = $now_year - 1;
         } else {
             $this->annee_rentree_from_today = $now_year;
@@ -132,7 +126,7 @@ class Service
      *
      * Charge la liste des périodes scolaires depuis un fichier ICS
      *
-     * @param $filepath
+     * @param $icsFilepath
      * @param DateNow $dateNow
      * @param DaysOffInterface $daysOff
      */
@@ -145,7 +139,7 @@ class Service
         $this->daysOff = $daysOff;
         $this->cals = array();
 
-        $this->selectRentreeScolaireAvecDate( $dateNow->getDateStr('Y-m-d') );
+        $this->selectRentreeScolaireAvecDate( $dateNow->getDate()->format('Y-m-d') );
         
         $this->loadFromFile($icsFilepath);
     }
@@ -156,7 +150,7 @@ class Service
     private function loadFromFile($icsFilepath)
     {
         // charge le fichier ICS
-        $cal    = new ICSFileReader($icsFilepath);
+        $cal    = new ICalendarFileReader($icsFilepath);
         $events = $cal->getEvents();
         if (iterator_count($events)==0) {
             return;
@@ -173,11 +167,14 @@ class Service
             $tmp_periodes[] = $event;
             if (($nbEventsRead % PeriodesAnneeScolaire::NB_EVENTS_PAR_AN)==0) {
                 $cal = new Calendrier(
-                                                    new PeriodesAnneeScolaire($tmp_periodes, $this->date_du_jour),
-                                                    $this->date_du_jour
-                                                    );
+                    new PeriodesAnneeScolaire($tmp_periodes, $this->date_du_jour),
+                    $this->date_du_jour
+                );
 
-                $feriesArray = $this->daysOff->findDatesWithin($cal->getPeriodesScolaire()->getAnneeScolaire());
+                $feriesArray = $this->daysOff->findDatesWithin(
+                    $cal->getPeriodesAnneeScolaire()->getAnneeScolaire(),
+                    array()
+                );
                 if ($feriesArray) {
                     $cal->addDaysOff($feriesArray);
                 }
@@ -196,7 +193,7 @@ class Service
     private $date_du_jour;
 
     /**
-     * @var array of Calendrier
+     * @var Calendrier[]
      */
     private $cals;
 

@@ -3,7 +3,9 @@
 namespace WCS\CantineBundle\Form\DataTransformer;
 
 
-use WCS\CalendrierBundle\Service\Calendrier\ActivityType;
+//use WCS\CalendrierBundle\Service\Calendrier\ActivityType;
+use WCS\CantineBundle\Entity\ActivityType;
+use WCS\CantineBundle\Entity\Eleve;
 use WCS\CalendrierBundle\Service\Periode\Periode;
 use WCS\CalendrierBundle\Service\Calendrier\Day;
 use WCS\CantineBundle\Service\AdditionalDayOffList;
@@ -41,10 +43,16 @@ class DaysOfWeeks
     }
 
 
-    public function __construct(Periode $periode, AdditionalDayOffList $dayOffList)
+    /**
+     * DaysOfWeeks constructor.
+     * @param Periode $periode
+     * @param AdditionalDayOffList $dayOffList
+     * @param Eleve $eleve (optional)
+     */
+    public function __construct(Periode $periode, AdditionalDayOffList $dayOffList, Eleve $eleve=null)
     {
         $this->periode  = $periode;
-        $dayOffArray    = $dayOffList->findDatesWithin($periode);
+        $dayOffArray    = $dayOffList->findDatesWithin($periode, array("eleve"=>$eleve));
 
         $currentDay     = $this->periode->getDebut();
         $end            = new \DateTimeImmutable($this->periode->getFin()->format('Y-m-d'));

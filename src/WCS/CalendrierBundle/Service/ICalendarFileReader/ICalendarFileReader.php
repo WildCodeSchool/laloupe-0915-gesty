@@ -18,13 +18,13 @@
  *
  *
  */
-namespace WCS\CalendrierBundle\Service\ICSFileReader;
+namespace WCS\CalendrierBundle\Service\ICalendarFileReader;
 use WCS\CalendrierBundle\Service\Periode\Periode;
 use WCS\CalendrierBundle\Service\ListPeriodes\ListPeriodes;
 
 
 
-class ICSFileReader
+class ICalendarFileReader
 {
     /**
      * Construction de l'objet ICSFileReader
@@ -107,7 +107,7 @@ class ICSFileReader
 
 
     /**
-     * @return array de WCS\CalendrierBundle\CalendrierScolaire\ICSFileReader\ICSEvent
+     * @return \WCS\CalendrierBundle\Service\ListPeriodes\ListPeriodes
      */
     public function getEvents()
     {

@@ -7,12 +7,14 @@ parameters:
 #    wcs.calendar_scolaire.file: 'http://www.education.gouv.fr/download.php?file=http://cache.media.education.gouv.fr/ics/Calendrier_Scolaire_Zone_B.ics'
     wcs.calendrier_scolaire.file: '%kernel.root_dir%/Resources/files/Calendrier_Scolaire_Zone_B.ics'
     wcs.datenow.date: ''
+    wcs.datenow.options:
+        available_start: []
 
 services:
 
     wcs.datenow:
         class: WCS\CalendrierBundle\Service\DateNow
-        arguments: ['%wcs.datenow.date%']
+        arguments: ['%wcs.datenow.date%', '%wcs.datenow.options%']
 
     wcs.daysoff:
         class: 'WCS\CalendrierBundle\Service\DaysOffDefault'

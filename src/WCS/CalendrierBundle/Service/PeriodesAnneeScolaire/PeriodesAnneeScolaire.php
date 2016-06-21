@@ -127,6 +127,14 @@ class PeriodesAnneeScolaire
         return null;
     }
 
+    /**
+     * @return \WCS\CalendrierBundle\Utils\DatesPeriodIterator
+     */
+    public function getMonths()
+    {
+        return $this->annee_scolaire->getMonthIterator();
+    }
+
     /*==========================================================================================================
         Constructeur
         methodes privées
