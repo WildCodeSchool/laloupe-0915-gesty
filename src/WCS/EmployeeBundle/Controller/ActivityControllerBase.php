@@ -29,8 +29,8 @@ class ActivityControllerBase extends Controller
         ];
 
         return $this->container->get('wcs.calendrierscolaire')->isDayOff(
-            $activityType[$activity],
-            $this->getDateDay()
+            $this->getDateDay(),
+            array('activity_type' => $activityType[$activity])
         );
     }
 

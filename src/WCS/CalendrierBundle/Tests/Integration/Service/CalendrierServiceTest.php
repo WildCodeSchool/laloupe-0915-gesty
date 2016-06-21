@@ -17,7 +17,7 @@ class CalendrierServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->file = __DIR__ . '/../../Files/Calendrier_Scolaire_Zone_B.ics';
-        $dateNow = new DateNow('2016-01-01');
+        $dateNow = new DateNow('2016-01-01', array());
 
 
         $mockDaysOff = $this->createMock(DaysOffInterface::class);

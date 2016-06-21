@@ -4,6 +4,7 @@ namespace WCS\CantineBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Form;
+use WCS\CantineBundle\Entity\ActivityType;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Form\DataTransformer\DaysOfWeeks;
 use WCS\CantineBundle\Form\Type\TapType;
@@ -23,7 +24,13 @@ class TapGarderieController extends Controller
         // inscriptions possible à partir de la date du jour + un délai de N jours
         // pour les tap/garderies
         //------------------------------------------------------------------------
-        $first_day_available = $this->get("wcs.datenow")->getFirstDayAvailable('tap_garderie');
+        $first_day_available = ActivityType::getFirstDayAvailable(
+            ActivityType::TAP, // peu importe tap ou garderie car ce controlleur renvoit les deux
+            $this->get('wcs.datenow')
+        );
+        if ($first_day_available < $periode_tap->getDebut()) {
+            $first_day_available = $periode_tap->getDebut();
+        }
 
         //------------------------------------------------------------------------
         // récupère toutes les dates de la période
@@ -65,6 +72,7 @@ class TapGarderieController extends Controller
                 "eleve" => $eleve,
                 "periode_tap" => $periode_tap,
                 "first_day_available" => $first_day_available,
+                "usual_dayoff" => ActivityType::getAllUsualDaysOff(),
                 "form" => $form->createView()
                 )
         );

@@ -32,6 +32,7 @@
 
 namespace WCS\CalendrierBundle\Service\Calendrier;
 
+use WCS\CalendrierBundle\Service\Periode\Periode;
 use WCS\CalendrierBundle\Service\PeriodesAnneeScolaire\PeriodesAnneeScolaire;
 
 
@@ -48,15 +49,6 @@ class Calendrier
     public function getDays($month)
     {
         return $this->days[$month];
-    }
-
-    /**
-     * Renvoit une liste de mois de l'année scolaire, dans l'ordre de '09' (sept) à '07' (juillet).
-     * @return string[]
-     */
-    public function getMonths()
-    {
-        return array('09','10','11','12','01','02','03','04','05','06','07');
     }
 
     /**
@@ -86,52 +78,26 @@ class Calendrier
 
 
     /**
-     * Ajoute "nb jours" "fermés" (ex : des jours fériés) depuis une date de début
-     * uniquement pour la période du calendrier
-     * Ainsi, un jour férié pour une autre année ne sera pas ajouté.
-     *
-     * @param \DateTimeImmutable $dateDebut date à partir de laquelle on doit ajouter des jours "fermés" (date incluse)
-     * @param \DateInterval $nbJours à ajouter
-     */
-    public function addDaysPastFrom(\DateTimeImmutable $dateDebut, \DateInterval $nbJours)
-    {
-
-        $oneDay     = new \DateInterval('P1D');
-        $currentDay = $dateDebut;
-        $dayPlus7   = $currentDay->add($nbJours);
-        $list_day_past = array();
-
-        while ($currentDay < $dayPlus7) {
-            $list_day_past[] = $currentDay;
-            $currentDay = $currentDay->add($oneDay);
-        }
-        $this->addDaysPast($list_day_past);
-    }
-
-    /**
      * @return PeriodesAnneeScolaire
      */
-    public function getPeriodesScolaire()
+    public function getPeriodesAnneeScolaire()
     {
-        return $this->periodesScolaire;
+        return $this->periodesAnneeScolaire;
     }
 
     /**
      * @return mixed
      */
-    public function getDateToday()
-    {
-        return $this->date_today;
-    }
 
     /**
      * @param string $date_today au format 'Y-m-d'
      */
+    
     public function setDateToday($date_today)
     {
         $this->date_today = $date_today;
-        $this->updateDaysIsPast($date_today);
     }
+
 
 
     /*==========================================================================================================
@@ -145,21 +111,26 @@ class Calendrier
      *
      * Génère chaque jours du calendrier pour une période scolaire donnée
      *
-     * @param PeriodesAnneeScolaire $periodesScolaire
+     * @param PeriodesAnneeScolaire $periodesAnneeScolaire
      * @param string - date du jour au format 'Y-m-d'
      */
-    public function __construct(PeriodesAnneeScolaire $periodesScolaire, $date_du_jour)
+    public function __construct(
+        PeriodesAnneeScolaire $periodesAnneeScolaire,
+        $date_du_jour
+    )
     {
-        $this->periodesScolaire = $periodesScolaire;
+        $this->periodesAnneeScolaire = $periodesAnneeScolaire;
         $this->date_today = $date_du_jour;
         $this->days = array();
 
-        $annee_scolaire = $periodesScolaire->getAnneeScolaire();
-        $currentDay     = $annee_scolaire->getDebut();
-        $end            = new \DateTimeImmutable($annee_scolaire->getFin()->format('Y-m').'-31');
-        $oneDay         = new \DateInterval('P1D');
+        $annee_scolaire = $periodesAnneeScolaire->getAnneeScolaire();
 
-        while ($currentDay <= $end) {
+        $period = new Periode(
+            $annee_scolaire->getDebut(),
+            new \DateTimeImmutable($annee_scolaire->getFin()->format('Y-m').'-31')
+        );
+
+        foreach($period->getDayIterator() as $currentDay) {
             $d = new Day($currentDay);
 
             if ($d->isDayOfWeek(Day::WEEK_WEDNESDAY) ||
@@ -169,16 +140,12 @@ class Calendrier
                 $d->setOff(true);
             }
             else {
-                $d->setOff(is_null($periodesScolaire->findEnClasseFrom($d->getDateString())));
+                $d->setOff(is_null($periodesAnneeScolaire->findEnClasseFrom($d->getDateString())));
             }
 
             $this->days[ $d->getMonth() ][ $d->getDay() ] = $d;
 
-            // passe au jour suivant
-            $currentDay = $currentDay->add($oneDay);
         }
-
-        $this->updateDaysIsPast($date_du_jour);
     }
 
     /**
@@ -192,7 +159,7 @@ class Calendrier
      */
     private function addDaysWithAttribute($array_days, $methodName, $attributeValue)
     {
-        if ($this->date_today > $this->periodesScolaire->getAnneeScolaire()->getDebut()->format('Y-m-d')) {
+        if ($this->date_today > $this->periodesAnneeScolaire->getAnneeScolaire()->getDebut()->format('Y-m-d')) {
             foreach ($array_days as $jour) {
                 $year = $jour->format('Y');
                 $month = $jour->format('m');
@@ -208,18 +175,6 @@ class Calendrier
     }
 
     /**
-     * @param string $date au format 'Y-m-d'
-     */
-    private function updateDaysIsPast($date)
-    {
-        foreach($this->days as $month) {
-            foreach($month as $day) {
-                $day->setPast($day->__toString() < $date);
-            }
-        }
-    }
-
-    /**
      * @var \WCS\CalendrierBundle\Service\Calendrier\Day[][]
      */
     private $days;
@@ -227,7 +182,7 @@ class Calendrier
     /**
      * @var PeriodesAnneeScolaire
      */
-    private $periodesScolaire;
+    private $periodesAnneeScolaire;
 
     /**
      * @var string

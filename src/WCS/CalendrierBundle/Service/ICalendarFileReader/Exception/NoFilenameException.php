@@ -2,7 +2,7 @@
 namespace WCS\CalendrierBundle\Service\ICSFileReader\Exception;
 
 
-class NoFilenameException extends \Exception
+class NoFilenameException extends \RuntimeException
 {
     public function __construct(\Exception $previous = null)
     {

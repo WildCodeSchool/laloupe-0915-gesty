@@ -3,10 +3,7 @@ parameters:
         available_start:
             canteen: 8
             tap_garderie: 1
-            tap: 1
-            garderie_matin: 1
-            garderie_soir: 1
-            voyage: 1
+            travel: 1
 
 services:
     sonata.block.service.stat:

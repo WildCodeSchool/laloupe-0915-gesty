@@ -163,9 +163,20 @@ class Periode implements PeriodeInterface
     }
 
 
+    /**
+     * @return DatesPeriodIterator
+     */
     public function getDayIterator()
     {
         return new DatesPeriodIterator($this, new \DateInterval('P1D'));
+    }
+
+    /**
+     * @return DatesPeriodIterator
+     */
+    public function getMonthIterator()
+    {
+        return new DatesPeriodIterator($this, new \DateInterval('P1M'));
     }
 
     /*--------------------------------------------------------------------------------

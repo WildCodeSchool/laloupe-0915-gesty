@@ -3,6 +3,7 @@ namespace WCS\CalendrierBundle\Service;
 
 
 use Symfony\Component\VarDumper\VarDumper;
+use WCS\CantineBundle\Entity\ActivityType;
 
 class DateNow
 {
@@ -39,19 +40,11 @@ class DateNow
 
 
     /**
-     *
-     * @return \DateTimeImmutable date qui suit la date courante + N jours
+     * @return array
      */
-    public function getFirstDayAvailable($key)
+    public function getOptions($key)
     {
-        $dayStr = $this->dateNow->format('Y-m-d');
-        $avail_start = $this->options['available_start'];
-
-        if (isset($avail_start[$key])) {
-            $dayStr = $this->dateNow->format('Y-m-d').' +'.$avail_start[$key].' day';
-        }
-
-        return new \DateTimeImmutable($dayStr);
+        return $this->options[$key];
     }
 
     /**
@@ -60,7 +53,7 @@ class DateNow
     private $dateNow;
 
     /**
-     * @var array
+     * @var array[]
      */
     private $options;
 }

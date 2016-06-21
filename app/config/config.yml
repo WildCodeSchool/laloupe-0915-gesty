@@ -12,7 +12,7 @@ parameters:
     security.exception_listener.class: WCS\GestyBundle\Security\Firewall\ExceptionListener
     wcs_upload_folder:        'uploads'
     wcs_upload_absolute_path: '%kernel.root_dir%/%wcs_upload_folder%/'
-    wcs.datenow.date:         '2016-06-23'
+    wcs.datenow.date:         ''
 
 framework:
     #esi:             ~
