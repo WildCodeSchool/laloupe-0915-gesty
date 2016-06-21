@@ -234,7 +234,7 @@ sonata_admin:
                 label: Voyages
                 items:
                     - sonata.admin.voyage
-                    #- sonata.admin.inscription
+#                    - sonata.admin.inscription
 
             wcs.group.tapgarderie:
                 icon: '<i class="fa fa-tag"></i>'

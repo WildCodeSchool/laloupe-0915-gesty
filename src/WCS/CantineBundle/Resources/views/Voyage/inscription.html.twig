@@ -23,7 +23,14 @@
 
 
         <div class="col-md-12">
-            <h3 class="titre">{{eleve }}</h3>
+            <h3 class="titre">{{eleve }}</h3><div class="col-md-12">
+            <h3>Les voyages scolaires (2015-2016)</h3>
+            <div class="form-group">
+                <blockquote>
+                    {{ form_widget(form.voyages) }}
+                </blockquote>
+            </div>
+        </div>
 
                 <strong>Né(e) le:</strong> {{ eleve.dateDeNaissance | date('d/m/Y') }}</br>
                 <strong>Classe/Ecole: </strong> {{ eleve.division }}</br>

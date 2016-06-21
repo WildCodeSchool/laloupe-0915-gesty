@@ -37,6 +37,7 @@ class EleveAdmin extends Admin
             ->add('allergie',null ,array('required' => false))
             ->add('division', 'entity', array(
                 'class' => 'WCSCantineBundle:Division',
+                'label' => 'Classe',
                 'required'=>true ))
         ;
     }
@@ -84,12 +85,14 @@ class EleveAdmin extends Admin
             ->add('dateDeNaissance', 'date', array('format' => 'd/m/Y',))
             ->add('division','choice', array('label'=>'Classe'))
             ->add('user',null, array('label'=>'Email des parents'))
-            ->add('_action', 'actions', array('actions' => array(
-                'edit' => array(),
-                'delete' => array(),
-            )))
             ->add('allergie', 'text')
             ->add('regimeSansPorc', 'boolean')
+            ->add('_action', 'actions',
+                array('actions' => array(
+                    'edit' => array(),
+                    'delete' => array(),
+                    'delete' => array(),
+            )))
 
         ;
     }
