@@ -95,7 +95,6 @@ class CantineController extends Controller
             $em->persist($eleve);
 
             $em->flush();
-            return true;
         }
 
         return false;
