@@ -38,6 +38,9 @@ class GarderieRepository extends ActivityRepositoryAbstract
             ->join('e.division', 'd')
             ->where('g.date LIKE :day')
             ->andWhere('d.school = :school')
+            ->addOrderBy('d.grade')
+            ->addOrderBy('d.headTeacher')
+            ->addOrderBy('e.nom')
             ->setParameter(':day', "%".$day."%")
             ->setParameter(':school', $school);
 

@@ -174,7 +174,7 @@ class LunchRepository extends ActivityRepositoryAbstract
                   JOIN l.eleve e 
                   JOIN e.division d 
                   WHERE l.date LIKE :day AND d.school = :place 
-                  ORDER BY e.nom'
+                  ORDER BY d.grade, d.headTeacher, e.nom'
             )
             ->setParameter(':day', "%".$day."%")
             ->setParameter(':place', $school)

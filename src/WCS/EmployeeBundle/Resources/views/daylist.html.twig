@@ -14,13 +14,19 @@
                     <td class="text-center welcome dateNow" id="{{ date_day|date("Y-m-d") }}">
                         {{ date_day|date("d/m/Y") }}
                     </td>
-                    <td class="text-center welcome schoolname" colspan="4" id="{{ app.request.get('school').id }}">
+                    {% if 'cantine' == app.request.get('activity') %}
+
+                    <td class="text-center welcome schoolname" colspan="5" id="{{ app.request.get('school').id }}">
+                        {% else %}
+                    <td class="text-center welcome schoolname" colspan="3" id="{{ app.request.get('school').id }}">
+                        {% endif %}
                         Enfants inscrits - {{ app.request.get('school').name }}
                     </td>
                 </tr>
 
                 <tr>
                     <td class="todayList text-center">Présence</td>
+                    <td class="todayList text-center">Classe</td>
                     <td class="todayList text-center">Nom</td>
                     <td class="todayList text-center">Prénom</td>
 
@@ -52,6 +58,7 @@
 
                             {% endif %}
                         </td>
+                        <td class="text-center">{{ entity.eleve.division.grade }} {{ entity.eleve.division.headteacher }}</td>
                         <td class="text-center">{{ entity.eleve.nom |upper}}</td>
                         <td class="text-center">{{ entity.eleve.prenom }}</td>
 

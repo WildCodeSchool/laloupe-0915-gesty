@@ -35,7 +35,7 @@ class TapRepository extends ActivityRepositoryAbstract
                  JOIN e.division d 
                  WHERE t.date LIKE :day 
                     AND d.school = :school
-                 ORDER BY e.nom'
+                 ORDER BY d.grade, d.headTeacher, e.nom'
             )
             ->setParameter(':day', "%".$day."%")
             ->setParameter(':school', $school)
