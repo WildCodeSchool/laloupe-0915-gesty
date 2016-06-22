@@ -5,6 +5,7 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use WCS\CantineBundle\Entity\DivisionRepository;
 
 
@@ -72,7 +73,7 @@ class VoyageAdmin extends Admin
     {
         $listMapper
             ->add('libelle', null)
-            ->add('divisions', null, array('label' => 'Classes'))
+            ->add('divisions', null, array('label' => 'Classes', 'template' => 'ApplicationSonataUserBundle:CRUD:list_orm_many_to_many.html.twig'))
 
 
             ->add('estSortieScolaire', null, array('label' => 'Sortie scolaire ?'))

@@ -13,15 +13,21 @@ class VoyageRepository extends \Doctrine\ORM\EntityRepository
     public function getQueryByEnabledAndDivisions($options)
     {
         $division   = $options['division'];
-        $day        = $options['date_day'];
 
-        return $this->createQueryBuilder('v')
+        $query =  $this->createQueryBuilder('v')
 
             ->join('v.divisions', 'd')
             ->where("v.estAnnule = FALSE
-                AND d = :division AND v.date_debut > :day")
+                AND d = :division")
             ->orderBy('v.date_debut')
-            ->setParameter(':division', $division)
-            ->setParameter(':day', $day);
+            ->setParameter(':division', $division);
+
+        if (isset($options['date_day'])) {
+            $day        = $options['date_day'];
+            $query->andWhere('AND v.date_debut > :day')
+                ->setParameter(':day', $day);
+        }
+
+        return $query;
     }
 }
