@@ -30,70 +30,75 @@
     =======================================================================
     -->
     <div class="col-md-10 col-md-offset-1">
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <div class="informations__familles">
-            <p>Bonjour :
-                {% if app.user.gender == 'm' %}
-                    M.
-                {% else %}
-                    Mme
-                {% endif %}
-                {{ app.user.lastname }}  {{ app.user.firstname }} </p>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <p>Bonjour :
+                    {% if app.user.gender == 'm' %}
+                        M.
+                    {% else %}
+                        Mme
+                    {% endif %}
+                    {{ app.user.lastname }}  {{ app.user.firstname }}
+                </p>
             {% endif %}
 
 
             <div class="my-home col-md-6">
                 <h1>Mon Foyer <span class="created__at">(Créé le {{ app.user.createdAt|date('d-m-Y') }})</span></h1>
+
                 Etat de votre inscription :
-                {% if app.user.validation == 0 %}
-                    <h3 class="validation"><span class="label label-warning">En attente de validation</span></h3></br>
-                {% else %}
-                    <h3 class="validation"><span class="label label-success"> Validée</span></h3></br>
-                {% endif %}
-
-                <p> {{ app.user }} </p><br/>
-
-
-                <tr>
-                    {% if user.phone %}
-                        <td><i class="fa fa-phone"></i>{{ user.phone }}</td><br/>
+                <h3 class="validation">
+                    {% if app.user.validation == 0 %}
+                        <span class="label label-warning">En attente de validation</span>
                     {% else %}
-                        <td><i class="fa fa-phone"></i>Aucun numéro de téléphone renseigné</td><br/>
+                        <span class="label label-success"> Validée</span>
                     {% endif %}
+                </h3>
+                </br>
+
+                <p> {{ user.email }} </p><br/>
+
+
+                    {% if user.phone %}
+                        <i class="fa fa-phone"></i>{{ user.phone }}<br/>
+                    {% else %}
+                        <i class="fa fa-phone"></i>Aucun numéro de téléphone renseigné<br/>
+                    {% endif %}
+
                     <blockquote>
                         {% if user.adresse %}
-                            <td>{{ user.adresse }}</td><br/>
+                            {{ user.adresse }}
                         {% else %}
-                            <td>Aucune adresse renseignée</td><br/>
+                            Aucune adresse renseignée
                         {% endif %}
+                        <br />
+
                         {% if user.codePostal%}
-                            <td>{{ user.codePostal }}</td><br/>
+                            {{ user.codePostal }}
                         {% else %}
-                            <td>Aucun code postal renseigné</td><br/>
+                            Aucun code postal renseigné
                         {% endif %}
+                        <br />
+
                         {% if user.commune%}
-                            <td>{{ user.commune }}</td><br/>
+                            {{ user.commune }}
                         {% else %}
-                            <td>Aucune commune renseignée</td><br/>
+                            Aucune commune renseignée
                         {% endif %}
                     </blockquote>
-                    {% if  user.modeDePaiement == 'Cheque' %}
-                        <td>Paiement par chèque</td>
-                    {% elseif user.modeDePaiement == 'Especes' %}
-                        <td>Paiement par espèces</td>
-                    {% elseif user.modeDePaiement == 'Prelevements' %}
-                        <td>Paiement par prélèvement</td>
+
+                    {% if  user.modeDePaiement %}
+                        Paiement : {{ user.modeDePaiement }}
                     {% else  %}
-                        <td>Aucun moyen de paiement renseigné</td>
+                        Aucun moyen de paiement renseigné
                     {% endif %}
-                </tr><br/>
+                    <br/>
             </div>
 
 
             <div class="row">
                 <div class="col-md-5">
                     <h3>Mes justificatifs</h3>
-                    <td>
                         <ul>
                         {% for type_file, infos in files %}
                             {% if infos.exists %}
@@ -115,7 +120,6 @@
 
                         {% endfor %}
                         </ul>
-                    </td>
                 </div>
             </div>
 
@@ -165,7 +169,7 @@
                         </div>
 
                         <div class="panel-body-1 fiche_eleve" id="eleve_body_{{ child.id }}">
-                            <div>Né(é) le {{ child.dateDeNaissance|date('d-m-Y') }}</div></br>
+                            <div>Né(e) le {{ child.dateDeNaissance|date('d-m-Y') }}</div></br>
                             <div><strong>Classe:</strong> {{ child.division }}</div><br/>
 
                             <a href="{{ path('eleve_edit', { 'id': child.id })}}"><input type="button" value="Modifier"class="btn btn-primary" style="margin:0"></a><br/>
