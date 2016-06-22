@@ -2,10 +2,12 @@
 //WCS/CantineBundle/Admin/EleveAdmin.php
 namespace WCS\CantineBundle\Admin;
 
+use Symfony\Component\VarDumper\VarDumper;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 
 class EleveAdmin extends Admin
@@ -89,11 +91,12 @@ class EleveAdmin extends Admin
             ->add('regimeSansPorc', 'boolean')
             ->add('_action', 'actions',
                 array('actions' => array(
+
                     'edit' => array(),
-                    'delete' => array(),
                     'delete' => array(),
             )))
 
         ;
     }
+
 }
