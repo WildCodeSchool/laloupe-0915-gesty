@@ -16,6 +16,8 @@ admin:
     prefix: /admin
 
 
+
+
 _sonata_admin:
   resource: .
   type: sonata_admin
@@ -47,6 +49,3 @@ sonata_user:
     resource: '@SonataUserBundle/Resources/config/routing/admin_security.xml'
     prefix: /admin
 
-stat:
-    resource: "@WCSCantineBundle/Resources/config/routing.yml"
-    defaults:  { _controller: WCS\CantineBundle\Controller\Statcontroller }
