@@ -67,7 +67,8 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                 'label'=>'moyen de paiement'),array(
                 'Cheque' => 'Chèque',
                 'Especes' => 'Espèces',
-                'Prelevements' => 'Prélèvements'
+                'Prelevements' => 'Prélèvements',
+                'Carte Bleue' => 'Carte Bleue'
             ))
             ->add('path_domicile', null, array('label' => 'Pièces jointes','template' => 'WCSCantineBundle:User:files_list.html.twig'))
             ->add('eleves',null,array('label'=>'Nom enfant(s)', 'admin_code'=>'sonata.admin.eleve'))
@@ -94,7 +95,7 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
             ->add('lastname')
             ->add('firstname')
             ->add('modeDePaiement','doctrine_orm_choice', array('label'=>'mode de paiement'),'choice' , array('placeholder'=>'Sélectionnez',
-                'choices' => array('Cheque' => 'Chèque', 'Especes' => 'Especes', 'Prelevements' => 'Prélèvements')))
+                'choices' => array('Cheque' => 'Chèque', 'Especes' => 'Especes', 'Prelevements' => 'Prélèvements', 'Carte Bleue' => 'Carte Bleue')))
 
 
 
@@ -159,7 +160,7 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                 'label'=>'mode de paiement',
                 'required'=>false,
                 'choices'=>array(
-                    ''=>'Sélectionnez','Cheque'=>'Chèque','Especes'=>'Espèces','Prelevements'=>'Prélèvements'
+                    ''=>'Sélectionnez','Cheque'=>'Chèque','Especes'=>'Espèces','Prelevements'=>'Prélèvements','Carte Bleue'=>'Carte Bleue'
                 )
             ))
             ->add('validation',null, array('label'=>'Validation du compte', 'required'=>false))
