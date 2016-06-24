@@ -33,3 +33,8 @@ gesty_comptable_download:
     path: /download/{type_file}/{id_user}
     defaults: { _controller: "WCSCantineBundle:Download:downloadComptable"  }
     methods: [GET]
+
+stat:
+    path: /admin/statmonthly
+    defaults: { _controller: "WCSCantineBundle:Stat:count" }
+    methods: [GET, POST]
