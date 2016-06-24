@@ -138,15 +138,21 @@ class LunchRepository extends ActivityRepositoryAbstract
         $statsLunch = new WeekStats();
 
         foreach($dates['days'] as $day) {
-            $totalCurrentDay = $em->createQuery(
-                'SELECT COUNT(d) 
-                     FROM WCSCantineBundle:Lunch d JOIN d.eleve j 
-                     WHERE d.date LIKE :day 
-                     AND j.regimeSansPorc = :pork'
-            )
-            ->setParameter(':day',  "%".$day->format('Y-m-d')."%")
-            ->setParameter(':pork', $options['without_pork'])
-            ->getSingleScalarResult();
+            // compte le nombre d'élèves inscrits à la cantine
+            // qui ne sont pas :
+            // en sortie scolaire ce jour là
+            // inscrits en voyage scolaire (non annulé) ce jour là
+            $query = $this->createQueryBuilder('l')
+                ->select('COUNT(l)')
+                ->join('l.eleve', 'e')
+                ->where('DATE(l.date) = :date_day')
+                ->andWhere('e.regimeSansPorc = :pork')
+                ->setParameter(':date_day', $day->format('Y-m-d'))
+                ->setParameter(':pork', $options['without_pork']);
+
+            $query = $this->excludePupilsTravellingAt($query, 'e', $day);
+
+            $totalCurrentDay = $query->getQuery()->getSingleScalarResult();
 
             $statsLunch->setTotalDay(Day::getDayOfWeekFrom($day), $totalCurrentDay);
         }
@@ -167,18 +173,21 @@ class LunchRepository extends ActivityRepositoryAbstract
         $school = $options['school'];
         $day    = $options['date_day']->format('Y-m-d');
 
-        return $this->getEntityManager()
-            ->createQuery(
-                'SELECT l 
-                  FROM WCSCantineBundle:Lunch l 
-                  JOIN l.eleve e 
-                  JOIN e.division d 
-                  WHERE l.date LIKE :day AND d.school = :place 
-                  ORDER BY d.grade, d.headTeacher, e.nom'
-            )
-            ->setParameter(':day', "%".$day."%")
-            ->setParameter(':place', $school)
-            ->getResult();
+        $query = $this
+            ->createQueryBuilder('l')
+            ->join('l.eleve', 'e')
+            ->join('e.division', 'd')
+            ->where('DATE(l.date) = :day')
+            ->andWhere('d.school = :place')
+            ->orderBy('d.grade')
+            ->addOrderBy('d.headTeacher')
+            ->addOrderBy('e.nom')
+            ->setParameter(':day', $day)
+            ->setParameter(':place', $school);
+
+        $query = $this->excludePupilsTravellingAt($query, 'e', $options['date_day']);
+
+        return $query->getQuery()->getResult();
     }
 
     /**

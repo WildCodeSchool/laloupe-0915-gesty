@@ -46,7 +46,11 @@ class ListViewBuilder extends ViewBuilderAbstract
         $form = $this->createForm(
             new ActivityEleveType($entityClass),
             $entity,
-            [ 'additional_options' => [ 'school_id' => $school->getId() ] ]
+            [ 'additional_options' => [
+                'school_id' => $school->getId(),
+                'date_day'  => $this->getDateDay()
+                ]
+            ]
         );
 
         $redirectTo = '';

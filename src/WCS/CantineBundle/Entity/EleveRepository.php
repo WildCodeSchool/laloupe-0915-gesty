@@ -24,20 +24,35 @@ class EleveRepository extends EntityRepository
         \Doctrine\ORM\Mapping\ClassMetadata $class)
     {
         $this->resolverGetEleves = new OptionsResolver();
-        $this->resolverGetEleves->setDefaults(
-            array(
-                'enable_canteen'    => true,
-                'enable_tap'        => false,
-                'enable_garderie'   => false,
-                'enable_voyages'    => false,
-                'school_id'         => 0
-            )
+
+        $this->resolverGetEleves->setDefined(array(
+            'enable_canteen',
+            'enable_tap',
+            'enable_garderie',
+            'enable_voyages',
+            'school_id',
+            'date_day'
+        ));
+
+        $this->resolverGetEleves->setAllowedTypes(
+            'date_day', \DateTimeInterface::class
         );
+
+        $this->resolverGetEleves->setDefaults(array(
+            'enable_canteen'    => true,
+            'enable_tap'        => false,
+            'enable_garderie'   => false,
+            'enable_voyages'    => false,
+            'school_id'         => 0
+        ));
 
         parent::__construct($em, $class);
     }
 
     /**
+     * Retourne la liste des eleves non inscrits
+     * pour une date donnée.
+     *
      * @param $options
      * @return \Doctrine\ORM\QueryBuilder
      */
@@ -69,6 +84,28 @@ class EleveRepository extends EntityRepository
         }
 
         $q->orderBy('e.nom', 'ASC');
+/*
+        // exclut les élèves déjà inscrit
+        $queryFilter = $this->getEntityManager()->createQueryBuilder()
+
+            ->select('DISTINCT eleve_sortie.id')
+            ->from('WCSCantineBundle:Eleve', 'eleve_sortie')
+            ->join('eleve_sortie.lunches', 'lunches')
+            ->join('classe_sortie.voyages', 'sortie')
+            ->where('sortie.estSortieScolaire = TRUE')
+            ->andWhere('sortie.estAnnule = FALSE')
+            ->andWhere(':date_day BETWEEN 
+                        DATE(sortie.date_debut)
+                        AND
+                        DATE(sortie.date_fin)');
+
+
+        $q->andWhere(
+            $q->expr()->notIn(
+                "e.id", $queryFilter->getDQL()
+            )
+        )->setParameter(':date_day', $options['date_day']->format('Y-m-d'));
+*/
 
         return $q;
     }

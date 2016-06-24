@@ -51,6 +51,8 @@ class GarderieRepository extends ActivityRepositoryAbstract
             $queryBuilder->andWhere('g.enable_evening = TRUE');
         }
 
+        $queryBuilder = $this->excludePupilsTravellingAt($queryBuilder, 'e', $options['date_day']);
+
         return $queryBuilder->getQuery()->getResult();
     }
 }
