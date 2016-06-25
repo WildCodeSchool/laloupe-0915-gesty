@@ -1,3 +1,10 @@
+parameters:
+    wcs.datenow.options:
+        available_start:
+            canteen: 8
+            tap_garderie: 1
+            travel: 1
+
 services:
     sonata.block.service.stat:
         class: WCS\CantineBundle\Block\Service\StatElevesBlockService

@@ -2,10 +2,12 @@
 //WCS/CantineBundle/Admin/EleveAdmin.php
 namespace WCS\CantineBundle\Admin;
 
+use Symfony\Component\VarDumper\VarDumper;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 
 class EleveAdmin extends Admin
@@ -37,6 +39,7 @@ class EleveAdmin extends Admin
             ->add('allergie',null ,array('required' => false))
             ->add('division', 'entity', array(
                 'class' => 'WCSCantineBundle:Division',
+                'label' => 'Classe',
                 'required'=>true ))
         ;
     }
@@ -84,13 +87,16 @@ class EleveAdmin extends Admin
             ->add('dateDeNaissance', 'date', array('format' => 'd/m/Y',))
             ->add('division','choice', array('label'=>'Classe'))
             ->add('user',null, array('label'=>'Email des parents'))
-            ->add('_action', 'actions', array('actions' => array(
-                'edit' => array(),
-                'delete' => array(),
-            )))
             ->add('allergie', 'text')
             ->add('regimeSansPorc', 'boolean')
+            ->add('_action', 'actions',
+                array('actions' => array(
+
+                    'edit' => array(),
+                    'delete' => array(),
+            )))
 
         ;
     }
+
 }

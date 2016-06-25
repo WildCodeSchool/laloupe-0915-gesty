@@ -2,10 +2,10 @@
 namespace WCS\CalendrierBundle\Service\ICSFileReader\Exception;
 
 
-class InvalidFileException extends \Exception
+class FileNotFoundException extends \RuntimeException
 {
     public function __construct($filepath, \Exception $previous = null)
     {
-        parent::__construct('Fichier iCalendar (.ics) invalide : '.$filepath, 0, $previous);
+        parent::__construct('Fichier iCalendar (.ics) introuvable : '.$filepath, 0, $previous);
     }
 }

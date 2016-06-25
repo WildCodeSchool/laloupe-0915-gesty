@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0c067c516ee5ea412e43519d973ed736",
-    "content-hash": "4f2efd056191fa19b1d4bccf7f2206ff",
+    "hash": "db0eb702b3cfbe297bbf2fd6addb8536",
+    "content-hash": "f80ee42943063e94a903b259433ba997",
     "packages": [
         {
             "name": "braincrafted/bootstrap-bundle",
@@ -2467,16 +2467,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.4.4",
+            "version": "5.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "02d5b64aa0837a038a5a4faeeefa5ef44bdcb928"
+                "reference": "2f1fc94b77ea6418bd6a06c64a1dac0645fbce59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/02d5b64aa0837a038a5a4faeeefa5ef44bdcb928",
-                "reference": "02d5b64aa0837a038a5a4faeeefa5ef44bdcb928",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2f1fc94b77ea6418bd6a06c64a1dac0645fbce59",
+                "reference": "2f1fc94b77ea6418bd6a06c64a1dac0645fbce59",
                 "shasum": ""
             },
             "require": {
@@ -2495,7 +2495,7 @@
                 "phpunit/phpunit-mock-objects": "^3.2",
                 "sebastian/comparator": "~1.1",
                 "sebastian/diff": "~1.2",
-                "sebastian/environment": "~1.3",
+                "sebastian/environment": "^1.3 || ^2.0",
                 "sebastian/exporter": "~1.2",
                 "sebastian/global-state": "~1.0",
                 "sebastian/object-enumerator": "~1.0",
@@ -2541,7 +2541,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-06-09 09:09:27"
+            "time": "2016-06-16 06:01:15"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -2853,16 +2853,16 @@
         },
         {
             "name": "sebastian/exporter",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "7ae5513327cb536431847bcc0c10edba2701064e"
+                "reference": "42c4c2eec485ee3e159ec9884f95b431287edde4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/7ae5513327cb536431847bcc0c10edba2701064e",
-                "reference": "7ae5513327cb536431847bcc0c10edba2701064e",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/42c4c2eec485ee3e159ec9884f95b431287edde4",
+                "reference": "42c4c2eec485ee3e159ec9884f95b431287edde4",
                 "shasum": ""
             },
             "require": {
@@ -2870,12 +2870,13 @@
                 "sebastian/recursion-context": "~1.0"
             },
             "require-dev": {
+                "ext-mbstring": "*",
                 "phpunit/phpunit": "~4.4"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2.x-dev"
+                    "dev-master": "1.3.x-dev"
                 }
             },
             "autoload": {
@@ -2915,7 +2916,7 @@
                 "export",
                 "exporter"
             ],
-            "time": "2015-06-21 07:55:53"
+            "time": "2016-06-17 09:04:28"
         },
         {
             "name": "sebastian/global-state",
@@ -3154,17 +3155,17 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v4.0.6",
+            "version": "v4.0.7",
             "target-dir": "Sensio/Bundle/DistributionBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-                "reference": "181a47c527a04d2d03986a0b3e9c1b86eaacab40"
+                "reference": "d738952285a1a7d969f9338f735108c9f65bb7f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/181a47c527a04d2d03986a0b3e9c1b86eaacab40",
-                "reference": "181a47c527a04d2d03986a0b3e9c1b86eaacab40",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/d738952285a1a7d969f9338f735108c9f65bb7f2",
+                "reference": "d738952285a1a7d969f9338f735108c9f65bb7f2",
                 "shasum": ""
             },
             "require": {
@@ -3210,7 +3211,7 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2016-04-25 20:49:44"
+            "time": "2016-06-23 16:10:25"
         },
         {
             "name": "sensio/framework-extra-bundle",
@@ -3832,43 +3833,45 @@
         },
         {
             "name": "sonata-project/exporter",
-            "version": "1.4.1",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/exporter.git",
-                "reference": "474be8b9dbb8ca1c378aa24e701df940a89ec124"
+                "reference": "157e2e67df0ee4f1a0074d22039dd482af0a1550"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/exporter/zipball/474be8b9dbb8ca1c378aa24e701df940a89ec124",
-                "reference": "474be8b9dbb8ca1c378aa24e701df940a89ec124",
+                "url": "https://api.github.com/repos/sonata-project/exporter/zipball/157e2e67df0ee4f1a0074d22039dd482af0a1550",
+                "reference": "157e2e67df0ee4f1a0074d22039dd482af0a1550",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": "^5.3 || ^7.0"
             },
             "require-dev": {
-                "fabpot/php-cs-fixer": "~0.1|~1.0",
-                "propel/propel1": "~1.6",
-                "symfony/phpunit-bridge": "~2.7|~3.0",
-                "symfony/property-access": "~2.3|~3.0",
-                "symfony/routing": "~2.3|~3.0"
+                "doctrine/dbal": "^2.2",
+                "doctrine/orm": "^2.2",
+                "propel/propel1": "^1.6",
+                "sllh/php-cs-fixer-styleci-bridge": "^2.0",
+                "symfony/phpunit-bridge": "^2.7 || ^3.0",
+                "symfony/property-access": "^2.3 || ^3.0",
+                "symfony/routing": "^2.3 || ^3.0"
             },
             "suggest": {
                 "ext-curl": "*",
-                "propel/propel1": "~1.6",
-                "symfony/property-access": "~2.3|~3.0",
-                "symfony/routing": "~2.3|~3.0"
+                "propel/propel1": "^1.6",
+                "symfony/property-access": "^2.3 || ^3.0",
+                "symfony/routing": "^2.3 || ^3.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1-dev"
+                    "dev-master": "1.x-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Exporter": "lib/"
+                "psr-4": {
+                    "Exporter\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -3891,7 +3894,7 @@
                 "export",
                 "xls"
             ],
-            "time": "2015-11-25 09:33:45"
+            "time": "2016-06-16 10:27:09"
         },
         {
             "name": "sonata-project/google-authenticator",
@@ -4199,7 +4202,7 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v3.1.0",
+            "version": "v3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",

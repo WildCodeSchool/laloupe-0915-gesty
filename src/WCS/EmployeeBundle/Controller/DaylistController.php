@@ -3,6 +3,7 @@ namespace WCS\EmployeeBundle\Controller;
 
 
 use Symfony\Component\HttpFoundation\Request;
+use WCS\CantineBundle\Entity\ActivityType;
 use WCS\CantineBundle\Entity\School;
 use WCS\EmployeeBundle\Controller\Mapper\ActivityMapperInterface;
 use WCS\EmployeeBundle\Controller\ViewBuilder\ListViewBuilder;
@@ -13,29 +14,35 @@ class DaylistController extends ActivityControllerBase
 {
     /**
      * @param Request $request
-     * @param School $school
-     * @param $activity
+     * @param School $school the current selected school
+     * @param string $activity one of the activities set in the route
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function showAction(Request $request, School $school, $activity)
     {
         // ensure the current day is not off
+
         if ($this->isDayOff($activity)) {
             return $this->redirectToRoute('wcs_employee_home');
         }
 
-        // get the mapper
+
+        // get the mapper for the requested activity
 
         $mapper = $this->getActivityMapper($activity);
         if (is_null($mapper)) {
             return $this->redirectToRoute('wcs_employee_home');
         }
 
-        // set up the list view builder
 
-        $viewBuilder = new ListViewBuilder($mapper);
-        $viewBuilder->setContainer($this->container);
-        $list_infos = $viewBuilder->buildView($request, $school, $activity);
+        // set up the list of pupils view builder
+
+        $pupilsListBuilder = new ListViewBuilder($mapper);
+        $pupilsListBuilder->setContainer($this->container);
+
+        // build the validation view
+
+        $list_infos = $pupilsListBuilder->buildView($request, $school, $activity);
 
         if (!empty($list_infos['redirect_to'])) {
             return $this->redirect( $list_infos['redirect_to'] );
@@ -43,21 +50,23 @@ class DaylistController extends ActivityControllerBase
 
         // set up the validation view builder
 
-        $viewBuilder = new ValidateViewBuilder($mapper);
-        $viewBuilder->setContainer($this->container);
-        $validate_infos = $viewBuilder->buildView($request, $school, $activity);
+        $validationBuilder = new ValidateViewBuilder($mapper);
+        $validationBuilder->setContainer($this->container);
+
+        // build the validation view
+        $validate_infos = $validationBuilder->buildView($request, $school, $activity);
 
         if (!empty($validate_infos['redirect_to'])) {
             return $this->redirect( $validate_infos['redirect_to'] );
         }
 
-        // return the response with parameters
-
+        // prepare all template parameters
         $data = array_merge($list_infos, $validate_infos);
 
         $data['title']      = $mapper->getTodayListTitle();
         $data['date_day']   = $this->getDateDay();
 
+        // return the response with parameters
         return $this->render('WCSEmployeeBundle::daylist.html.twig', $data);
     }
 

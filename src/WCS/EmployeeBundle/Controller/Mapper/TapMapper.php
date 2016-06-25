@@ -37,4 +37,12 @@ class TapMapper implements ActivityMapperInterface
         return array();
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function getActivityType()
+    {
+        return \WCS\CantineBundle\Entity\ActivityType::TAP;
+    }
+
 }

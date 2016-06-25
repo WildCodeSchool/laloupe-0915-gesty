@@ -5,6 +5,7 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use WCS\CantineBundle\Entity\DivisionRepository;
 
 
@@ -26,7 +27,8 @@ class VoyageAdmin extends Admin
                     },
                     'multiple' => true,
                     'required'  => false,
-                    'mapped' => true
+                    'mapped' => true,
+                    'label' => 'Classes'
                 )
             )
 
@@ -36,12 +38,12 @@ class VoyageAdmin extends Admin
 
 
             ->add('date_debut','sonata_type_datetime_picker',(array(
-                'label'=>'Date',
+                'label'=>'Date de départ',
                 'format' => 'dd/MM/y HH:mm'
             )))
 
             ->add('date_fin','sonata_type_datetime_picker',(array(
-                'label'=>'Date',
+                'label'=>'Date de retour',
                 'format' => 'dd/MM/y HH:mm'
             )))
 
@@ -53,7 +55,7 @@ class VoyageAdmin extends Admin
     {
         $datagridMapper
             ->add('libelle', null)
-            ->add('divisions')
+            ->add('divisions', null, array('label' => 'Classes'))
             ->add('date_debut', 'doctrine_orm_datetime_range', array(
                 'widget' => 'single_text',
                 'format' => 'YYYY-MM-DD HH:MM',
@@ -71,7 +73,7 @@ class VoyageAdmin extends Admin
     {
         $listMapper
             ->add('libelle', null)
-            ->add('divisions')
+            ->add('divisions', null, array('label' => 'Classes', 'template' => 'ApplicationSonataUserBundle:CRUD:list_orm_many_to_many.html.twig'))
 
 
             ->add('estSortieScolaire', null, array('label' => 'Sortie scolaire ?'))

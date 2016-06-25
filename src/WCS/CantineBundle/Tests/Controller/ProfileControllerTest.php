@@ -4,6 +4,7 @@ namespace WCS\CantineBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+
 //lien http://brentertainment.com/other/docs/book/testing.html
 
 Class ProfileControllerTest extends WebTestCase

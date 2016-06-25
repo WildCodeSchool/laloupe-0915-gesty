@@ -27,19 +27,21 @@ class TapRepository extends ActivityRepositoryAbstract
         $school = $options['school'];
         $day    = $options['date_day']->format('Y-m-d');
 
-        // Request pupils to the database from a certain date
-        return $this->getEntityManager()
-            ->createQuery(
-                'SELECT t FROM WCSCantineBundle:Tap t 
-                 JOIN t.eleve e 
-                 JOIN e.division d 
-                 WHERE t.date LIKE :day 
-                    AND d.school = :school
-                 ORDER BY e.nom'
-            )
-            ->setParameter(':day', "%".$day."%")
-            ->setParameter(':school', $school)
-            ->getResult();
+        $query = $this
+            ->createQueryBuilder('t')
+            ->join('t.eleve', 'e')
+            ->join('e.division', 'd')
+            ->where('DATE(t.date) = :day')
+            ->andWhere('d.school = :place')
+            ->orderBy('d.grade')
+            ->addOrderBy('d.headTeacher')
+            ->addOrderBy('e.nom')
+            ->setParameter(':day', $day)
+            ->setParameter(':place', $school);
+
+        $query = $this->excludePupilsTravellingAt($query, 'e', $options['date_day']);
+
+        return $query->getQuery()->getResult();
     }
 
 }

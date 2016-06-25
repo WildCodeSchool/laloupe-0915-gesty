@@ -12,7 +12,7 @@ parameters:
     security.exception_listener.class: WCS\GestyBundle\Security\Firewall\ExceptionListener
     wcs_upload_folder:        'uploads'
     wcs_upload_absolute_path: '%kernel.root_dir%/%wcs_upload_folder%/'
-    wcs.datenow.date:         ''
+    wcs.datenow.date:         '2016-06-21'
 
 framework:
     #esi:             ~
@@ -114,6 +114,9 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+        dql:
+            datetime_functions:
+                DATE: 'WCS\CantineBundle\DQL\MysqlDateFunction'
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -234,7 +237,7 @@ sonata_admin:
                 label: Voyages
                 items:
                     - sonata.admin.voyage
-                    #- sonata.admin.inscription
+                    - sonata.admin.voyage.inscription
 
             wcs.group.tapgarderie:
                 icon: '<i class="fa fa-tag"></i>'

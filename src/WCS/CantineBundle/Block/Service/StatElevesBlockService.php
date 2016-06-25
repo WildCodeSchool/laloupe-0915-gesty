@@ -78,8 +78,6 @@ class StatElevesBlockService extends BaseBlockService
         $tots = array(
             'users'     => $this->em->getRepository('ApplicationSonataUserBundle:User')->count(),
             'children'  => $this->em->getRepository('WCSCantineBundle:Eleve')->count(),
-            'tap'       => $this->em->getRepository('WCSCantineBundle:Tap')->count(),
-            'gardery'   => $this->em->getRepository('WCSCantineBundle:Garderie')->count(),
             'meals'     => $this->em->getRepository('WCSCantineBundle:Lunch')->count(),
             'schools'   => $this->em->getRepository('WCSCantineBundle:School')->count()
         );

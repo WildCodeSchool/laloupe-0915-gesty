@@ -34,9 +34,10 @@
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
-        "doctrine/doctrine-fixtures-bundle": "^2.3",
         "phpunit/phpunit": "5.4.*",
         "symfony/phpunit-bridge": "3.1.*",
+        "doctrine/doctrine-fixtures-bundle": "~2.3.0",
+        "doctrine/data-fixtures": "1.1.1",
         "liip/functional-test-bundle": "1.0.*"
     },
     "scripts": {

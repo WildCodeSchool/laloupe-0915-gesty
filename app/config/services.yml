@@ -7,7 +7,7 @@ services:
       sonata.admin.eleve:
            class: WCS\CantineBundle\Admin\EleveAdmin
            tags:
-               - { name: sonata.admin, manager_type: orm, group: "wcs.group.eleve", label: "Eleve" }
+               - { name: sonata.admin, manager_type: orm, group: "wcs.group.eleve", label: "Eleves" }
            arguments:
                - ~
                - WCS\CantineBundle\Entity\Eleve
@@ -70,7 +70,8 @@ services:
                 - ~
 
       sonata.user.profile.form.type:
-            class: Application\Sonata\UserBundle\Form\Type\ProfileType
+#            class: Application\Sonata\UserBundle\Form\Type\ProfileType
+            class: WCS\CantineBundle\Form\Type\ProfileType
             arguments: [ "Application\\Sonata\\UserBundle\\Entity\\User" ]
             tags:
                 - { name: "form.type", alias: "application_sonata_user_profile"}
@@ -95,11 +96,12 @@ services:
                  - WCS\CantineBundle\Entity\Voyage
                  - ~
 
-#      sonata.admin.inscription:
-#              class: WCS\CantineBundle\Admin\InscriptionAdmin
-#              tags:
-#                  - { name: sonata.admin, manager_type: orm, group: "wcs.group.voyage", label: "Incription" }
-#              arguments:
-#                  - ~
-#                  - WCS\CantineBundle\Entity\Eleve
-#                  - ~
+      sonata.admin.voyage.inscription:
+           class: WCS\CantineBundle\Admin\InscriptionVoyageAdmin
+           tags:
+               - { name: sonata.admin, manager_type: orm, group: "wcs.group.voyage", label: "Inscriptions éleves" }
+           arguments:
+               - ~
+               - WCS\CantineBundle\Entity\Eleve
+               - ~
+               - '@wcs.datenow'
