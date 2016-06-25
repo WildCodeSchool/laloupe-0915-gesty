@@ -37,4 +37,12 @@ class GarderieEveningMapper implements ActivityMapperInterface
         return array('is_morning'=>false);
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function getActivityType()
+    {
+        return \WCS\CantineBundle\Entity\ActivityType::GARDERIE_EVENING;
+    }
+
 }

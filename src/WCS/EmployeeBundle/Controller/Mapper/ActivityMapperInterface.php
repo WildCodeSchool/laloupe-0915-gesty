@@ -7,21 +7,26 @@ interface ActivityMapperInterface
     /**
      * @return string the title displayed in the today list view
      */
-    public function getTodayListTitle();
+    function getTodayListTitle();
 
     /**
      * @return string fully qualified entity class name
      */
-    public function getEntityClassName();
+    function getEntityClassName();
     
     /**
      * @return array index array of options expected by the EntityRepository:getDayList
      */
-    public function getDayListAdditionalOptions();
+    function getDayListAdditionalOptions();
+
+    /**
+     * @return integer one of the ActivityType:const
+     */
+    function getActivityType();
 
     /**
      * @param $entity
      * @param \DateTimeImmutable $date_day
      */
-    public function updateEntity($entity, \DateTimeImmutable $date_day);
+    function updateEntity($entity, \DateTimeImmutable $date_day);
 }

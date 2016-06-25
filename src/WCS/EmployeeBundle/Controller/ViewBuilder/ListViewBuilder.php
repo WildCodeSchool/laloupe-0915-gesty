@@ -31,6 +31,15 @@ class ListViewBuilder extends ViewBuilderAbstract
      */
     public function buildView(Request $request, School $school, $activity)
     {
+        // prepare local variables
+
+        $entityClass    = $this->mapper->getEntityClassName();
+        $entity         = new $entityClass;
+        $redirectTo     = '';
+
+
+        // merge all options to transmit to the getActivityDayList repository's method
+
         $options = array_merge(
             $this->mapper->getDayListAdditionalOptions(),
             array(
@@ -39,22 +48,28 @@ class ListViewBuilder extends ViewBuilderAbstract
             )
         );
 
+
+        // get the list of pupils registered today in the activity
+
         $entities = $this->getRepository($this->mapper->getEntityClassName())->getActivityDayList($options);
 
-        $entityClass = $this->mapper->getEntityClassName();
-        $entity = new $entityClass;
+
+        // create the form
+
         $form = $this->createForm(
             new ActivityEleveType($entityClass),
             $entity,
             [ 'additional_options' => [
                 'school_id' => $school->getId(),
-                'date_day'  => $this->getDateDay()
+                'date_day'  => $this->getDateDay(),
+                'activity_type' => $this->mapper->getActivityType()
                 ]
             ]
         );
 
-        $redirectTo = '';
-        
+
+        // process the form if any POST
+
         if ($this->processForm($request, $form, $entity)) {
             $redirectTo = $this->generateUrl(
                 'wcs_employee_daylist',
@@ -62,12 +77,14 @@ class ListViewBuilder extends ViewBuilderAbstract
             );
         }
 
+        // return the array with all data
         return array(
             'entities'      => $entities,
             'form_register' => $form->createView(),
             'redirect_to'    => $redirectTo
         );
     }
+
 
     /**
      * @param Request $request

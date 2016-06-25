@@ -26,12 +26,9 @@ class EleveRepository extends EntityRepository
         $this->resolverGetEleves = new OptionsResolver();
 
         $this->resolverGetEleves->setDefined(array(
-            'enable_canteen',
-            'enable_tap',
-            'enable_garderie',
-            'enable_voyages',
             'school_id',
-            'date_day'
+            'date_day',
+            'activity_type' // one of the ActivityType:const
         ));
 
         $this->resolverGetEleves->setAllowedTypes(
@@ -39,24 +36,22 @@ class EleveRepository extends EntityRepository
         );
 
         $this->resolverGetEleves->setDefaults(array(
-            'enable_canteen'    => true,
-            'enable_tap'        => false,
-            'enable_garderie'   => false,
-            'enable_voyages'    => false,
             'school_id'         => 0
         ));
 
         parent::__construct($em, $class);
     }
 
+
     /**
      * Retourne la liste des eleves non inscrits
+     * et qui ne sont ni en voyage scolaire, ni en sortie scolaire
      * pour une date donnée.
      *
      * @param $options
      * @return \Doctrine\ORM\QueryBuilder
      */
-    public function getQueryGetEleves($options)
+    public function getQueryUnregisteredPupils($options)
     {
         $options = $this->resolverGetEleves->resolve($options);
 
@@ -64,33 +59,51 @@ class EleveRepository extends EntityRepository
             ->join('e.division', 'd')
             ->join('d.school', 's')
             ->where('s.id = :school_id')
-            ->setParameter('school_id', $options['school_id'])
-        ;
+            ;
 
-        if ($options['enable_canteen']) {
-            $q->andWhere('s.active_cantine = TRUE');
+
+        // filters pupils who have already joined the given activity
+        $subQuery = $this->getEntityManager()->createQueryBuilder()
+            ->select('DISTINCT eleve_activity.id')
+            ->from('WCSCantineBundle:Eleve', 'eleve_activity')
+            ->where(':date_day = DATE(activity.date)');
+
+        switch ($options['activity_type']) {
+            case ActivityType::CANTEEN:
+                $subQuery->join('eleve_activity.lunches', 'activity');
+                break;
+
+            case ActivityType::TAP:
+                $subQuery->join('eleve_activity.taps', 'activity');
+                break;
+
+            case ActivityType::GARDERIE_MORNING:
+                $subQuery->join('eleve_activity.garderies', 'activity');
+                $subQuery->andWhere('activity.enable_morning = TRUE');
+                break;
+
+            case ActivityType::GARDERIE_EVENING:
+                $subQuery->join('eleve_activity.garderies', 'activity');
+                $subQuery->andWhere('activity.enable_evening = TRUE');
+                break;
+
+            case ActivityType::TRAVEL:
+                $subQuery->join('eleve_activity.voyages', 'activity');
+                break;
         }
 
-        if ($options['enable_tap']) {
-            $q->andWhere('s.active_tap = TRUE');
-        }
+        $q->andWhere(
+            $q->expr()->notIn(
+                "e.id", $subQuery->getDQL()
+            )
+        );
 
-        if ($options['enable_garderie']) {
-            $q->andWhere('s.active_garderie = TRUE');
-        }
-
-        if ($options['enable_voyages']) {
-            $q->andWhere('s.active_voyage = TRUE');
-        }
-
-        $q->orderBy('e.nom', 'ASC');
-/*
-        // exclut les élèves déjà inscrit
-        $queryFilter = $this->getEntityManager()->createQueryBuilder()
+        // filter pupils whose class are out of classroom at the given date
+        $subQuery = $this->getEntityManager()->createQueryBuilder()
 
             ->select('DISTINCT eleve_sortie.id')
             ->from('WCSCantineBundle:Eleve', 'eleve_sortie')
-            ->join('eleve_sortie.lunches', 'lunches')
+            ->join('eleve_sortie.division', 'classe_sortie')
             ->join('classe_sortie.voyages', 'sortie')
             ->where('sortie.estSortieScolaire = TRUE')
             ->andWhere('sortie.estAnnule = FALSE')
@@ -98,14 +111,34 @@ class EleveRepository extends EntityRepository
                         DATE(sortie.date_debut)
                         AND
                         DATE(sortie.date_fin)');
+        $q->andWhere(
+            $q->expr()->notIn(
+                "e.id", $subQuery->getDQL()
+            )
+        );
+
+        // filter pupils who join a travel at the given date
+        $subQuery = $this->getEntityManager()->createQueryBuilder()
+
+            ->select('DISTINCT eleve_inscrit.id')
+            ->from('WCSCantineBundle:Eleve','eleve_inscrit')
+            ->join('eleve_inscrit.voyages', 'voyage_scolaire')
+            ->where('voyage_scolaire.estAnnule = FALSE')
+            ->andWhere(':date_day BETWEEN 
+                        DATE(voyage_scolaire.date_debut) 
+                        AND 
+                        DATE(voyage_scolaire.date_fin)');
 
 
         $q->andWhere(
             $q->expr()->notIn(
-                "e.id", $queryFilter->getDQL()
+                "e.id", $subQuery->getDQL()
             )
-        )->setParameter(':date_day', $options['date_day']->format('Y-m-d'));
-*/
+        );
+
+        $q->orderBy('e.nom', 'ASC')
+            ->setParameter('school_id', $options['school_id'])
+            ->setParameter(':date_day', $options['date_day']->format('Y-m-d'));
 
         return $q;
     }

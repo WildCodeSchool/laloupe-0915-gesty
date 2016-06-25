@@ -21,7 +21,7 @@ class ActivityEleveType extends AbstractType
             ->add('eleve', 'entity', array(
                 'class'         => 'WCSCantineBundle:Eleve',
                 'query_builder' => function(EleveRepository $er ) use ($options) {
-                    return $er->getQueryGetEleves($options['additional_options'] );
+                    return $er->getQueryUnregisteredPupils($options['additional_options'] );
                 }
             ))
             ->add('status', 'choice', array(
