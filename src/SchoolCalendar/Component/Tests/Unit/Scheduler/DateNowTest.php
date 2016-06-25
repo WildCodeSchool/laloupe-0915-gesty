@@ -1,7 +1,6 @@
 <?php
 namespace SchoolCalendar\Component\Tests\Unit\Scheduler;
 use SchoolCalendar\Component\Scheduler\DateNow;
-use Symfony\Component\Validator\Constraints\Date;
 
 
 /**

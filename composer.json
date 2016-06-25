@@ -6,6 +6,7 @@
     "autoload": {
         "psr-4": {
             "Application\\": "src/Application/",
+            "SchoolCalendar\\": "src/SchoolCalendar/",
             "WCS\\": "src/WCS/"
         }
     },
