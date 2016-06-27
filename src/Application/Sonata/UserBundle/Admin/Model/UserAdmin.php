@@ -70,7 +70,10 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                 'Prelevements' => 'Prélèvements',
                 'Carte Bancaire' => 'Carte Bancaire',
             ))
-            ->add('path_domicile', null, array('label' => 'Pièces jointes','template' => 'WCSCantineBundle:User:files_list.html.twig'))
+            ->add('path_domicile',
+                null,
+                array('label' => 'Pièces jointes','template' => 'WCSCantineBundle:User:files_list.html.twig')
+            )
             ->add('eleves',null,array('label'=>'Nom enfant(s)', 'admin_code'=>'sonata.admin.eleve'))
             ->add('enabled', null, array('editable' => true))
             ->add('_action', 'actions', array('label'=>'Action','actions' => array(

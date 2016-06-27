@@ -14,6 +14,7 @@ use Doctrine\ORM\Events;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Application\Sonata\UserBundle\Entity\User;
+use WCS\CantineBundle\Entity\SchoolYear;
 
 class UserUploadListener implements EventSubscriber
 {
@@ -51,6 +52,10 @@ class UserUploadListener implements EventSubscriber
         $obj = $args->getObject();
         if ($obj instanceof User) {
             $obj->setUploadFolder($this->upload_folder);
+            $obj->setUploadAbsolutePath($this->upload_absolute_path);
+        }
+
+        if ($obj instanceof SchoolYear) {
             $obj->setUploadAbsolutePath($this->upload_absolute_path);
         }
     }

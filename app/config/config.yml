@@ -246,9 +246,12 @@ sonata_admin:
                     - sonata.admin.tap
                     - sonata.admin.garderie
 
-            wcs.group.feries:
+            wcs.group.parameters:
                 icon: '<i class="fa fa-cogs"></i>'
                 label: Paramètres
+                items:
+                    - sonata.admin.schoolyear
+                    - sonata.admin.feries
 
 braincrafted_bootstrap:
     output_dir:

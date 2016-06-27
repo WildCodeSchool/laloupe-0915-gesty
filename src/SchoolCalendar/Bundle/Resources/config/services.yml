@@ -1,5 +1,0 @@
-services:
-    wcs.schoolcalendar.planner:
-        class:     WCS\SchoolCalendarBundle\Planner\Planner
-        arguments:
-            -

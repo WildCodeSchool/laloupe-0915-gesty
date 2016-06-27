@@ -72,7 +72,9 @@ class Service
      * @param string $date_jour au format 'Y-m-d'
      * @throws \Exception
      */
-    public function selectRentreeScolaireAvecDate($date_jour)
+    public function selectRentreeScolaireAvecDate(
+        $date_jour
+    )
     {
         if (!is_string($date_jour)) {
             throw new \Exception("date_jour doit etre au format 'Y-m-d'");
@@ -85,7 +87,10 @@ class Service
         $tmp = \DateTime::createFromFormat('Y-m-d', $date_jour);
         $now_year = $tmp->format('Y');
 
-        if ($date_jour >= "$now_year-01-01" && $date_jour <= "$now_year-07-05") {
+     $p = $this->doctrine->getRepository('WCSCantineBundle:SchoolYear')->getSchoolYearIncluding(new \DateTime($date_jour));
+
+//        if ($date_jour >= "$now_year-01-01" && $date_jour <= "$now_year-07-05") {
+        if ($date_jour >= "$now_year-01-01" && $date_jour <= $now_year.$p->getLastDate()->format('-m-d')) {
             $this->annee_rentree_from_today = $now_year - 1;
         } else {
             $this->annee_rentree_from_today = $now_year;
@@ -133,9 +138,12 @@ class Service
     public function __construct(
         $icsFilepath,
         DateNow $dateNow,
-        DaysOffInterface $daysOff
+        DaysOffInterface $daysOff,
+        \Doctrine\Bundle\DoctrineBundle\Registry $doctrine
     )
     {
+        $this->doctrine = $doctrine;
+
         $this->daysOff = $daysOff;
         $this->cals = array();
 
@@ -206,4 +214,9 @@ class Service
      * @var DaysOffInterface
      */
     private $daysOff;
+
+    /**
+     * @var \Doctrine\Bundle\DoctrineBundle\Registry
+     */
+    private $doctrine;
 }

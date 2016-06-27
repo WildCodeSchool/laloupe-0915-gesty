@@ -1,0 +1,8 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{% block field %}
+        {% if object.filenameIcalendar %}
+                {#<a href="{{ path('gesty_comptable_download', {'type_file':1, 'id_user':object.id}) }}" target="_blank">Calendrier iCal.</a>#}
+                Calendrier iCal
+        {% endif %}
+{% endblock %}

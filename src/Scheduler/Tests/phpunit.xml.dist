@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- http://phpunit.de/manual/5.4/en/appendixes.configuration.html -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/5.3/phpunit.xsd"
+         backupGlobals="false"
+         colors="true"
+         bootstrap="../../../app/tests.bootstrap.php"
+
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         beStrictAboutCoversAnnotation="true"
+>
+    <testsuites>
+
+        <testsuite name="unit">
+            <directory>./Unit/</directory>
+        </testsuite>
+
+        <testsuite name="functional">
+            <directory>./Func/</directory>
+        </testsuite>
+
+    </testsuites>
+
+    <filter>
+        <whitelist>
+
+            <!-- list of directories included in the code coverage from phpunit (require xdebug) -->
+            <directory>../</directory>
+
+            <!--
+                list of directories excluded in the code coverage from phpunit (require xdebug)
+                 here we exclude the Test directory of course.
+            -->
+            <exclude>
+                <directory>../Tests</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+    <php>
+        <server name="KERNEL_DIR" value="../../../app/" />
+    </php>
+</phpunit>

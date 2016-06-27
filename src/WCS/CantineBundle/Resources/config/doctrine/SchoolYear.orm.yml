@@ -1,0 +1,37 @@
+WCS\CantineBundle\Entity\SchoolYear:
+    type: entity
+    table: null
+    repositoryClass: WCS\CantineBundle\Entity\SchoolYearRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        dateStart:
+            type: date
+            column: date_start
+        dateEnd:
+            type: date
+            column: date_end
+        filenameIcalendar:
+            type: string
+            length: 255
+            column: filename_icalendar
+            nullable: true
+
+    # changed when files are uploaded, to force preUpdate and postUpdate to fire
+        updated:
+            type:         datetime
+            nullable:     true
+
+    # ... other fields ...
+    lifecycleCallbacks:
+        prePersist:   [ lifecycleFileUpload ]
+        preUpdate:    [ lifecycleFileUpload ]
+
+    oneToMany:
+        schoolHolidays:
+            targetEntity: WCS\CantineBundle\Entity\SchoolHoliday
+            mappedBy: schoolYear

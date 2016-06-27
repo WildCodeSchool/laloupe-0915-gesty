@@ -36,15 +36,6 @@ class FeriesAdmin extends Admin
         $years = array_combine($years, $years);
         $formMapper
             ->add('annee', 'choice', array(
-                /*
-                'choices'   => array(
-                    \date('Y') => \date('Y'),
-                    \date('Y') + 1 => \date('Y') + 1,
-                    \date('Y') + 2 => \date('Y') + 2,
-                    \date('Y') + 3 => \date('Y') + 3,
-                    \date('Y') + 4 => \date('Y') + 4
-                )*/
-
                 'choices' => $years
                 ))
             ->add('paques','sonata_type_date_picker',(array(
@@ -63,12 +54,6 @@ class FeriesAdmin extends Admin
                 'label'=>'Lundi Pentecôte',
                 'format' => 'dd-MM-y'
             )));
-    }
-
-    // Fields to be shown on filter forms
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
-    {
-
     }
 
     // Fields to be shown on lists

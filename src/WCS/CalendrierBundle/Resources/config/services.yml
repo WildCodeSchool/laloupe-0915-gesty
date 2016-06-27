@@ -25,4 +25,5 @@ services:
             - '%wcs.calendrier_scolaire.file%'
             - '@wcs.datenow'
             - '@wcs.daysoff'
+            - '@doctrine'
 

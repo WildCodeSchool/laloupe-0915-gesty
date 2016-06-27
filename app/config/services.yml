@@ -32,10 +32,21 @@ services:
                - WCS\CantineBundle\Entity\School
                - ~
 
+      sonata.admin.schoolyear:
+           class: WCS\CantineBundle\Admin\SchoolYearAdmin
+           tags:
+               - { name: sonata.admin, manager_type: orm, group: "wcs.group.parameters", label: "Années scolaires" }
+           arguments:
+               - ~
+               - WCS\CantineBundle\Entity\SchoolYear
+               - ~
+               - '@doctrine.orm.entity_manager'
+               - '%wcs_upload_absolute_path%'
+
       sonata.admin.feries:
            class: WCS\CantineBundle\Admin\FeriesAdmin
            tags:
-               - { name: sonata.admin, manager_type: orm, group: "wcs.group.feries", label: "Jours fériés" }
+               - { name: sonata.admin, manager_type: orm, group: "wcs.group.parameters", label: "Jours fériés" }
            arguments:
                - ~
                - WCS\CantineBundle\Entity\Feries

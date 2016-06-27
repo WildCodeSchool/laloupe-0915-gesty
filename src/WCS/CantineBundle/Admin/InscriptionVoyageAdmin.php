@@ -7,7 +7,6 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
-use Symfony\Component\VarDumper\VarDumper;
 use WCS\CantineBundle\Entity\DivisionRepository;
 use WCS\CantineBundle\Entity\VoyageRepository;
 
