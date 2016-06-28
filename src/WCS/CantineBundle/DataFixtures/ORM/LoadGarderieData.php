@@ -25,7 +25,7 @@ class LoadGarderieData extends AbstractFixture implements OrderedFixtureInterfac
             ['2016-06-21', 'Dupontel-Jean-Kevin', true, true],
             ['2016-06-21', 'Dupontel-Kevina', true, true],
             ['2016-06-21', 'Dupontel-Mathilde', true, true],
-            ['2016-06-21', 'Robert-Mickael', true, false],a
+            ['2016-06-21', 'Robert-Mickael', true, false],
             ['2016-06-21', 'Larissa-Viviane', false, true],
             ['2016-06-21', 'Larissa-Gaelle', false, true],
             ['2016-06-21', 'Larissa-Melina', false, true],
