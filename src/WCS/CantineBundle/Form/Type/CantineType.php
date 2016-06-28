@@ -28,10 +28,14 @@ class CantineType extends AbstractType
         $builder
             ->add('regimeSansPorc', 'checkbox', array('required'=>false))
             ->add('allergie', 'text', array('label' =>'allergie', 'required'=>false))
-
+/*
             ->add('atteste','checkbox', array('required'=>true, 'mapped'=>false))
             ->add('autorise','checkbox', array('required'=>true, 'mapped'=>false))
             ->add('certifie','checkbox', array('required'=>true, 'mapped'=>false))
+*/
+            ->add('canteen_atteste','checkbox', array('required'=>true))
+            ->add('canteen_autorise','checkbox', array('required'=>true))
+            ->add('canteen_certifie','checkbox', array('required'=>true))
 
             ->add('habits', 'choice', array(
                 'choices'   => Eleve::getHabitDaysLabels(),

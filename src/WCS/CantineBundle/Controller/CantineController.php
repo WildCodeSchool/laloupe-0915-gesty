@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Form;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+use Symfony\Component\VarDumper\VarDumper;
 use WCS\CantineBundle\Entity\ActivityType;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Form\Type\CantineType;
@@ -76,6 +77,7 @@ class CantineController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $form->handleRequest($request);
+
         if ($form->isValid()) {
 
             // la nouvelle sélection de dates (avec celles déjà présentes en
@@ -97,6 +99,8 @@ class CantineController extends Controller
             $em->persist($eleve);
 
             $em->flush();
+
+            return true;
         }
 
         return false;

@@ -17,8 +17,12 @@ class VoyageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+/*
             ->add('autorise','checkbox', array('required'=>true, 'mapped'=>false))
             ->add('certifie','checkbox', array('required'=>true, 'mapped'=>false))
+*/
+            ->add('voyage_autorise','checkbox', array('required'=>true))
+            ->add('voyage_certifie','checkbox', array('required'=>true))
 
             ->add('voyages', 'entity', array(
                 'class'   => 'WCSCantineBundle:Voyage',

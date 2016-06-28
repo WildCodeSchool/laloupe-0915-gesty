@@ -26,6 +26,33 @@ WCS\CantineBundle\Entity\Eleve:
         habits:
             type: array
 
+        canteen_atteste:
+            type: boolean
+
+        canteen_autorise:
+            type: boolean
+
+        canteen_certifie:
+            type: boolean
+
+        tapgarderie_atteste:
+            type: boolean
+
+        tapgarderie_autorise:
+            type: boolean
+
+        tapgarderie_certifie:
+            type: boolean
+
+        voyage_atteste:
+            type: boolean
+
+        voyage_autorise:
+            type: boolean
+
+        voyage_certifie:
+            type: boolean
+
     manyToOne:
         user:
             targetEntity: Application\Sonata\UserBundle\Entity\User

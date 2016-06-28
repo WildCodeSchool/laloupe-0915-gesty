@@ -23,22 +23,14 @@
 
 
         <div class="col-md-12">
-            <h3 class="titre">{{eleve }}</h3><div class="col-md-12">
-            <h3>Les voyages scolaires (2015-2016)</h3>
-            <div class="form-group">
-                <blockquote>
-                    {{ form_widget(form.voyages) }}
-                </blockquote>
-            </div>
-        </div>
-
-                <strong>Né(e) le:</strong> {{ eleve.dateDeNaissance | date('d/m/Y') }}</br>
-                <strong>Classe/Ecole: </strong> {{ eleve.division }}</br>
+            <h3 class="titre">{{eleve }}</h3>
+            <strong>Né(e) le:</strong> {{ eleve.dateDeNaissance | date('d/m/Y') }}</br>
+            <strong>Classe/Ecole: </strong> {{ eleve.division }}</br>
         </div>
 
         {# ------------------------Liste des Voyages------------------------- #}
         <div class="col-md-12">
-            <h3>Les voyages scolaires (2015-2016)</h3>
+            <h3>Les voyages scolaires</h3>
             {% if form.voyages|length %}
                 <div class="form-group">
                     <blockquote>
@@ -64,7 +56,7 @@
     <div class="col-md-12">
         <h3>Signatures</h3>
         <div class="form-group">
-            {{ form_widget(form.autorise) }}
+            {{ form_widget(form.voyage_autorise) }}
             <label for="autorise" style="display:inline">J'autorise le responsable du voyage scolaire ou son représentant à prendre toutes mesures d'urgence nécessaires en cas d'accident survenant à mon enfant *</label>
             <blockquote>
                 A savoir :
@@ -78,7 +70,7 @@
 
         <div class="form-group">
 
-           {{ form_widget(form.certifie) }}
+           {{ form_widget(form.voyage_certifie) }}
             <label for="atteste" style="display:inline">Je certifie sur l’honneur l’exactitude de tous les renseignements saisis sur cette application concernant mon enfant ainsi que mon foyer *</label>
         </div>
 

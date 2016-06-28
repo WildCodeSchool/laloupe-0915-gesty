@@ -322,7 +322,6 @@ class User extends BaseUser
      */
     private $eleves;
 
-
     /**
      * Set adresse
      *

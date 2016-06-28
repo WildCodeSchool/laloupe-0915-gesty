@@ -74,6 +74,7 @@ Application\Sonata\UserBundle\Entity\User:
             nullable: true
 
 
+
     lifecycleCallbacks:
         prePersist: [ preUpload ]
         preUpdate: [ preUpload ]

@@ -499,4 +499,203 @@ class Eleve
     {
 
     }
+    /**
+     * @var bool
+     */
+    private $canteen_atteste;
+
+    /**
+     * @var bool
+     */
+    private $canteen_autorise;
+
+    /**
+     * @var bool
+     */
+    private $canteen_certifie;
+
+    /**
+     * @var bool
+     */
+    private $tapgarderie_atteste;
+
+    /**
+     * @var bool
+     */
+    private $tapgarderie_autorise;
+
+    /**
+     * @var bool
+     */
+    private $tapgarderie_certifie;
+
+    /**
+     * @var bool
+     */
+    private $voyage_atteste;
+
+    /**
+     * @var bool
+     */
+    private $voyage_autorise;
+
+    /**
+     * @var bool
+     */
+    private $voyage_certifie;
+
+    /**
+     * @return boolean
+     */
+    public function isCanteenAtteste()
+    {
+        return $this->canteen_atteste;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isCanteenCertifie()
+    {
+        return $this->canteen_certifie;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isCanteenAutorise()
+    {
+        return $this->canteen_autorise;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isTapgarderieAtteste()
+    {
+        return $this->tapgarderie_atteste;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isTapgarderieAutorise()
+    {
+        return $this->tapgarderie_autorise;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isTapgarderieCertifie()
+    {
+        return $this->tapgarderie_certifie;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isVoyageAtteste()
+    {
+        return $this->voyage_atteste;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isVoyageAutorise()
+    {
+        return $this->voyage_autorise;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isVoyageCertifie()
+    {
+        return $this->voyage_certifie;
+    }
+
+    /**
+     * @param boolean $canteen_atteste
+     */
+    public function setCanteenAtteste($canteen_atteste)
+    {
+        $this->canteen_atteste = $canteen_atteste;
+        return $this;
+    }
+
+    /**
+     * @param boolean $canteen_autorise
+     */
+    public function setCanteenAutorise($canteen_autorise)
+    {
+        $this->canteen_autorise = $canteen_autorise;
+        return $this;
+    }
+
+    /**
+     * @param boolean $canteen_certifie
+     */
+    public function setCanteenCertifie($canteen_certifie)
+    {
+        $this->canteen_certifie = $canteen_certifie;
+        return $this;
+    }
+
+    /**
+     * @param boolean $tapgarderie_atteste
+     */
+    public function setTapgarderieAtteste($tapgarderie_atteste)
+    {
+        $this->tapgarderie_atteste = $tapgarderie_atteste;
+        return $this;
+    }
+
+    /**
+     * @param boolean $tapgarderie_autorise
+     */
+    public function setTapgarderieAutorise($tapgarderie_autorise)
+    {
+        $this->tapgarderie_autorise = $tapgarderie_autorise;
+        return $this;
+    }
+
+    /**
+     * @param boolean $tapgarderie_certifie
+     */
+    public function setTapgarderieCertifie($tapgarderie_certifie)
+    {
+        $this->tapgarderie_certifie = $tapgarderie_certifie;
+        return $this;
+    }
+
+    /**
+     * @param boolean $voyage_atteste
+     */
+    public function setVoyageAtteste($voyage_atteste)
+    {
+        $this->voyage_atteste = $voyage_atteste;
+        return $this;
+    }
+
+    /**
+     * @param boolean $voyage_autorise
+     */
+    public function setVoyageAutorise($voyage_autorise)
+    {
+        $this->voyage_autorise = $voyage_autorise;
+        return $this;
+    }
+
+    /**
+     * @param boolean $voyage_certifie
+     */
+    public function setVoyageCertifie($voyage_certifie)
+    {
+        $this->voyage_certifie = $voyage_certifie;
+        return $this;
+    }
+
+
 }

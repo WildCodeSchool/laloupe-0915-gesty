@@ -17,14 +17,14 @@ class VoyageRepository extends \Doctrine\ORM\EntityRepository
         $query =  $this->createQueryBuilder('v')
 
             ->join('v.divisions', 'd')
-            ->where("v.estAnnule = FALSE
-                AND d = :division")
+            ->where("v.estAnnule = FALSE")
+            ->andWhere("d = :division")
             ->orderBy('v.date_debut')
             ->setParameter(':division', $division);
 
         if (isset($options['date_day'])) {
             $day        = $options['date_day'];
-            $query->andWhere('AND v.date_debut > :day')
+            $query->andWhere('v.date_debut > :day')
                 ->setParameter(':day', $day);
         }
 
