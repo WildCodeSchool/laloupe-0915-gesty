@@ -17,132 +17,28 @@ class LoadLunchData extends AbstractFixture implements OrderedFixtureInterface, 
      */
     public function load(ObjectManager $manager)
     {
-        // ---------------------------------------------------------------
-        // Robert Robert, CP-CE1 school Notre Dame des Fleurs
-        // without pork diet
-        // ---------------------------------------------------------------
-
-        // Mondays of june
-        $entity = new Lunch();
-        $entity->setDate(new \DateTime('2016-06-06'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-robert'));
-        $manager->persist($entity);
-
-        $entity = new Lunch();
-        $entity->setDate(new \DateTime('2016-06-13'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-robert'));
-        $manager->persist($entity);
-
-        $entity = new Lunch();
-        $entity->setDate(new \DateTime('2016-06-20'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-robert'));
-        $manager->persist($entity);
-
-        $entity = new Lunch();
-        $entity->setDate(new \DateTime('2016-06-27'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-robert'));
-        $manager->persist($entity);
-
-        // Tuesdays of june
-        $entity = new Lunch();
-        $entity->setDate(new \DateTime('2016-06-07'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-robert'));
-        $manager->persist($entity);
-
-        $entity = new Lunch();
-        $entity->setDate(new \DateTime('2016-06-14'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-robert'));
-        $manager->persist($entity);
-
-        $entity = new Lunch();
-        $entity->setDate(new \DateTime('2016-06-21'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-robert'));
-        $manager->persist($entity);
-
-        $entity = new Lunch();
-        $entity->setDate(new \DateTime('2016-06-28'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-robert'));
-        $manager->persist($entity);
-
-
-        // ---------------------------------------------------------------
-        // Arabella Donatello, CE1, school Roland Garros
-        // traditional diet
-        // ---------------------------------------------------------------
-
-        // Mondays of june
-        $entity = new Lunch();
-        $entity->setDate(new \DateTime('2016-06-06'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-arabella'));
-        $manager->persist($entity);
-
-        $entity = new Lunch();
-        $entity->setDate(new \DateTime('2016-06-13'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-arabella'));
-        $manager->persist($entity);
-
-        $entity = new Lunch();
-        $entity->setDate(new \DateTime('2016-06-20'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-arabella'));
-        $manager->persist($entity);
-
-        $entity = new Lunch();
-        $entity->setDate(new \DateTime('2016-06-27'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-arabella'));
-        $manager->persist($entity);
-
-        // Tuesdays of june
-        $entity = new Lunch();
-        $entity->setDate(new \DateTime('2016-06-07'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-arabella'));
-        $manager->persist($entity);
-
-        $entity = new Lunch();
-        $entity->setDate(new \DateTime('2016-06-14'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-arabella'));
-        $manager->persist($entity);
-
-        $entity = new Lunch();
-        $entity->setDate(new \DateTime('2016-06-21'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-arabella'));
-        $manager->persist($entity);
-
-        $entity = new Lunch();
-        $entity->setDate(new \DateTime('2016-06-28'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-arabella'));
-        $manager->persist($entity);
-
-
-        // 1 Thursday the 1st week and 1 Friday the 2nd week of june
-        $entity = new Lunch();
-        $entity->setDate(new \DateTime('2016-06-09'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-arabella'));
-        $manager->persist($entity);
-
-        $entity = new Lunch();
-        $entity->setDate(new \DateTime('2016-06-17'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-arabella'));
-        $manager->persist($entity);
-
-
+        $inscs  = [
+            ['2016-06-21', 'Dupontel-Jean-Kevin'],
+            ['2016-06-21', 'Dupontel-Kevina'],
+            ['2016-06-21', 'Dupontel-Mathilde'],
+            ['2016-06-21', 'Robert-Mickael'],
+            ['2016-06-21', 'Larissa-Viviane'],
+            ['2016-06-21', 'Larissa-Gaelle'],
+            ['2016-06-21', 'Larissa-Melina'],
+            ['2016-06-21', 'Larissa-Astrid'],
+            ['2016-06-21', 'Veron-Matheos'],
+            ['2016-06-21', 'Veron-Kevin'],
+            ['2016-06-21', 'Batista-Jean'],
+            
+        ];
+        foreach ($inscs as $insc) {
+            $entity = new Lunch();
+            $entity->setDate(new \DateTime($insc[0]));
+            $entity->setStatus('0');
+            $entity->setEleve($this->getReference($insc[1]));
+            $manager->persist($entity);
+        }
+        
         $manager->flush();
     }
 

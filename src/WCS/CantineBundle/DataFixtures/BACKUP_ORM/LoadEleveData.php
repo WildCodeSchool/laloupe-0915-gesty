@@ -20,26 +20,7 @@ class LoadEleveData extends AbstractFixture implements OrderedFixtureInterface, 
     public function load(ObjectManager $manager)
     {
         $eleves = [
-            ['Dupontel', 'Dupontel', 'Jean-Kevin', '2007-01-01', false, '', 'division-catteeu'],
-            ['Dupontel', 'Dupontel', 'Kevina', '2008-08-15', false, '', 'division-catteeu'],
-            ['Dupontel', 'Dupontel', 'Mathilde', '2009-08-15', false, '', 'division-catteeu'],
-            ['Robert', 'Robert', 'Mickael', '2010-08-15', false, 'gluten', 'division-pichodo'],
-            ['Robert', 'Robert', 'Franck', '2007-08-15', false, 'gluten', 'division-lucien'],
-            ['Larissa', 'Larissa', 'Viviane', '2008-08-15', true, '', 'division-nouaille'],
-            ['Larissa', 'Larissa', 'Gaelle', '2007-08-15', true, '', 'division-lucien'],
-            ['Larissa', 'Larissa', 'Melina', '2010-08-15', true, '', 'division-pichodo'],
-            ['Larissa', 'Larissa', 'Astrid', '2010-08-15', true, 'poivre', 'division-pichodo'],
-            ['Veron', 'Veron', 'Matheos', '2010-08-15', false, '', 'division-pichodo'],
-            ['Veron', 'Veron', 'Kevin', '2010-08-15', false, '', 'division-pichodo'],
-            ['Bouteiller', 'Bouteiller', 'Thomas', '2007-08-15', false, '', 'division-lucien'],
-            ['Bouteiller', 'Bouteiller', 'Isabelle', '2008-08-15', false, '', 'division-nouaille'],
-            ['Butin', 'Butin', 'Arnold', '2008-08-15', false, '', 'division-nouaille'],
-            ['Butin', 'Butin', 'Willy', '2010-08-15', false, '', 'division-pichodo'],
-            ['Dorel', 'Dorel', 'Maelis', '2009-08-15', false, '', 'division-nouaille'],
-            ['Batista', 'Batista', 'Jean', '2010-08-15', false, '', 'division-pichodo'],
-            ['Nelon', 'Nelon', 'Aurianne', '2009-08-15', false, '', 'division-lemoue'],
-            ['Nelon', 'Nelon', 'Enora', '2010-08-10', false, '', 'division-pichodo'],
-
+            ['user', 'Dupontel', 'Jean-Kevin', '2016-01-01', false, '', 'division-lemoue'],
         ];
 
         foreach ($eleves as $eleve) {

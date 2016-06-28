@@ -21,71 +21,27 @@ class LoadTapData extends AbstractFixture implements OrderedFixtureInterface, Co
      */
     public function load(ObjectManager $manager)
     {
-        // ---------------------------------------------------------------
-        // Eliott Valliant, GS, school Les Ecureuils
-        // ---------------------------------------------------------------
+        $inscs  = [
+            ['2016-06-21', 'Dupontel-Jean-Kevin'],
+            ['2016-06-21', 'Dupontel-Kevina'],
+            ['2016-06-21', 'Dupontel-Mathilde'],
+            ['2016-06-21', 'Robert-Mickael'],
+            ['2016-06-21', 'Larissa-Viviane'],
+            ['2016-06-21', 'Larissa-Gaelle'],
+            ['2016-06-21', 'Larissa-Melina'],
+            ['2016-06-21', 'Larissa-Astrid'],
+            ['2016-06-21', 'Veron-Matheos'],
+            ['2016-06-21', 'Veron-Kevin'],
+            ['2016-06-21', 'Batista-Jean'],
 
-        // Tuesdays of period between 18/04 and 05/07
-        $entity = new Tap();
-        $entity->setDate(new \DateTime('2016-06-07'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-eliott'));
-        $manager->persist($entity);
-
-        $entity = new Tap();
-        $entity->setDate(new \DateTime('2016-06-14'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-eliott'));
-        $manager->persist($entity);
-
-        $entity = new Tap();
-        $entity->setDate(new \DateTime('2016-06-21'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-eliott'));
-        $manager->persist($entity);
-
-        $entity = new Tap();
-        $entity->setDate(new \DateTime('2016-06-28'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-eliott'));
-        $manager->persist($entity);
-
-        $entity = new Tap();
-        $entity->setDate(new \DateTime('2016-07-05'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-eliott'));
-        $manager->persist($entity);
-
-
-        // ---------------------------------------------------------------
-        // Arabella Donatello, CE1, school Roland Garros
-        // ---------------------------------------------------------------
-
-        // Thursdays of period between 18/04 and 05/07
-        $entity = new Tap();
-        $entity->setDate(new \DateTime('2016-06-09'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-arabella'));
-        $manager->persist($entity);
-
-        $entity = new Tap();
-        $entity->setDate(new \DateTime('2016-06-16'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-arabella'));
-        $manager->persist($entity);
-
-        $entity = new Tap();
-        $entity->setDate(new \DateTime('2016-06-23'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-arabella'));
-        $manager->persist($entity);
-
-        $entity = new Tap();
-        $entity->setDate(new \DateTime('2016-06-30'));
-        $entity->setStatus('0');
-        $entity->setEleve($this->getReference('aaa-arabella'));
-        $manager->persist($entity);
-
+        ];
+        foreach ($inscs as $insc) {
+            $entity = new Tap();
+            $entity->setDate(new \DateTime($insc[0]));
+            $entity->setStatus('0');
+            $entity->setEleve($this->getReference($insc[1]));
+            $manager->persist($entity);
+        }
 
         $manager->flush();
     }

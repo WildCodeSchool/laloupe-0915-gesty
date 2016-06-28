@@ -21,99 +21,28 @@ class LoadGarderieData extends AbstractFixture implements OrderedFixtureInterfac
      */
     public function load(ObjectManager $manager)
     {
-        // ---------------------------------------------------------------
-        // Eliott Valliant, GS, school Les Ecureuils
-        // ---------------------------------------------------------------
+        $inscs  = [
+            ['2016-06-21', 'Dupontel-Jean-Kevin', true, true],
+            ['2016-06-21', 'Dupontel-Kevina', true, true],
+            ['2016-06-21', 'Dupontel-Mathilde', true, true],
+            ['2016-06-21', 'Robert-Mickael', true, false],a
+            ['2016-06-21', 'Larissa-Viviane', false, true],
+            ['2016-06-21', 'Larissa-Gaelle', false, true],
+            ['2016-06-21', 'Larissa-Melina', false, true],
+            ['2016-06-21', 'Larissa-Astrid', false, true],
+            ['2016-06-21', 'Veron-Matheos', false, true],
+            ['2016-06-21', 'Veron-Kevin', false, true],
+            ['2016-06-21', 'Batista-Jean', true, true],
 
-        // Mondays morning of period between 18/04 and 05/07
-        $entity = new Garderie();
-        $entity->setDate(new \DateTime('2016-06-06'));
-        $entity->setEnableMorning(true);
-        $entity->setEleve($this->getReference('aaa-eliott'));
-        $manager->persist($entity);
-
-        $entity = new Garderie();
-        $entity->setDate(new \DateTime('2016-06-13'));
-        $entity->setEnableMorning(true);
-        $entity->setEleve($this->getReference('aaa-eliott'));
-        $manager->persist($entity);
-
-        $entity = new Garderie();
-        $entity->setDate(new \DateTime('2016-06-20'));
-        $entity->setEnableMorning(true);
-        $entity->setEleve($this->getReference('aaa-eliott'));
-        $manager->persist($entity);
-
-        $entity = new Garderie();
-        $entity->setDate(new \DateTime('2016-06-27'));
-        $entity->setEnableMorning(true);
-        $entity->setEleve($this->getReference('aaa-eliott'));
-        $manager->persist($entity);
-
-        $entity = new Garderie();
-        $entity->setDate(new \DateTime('2016-07-04'));
-        $entity->setEnableMorning(true);
-        $entity->setEleve($this->getReference('aaa-eliott'));
-        $manager->persist($entity);
-
-
-        // Mondays nights of period between 18/04 and 05/07
-        $entity = new Garderie();
-        $entity->setDate(new \DateTime('2016-06-06'));
-        $entity->setEnableEvening(true);
-        $entity->setEleve($this->getReference('aaa-eliott'));
-        $manager->persist($entity);
-
-        $entity = new Garderie();
-        $entity->setDate(new \DateTime('2016-06-13'));
-        $entity->setEnableEvening(true);
-        $entity->setEleve($this->getReference('aaa-eliott'));
-        $manager->persist($entity);
-
-        $entity = new Garderie();
-        $entity->setDate(new \DateTime('2016-06-20'));
-        $entity->setEnableEvening(true);
-        $entity->setEleve($this->getReference('aaa-eliott'));
-        $manager->persist($entity);
-
-        $entity = new Garderie();
-        $entity->setDate(new \DateTime('2016-06-27'));
-        $entity->setEnableEvening(true);
-        $entity->setEleve($this->getReference('aaa-eliott'));
-        $manager->persist($entity);
-
-        $entity = new Garderie();
-        $entity->setDate(new \DateTime('2016-07-04'));
-        $entity->setEnableEvening(true);
-        $entity->setEleve($this->getReference('aaa-eliott'));
-        $manager->persist($entity);
-
-
-
-        // Fridays nights of period between 18/04 and 05/07
-        $entity = new Garderie();
-        $entity->setDate(new \DateTime('2016-06-10'));
-        $entity->setEnableEvening(true);
-        $entity->setEleve($this->getReference('aaa-eliott'));
-        $manager->persist($entity);
-
-        $entity = new Garderie();
-        $entity->setDate(new \DateTime('2016-06-17'));
-        $entity->setEnableEvening(true);
-        $entity->setEleve($this->getReference('aaa-eliott'));
-        $manager->persist($entity);
-
-        $entity = new Garderie();
-        $entity->setDate(new \DateTime('2016-06-24'));
-        $entity->setEnableEvening(true);
-        $entity->setEleve($this->getReference('aaa-eliott'));
-        $manager->persist($entity);
-
-        $entity = new Garderie();
-        $entity->setDate(new \DateTime('2016-07-01'));
-        $entity->setEnableEvening(true);
-        $entity->setEleve($this->getReference('aaa-eliott'));
-        $manager->persist($entity);
+        ];
+        foreach ($inscs as $insc) {
+            $entity = new Garderie();
+            $entity->setDate(new \DateTime($insc[0]));
+            $entity->setEleve($this->getReference($insc[1]));
+            $entity->setEnableMorning($insc[2]);
+            $entity->setEnableEvening($insc[3]);
+            $manager->persist($entity);
+        }
 
 
         $manager->flush();

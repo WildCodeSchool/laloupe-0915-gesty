@@ -35,39 +35,6 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $userManager->updateUser($user, true);
         $this->addReference('superAdmin', $user);
 
-        $parents = [
-          
-            ['aaa', 'true', 'dupontel@email.fr', 'Michel', 'Dupontel','rue de la gare', '28240', 'La Loupe', 'true'],
-            ['aaa', 'true', 'robert@email.fr', 'Valerie', 'Robert','rue de la place', '28240', 'La Loupe', 'true'],
-            ['aaa', 'true', 'larissa@email.fr', 'Antoine', 'Larissa','rue du puit', '28240', 'La Loupe', 'true'],
-            ['aaa', 'true', 'veron@email.fr', 'Thomas', 'Veron','rue de la potence', '28240', 'La Loupe', 'true'],
-            ['aaa', 'true', 'batista@email.fr', 'Laurine', 'Batista','rue des vergers', '28240', 'La Loupe',  'true'],
-            ['aaa', 'true', 'bouteiller@email.fr', 'André', 'Bouteiller','lieu dit des noyers', '28240', 'La Loupe', 'true'],
-            ['aaa', 'true', 'butin@email.fr', 'Gregory', 'Butin','rue des artistes', '28240', 'La Loupe', 'true'],
-            ['aaa', 'true', 'dorel@email.fr', 'Louis', 'Dorel','rue du pont', '28240', 'La Loupe', 'true'],
-            ['aaa', 'true', 'nelon@email.fr', 'Maurice', 'Nelon','rue de la gare', '28240', 'La Loupe', 'true'],
-            
-
-        ];
-
-        foreach ($parents as $parent) {
-            $user = $userManager->createUser();
-            $user->setPlainPassword($parent[0]);
-            $user->setEnabled($parent[1]);
-            $user->setEmail($parent[2]);
-            $user->setRoles(array('ROLE_USER'));
-            $user->setFirstname($parent[3]);
-            $user->setLastname($parent[4]);
-            $user->setPhone('0201010101');
-            $user->setAdresse($parent[5]);
-            $user->setCodePostal($parent[6]);
-            $user->setCommune($parent[7]);
-            $user->setModeDePaiement('Cheque');
-            $user->setValidation(true);
-            $userManager->updateUser($user, true);
-            $this->addReference($parent[4], $user);
-
-        }
         // Creation du User aaa
         $user = $userManager->createUser();
         $user->setPlainPassword('aaa');
@@ -85,11 +52,6 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $userManager->updateUser($user, true);
         $this->addReference('user', $user);
 
-        
-        
-        
-        
-        
         // Creation du User damedecantine
         $user = $userManager->createUser();
         $user->setPlainPassword('aaa');
