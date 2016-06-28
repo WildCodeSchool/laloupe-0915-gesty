@@ -23,6 +23,7 @@ class Eleve
         $this->habits = array();
         $this->voyages = new ArrayCollection();
         $this->regimeSansPorc = false;
+
     }
 
 
@@ -502,47 +503,47 @@ class Eleve
     /**
      * @var bool
      */
-    private $canteen_atteste;
+    private $canteen_atteste = false;
 
     /**
      * @var bool
      */
-    private $canteen_autorise;
+    private $canteen_autorise = false;
 
     /**
      * @var bool
      */
-    private $canteen_certifie;
+    private $canteen_certifie = false;
 
     /**
      * @var bool
      */
-    private $tapgarderie_atteste;
+    private $tapgarderie_atteste = false;
 
     /**
      * @var bool
      */
-    private $tapgarderie_autorise;
+    private $tapgarderie_autorise = false;
 
     /**
      * @var bool
      */
-    private $tapgarderie_certifie;
+    private $tapgarderie_certifie = false;
 
     /**
      * @var bool
      */
-    private $voyage_atteste;
+    private $voyage_atteste = false;
 
     /**
      * @var bool
      */
-    private $voyage_autorise;
+    private $voyage_autorise = false;
 
     /**
      * @var bool
      */
-    private $voyage_certifie;
+    private $voyage_certifie = false;
 
     /**
      * @return boolean

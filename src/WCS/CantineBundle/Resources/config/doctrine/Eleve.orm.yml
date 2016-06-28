@@ -28,30 +28,48 @@ WCS\CantineBundle\Entity\Eleve:
 
         canteen_atteste:
             type: boolean
+            options:
+                default: false
 
         canteen_autorise:
             type: boolean
+            options:
+                default: false
 
         canteen_certifie:
             type: boolean
+            options:
+                default: false
 
         tapgarderie_atteste:
             type: boolean
+            options:
+                default: false
 
         tapgarderie_autorise:
             type: boolean
+            options:
+                default: false
 
         tapgarderie_certifie:
             type: boolean
+            options:
+                default: false
 
         voyage_atteste:
             type: boolean
+            options:
+                default: false
 
         voyage_autorise:
             type: boolean
+            options:
+                default: false
 
         voyage_certifie:
             type: boolean
+            options:
+                default: false
 
     manyToOne:
         user:
