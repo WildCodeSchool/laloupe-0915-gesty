@@ -87,13 +87,19 @@ class Service
         $tmp = \DateTime::createFromFormat('Y-m-d', $date_jour);
         $now_year = $tmp->format('Y');
 
-     $p = $this->doctrine->getRepository('WCSCantineBundle:SchoolYear')->getSchoolYearIncluding(new \DateTime($date_jour));
-
+     $schoolYearFound = $this->doctrine->getRepository('WCSCantineBundle:SchoolYear')->getSchoolYearIncluding(new \DateTime($date_jour));
+/*
 //        if ($date_jour >= "$now_year-01-01" && $date_jour <= "$now_year-07-05") {
         if ($date_jour >= "$now_year-01-01" && $date_jour <= $now_year.$p->getLastDate()->format('-m-d')) {
             $this->annee_rentree_from_today = $now_year - 1;
         } else {
             $this->annee_rentree_from_today = $now_year;
+        }
+*/
+        $this->annee_rentree_from_today = $now_year;
+
+        if ($schoolYearFound && $date_jour >= "$now_year-01-01") {
+            $this->annee_rentree_from_today--;
         }
 
         foreach($this->cals as $cal) {

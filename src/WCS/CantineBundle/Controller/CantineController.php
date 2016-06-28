@@ -33,9 +33,11 @@ class CantineController extends Controller
             $this->get('wcs.datenow')
         );
 
-        $datedebutAnnee = $calendrier->getPeriodesAnneeScolaire()->getAnneeScolaire()->getDebut();
-        if ($first_day_available < $datedebutAnnee) {
-            $first_day_available = $datedebutAnnee;
+        if ($calendrier) {
+            $datedebutAnnee = $calendrier->getPeriodesAnneeScolaire()->getAnneeScolaire()->getDebut();
+            if ($first_day_available < $datedebutAnnee) {
+                $first_day_available = $datedebutAnnee;
+            }
         }
 
         // créé le formulaire associé à l'élève
