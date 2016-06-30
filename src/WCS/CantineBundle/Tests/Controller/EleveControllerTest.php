@@ -8,6 +8,11 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class EleveControllerTest extends WebTestCase
 {
+    /**
+     * @var \Doctrine\Common\DataFixtures\Executor\AbstractExecutor
+     */
+    private $fixtures;
+
     // test la connexion et s'assure que l'on est bien sur la page "dashboard"
     public function testConnexion()
     {

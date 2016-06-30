@@ -8,7 +8,7 @@ class PeriodeException extends \Exception
     const DATE_DEBUT    = 1;
     const DATE_FIN      = 2;
     
-    public function __construct($message, $code = DATE, $exception = null)
+    public function __construct($message, $code = self::DATE, $exception = null)
     {
         parent::__construct($message, $code, $exception);
     }

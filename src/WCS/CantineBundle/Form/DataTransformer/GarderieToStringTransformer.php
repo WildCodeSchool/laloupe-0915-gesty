@@ -65,7 +65,8 @@ class GarderieToStringTransformer implements DataTransformerInterface
                 // sinon on créé une nouvelle réservation
                 $dateT = new \DateTime($date);
                 $found = false;
-
+                $garderie = null;
+                
                 foreach($garderies_eleve as $current) {
                     if ($current->getDate()==$dateT) {
                         if (substr($dayOfWeek, -2)=='-1' && $current->isEnableMorning()) {

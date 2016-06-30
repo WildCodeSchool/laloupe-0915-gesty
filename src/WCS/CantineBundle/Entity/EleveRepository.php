@@ -8,6 +8,7 @@
 
 namespace WCS\CantineBundle\Entity;
 
+use Application\Sonata\UserBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use WCS\CalendrierBundle\Service\Periode\Periode;
@@ -188,10 +189,10 @@ class EleveRepository extends EntityRepository
      * Trouve la liste des enfants d'un parent donné (dont l'id est "user_id")
      * Cette liste comporte les enfants, les voyages auxquels ils sont inscrits,
      *
-     * @param $user_id      id du parent d'élève
+     * @param User $user     id du parent d'élève
      * @return array        tableau indexé d'entité "Eleve"
      */
-    public function findChildren($user)
+    public function findChildren(User $user)
     {
         $em = $this->getEntityManager();
 

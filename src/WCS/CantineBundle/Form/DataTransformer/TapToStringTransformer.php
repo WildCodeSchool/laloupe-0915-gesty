@@ -64,6 +64,7 @@ class TapToStringTransformer implements DataTransformerInterface
                 $dateT = new \DateTime($date);
                 $found = false;
 
+                $tap = null;
                 foreach($taps_eleve as $current) {
                     if ($current->getDate()==$dateT) {
                         $tap = $current;

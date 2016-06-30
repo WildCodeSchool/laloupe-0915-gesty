@@ -4,9 +4,10 @@ namespace WCS\EmployeeBundle\Controller\ViewBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
+use WCS\CantineBundle\Entity\ActivityBase;
 use WCS\CantineBundle\Entity\School;
 use WCS\EmployeeBundle\Controller\Mapper\ActivityMapperInterface;
-use WCS\EmployeeBundle\Form\Type\ActivityEleveType;
+use WCS\EmployeeBundle\Form\Type\ListType;
 
 
 class ListViewBuilder extends ViewBuilderAbstract
@@ -48,16 +49,10 @@ class ListViewBuilder extends ViewBuilderAbstract
             )
         );
 
-
-        // get the list of pupils registered today in the activity
-
-        $entities = $this->getRepository($this->mapper->getEntityClassName())->getActivityDayList($options);
-
-
         // create the form
 
         $form = $this->createForm(
-            new ActivityEleveType($entityClass),
+            new ListType(),
             $entity,
             [ 'additional_options' => [
                 'school_id' => $school->getId(),
@@ -77,7 +72,13 @@ class ListViewBuilder extends ViewBuilderAbstract
             );
         }
 
+        // load the list (important : let this instruction AFTER creating the form in order to get
+        // new registrations or removing from a previous post taken in account.
+
+        $entities = $this->loadRegisteredPupilsList($options);
+
         // return the array with all data
+
         return array(
             'entities'      => $entities,
             'form_register' => $form->createView(),
@@ -92,15 +93,18 @@ class ListViewBuilder extends ViewBuilderAbstract
      * @param $entity
      * @return bool
      */
-    private function processForm(Request $request, Form $form, $entity)
+    private function processForm(Request $request, Form $form, ActivityBase $entity)
     {
         $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
 
-        if ($form->isValid()) {
+            $key = $request->get('activity').'_list_eleves';
+            $this->setSessionValue($key, $request->get("list_eleves"));
 
-            $this->mapper->updateEntity(
-                $entity, $this->getDateDay()
-            );
+            $entity->setStatus(ActivityBase::STATUS_NOT_REGISTERED);
+            $entity->setDate($this->getDateDay());
+
+            $this->mapper->preUpdateEntity($entity);
 
             $em = $this->getDoctrineManager();
             $em->persist($entity);
@@ -109,5 +113,14 @@ class ListViewBuilder extends ViewBuilderAbstract
         }
 
         return false;
+    }
+
+    /**
+     * @param $options
+     * @return mixed
+     */
+    private function loadRegisteredPupilsList($options)
+    {
+        return $this->getRepository($this->mapper->getEntityClassName())->getActivityDayList($options);
     }
 }

@@ -2,7 +2,6 @@
 //WCS/CantineBundle/Admin/EleveAdmin.php
 namespace WCS\CantineBundle\Admin;
 
-use Symfony\Component\VarDumper\VarDumper;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;

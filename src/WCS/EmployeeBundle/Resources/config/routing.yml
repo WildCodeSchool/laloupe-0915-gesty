@@ -19,7 +19,7 @@ wcs_employee_daylist:
 wcs_employee_remove:
     path: /{activity}/{id}/daylist/remove/{id_activity}
     defaults: { _controller: "WCSEmployeeBundle:Daylist:remove" }
-    methods: [GET, DELETE]
+    methods: [POST, DELETE]
 
 wcs_employee_canteen_orders:
     path: /cantine/reservation

@@ -28,22 +28,12 @@ class CantineType extends AbstractType
         $builder
             ->add('regimeSansPorc', 'checkbox', array('required'=>false))
             ->add('allergie', 'text', array('label' =>'allergie', 'required'=>false))
-/*
-            ->add('atteste','checkbox', array('required'=>true, 'mapped'=>false))
-            ->add('autorise','checkbox', array('required'=>true, 'mapped'=>false))
-            ->add('certifie','checkbox', array('required'=>true, 'mapped'=>false))
-*/
-            ->add('canteen_atteste','checkbox', array('required'=>true))
-            ->add('canteen_autorise','checkbox', array('required'=>true))
-            ->add('canteen_certifie','checkbox', array('required'=>true))
-
             ->add('habits', 'choice', array(
                 'choices'   => Eleve::getHabitDaysLabels(),
                 'expanded' => true,
                 'multiple' => true,
                 'required'  => false
             ))
-
             ->add('lunches', 'hidden', array(
                 'required'  => false
             ))
@@ -51,6 +41,17 @@ class CantineType extends AbstractType
 
         $builder->get('lunches')
             ->addModelTransformer(new LunchToStringTransformer($this->manager, $builder->getData()));
+
+        /**
+         * @var \WCS\CantineBundle\Entity\Eleve $entity
+         */
+        $entity = $builder->getData();
+        if (!$entity->isCanteenSigned()) {
+            $builder
+                ->add('canteen_atteste','checkbox', array('required'=>true, 'mapped'=>false))
+                ->add('canteen_autorise','checkbox', array('required'=>true, 'mapped'=>false))
+                ->add('canteen_certifie','checkbox', array('required'=>true, 'mapped'=>false));
+        }
     }
 
     /**

@@ -24,8 +24,8 @@
 
         <div class="col-md-12">
             <h3 class="titre">{{eleve }}</h3>
-            <strong>Né(e) le:</strong> {{ eleve.dateDeNaissance | date('d/m/Y') }}</br>
-            <strong>Classe/Ecole: </strong> {{ eleve.division }}</br>
+            <strong>Né(e) le:</strong> {{ eleve.dateDeNaissance | date('d/m/Y') }}<br />
+            <strong>Classe/Ecole: </strong> {{ eleve.division }}<br />
         </div>
 
         {# ------------------------Liste des Voyages------------------------- #}
@@ -53,39 +53,49 @@
 
 
       {#----------------------------------Signatures et validation-------------------------#}
-    <div class="col-md-12">
-        <h3>Signatures</h3>
-        <div class="form-group">
-            {{ form_widget(form.voyage_autorise) }}
-            <label for="autorise" style="display:inline">J'autorise le responsable du voyage scolaire ou son représentant à prendre toutes mesures d'urgence nécessaires en cas d'accident survenant à mon enfant *</label>
-            <blockquote>
-                A savoir :
-                <ul>
-                    <li>appel du S.A.M.U</li>
-                    <li>transfert à l'hôpital (ou à la clinique) le (la) plus proche</li>
-                </ul>
-            </blockquote>
-        </div>
+        <div class="col-md-12">
 
+            {% if not eleve.voyageSigned %}
 
-        <div class="form-group">
-
-           {{ form_widget(form.voyage_certifie) }}
-            <label for="atteste" style="display:inline">Je certifie sur l’honneur l’exactitude de tous les renseignements saisis sur cette application concernant mon enfant ainsi que mon foyer *</label>
-        </div>
-
-
-        <div class="col-md-offset-1 col-md-9">
-            <div class="col-md-6 col-md-offset-3">
-                <h6 id="champs">* champs obligatoire</h6><br>
-                <input type="submit" name="commit" value="Inscrire mon enfant" class="btn btn-primary btn-lg btn-block">
+            <h3>Signatures</h3>
+            <div class="form-group">
+                {{ form_widget(form.voyage_autorise) }}
+                <label for="autorise" style="display:inline">J'autorise le responsable du voyage scolaire ou son représentant à prendre toutes mesures d'urgence nécessaires en cas d'accident survenant à mon enfant *</label>
+                <blockquote>
+                    A savoir :
+                    <ul>
+                        <li>appel du S.A.M.U</li>
+                        <li>transfert à l'hôpital (ou à la clinique) le (la) plus proche</li>
+                    </ul>
+                </blockquote>
             </div>
 
+
+            <div class="form-group">
+
+               {{ form_widget(form.voyage_certifie) }}
+                <label for="atteste" style="display:inline">Je certifie sur l’honneur l’exactitude de tous les renseignements saisis sur cette application concernant mon enfant ainsi que mon foyer *</label>
+            </div>
+
+            <div class="col-md-offset-1 col-md-9">
+                <div class="col-md-6 col-md-offset-3">
+                    <h6 id="champs">* champs obligatoire</h6><br>
+                </div>
+
+            </div>
+
+            {% endif %}
+
+            <div class="col-md-offset-1 col-md-9">
+                <div class="col-md-6 col-md-offset-3">
+                    <input type="submit" name="commit" value="Valider" class="btn btn-primary btn-lg btn-block">
+                </div>
+
+            </div>
         </div>
-    </div>
 
     </div>
-    </div>
+
     {{ form_end(form) }}
 {% endblock %}
 

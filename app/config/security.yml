@@ -24,6 +24,7 @@ security:
                 check_path:     /admin/login_check
                 failure_path:   null
                 require_previous_session: false
+                default_target_path: /admin/
             logout:
                 path:           /admin/logout
                 target:         /admin/login
@@ -71,15 +72,16 @@ security:
            # - ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT  # if you are using acl then this line must be commented
             
     access_control:
-            # URL of FOSUserBundle which need to be available to anonymous users
-            - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-            - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-            - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-
             # Admin login page needs to be access without credential
             - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
             - { path: ^/admin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
             - { path: ^/admin/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+
+            # URL of FOSUserBundle which need to be available to anonymous users
+            - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+            - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+            - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
 
 
             # Secured part of the site

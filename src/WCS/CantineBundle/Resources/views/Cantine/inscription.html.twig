@@ -90,7 +90,10 @@
 
         <div class="row">
 
+
             <div class="col-md-offset-1 col-md-9">
+
+                {% if not eleve.canteenSigned %}
 
                 <h3>Signatures</h3>
                 <div class="form-group">
@@ -120,9 +123,12 @@
                     <label for="atteste">Je certifie sur l’honneur l’exactitude de tous les renseignements saisis sur cette application concernant mon enfant ainsi que mon foyer *</label>
                 </div>
 
+                {% endif %}
+
+
                 <div class="col-md-6 col-md-offset-3">
                     <h6 id="champs">* champs obligatoire</h6><br>
-                    <input type="submit" name="commit" value="Inscrire mon enfant" class="btn btn-primary btn-lg btn-block">
+                    <input type="submit" name="commit" value="Valider" class="btn btn-primary btn-lg btn-block">
                 </div>
             </div>
             {{ form_end(form) }}

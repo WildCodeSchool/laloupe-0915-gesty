@@ -2,7 +2,9 @@
 
 namespace WCS\CantineBundle\Entity;
 
-class VoyageRepository extends \Doctrine\ORM\EntityRepository
+use \Doctrine\ORM\EntityRepository;
+
+class VoyageRepository extends EntityRepository
 {
     /**
      * Retourne les voyages qui débutent au plus tôt "demain"

@@ -26,47 +26,17 @@ WCS\CantineBundle\Entity\Eleve:
         habits:
             type: array
 
-        canteen_atteste:
+        canteen_signed:
             type: boolean
             options:
                 default: false
 
-        canteen_autorise:
+        tapgarderie_signed:
             type: boolean
             options:
                 default: false
 
-        canteen_certifie:
-            type: boolean
-            options:
-                default: false
-
-        tapgarderie_atteste:
-            type: boolean
-            options:
-                default: false
-
-        tapgarderie_autorise:
-            type: boolean
-            options:
-                default: false
-
-        tapgarderie_certifie:
-            type: boolean
-            options:
-                default: false
-
-        voyage_atteste:
-            type: boolean
-            options:
-                default: false
-
-        voyage_autorise:
-            type: boolean
-            options:
-                default: false
-
-        voyage_certifie:
+        voyage_signed:
             type: boolean
             options:
                 default: false

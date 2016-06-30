@@ -2,6 +2,8 @@
 namespace WCS\EmployeeBundle\Controller\Mapper;
 
 
+use WCS\CantineBundle\Entity\ActivityBase;
+
 class GarderieMorningMapper implements ActivityMapperInterface
 {
     /**
@@ -23,9 +25,11 @@ class GarderieMorningMapper implements ActivityMapperInterface
     /**
      * @inheritdoc
      */
-    public function updateEntity($entity, \DateTimeImmutable $date_day)
+    public function preUpdateEntity(ActivityBase $entity)
     {
-        $entity->setDate($date_day);
+        /**
+         * @var \WCS\CantineBundle\Entity\Garderie $entity
+         */
         $entity->setEnableMorning(true);
     }
 

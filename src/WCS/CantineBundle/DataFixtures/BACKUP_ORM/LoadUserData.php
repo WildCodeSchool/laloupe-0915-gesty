@@ -16,10 +16,19 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
+        /**
+         * @var \Application\Sonata\UserBundle\Entity\User $user
+         */
+
         // Get our userManager, you must implement `ContainerAwareInterface`
         $userManager = $this->getUserManager();
 
@@ -32,7 +41,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $user->setFirstname('Admin');
         $user->setLastname('Admin');
         $user->setPhone('0768298272');
-        $userManager->updateUser($user, true);
+        $userManager->updateUser($user);
         $this->addReference('superAdmin', $user);
 
         // Creation du User aaa
@@ -49,7 +58,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $user->setCommune('Orléans');
         $user->setModeDePaiement('Cheque');
         $user->setValidation(true);
-        $userManager->updateUser($user, true);
+        $userManager->updateUser($user);
         $this->addReference('user', $user);
 
         // Creation du User damedecantine
@@ -61,7 +70,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $user->setFirstname('Aaa');
         $user->setLastname('Aaa');
         $user->setPhone('0768298272');
-        $userManager->updateUser($user, true);
+        $userManager->updateUser($user);
         $this->addReference('dameCantine', $user);
 
         $user = $userManager->createUser();
@@ -73,7 +82,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $user->setLastname('Bob');
         $user->setPhone('0778909843');
         $user->setValidation(true);
-        $userManager->updateUser($user, true);
+        $userManager->updateUser($user);
         $this->addReference('user2', $user);
 
         $user = $userManager->createUser();
@@ -84,7 +93,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $user->setFirstname('Marine');
         $user->setLastname('Twig');
         $user->setPhone('0678434578');
-        $userManager->updateUser($user, true);
+        $userManager->updateUser($user);
         $this->addReference('user3', $user);
 
         $user = $userManager->createUser();
@@ -95,19 +104,19 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $user->setFirstname('Tony');
         $user->setLastname('Donatello');
         $user->setPhone('0678434556');
-        $userManager->updateUser($user, true);
+        $userManager->updateUser($user);
         $this->addReference('user4', $user);
 
-        $user7 = $userManager->createUser();
-        $user7->setPlainPassword('uuu');
-        $user7->setEnabled(true);
-        $user7->setEmail('tanguy@email.com');
-        $user7->setRoles(array('ROLE_USER'));
-        $user7->setFirstname('Eric');
-        $user7->setLastname('Tanguy');
-        $user7->setPhone('0678434853');
-        $userManager->updateUser($user7, true);
-        $this->addReference('user5', $user7);
+        $user = $userManager->createUser();
+        $user->setPlainPassword('uuu');
+        $user->setEnabled(true);
+        $user->setEmail('tanguy@email.com');
+        $user->setRoles(array('ROLE_USER'));
+        $user->setFirstname('Eric');
+        $user->setLastname('Tanguy');
+        $user->setPhone('0678434853');
+        $userManager->updateUser($user);
+        $this->addReference('user5', $user);
 
 
 
@@ -120,7 +129,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $user->setFirstname('Aaa');
         $user->setLastname('Aaa');
         $user->setPhone('0768298272');
-        $userManager->updateUser($user, true);
+        $userManager->updateUser($user);
         $this->addReference('employeCantine', $user);
 
         // Creation du User employe TAP seul
@@ -132,7 +141,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $user->setFirstname('Aaa');
         $user->setLastname('Aaa');
         $user->setPhone('0768298272');
-        $userManager->updateUser($user, true);
+        $userManager->updateUser($user);
         $this->addReference('employeTap', $user);
 
         // Creation du User employe GARDERIE seul
@@ -144,7 +153,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $user->setFirstname('Aaa');
         $user->setLastname('Aaa');
         $user->setPhone('0768298272');
-        $userManager->updateUser($user, true);
+        $userManager->updateUser($user);
         $this->addReference('employeGarderie', $user);
 
 
@@ -157,7 +166,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $user->setFirstname('Aaa');
         $user->setLastname('Aaa');
         $user->setPhone('0768298272');
-        $userManager->updateUser($user, true);
+        $userManager->updateUser($user);
         $this->addReference('employeTapGarderie', $user);
 
     }

@@ -29,15 +29,6 @@ class TapType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-/*
-            ->add('atteste','checkbox', array('required'=>true, 'mapped'=>false))
-            ->add('autorise','checkbox', array('required'=>true, 'mapped'=>false))
-            ->add('certifie','checkbox', array('required'=>true, 'mapped'=>false))
-*/
-            ->add('tapgarderie_atteste','checkbox', array('required'=>true))
-            ->add('tapgarderie_autorise','checkbox', array('required'=>true))
-            ->add('tapgarderie_certifie','checkbox', array('required'=>true))
-
             ->add('taps', 'hidden', array(
                 'required'  => false
             ))
@@ -51,6 +42,16 @@ class TapType extends AbstractType
 
         $builder->get('garderies')
             ->addModelTransformer( new GarderieToStringTransformer($this->manager, $builder->getData(), $this->daysOfWeek) );
+        /**
+         * @var \WCS\CantineBundle\Entity\Eleve $entity
+         */
+        $entity = $builder->getData();
+        if (!$entity->isTapgarderieSigned()) {
+            $builder
+                ->add('tapgarderie_atteste','checkbox', array('required'=>true, 'mapped'=>false))
+                ->add('tapgarderie_autorise','checkbox', array('required'=>true, 'mapped'=>false))
+                ->add('tapgarderie_certifie','checkbox', array('required'=>true, 'mapped'=>false));
+        }
     }
 
     /**

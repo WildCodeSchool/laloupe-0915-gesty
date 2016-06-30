@@ -23,7 +23,6 @@ class Eleve
         $this->habits = array();
         $this->voyages = new ArrayCollection();
         $this->regimeSansPorc = false;
-
     }
 
 
@@ -496,207 +495,73 @@ class Eleve
         return array_keys(self::getHabitDays());
     }
 
-    public function getNombreDeRepasParMois()
-    {
-
-    }
     /**
      * @var bool
      */
-    private $canteen_atteste = false;
+    private $canteen_signed = false;
 
     /**
      * @var bool
      */
-    private $canteen_autorise = false;
+    private $tapgarderie_signed = false;
 
     /**
      * @var bool
      */
-    private $canteen_certifie = false;
+    private $voyage_signed = false;
 
-    /**
-     * @var bool
-     */
-    private $tapgarderie_atteste = false;
-
-    /**
-     * @var bool
-     */
-    private $tapgarderie_autorise = false;
-
-    /**
-     * @var bool
-     */
-    private $tapgarderie_certifie = false;
-
-    /**
-     * @var bool
-     */
-    private $voyage_atteste = false;
-
-    /**
-     * @var bool
-     */
-    private $voyage_autorise = false;
-
-    /**
-     * @var bool
-     */
-    private $voyage_certifie = false;
 
     /**
      * @return boolean
      */
-    public function isCanteenAtteste()
+    public function isCanteenSigned()
     {
-        return $this->canteen_atteste;
+        return $this->canteen_signed;
     }
 
     /**
      * @return boolean
      */
-    public function isCanteenCertifie()
+    public function isTapgarderieSigned()
     {
-        return $this->canteen_certifie;
+        return $this->tapgarderie_signed;
     }
 
     /**
      * @return boolean
      */
-    public function isCanteenAutorise()
+    public function isVoyageSigned()
     {
-        return $this->canteen_autorise;
+        return $this->voyage_signed;
     }
 
     /**
-     * @return boolean
+     * @param boolean $canteen_signed
+     * @return Eleve
      */
-    public function isTapgarderieAtteste()
+    public function setCanteenSigned($canteen_signed)
     {
-        return $this->tapgarderie_atteste;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isTapgarderieAutorise()
-    {
-        return $this->tapgarderie_autorise;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isTapgarderieCertifie()
-    {
-        return $this->tapgarderie_certifie;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isVoyageAtteste()
-    {
-        return $this->voyage_atteste;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isVoyageAutorise()
-    {
-        return $this->voyage_autorise;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isVoyageCertifie()
-    {
-        return $this->voyage_certifie;
-    }
-
-    /**
-     * @param boolean $canteen_atteste
-     */
-    public function setCanteenAtteste($canteen_atteste)
-    {
-        $this->canteen_atteste = $canteen_atteste;
+        $this->canteen_signed = $canteen_signed;
         return $this;
     }
 
     /**
-     * @param boolean $canteen_autorise
+     * @param boolean $tapgarderie_signed
+     * @return Eleve
      */
-    public function setCanteenAutorise($canteen_autorise)
+    public function setTapgarderieSigned($tapgarderie_signed)
     {
-        $this->canteen_autorise = $canteen_autorise;
+        $this->tapgarderie_signed = $tapgarderie_signed;
         return $this;
     }
 
     /**
-     * @param boolean $canteen_certifie
+     * @param boolean $voyage_signed
+     * @return Eleve
      */
-    public function setCanteenCertifie($canteen_certifie)
+    public function setVoyageSigned($voyage_signed)
     {
-        $this->canteen_certifie = $canteen_certifie;
+        $this->voyage_signed = $voyage_signed;
         return $this;
     }
-
-    /**
-     * @param boolean $tapgarderie_atteste
-     */
-    public function setTapgarderieAtteste($tapgarderie_atteste)
-    {
-        $this->tapgarderie_atteste = $tapgarderie_atteste;
-        return $this;
-    }
-
-    /**
-     * @param boolean $tapgarderie_autorise
-     */
-    public function setTapgarderieAutorise($tapgarderie_autorise)
-    {
-        $this->tapgarderie_autorise = $tapgarderie_autorise;
-        return $this;
-    }
-
-    /**
-     * @param boolean $tapgarderie_certifie
-     */
-    public function setTapgarderieCertifie($tapgarderie_certifie)
-    {
-        $this->tapgarderie_certifie = $tapgarderie_certifie;
-        return $this;
-    }
-
-    /**
-     * @param boolean $voyage_atteste
-     */
-    public function setVoyageAtteste($voyage_atteste)
-    {
-        $this->voyage_atteste = $voyage_atteste;
-        return $this;
-    }
-
-    /**
-     * @param boolean $voyage_autorise
-     */
-    public function setVoyageAutorise($voyage_autorise)
-    {
-        $this->voyage_autorise = $voyage_autorise;
-        return $this;
-    }
-
-    /**
-     * @param boolean $voyage_certifie
-     */
-    public function setVoyageCertifie($voyage_certifie)
-    {
-        $this->voyage_certifie = $voyage_certifie;
-        return $this;
-    }
-
-
 }

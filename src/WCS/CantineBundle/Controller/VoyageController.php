@@ -46,6 +46,9 @@ class VoyageController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            $eleve->setVoyageSigned(true);
+
             $em->persist($eleve);
             $em->flush();
 

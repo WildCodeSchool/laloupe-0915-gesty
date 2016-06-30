@@ -2,11 +2,9 @@
 namespace WCS\CantineBundle\Entity;
 
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\VarDumper\VarDumper;
 
 abstract class ActivityRepositoryAbstract extends \Doctrine\ORM\EntityRepository
 {

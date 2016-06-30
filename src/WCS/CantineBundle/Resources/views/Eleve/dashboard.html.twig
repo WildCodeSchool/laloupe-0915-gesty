@@ -225,7 +225,7 @@
                                             {% endfor %}
                                         </div>
 
-                                        <a href="{{ path('cantine_inscription', { 'id': child.id }) }}" class="btn btn-primary">Inscription Cantine</a>
+                                        <a href="{{ path('cantine_inscription', { 'id': child.id }) }}" class="btn btn-primary">Inscrire ou modifier calendrier</a>
                                         <br />
                                         <br />
                                         <div class="panel panel-default">
@@ -253,7 +253,7 @@
 
                                 {% if child.division.school.activeTap or child.division.school.activeGarderie %}
                                     <div>
-                                        <p>Période du <span>{{ periode_tap.debut|date('d/m/Y') }}</span> au <span>{{ periode_tap.fin|date('d/m/Y') }}</span> :</p><br/>
+                                        <p>Semaine type : du <span>{{ periode_tap.debut|date('d/m/Y') }}</span> au <span>{{ periode_tap.fin|date('d/m/Y') }}</span></p><br/>
 
                                         <div class="btn-group btn-group-justified" role="group">
                                             <a href="#" type="button" class="btn disabled btn-default">&nbsp;</a>
@@ -294,7 +294,7 @@
                                         </div>
                                         {% endif %}
 
-                                        <a href="{{ path('tapgarderie_inscription', {'id':child.id}) }}" class="btn btn-primary">Inscription TAP/Garderie</a>
+                                        <a href="{{ path('tapgarderie_inscription', {'id':child.id}) }}" class="btn btn-primary">Inscrire ou modifier la semaine type</a>
                                     </div>
                                 {% else %}
                                     <div>
@@ -327,13 +327,13 @@
                                             {%  else %}
                                                 <br /><em>Pensez à déposer votre dernier avis d'imposition lors de l'inscription de votre enfant</em>
                                             {%  endif  %}
-                                            </br>
+                                            <br />
 
                                         {% else %}
                                             Votre enfant n'est inscrit à aucun voyage.
                                         {% endif %}
 
-                                        <a href="{{ path('voyage_inscription', {'id':child.id}) }}" class="btn btn-primary">Inscription Voyage Scolaire</a>
+                                        <a href="{{ path('voyage_inscription', {'id':child.id}) }}" class="btn btn-primary">Inscrire ou modifier les inscriptions</a>
                                     </div>
                                 {% else %}
                                     <div>

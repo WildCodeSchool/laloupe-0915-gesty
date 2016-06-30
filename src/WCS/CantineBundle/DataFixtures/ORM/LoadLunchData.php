@@ -13,6 +13,11 @@ use WCS\CantineBundle\Entity\Lunch;
 class LoadLunchData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)

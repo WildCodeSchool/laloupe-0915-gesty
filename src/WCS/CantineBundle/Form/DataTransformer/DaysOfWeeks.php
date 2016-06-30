@@ -3,7 +3,7 @@
 namespace WCS\CantineBundle\Form\DataTransformer;
 
 
-//use WCS\CalendrierBundle\Service\Calendrier\ActivityType;
+use Doctrine\Common\Collections\Collection;
 use WCS\CantineBundle\Entity\ActivityType;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CalendrierBundle\Service\Periode\Periode;
@@ -82,10 +82,10 @@ class DaysOfWeeks
     }
 
     /**
-     * @param \WCS\CantineBundle\Entity\Tap[] $taps
+     * @param Collection $taps
      * @return array
      */
-    public function getTapSelectionToArray($taps)
+    public function getTapSelectionToArray(Collection $taps)
     {
         $tmp = array();
         foreach($taps as $tap) {
@@ -106,10 +106,10 @@ class DaysOfWeeks
     }
 
     /**
-     * @param \WCS\CantineBundle\Entity\Garderie[] $garderies
+     * @param Collection $garderies
      * @return array
      */
-    public function getGarderieSelectionToArray($garderies)
+    public function getGarderieSelectionToArray(Collection $garderies)
     {
         $tmp = array();
         foreach($garderies as $garderie) {

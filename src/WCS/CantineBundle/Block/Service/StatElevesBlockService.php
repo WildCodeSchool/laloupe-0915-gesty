@@ -19,14 +19,19 @@ use WCS\CalendrierBundle\Service\DateNow;
 class StatElevesBlockService extends BaseBlockService
 {
     /**
+     * @var Pool
+     */
+    private $pool;
+
+    /**
      * @var \Symfony\Component\Security\Core\SecurityContextInterface
      */
-    protected $securityContext;
+    private $securityContext;
 
     /**
      * @var EntityManager
      */
-    protected $em;
+    private $em;
 
     /**
      * @var \WCS\CalendrierBundle\Service\DateNow

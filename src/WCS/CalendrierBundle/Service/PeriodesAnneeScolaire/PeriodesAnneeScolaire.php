@@ -148,7 +148,7 @@ class PeriodesAnneeScolaire
      * génère la liste des périodes scolaires (vacances, en classe)
      *
      * @param array $array_periodes tableau indexé de Periode. Doit être un multiple de NB_EVENTS_PAR_AN
-     * @param string date du jour au format 'Y-m-d'
+     * @param string $date_du_jour date du jour au format 'Y-m-d'
      */
     public function __construct($array_periodes, $date_du_jour)
     {
@@ -218,7 +218,7 @@ class PeriodesAnneeScolaire
     private $list_vacances;
 
     /**
-     * @var arrau de \WCS\CalendrierBundle\Service\ListPeriodes\ListPeriodes
+     * @var \WCS\CalendrierBundle\Service\ListPeriodes\ListPeriodes
      */
     private $list_enclasse;
 

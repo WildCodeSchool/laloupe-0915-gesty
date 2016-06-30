@@ -9,6 +9,8 @@
 namespace WCS\EmployeeBundle\Controller\Mapper;
 
 
+use WCS\CantineBundle\Entity\ActivityBase;
+
 class LunchMapper implements ActivityMapperInterface
 {
     /**
@@ -30,9 +32,8 @@ class LunchMapper implements ActivityMapperInterface
     /**
      * @inheritdoc
      */
-    public function updateEntity($entity, \DateTimeImmutable $date_day)
+    public function preUpdateEntity(ActivityBase $entity)
     {
-        $entity->setDate($date_day);
     }
 
     /**

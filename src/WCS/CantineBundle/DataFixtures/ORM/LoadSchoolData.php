@@ -3,20 +3,21 @@
 
 namespace WCS\CantineBundle\DataFixtures\ORM;
 
-
-use Application\Sonata\UserBundle\Entity\User;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Entity\School;
 
 
 class LoadSchoolData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
     /**
      * {@inheritDoc}
      */

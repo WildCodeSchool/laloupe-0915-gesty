@@ -8,7 +8,7 @@ wcs_cantine:
 
 wcs_employee:
     resource: "@WCSEmployeeBundle/Resources/config/routing.yml"
-    prefix:   /manager/
+    prefix:   /manager
 
 
 admin:

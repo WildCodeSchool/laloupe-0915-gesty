@@ -1,14 +1,12 @@
 <?php
 namespace WCS\EmployeeBundle\Controller\ViewBuilder;
 
-
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use WCS\CantineBundle\Entity\ActivityBase;
 use WCS\CantineBundle\Entity\School;
 use WCS\EmployeeBundle\Controller\Mapper\ActivityMapperInterface;
-use WCS\EmployeeBundle\Form\Type\StatusType;
+use WCS\EmployeeBundle\Form\Type\ValidateType;
 
 
 class ValidateViewBuilder extends ViewBuilderAbstract
@@ -35,7 +33,7 @@ class ValidateViewBuilder extends ViewBuilderAbstract
         $entityClassName = $this->mapper->getEntityClassName();
 
         $entity = new $entityClassName;
-        $form = $this->createForm(new StatusType(), $entity, array('data_class' => $entityClassName));
+        $form = $this->createForm(new ValidateType(), $entity, array('data_class' => $entityClassName));
 
         $redirectTo = '';
 
@@ -59,12 +57,12 @@ class ValidateViewBuilder extends ViewBuilderAbstract
      */
     private function processForm(Request $request, Form $form)
     {
-        if ($request->getMethod() == 'POST') {
-            $form->handleRequest($request);
+        $form->handleRequest($request);
 
+        if ($request->getMethod() == 'POST') {
+//        if ($form->isSubmitted()) {
             $em = $this->getDoctrineManager();
             $repo = $em->getRepository($this->mapper->getEntityClassName());
-
             foreach (explode(',', $form["status"]->getData()) as $id)
             {
                 if (!empty($id)) {
@@ -76,7 +74,6 @@ class ValidateViewBuilder extends ViewBuilderAbstract
                 }
             }
             $em->flush();
-
             return true;
         }
 

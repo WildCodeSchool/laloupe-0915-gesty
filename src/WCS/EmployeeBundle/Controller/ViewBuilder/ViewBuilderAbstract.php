@@ -43,6 +43,17 @@ abstract class ViewBuilderAbstract extends ContainerAware
     }
 
     /**
+     * Set a session custom parameter
+     * 
+     * @param $key
+     * @param $value
+     */
+    protected function setSessionValue($key, $value)
+    {
+        $this->container->get('session')->set($key, $value);
+    }
+
+    /**
      * @return \Doctrine\Common\Persistence\ObjectManager|object the doctrine manager
      */
     protected function getDoctrineManager()

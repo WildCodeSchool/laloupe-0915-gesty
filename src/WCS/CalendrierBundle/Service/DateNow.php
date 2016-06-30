@@ -2,9 +2,6 @@
 namespace WCS\CalendrierBundle\Service;
 
 
-use Symfony\Component\VarDumper\VarDumper;
-use WCS\CantineBundle\Entity\ActivityType;
-
 class DateNow
 {
     /**

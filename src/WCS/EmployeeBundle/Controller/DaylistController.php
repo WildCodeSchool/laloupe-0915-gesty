@@ -3,7 +3,6 @@ namespace WCS\EmployeeBundle\Controller;
 
 
 use Symfony\Component\HttpFoundation\Request;
-use WCS\CantineBundle\Entity\ActivityType;
 use WCS\CantineBundle\Entity\School;
 use WCS\EmployeeBundle\Controller\Mapper\ActivityMapperInterface;
 use WCS\EmployeeBundle\Controller\ViewBuilder\ListViewBuilder;
@@ -48,6 +47,7 @@ class DaylistController extends ActivityControllerBase
             return $this->redirect( $list_infos['redirect_to'] );
         }
 
+
         // set up the validation view builder
 
         $validationBuilder = new ValidateViewBuilder($mapper);
@@ -91,6 +91,8 @@ class DaylistController extends ActivityControllerBase
             return $this->redirectToRoute('wcs_employee_home');
         }
 
+        $key = $request->get('activity').'_list_eleves';
+        $this->get('session')->set($key, $request->get("list_eleves"));
 
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository($mapper->getEntityClassName())->find($id_activity);

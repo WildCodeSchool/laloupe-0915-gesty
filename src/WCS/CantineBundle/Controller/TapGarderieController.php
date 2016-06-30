@@ -110,6 +110,7 @@ class TapGarderieController extends Controller
                 }
             }
 
+            $eleve->setTapgarderieSigned(true);
 
             $em->flush();
 

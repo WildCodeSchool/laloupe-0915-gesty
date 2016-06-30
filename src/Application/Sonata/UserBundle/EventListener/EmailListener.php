@@ -14,7 +14,7 @@ class EmailListener
 {
 //    private $mailer;
 
-    public function __construct(\Swift_mailer $mailer)
+    public function __construct(\Swift_Mailer $mailer)
     {
 //        $this->mailer = $mailer;
     }

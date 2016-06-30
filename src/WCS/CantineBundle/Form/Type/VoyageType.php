@@ -17,13 +17,6 @@ class VoyageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-/*
-            ->add('autorise','checkbox', array('required'=>true, 'mapped'=>false))
-            ->add('certifie','checkbox', array('required'=>true, 'mapped'=>false))
-*/
-            ->add('voyage_autorise','checkbox', array('required'=>true))
-            ->add('voyage_certifie','checkbox', array('required'=>true))
-
             ->add('voyages', 'entity', array(
                 'class'   => 'WCSCantineBundle:Voyage',
 
@@ -38,6 +31,16 @@ class VoyageType extends AbstractType
                 'mapped' => true
             ))
         ;
+
+        /**
+         * @var \WCS\CantineBundle\Entity\Eleve $entity
+         */
+        $entity = $builder->getData();
+        if (!$entity->isVoyageSigned()) {
+            $builder
+                ->add('voyage_autorise','checkbox', array('required'=>true, 'mapped'=>false))
+                ->add('voyage_certifie','checkbox', array('required'=>true, 'mapped'=>false));
+        }
     }
 
     /**

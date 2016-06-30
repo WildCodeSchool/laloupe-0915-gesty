@@ -2,9 +2,7 @@
 
 namespace WCS\CantineBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
-use Scheduler\Component\FileReader\ICalendarFileReader;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\VarDumper\VarDumper;
 
 
 /**

@@ -16,6 +16,7 @@ class HomeController extends ActivityControllerBase
      */
     public function indexAction(Request $request)
     {
+        $this->resetSessionSelectedEleves($request);
         return $this->render('WCSEmployeeBundle::index.html.twig');
     }
 
@@ -26,6 +27,7 @@ class HomeController extends ActivityControllerBase
      */
     public function showSchoolsAction(Request $request, $activity)
     {
+        $this->resetSessionSelectedEleves($request);
         $params = $this->getParameters($activity);
         if (!$params) {
             return $this->redirectToRoute('wcs_employee_home');

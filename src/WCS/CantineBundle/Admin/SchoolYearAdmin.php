@@ -2,13 +2,10 @@
 namespace WCS\CantineBundle\Admin;
 
 use Doctrine\ORM\EntityManager;
-use Scheduler\Component\FileReader\ICalendarFileReader;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Symfony\Component\VarDumper\VarDumper;
-use WCS\CantineBundle\Entity\DivisionRepository;
 use WCS\CantineBundle\Entity\SchoolHoliday;
 use WCS\CantineBundle\Entity\SchoolYear;
 

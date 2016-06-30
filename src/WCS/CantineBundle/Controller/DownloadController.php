@@ -14,7 +14,7 @@ class DownloadController extends Controller
     * appartenant à l'utilisateur connecté
     * dans l'espace Parent du site.
     *
-    * @param numeric type de pièce justificative
+    * @param integer $type_file de pièce justificative
     * @return Response renvoit la réponse HTTP.
     */
     public function downloadParentAction($type_file)
@@ -34,8 +34,8 @@ class DownloadController extends Controller
     * appartenant à un utilisateur donné
     * depuis l'espace Comptable du site.
     *
-    * @param numeric type de pièce justificative
-    * @param numeric id user (parent)
+    * @param integer $type_file de pièce justificative
+    * @param integer $id_user id user (parent)
     * @return Response renvoit la réponse HTTP.
     */
     public function downloadComptableAction($type_file, $id_user)
@@ -44,6 +44,9 @@ class DownloadController extends Controller
             throw $this->createAccessDeniedException();
         }
 
+        /**
+         * @var User
+         */
         $user = $this->get('fos_user.user_manager')->findUserBy(array('id'=>$id_user));
         if (!$user) {
             throw $this->createAccessDeniedException();
@@ -57,11 +60,11 @@ class DownloadController extends Controller
     * Renvoit le fichier pour une pièce justificative 
     * donnée et un utilisateur donné.
     *
-    * @param numeric type de pièce justificative
-    * @param User instance d'un "User" qui possède le fichier que l'on souhaite télécharger
+    * @param integer $type_file de pièce justificative
+    * @param User $user instance d'un "User" qui possède le fichier que l'on souhaite télécharger
     * @return Response renvoit la réponse HTTP.
     */
-    private function download($type_file, &$user)
+    private function download($type_file, User $user)
     {
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException();

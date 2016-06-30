@@ -63,6 +63,7 @@ class LunchToStringTransformer implements DataTransformerInterface
             // si la réservation est déjà présente,
             // on se contente de l'ajouter dans la liste
             // sinon on créé une nouvelle réservation
+            $lunch = null;
             $dateT = new \DateTime($date);
             $found = false;
             foreach($lunchCurrents as $current) {

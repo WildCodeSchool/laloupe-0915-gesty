@@ -49,6 +49,9 @@ class AdditionalDayOffList implements DaysOffInterface
         $isUsualActivityDayOff = ActivityType::isDayOff($options["activity_type"], $date);
         return $isUsualActivityDayOff;
 
+
+/*
+
         $daysOffArray = $this->manager->getRepository('WCSCantineBundle:Feries')->findListDatesWithin(
             $date,
             $date
@@ -57,6 +60,6 @@ class AdditionalDayOffList implements DaysOffInterface
         if (true === $isDayOff) {
             return $isDayOff;
         }
-
+*/
     }
 }

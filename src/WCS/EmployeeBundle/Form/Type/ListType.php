@@ -9,7 +9,7 @@ use WCS\CantineBundle\Entity\EleveRepository;
 
 
 
-class ActivityEleveType extends AbstractType
+class ListType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -24,15 +24,7 @@ class ActivityEleveType extends AbstractType
                     return $er->getQueryUnregisteredPupils($options['additional_options'] );
                 }
             ))
-            ->add('status', 'choice', array(
-                'choices' => array('1' => 'Non-Inscrit'),
-                'label' => false
-            ))
-            ->add('date', 'date', array(
-            'format' => 'yyyy-MMMM-dd',
-            'label' => false
-            ))
-            ->add('Ajouter', 'submit');
+            ->add('Ajouter', 'submit', array('label'=>'Inscrire un élève supplémentaire'));
 
     }
 

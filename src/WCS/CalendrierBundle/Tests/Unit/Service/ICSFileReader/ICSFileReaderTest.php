@@ -1,6 +1,6 @@
 <?php
 namespace WCS\CalendrierBundle\Tests\Unit\Service\ICSFileReader;
-use WCS\CalendrierBundle\Service\ICSFileReader\ICSFileReader;
+use WCS\CalendrierBundle\Service\ICalendarFileReader\ICalendarFileReader;
 use WCS\CalendrierBundle\Service\Periode\Periode;
 use WCS\CalendrierBundle\Service\ICSFileReader\Exception\FileNotFoundException;
 use WCS\CalendrierBundle\Service\ICSFileReader\Exception\InvalidFileException;

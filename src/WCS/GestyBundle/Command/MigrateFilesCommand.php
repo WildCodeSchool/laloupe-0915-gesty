@@ -121,7 +121,7 @@ class MigrateFilesCommand extends ContainerAwareCommand
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int|null|void
-     * @throws Exception
+     * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -516,7 +516,7 @@ class MigrateFilesCommand extends ContainerAwareCommand
     * distinguish files uploaded by the means of the parent website
     * and files copied by this script.
     *
-    * @param string filename - a path or a filename
+    * @param string $filename - a path or a filename
     *
     * @return string the unique filename with prefix
     */
@@ -532,9 +532,9 @@ class MigrateFilesCommand extends ContainerAwareCommand
     /**
      * Ask for confirmation
      *
-     * @param InputInterface  this command input object
-     * @param OutputInterface this command output object
-     * @param string          the question to display
+     * @param InputInterface  $input this command input object
+     * @param OutputInterface $output this command output object
+     * @param string          $question the question to display
      *
      * @return bool return true if the user of this command has confirmed.
      */

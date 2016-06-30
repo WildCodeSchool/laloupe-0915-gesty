@@ -2,6 +2,8 @@
 namespace WCS\EmployeeBundle\Controller\Mapper;
 
 
+use WCS\CantineBundle\Entity\ActivityBase;
+
 interface ActivityMapperInterface
 {
     /**
@@ -25,8 +27,8 @@ interface ActivityMapperInterface
     function getActivityType();
 
     /**
-     * @param $entity
+     * @param ActivityBase $entity
      * @param \DateTimeImmutable $date_day
      */
-    function updateEntity($entity, \DateTimeImmutable $date_day);
+    function preUpdateEntity(ActivityBase $entity);
 }

@@ -5,7 +5,7 @@ namespace WCS\EmployeeBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class StatusType extends AbstractType
+class ValidateType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -14,9 +14,10 @@ class StatusType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('status', 'text', array(
+            ->add('status', 'hidden', array(
                 'required' => false,
                 'label' => false,
+                'mapped' => false
                 ));
     }
 

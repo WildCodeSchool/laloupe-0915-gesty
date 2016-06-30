@@ -15,6 +15,11 @@ use WCS\CantineBundle\Entity\Eleve;
 class LoadEleveData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
