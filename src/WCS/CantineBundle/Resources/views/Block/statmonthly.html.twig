@@ -17,13 +17,15 @@
         </thead>
 
         <tbody>
+        {% for eleve in eleves %}
         <tr>
-            <td>lorem</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ eleve['eleve'].nom }}</td>
+            <td>{{ eleve['eleve'].prenom }}</td>
+            <td>{{ eleve['eleve'].division.grade }}</td>
+            <td>{{ eleve['total_tapgarderie'] }}</td>
+            <td>{{ eleve['total_cantine'] }}</td>
         </tr>
+        {% endfor %}
         </tbody>
     </table>
 

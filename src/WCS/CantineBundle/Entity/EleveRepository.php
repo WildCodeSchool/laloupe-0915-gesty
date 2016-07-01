@@ -10,6 +10,7 @@ namespace WCS\CantineBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\VarDumper\VarDumper;
 use WCS\CalendrierBundle\Service\Periode\Periode;
 
 class EleveRepository extends EntityRepository
@@ -26,11 +27,11 @@ class EleveRepository extends EntityRepository
         $this->resolverGetEleves = new OptionsResolver();
         $this->resolverGetEleves->setDefaults(
             array(
-                'enable_canteen'    => true,
-                'enable_tap'        => false,
-                'enable_garderie'   => false,
-                'enable_voyages'    => false,
-                'school_id'         => 0
+                'enable_canteen' => true,
+                'enable_tap' => false,
+                'enable_garderie' => false,
+                'enable_voyages' => false,
+                'school_id' => 0
             )
         );
 
@@ -49,8 +50,7 @@ class EleveRepository extends EntityRepository
             ->join('e.division', 'd')
             ->join('d.school', 's')
             ->where('s.id = :school_id')
-            ->setParameter('school_id', $options['school_id'])
-        ;
+            ->setParameter('school_id', $options['school_id']);
 
         if ($options['enable_canteen']) {
             $q->andWhere('s.active_cantine = TRUE');
@@ -86,7 +86,7 @@ class EleveRepository extends EntityRepository
             ->where('e.id = :id')
             ->andWhere('e.user = :parent_user')
             ->setParameter(':id', $id)
-            ->setParameter(':parent_user', $parent_user )
+            ->setParameter(':parent_user', $parent_user)
             ->getQuery()->getOneOrNullResult();
     }
 
@@ -102,7 +102,7 @@ class EleveRepository extends EntityRepository
             ->createQuery(
                 'SELECT e FROM WCSCantineBundle:Eleve e WHERE e. LIKE :eleve AND e.'
             )
-            ->setParameter(':eleve', "%".$children."%")
+            ->setParameter(':eleve', "%" . $children . "%")
             ->getResult();
     }
 
@@ -160,6 +160,7 @@ class EleveRepository extends EntityRepository
 
         return $results[1];
     }
+
     /**
      * Return all "taps" registered for a given pupil and period.
      *
@@ -217,10 +218,9 @@ class EleveRepository extends EntityRepository
         $qb->select('e')
             ->from('WCSCantineBundle:eleve', 'e')
             ->join('e.division', 'd')
-            ->join('d.school' , 's')
+            ->join('d.school', 's')
             ->where("s.active_tap = TRUE")
             ->orderBy('e.nom');
-
 
 
         return $qb;
@@ -234,17 +234,51 @@ class EleveRepository extends EntityRepository
         $qb->select('e')
             ->from('WCSCantineBundle:eleve', 'e')
             ->join('e.division', 'd')
-            ->join('d.school' , 's')
+            ->join('d.school', 's')
             ->where("s.active_garderie = TRUE")
             ->orderBy('e.nom');
-
 
 
         return $qb;
     }
 
+    public function findTotalCantineFor(
+        Eleve $eleve,
+        \DateTimeInterface $dateStart,
+        \DateTimeInterface $dateEnd
+    )
+    {
+        $em = $this->getEntityManager();
+
+        // récupère les garderies, tap
+        $query = $em->createQuery(
+            ' SELECT COUNT(g)
+              FROM WCSCantineBundle:Lunch g
+              WHERE (g.date >= :dateStart AND g.date <= :dateEnd)
+              AND g.eleve = :eleve'
+        )
+        ->setParameter(':dateStart', $dateStart->format('Y-m-d'))
+        ->setParameter(':dateEnd', $dateEnd->format('Y-m-d'))
+        ->setParameter(':eleve', $eleve);
+        $total = $query->getOneOrNullResult();
+
+        return $total?$total[1]:0;
+    }
+
+    public function findTotalTapGarderieFor(
+        Eleve $eleve,
+        \DateTimeInterface $dateStart,
+        \DateTimeInterface $dateEnd
+    )
+    {
+        /*
+        if ($eleve['total_taps'] < $eleve['total_garderies']) {
+            $tmp['total_tapgarderie']= $eleve['total_garderies'];
+        }
+        else {
+            $tmp['total_tapgarderie']= $eleve['total_taps'];
+        }
+        */
+        return 0;
+    }
 }
-
-
-
-
