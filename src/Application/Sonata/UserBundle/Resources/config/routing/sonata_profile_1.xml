@@ -30,4 +30,5 @@
         <default key="_controller">SonataUserBundle:ProfileFOSUser1:editProfile</default>
     </route>
 
+
 </routes>

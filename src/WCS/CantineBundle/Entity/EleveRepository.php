@@ -157,7 +157,7 @@ class EleveRepository extends EntityRepository
             ->where('e.id = :id')
             ->andWhere('e.user = :parent_user')
             ->setParameter(':id', $id)
-            ->setParameter(':parent_user', $parent_user )
+            ->setParameter(':parent_user', $parent_user)
             ->getQuery()->getOneOrNullResult();
     }
 
@@ -173,7 +173,7 @@ class EleveRepository extends EntityRepository
             ->createQuery(
                 'SELECT e FROM WCSCantineBundle:Eleve e WHERE e. LIKE :eleve AND e.'
             )
-            ->setParameter(':eleve', "%".$children."%")
+            ->setParameter(':eleve', "%" . $children . "%")
             ->getResult();
     }
 
@@ -231,6 +231,7 @@ class EleveRepository extends EntityRepository
 
         return $results[1];
     }
+
     /**
      * Return all "taps" registered for a given pupil and period.
      *
@@ -288,10 +289,9 @@ class EleveRepository extends EntityRepository
         $qb->select('e')
             ->from('WCSCantineBundle:eleve', 'e')
             ->join('e.division', 'd')
-            ->join('d.school' , 's')
+            ->join('d.school', 's')
             ->where("s.active_tap = TRUE")
             ->orderBy('e.nom');
-
 
 
         return $qb;
@@ -305,17 +305,83 @@ class EleveRepository extends EntityRepository
         $qb->select('e')
             ->from('WCSCantineBundle:eleve', 'e')
             ->join('e.division', 'd')
-            ->join('d.school' , 's')
+            ->join('d.school', 's')
             ->where("s.active_garderie = TRUE")
             ->orderBy('e.nom');
-
 
 
         return $qb;
     }
 
+    public function findTotalCantineFor(
+        Eleve $eleve,
+        \DateTimeInterface $dateStart,
+        \DateTimeInterface $dateEnd
+    )
+    {
+        $em = $this->getEntityManager();
+
+        // récupère les repas
+        $query = $em->createQuery(
+            ' SELECT COUNT(l)
+              FROM WCSCantineBundle:Lunch l
+              WHERE (l.date >= :dateStart AND l.date <= :dateEnd)
+              AND l.eleve = :eleve'
+        )
+        ->setParameter(':dateStart', $dateStart->format('Y-m-d'))
+        ->setParameter(':dateEnd', $dateEnd->format('Y-m-d'))
+        ->setParameter(':eleve', $eleve);
+        $total = $query->getOneOrNullResult();
+
+        return $total?$total[1]:0;
+    }
+
+    public function findTotalTapGarderieFor(
+        Eleve $eleve,
+        \DateTimeInterface $dateStart,
+        \DateTimeInterface $dateEnd
+    )
+    {
+        $em = $this->getEntityManager();
+
+        // récupère les garderies
+        $query = $em->createQuery(
+            ' SELECT COUNT(g)
+              FROM WCSCantineBundle:Garderie g
+              WHERE (g.date >= :dateStart AND g.date <= :dateEnd)
+              AND g.eleve = :eleve'
+        )
+            ->setParameter(':dateStart', $dateStart->format('Y-m-d'))
+            ->setParameter(':dateEnd', $dateEnd->format('Y-m-d'))
+            ->setParameter(':eleve', $eleve);
+        $totalGarderie = $query->getOneOrNullResult();
+        $totalGarderie = $totalGarderie?$totalGarderie[1]:0;
+
+        $query = $em->createQuery(
+            ' SELECT COUNT(t)
+              FROM WCSCantineBundle:Tap t
+              WHERE (t.date >= :dateStart AND t.date <= :dateEnd)
+              AND t.eleve = :eleve'
+        )
+            ->setParameter(':dateStart', $dateStart->format('Y-m-d'))
+            ->setParameter(':dateEnd', $dateEnd->format('Y-m-d'))
+            ->setParameter(':eleve', $eleve);
+        $totalTaps = $query->getOneOrNullResult();
+        $totalTaps = $totalTaps?$totalTaps[1]:0;
+
+
+        if ($totalGarderie < $totalTaps) {
+            $total= $totalGarderie;
+        }
+        else {
+            $total = $totalTaps;
+        }
+
+        return $total;
+    }
+
+    public function findAll()
+    {
+        return $this->findBy(array(), array('nom'=>'ASC', 'prenom'=>'ASC'));
+    }
 }
-
-
-
-

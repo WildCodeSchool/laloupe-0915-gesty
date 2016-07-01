@@ -1,0 +1,35 @@
+{% extends 'WCSCantineBundle:Admin:standard_layout.html.twig' %}
+
+
+{% block content %}
+    <a class="btn btn-sm btn-default edit_link" title="Retour" href="{{ path('sonata_admin_dashboard') }}">
+        <i class="glyphicon glyphicon-edit"></i>
+        Retour
+    </a>
+
+    <h3><i class="fa fa-cutlery">&nbsp;</i>Pour facturation mensuelle</h3>
+    <table id="userTable" class="table table-hover tablesorter table-bordered">
+        <thead>
+         <tr class="success">
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Classe</th>
+            <th>Tap/Garderie</th>
+            <th>Cantine</th>
+         </tr>
+
+        </thead>
+
+        <tbody>
+        {% for eleve in eleves %}
+        <tr>
+            <td>{{ eleve['eleve'].nom | upper }}</td>
+            <td>{{ eleve['eleve'].prenom }}</td>
+            <td>{{ eleve['eleve'].division.grade }}</td>
+            <td>{{ eleve['total_tapgarderie'] }}</td>
+            <td>{{ eleve['total_cantine'] }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
