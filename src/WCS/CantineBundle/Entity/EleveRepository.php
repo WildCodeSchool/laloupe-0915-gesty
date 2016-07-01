@@ -250,12 +250,12 @@ class EleveRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
 
-        // récupère les garderies, tap
+        // récupère les repas
         $query = $em->createQuery(
-            ' SELECT COUNT(g)
-              FROM WCSCantineBundle:Lunch g
-              WHERE (g.date >= :dateStart AND g.date <= :dateEnd)
-              AND g.eleve = :eleve'
+            ' SELECT COUNT(l)
+              FROM WCSCantineBundle:Lunch l
+              WHERE (l.date >= :dateStart AND l.date <= :dateEnd)
+              AND l.eleve = :eleve'
         )
         ->setParameter(':dateStart', $dateStart->format('Y-m-d'))
         ->setParameter(':dateEnd', $dateEnd->format('Y-m-d'))
@@ -271,14 +271,46 @@ class EleveRepository extends EntityRepository
         \DateTimeInterface $dateEnd
     )
     {
-        /*
-        if ($eleve['total_taps'] < $eleve['total_garderies']) {
-            $tmp['total_tapgarderie']= $eleve['total_garderies'];
+        $em = $this->getEntityManager();
+
+        // récupère les garderies
+        $query = $em->createQuery(
+            ' SELECT COUNT(g)
+              FROM WCSCantineBundle:Garderie g
+              WHERE (g.date >= :dateStart AND g.date <= :dateEnd)
+              AND g.eleve = :eleve'
+        )
+            ->setParameter(':dateStart', $dateStart->format('Y-m-d'))
+            ->setParameter(':dateEnd', $dateEnd->format('Y-m-d'))
+            ->setParameter(':eleve', $eleve);
+        $totalGarderie = $query->getOneOrNullResult();
+        $totalGarderie = $totalGarderie?$totalGarderie[1]:0;
+
+        $query = $em->createQuery(
+            ' SELECT COUNT(t)
+              FROM WCSCantineBundle:Tap t
+              WHERE (t.date >= :dateStart AND t.date <= :dateEnd)
+              AND t.eleve = :eleve'
+        )
+            ->setParameter(':dateStart', $dateStart->format('Y-m-d'))
+            ->setParameter(':dateEnd', $dateEnd->format('Y-m-d'))
+            ->setParameter(':eleve', $eleve);
+        $totalTaps = $query->getOneOrNullResult();
+        $totalTaps = $totalTaps?$totalTaps[1]:0;
+
+
+        if ($totalGarderie < $totalTaps) {
+            $total= $totalGarderie;
         }
         else {
-            $tmp['total_tapgarderie']= $eleve['total_taps'];
+            $total = $totalTaps;
         }
-        */
-        return 0;
+
+        return $total;
+    }
+
+    public function findAll()
+    {
+        return $this->findBy(array(), array('nom'=>'ASC', 'prenom'=>'ASC'));
     }
 }

@@ -1,9 +1,13 @@
-{% extends '::base.html.twig' %}
-
-{% block body %}
+{% extends 'WCSCantineBundle:Admin:standard_layout.html.twig' %}
 
 
-    <h3><i class="fa fa-cutlery"></i>Pour facturation mensuelle</h3>
+{% block content %}
+    <a class="btn btn-sm btn-default edit_link" title="Retour" href="{{ path('sonata_admin_dashboard') }}">
+        <i class="glyphicon glyphicon-edit"></i>
+        Retour
+    </a>
+
+    <h3><i class="fa fa-cutlery">&nbsp;</i>Pour facturation mensuelle</h3>
     <table id="userTable" class="table table-hover tablesorter table-bordered">
         <thead>
          <tr class="success">
@@ -19,7 +23,7 @@
         <tbody>
         {% for eleve in eleves %}
         <tr>
-            <td>{{ eleve['eleve'].nom }}</td>
+            <td>{{ eleve['eleve'].nom | upper }}</td>
             <td>{{ eleve['eleve'].prenom }}</td>
             <td>{{ eleve['eleve'].division.grade }}</td>
             <td>{{ eleve['total_tapgarderie'] }}</td>
@@ -28,6 +32,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-
 {% endblock %}
