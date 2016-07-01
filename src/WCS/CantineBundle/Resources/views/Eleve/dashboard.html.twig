@@ -131,9 +131,9 @@
                 </div>
             {% endif %}
 
-            <a href="{{ path('wcs_cantine_profil') }}"><input type="button" value="Modifier mes informations"class="btn btn-primary"></a>
+            <a href="{{ path('wcs_cantine_profil') }}"><input type="button" value="Modifier mes informations" class="btn btn-primary"></a>
             <a href="{{ path('eleve_create') }}" class="btn btn-primary">Enregistrer mon(mes) enfant(s)</a>
-            <a href="https://www.tipi.budget.gouv.fr/tpa/accueilportail.web"target="_blank"><input type="button" value="Paiement Carte Bleue via plateforme sécurisée"class="btn-carte"> </a>
+            <a href="https://www.tipi.budget.gouv.fr/tpa/accueilportail.web" target="_blank"><input type="button" value="Paiement Carte Bleue via plateforme sécurisée" class="btn-carte"> </a>
 
         </div>
 
@@ -163,16 +163,16 @@
                         <div class="panel-eleve" id="eleve_{{ child.id }}">
                             <span>{{ child.prenom }}</span>
                             <div>
-                               <input type="button" value="Voir le détail"class="btn btn-primary"><br/>
+                               <input type="button" value="Voir le détail" class="btn btn-primary"><br/>
 
                             </div>
                         </div>
 
                         <div class="panel-body-1 fiche_eleve" id="eleve_body_{{ child.id }}">
-                            <div>Né(e) le {{ child.dateDeNaissance|date('d-m-Y') }}</div></br>
+                            <div>Né(e) le {{ child.dateDeNaissance|date('d-m-Y') }}</div><br />
                             <div><strong>Classe:</strong> {{ child.division }}</div><br/>
 
-                            <a href="{{ path('eleve_edit', { 'id': child.id })}}"><input type="button" value="Modifier"class="btn btn-primary" style="margin:0"></a><br/>
+                            <a href="{{ path('eleve_edit', { 'id': child.id })}}"><input type="button" value="Modifier" class="btn btn-primary" style="margin:0"></a><br/>
 
 
                             <!--
@@ -232,7 +232,7 @@
                                             <div class="panel-heading">
                                                 <ul>
                                                     <li><a target="_blank" href="{{ asset('bundles/wcscantine/règlement/Reglement_interieur_cantine.pdf') }}">Télécharger le règlement intérieur</a></li>
-                                                    <li><a target="_blank"href="{{ asset('bundles/wcscantine/règlement/Les_10_regles_d_or_de_la_cantine.pdf') }}">Télécharger les 10 règles d'or de la cantine</a></li>
+                                                    <li><a target="_blank" href="{{ asset('bundles/wcscantine/règlement/Les_10_regles_d_or_de_la_cantine.pdf') }}">Télécharger les 10 règles d'or de la cantine</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -369,7 +369,7 @@
             var get = function(id)
             {
                 return document.getElementById(id);
-            }
+            };
 
             //-----------------------------------------------------------------------------------------
             // Renvoit un 'array' d'objets HTML ayant un "classname" dans l'attribut "class"
@@ -378,7 +378,7 @@
             {
                 var nodeList = document.getElementsByClassName(classname);
                 return [].map.call(nodeList, function(item) { return item; })
-            }
+            };
 
             var addClick = function(item, callback) {
                 if (item.addEventListener) {
@@ -392,7 +392,7 @@
                         callback(item);
                     });
                 }
-            }
+            };
 
             //#########################################################################################
             // Gestion des onglets / pages pour un élève donné
@@ -433,7 +433,7 @@
                     });
 
                 }
-            }
+            };
 
             //-----------------------------------------------------------------------------------------
             // Initialise le document HTML
@@ -463,7 +463,7 @@
 
                 // affiche ou masque les infos de l'élève sélectionné
                 get("eleve_body_"+id).style.display = (s.display == 'none')?'block':'none';
-            }
+            };
 
             //-----------------------------------------------------------------------------------------
             // Définit l'évènement on click
