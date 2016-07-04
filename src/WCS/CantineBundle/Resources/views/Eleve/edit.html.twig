@@ -32,7 +32,7 @@
 
                 <div class="form-group">
                     {{ form_errors(edit_form.division) }}
-                        <label for="etablissement">Classe en septembre {{ school_year.debut|date("Y") }}</label>
+                        <label for="etablissement">Classe en septembre {{ school_year.firstDate|date("Y") }}</label>
                     {{ form_widget(edit_form.division) }}
                 </div>
 

@@ -46,7 +46,7 @@ class GarderieMorningMapper implements ActivityMapperInterface
      */
     public function getActivityType()
     {
-        return \WCS\CantineBundle\Entity\ActivityType::GARDERIE_MORNING;
+        return \WCS\CantineBundle\Service\GestyScheduler\ActivityType::GARDERIE_MORNING;
     }
 
 }

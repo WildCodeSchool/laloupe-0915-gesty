@@ -22,7 +22,8 @@ class EleveHandler
      *
      * @param Form $form
      * @param Request $request
-     * @param $mailer
+     * @param EntityManager $em
+     * @param User $user
      *
      */
     public function __construct(Form $form, Request $request, EntityManager $em, User $user)
@@ -35,7 +36,9 @@ class EleveHandler
 
 
     /**
-     * @param boolean $confirmation
+     * @param EleveFormEntity $eleveForm
+     * @return boolean $confirmation
+     * @throws \Exception
      */
     public function process(EleveFormEntity $eleveForm)
     {

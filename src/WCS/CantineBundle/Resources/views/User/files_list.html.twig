@@ -2,19 +2,19 @@
 
 {% block field %}
         {% if object.pathDomicile %}
-                <a href="{{ path('gesty_comptable_download', {'type_file':1, 'id_user':object.id}) }}" target="_blank">Justif.Domicile</a></br>
+                <a href="{{ path('gesty_comptable_download', {'type_file':1, 'id_user':object.id}) }}" target="_blank">Justif.Domicile</a><br />
         {% endif %}
         {% if object.pathPrestations %}
-                <a href="{{ path('gesty_comptable_download', {'type_file':2, 'id_user':object.id}) }}" target="_blank">Justif.P. CAF</a></br>
+                <a href="{{ path('gesty_comptable_download', {'type_file':2, 'id_user':object.id}) }}" target="_blank">Justif.P. CAF</a><br />
         {% endif %}
         {% if object.pathSalaire1 %}
-                <a href="{{ path('gesty_comptable_download', {'type_file':3, 'id_user':object.id}) }}" target="_blank">Salaire1</a></br>
+                <a href="{{ path('gesty_comptable_download', {'type_file':3, 'id_user':object.id}) }}" target="_blank">Salaire1</a><br />
         {% endif %}
         {% if object.pathSalaire2 %}
-                <a href="{{ path('gesty_comptable_download', {'type_file':4, 'id_user':object.id}) }}" target="_blank">Salaire2</a></br>
+                <a href="{{ path('gesty_comptable_download', {'type_file':4, 'id_user':object.id}) }}" target="_blank">Salaire2</a><br />
         {% endif %}
         {% if object.pathSalaire3 %}
-                <a href="{{ path('gesty_comptable_download', {'type_file':5, 'id_user':object.id}) }}" target="_blank">Salaire3</a>
+                <a href="{{ path('gesty_comptable_download', {'type_file':5, 'id_user':object.id}) }}" target="_blank">Salaire3</a><br />
         {% endif %}
         {% if object.pathImpots %}
                 <a href="{{ path('gesty_comptable_download', {'type_file':6, 'id_user':object.id}) }}" target="_blank">Avis Impots</a>

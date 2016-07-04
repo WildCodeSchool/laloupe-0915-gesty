@@ -2,6 +2,8 @@
 
 namespace WCS\CantineBundle\Entity;
 
+use \Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Voyage
  */
@@ -52,8 +54,8 @@ class Voyage
      */
     public function __construct()
     {
-        $this->eleves = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->divisions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->eleves = new ArrayCollection();
+        $this->divisions = new ArrayCollection();
         $this->date_debut = new \DateTime();
         $this->date_fin = new  \DateTime();
         $this->estAnnule = false;
@@ -66,8 +68,6 @@ class Voyage
      */
     public function __toString()
     {
-        $str_date = "";
-
         $interval = $this->date_debut->diff( $this->date_fin );
 
         if ($interval->days<1) {
@@ -175,7 +175,7 @@ class Voyage
      *
      * @return Voyage
      */
-    public function addEleve(\WCS\CantineBundle\Entity\Eleve $eleve)
+    public function addEleve(Eleve $eleve)
     {
         $this->eleves[] = $eleve;
 
@@ -187,7 +187,7 @@ class Voyage
      *
      * @param \WCS\CantineBundle\Entity\Eleve $eleve
      */
-    public function removeEleve(\WCS\CantineBundle\Entity\Eleve $eleve)
+    public function removeEleve(Eleve $eleve)
     {
         $this->eleves->removeElement($eleve);
     }
@@ -238,6 +238,7 @@ class Voyage
 
     /**
      * @param boolean $estSortieScolaire
+     * @return Voyage
      */
     public function setEstSortieScolaire($estSortieScolaire)
     {
@@ -253,7 +254,7 @@ class Voyage
      *
      * @return Voyage
      */
-    public function addDivision(\WCS\CantineBundle\Entity\Division $division)
+    public function addDivision(Division $division)
     {
         $this->divisions[] = $division;
 
@@ -265,7 +266,7 @@ class Voyage
      *
      * @param \WCS\CantineBundle\Entity\Division $division
      */
-    public function removeDivision(\WCS\CantineBundle\Entity\Division $division)
+    public function removeDivision(Division $division)
     {
         $this->divisions->removeElement($division);
     }
@@ -287,7 +288,7 @@ class Voyage
      *
      * @return Voyage
      */
-    public function addElefe(\WCS\CantineBundle\Entity\Eleve $elefe)
+    public function addElefe(Eleve $elefe)
     {
         $this->eleves[] = $elefe;
 
@@ -299,7 +300,7 @@ class Voyage
      *
      * @param \WCS\CantineBundle\Entity\Eleve $elefe
      */
-    public function removeElefe(\WCS\CantineBundle\Entity\Eleve $elefe)
+    public function removeElefe(Eleve $elefe)
     {
         $this->eleves->removeElement($elefe);
     }

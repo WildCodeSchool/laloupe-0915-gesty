@@ -11,7 +11,7 @@ namespace WCS\EmployeeBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use WCS\CantineBundle\Entity\ActivityType;
+use WCS\CantineBundle\Service\GestyScheduler\ActivityType;
 
 class ActivityControllerBase extends Controller
 {
@@ -41,9 +41,15 @@ class ActivityControllerBase extends Controller
      */
     protected function isDayOff($activity)
     {
+        /*
         return $this->container->get('wcs.calendrierscolaire')->isDayOff(
             $this->getDateDay(),
             array('activity_type' => $this->activityTypes[$activity])
+        );
+        */
+        return $this->container->get('wcs.gesty.scheduler')->isDayOff(
+            $this->getDateDay(),
+            $this->activityTypes[$activity]
         );
     }
 

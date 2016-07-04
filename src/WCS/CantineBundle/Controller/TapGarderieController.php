@@ -4,49 +4,32 @@ namespace WCS\CantineBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Form;
-use WCS\CantineBundle\Entity\ActivityType;
+use Symfony\Component\VarDumper\VarDumper;
 use WCS\CantineBundle\Entity\Eleve;
-use WCS\CantineBundle\Form\DataTransformer\DaysOfWeeks;
+use WCS\CantineBundle\Service\GestyScheduler\ActivityType;
+use WCS\CantineBundle\Service\GestyScheduler\DaysOfWeeks;
 use WCS\CantineBundle\Form\Type\TapType;
-use WCS\CalendrierBundle\Service\Periode\Periode;
+
+use Scheduler\Component\DateContainer\Period;
 
 class TapGarderieController extends Controller
 {
     public function inscrireAction(Request $request, Eleve $eleve)
     {
-        //------------------------------------------------------------------------
-        // récupère la période scolaires en classe à la date du jour
-        //------------------------------------------------------------------------
-        $periodesScolaires = $this->get("wcs.calendrierscolaire")->getPeriodesAnneeRentreeScolaire();
-        $periode_tap = $periodesScolaires->getCurrentOrNextPeriodeEnClasse();
+        $current_date   = $this->get('wcs.datenow')->getDate();
+        $scheduler      = $this->get('wcs.gesty.scheduler');
+        $periode_tap    = $scheduler->getCurrentOrNextSchoolPeriod( $current_date );
+        $first_day_available = $scheduler->getFirstAvailableDate( $current_date, ActivityType::GARDERIE_MORNING );
 
-        //------------------------------------------------------------------------
-        // inscriptions possible à partir de la date du jour + un délai de N jours
-        // pour les tap/garderies
-        //------------------------------------------------------------------------
-        $first_day_available = ActivityType::getFirstDayAvailable(
-            ActivityType::TAP, // peu importe tap ou garderie car ce controlleur renvoit les deux
-            $this->get('wcs.datenow')
-        );
-        if ($first_day_available < $periode_tap->getDebut()) {
-            $first_day_available = $periode_tap->getDebut();
-        }
-
-        //------------------------------------------------------------------------
-        // récupère toutes les dates de la période
-        // pour chaque jour d'une semaine
-        //------------------------------------------------------------------------
-        
         // prépare la période à partir de "demain" jusqu'au dernier jour de la période de classe
-        $periode_from_today = new Periode(
-            $first_day_available->format('Y-m-d'),
-            $periode_tap->getFin()
+        $periode_from_today = new Period(
+            $first_day_available,
+            $periode_tap->getLastDate()
         );
 
         $daysOfWeek = new DaysOfWeeks(
             $periode_from_today,
-            $this->get('wcs.daysoff'),
-            $eleve
+            $scheduler
         );
 
 
@@ -84,7 +67,7 @@ class TapGarderieController extends Controller
      * @param Eleve $eleve
      * @return bool
      */
-    private function processPostedForm(Request $request, Form $form, Eleve $eleve, Periode $periode)
+    private function processPostedForm(Request $request, Form $form, Eleve $eleve, Period $periode)
     {
         $em = $this->getDoctrine()->getManager();
 

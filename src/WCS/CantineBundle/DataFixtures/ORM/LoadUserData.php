@@ -45,15 +45,15 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
 
         $parents = [
           
-            ['aaa', 'true', 'dupontel@email.fr', 'Michel', 'Dupontel','rue de la gare', '28240', 'La Loupe', 'true'],
-            ['aaa', 'true', 'robert@email.fr', 'Valerie', 'Robert','rue de la place', '28240', 'La Loupe', 'true'],
-            ['aaa', 'true', 'larissa@email.fr', 'Antoine', 'Larissa','rue du puit', '28240', 'La Loupe', 'true'],
-            ['aaa', 'true', 'veron@email.fr', 'Thomas', 'Veron','rue de la potence', '28240', 'La Loupe', 'true'],
-            ['aaa', 'true', 'batista@email.fr', 'Laurine', 'Batista','rue des vergers', '28240', 'La Loupe',  'true'],
-            ['aaa', 'true', 'bouteiller@email.fr', 'André', 'Bouteiller','lieu dit des noyers', '28240', 'La Loupe', 'true'],
-            ['aaa', 'true', 'butin@email.fr', 'Gregory', 'Butin','rue des artistes', '28240', 'La Loupe', 'true'],
-            ['aaa', 'true', 'dorel@email.fr', 'Louis', 'Dorel','rue du pont', '28240', 'La Loupe', 'true'],
-            ['aaa', 'true', 'nelon@email.fr', 'Maurice', 'Nelon','rue de la gare', '28240', 'La Loupe', 'true'],
+            ['aaa', 'true', 'dupontel@email.fr',    'm', 'Michel', 'Dupontel','rue de la gare', '28240', 'La Loupe', 'true'],
+            ['aaa', 'true', 'robert@email.fr',      'f', 'Valerie', 'Robert','rue de la place', '28240', 'La Loupe', 'true'],
+            ['aaa', 'true', 'larissa@email.fr',     'm', 'Antoine', 'Larissa','rue du puit', '28240', 'La Loupe', 'true'],
+            ['aaa', 'true', 'veron@email.fr',       'm', 'Thomas', 'Veron','rue de la potence', '28240', 'La Loupe', 'true'],
+            ['aaa', 'true', 'batista@email.fr',     'f', 'Laurine', 'Batista','rue des vergers', '28240', 'La Loupe',  'true'],
+            ['aaa', 'true', 'bouteiller@email.fr',  'm', 'André', 'Bouteiller','lieu dit des noyers', '28240', 'La Loupe', 'true'],
+            ['aaa', 'true', 'butin@email.fr',       'm', 'Gregory', 'Butin','rue des artistes', '28240', 'La Loupe', 'true'],
+            ['aaa', 'true', 'dorel@email.fr',       'm', 'Louis', 'Dorel','rue du pont', '28240', 'La Loupe', 'true'],
+            ['aaa', 'true', 'nelon@email.fr',       'm', 'Maurice', 'Nelon','rue de la gare', '28240', 'La Loupe', 'true'],
             
 
         ];
@@ -64,98 +64,32 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
             $user->setEnabled($parent[1]);
             $user->setEmail($parent[2]);
             $user->setRoles(array('ROLE_USER'));
-            $user->setFirstname($parent[3]);
-            $user->setLastname($parent[4]);
+            $user->setGender($parent[3]);
+            $user->setFirstname($parent[4]);
+            $user->setLastname($parent[5]);
             $user->setPhone('0201010101');
-            $user->setAdresse($parent[5]);
-            $user->setCodePostal($parent[6]);
-            $user->setCommune($parent[7]);
+            $user->setAdresse($parent[6]);
+            $user->setCodePostal($parent[7]);
+            $user->setCommune($parent[8]);
             $user->setModeDePaiement('Cheque');
             $user->setValidation(true);
             $userManager->updateUser($user);
-            $this->addReference($parent[4], $user);
+            $this->addReference($parent[5], $user);
 
         }
-        // Creation du User aaa
-        $user = $userManager->createUser();
-        $user->setPlainPassword('aaa');
-        $user->setEnabled(true);
-        $user->setEmail('aaa@email.com');
-        $user->setRoles(array('ROLE_USER'));
-        $user->setFirstname('Aaa');
-        $user->setLastname('Aaa');
-        $user->setPhone('0768298272');
-        $user->setAdresse('bd Alexandre Martin');
-        $user->setCodePostal('45000');
-        $user->setCommune('Orléans');
-        $user->setModeDePaiement('Cheque');
-        $user->setValidation(true);
-        $userManager->updateUser($user);
-        $this->addReference('user', $user);
 
         
-        
-        
-        
-        
-        // Creation du User damedecantine
+        // Creation du User employe de service
         $user = $userManager->createUser();
         $user->setPlainPassword('aaa');
         $user->setEnabled(true);
-        $user->setEmail('damedecantine@email.com');
+        $user->setEmail('employe@email.com');
         $user->setRoles(array('ROLE_ADMIN'));
         $user->setFirstname('Aaa');
         $user->setLastname('Aaa');
         $user->setPhone('0768298272');
         $userManager->updateUser($user);
-        $this->addReference('dameCantine', $user);
-
-        $user = $userManager->createUser();
-        $user->setPlainPassword('laloupe');
-        $user->setEnabled(true);
-        $user->setEmail('bruno@email.com');
-        $user->setRoles(array('ROLE_USER'));
-        $user->setFirstname('Bruno');
-        $user->setLastname('Bob');
-        $user->setPhone('0778909843');
-        $user->setValidation(true);
-        $userManager->updateUser($user);
-        $this->addReference('user2', $user);
-
-        $user = $userManager->createUser();
-        $user->setPlainPassword('jecode');
-        $user->setEnabled(true);
-        $user->setEmail('twig@email.com');
-        $user->setRoles(array('ROLE_USER'));
-        $user->setFirstname('Marine');
-        $user->setLastname('Twig');
-        $user->setPhone('0678434578');
-        $userManager->updateUser($user);
-        $this->addReference('user3', $user);
-
-        $user = $userManager->createUser();
-        $user->setPlainPassword('ttt');
-        $user->setEnabled(true);
-        $user->setEmail('tata@email.com');
-        $user->setRoles(array('ROLE_USER'));
-        $user->setFirstname('Tony');
-        $user->setLastname('Donatello');
-        $user->setPhone('0678434556');
-        $userManager->updateUser($user);
-        $this->addReference('user4', $user);
-
-        $user = $userManager->createUser();
-        $user->setPlainPassword('uuu');
-        $user->setEnabled(true);
-        $user->setEmail('tanguy@email.com');
-        $user->setRoles(array('ROLE_USER'));
-        $user->setFirstname('Eric');
-        $user->setLastname('Tanguy');
-        $user->setPhone('0678434853');
-        $userManager->updateUser($user);
-        $this->addReference('user5', $user);
-
-
+        $this->addReference('employe', $user);
 
         // Creation du User employe CANTINE seule
         $user = $userManager->createUser();

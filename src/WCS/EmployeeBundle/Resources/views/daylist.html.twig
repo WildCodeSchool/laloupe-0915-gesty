@@ -47,7 +47,7 @@
                         <td class="text-center pupil">
                             {% if entity.status == 0 %}
 
-                                <input type="checkbox" class="eleve" name="list_eleves[]" value="{{ entity.id }}"
+                                <input type="checkbox" class="eleve" name="list_eleves[]" value="{{ entity.id }}" title="{{ entity.eleve.nom }} {{ entity.eleve.prenom }}"
                                        {% if entity.id in app.session.get(app.request.get('activity') ~ '_list_eleves') %}
                                         checked="checked"
                                        {% endif %}

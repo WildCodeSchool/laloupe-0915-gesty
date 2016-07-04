@@ -1,11 +1,9 @@
 parameters:
-    wcs.datenow.options:
-        available_start:
-            canteen: 8
-            tap_garderie: 1
-            travel: 1
+
+    wcs.datenow.date: '2016-06-21'
 
 services:
+
     sonata.block.service.stat:
         class: WCS\CantineBundle\Block\Service\StatElevesBlockService
         arguments:
@@ -18,10 +16,6 @@ services:
         tags:
             - { name: sonata.block }
 
-    wcs.daysoff:
-        class: WCS\CantineBundle\Service\AdditionalDayOffList
-        arguments: ['@doctrine.orm.entity_manager']
-
     wcs.eleve.paramconverter:
         class: WCS\CantineBundle\Request\ParamConverter\EleveParamConverter
         tags:
@@ -30,3 +24,18 @@ services:
             - '@doctrine'
             - '@security.token_storage'
             - '@router'
+
+    wcs.datenow:
+        class: Scheduler\Component\DateContainer\DateNow
+#        class: DateTimeImmutable
+        arguments: ['%wcs.datenow.date%']
+
+
+#    wcs.daysoff:
+#        class: WCS\CantineBundle\Service\GestyScheduler\AdditionalDayOffList
+#        arguments: ['@doctrine.orm.entity_manager']
+
+
+    wcs.gesty.scheduler:
+        class: WCS\CantineBundle\Service\GestyScheduler\GestyScheduler
+        arguments: ['@doctrine']

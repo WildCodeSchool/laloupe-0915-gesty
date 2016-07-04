@@ -6,7 +6,7 @@
  * environnement need for this application is "test".
  */
 passthru(sprintf(
-    'php "%s/console" cache:clear --env=test --no-warmup',
+    'clear && php "%s/console" cache:clear --env=test --no-warmup',
     __DIR__
 ));
 

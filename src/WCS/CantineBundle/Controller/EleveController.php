@@ -7,13 +7,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Application\Sonata\UserBundle\Entity\User;
+
+use Scheduler\Component\DateContainer\Period;
+
+use Symfony\Component\VarDumper\VarDumper;
 use WCS\CantineBundle\Entity\Eleve;
-use WCS\CantineBundle\Form\DataTransformer\DaysOfWeeks;
+use WCS\CantineBundle\Service\GestyScheduler\DaysOfWeeks;
 use WCS\CantineBundle\Form\Handler\EleveHandler;
 use WCS\CantineBundle\Form\FormEntity\EleveFormEntity;
 use WCS\CantineBundle\Form\Type\EleveEditType;
 use WCS\CantineBundle\Form\Type\EleveNewType;
-use WCS\CalendrierBundle\Service\Periode\Periode;
+
 
 /**
  * Eleve controller.
@@ -32,7 +36,10 @@ class EleveController extends Controller
             throw $this->createAccessDeniedException();
         }
 
-        $schoolYear = $this->get('wcs.calendrierscolaire')->getAnneeScolaire();
+        //$schoolYear = $this->get('wcs.calendrierscolaire')->getAnneeScolaire();
+        $schoolYear = $this->get('wcs.gesty.scheduler')->getCurrentOrNextSchoolYear(
+            $this->get('wcs.datenow')->getDate()
+        );
 
         // Enregistre les élèves en BDD
         $entity = new EleveFormEntity();
@@ -75,7 +82,10 @@ class EleveController extends Controller
     {
         $editForm = $this->createEditForm($eleve);
 
-        $schoolYear = $this->get('wcs.calendrierscolaire')->getAnneeScolaire();
+//        $schoolYear = $this->get('wcs.calendrierscolaire')->getAnneeScolaire();
+        $schoolYear = $this->get('wcs.gesty.scheduler')->getCurrentOrNextSchoolYear(
+            $this->get('wcs.datenow')->getDate()
+        );
 
         return $this->render('WCSCantineBundle:Eleve:edit.html.twig', array(
             'eleve' => $eleve,
@@ -149,15 +159,19 @@ class EleveController extends Controller
             $user,
             $this->get('wcs.datenow')->getDate()
         );
-
+/*
         // periodes TAP/Garderie
         $periodesScolaires = $this->get("wcs.calendrierscolaire")->getPeriodesAnneeRentreeScolaire();
         $periode_tap = $periodesScolaires->getCurrentOrNextPeriodeEnClasse();
+*/
+        $current_date = $this->get('wcs.datenow')->getDate();
+        $scheduler = $this->get('wcs.gesty.scheduler');
+        $periode_tap = $scheduler->getCurrentOrNextSchoolPeriod( $current_date );
 
         // récupère les days of week sélectionnés
         $daysOfWeek = new DaysOfWeeks(
-            new Periode($this->get("wcs.datenow")->getDate(), $periode_tap->getFin()),
-            $this->get('wcs.daysoff')
+            new Period($this->get("wcs.datenow")->getDate(), $periode_tap->getLastDate()),
+            $this->get('wcs.gesty.scheduler')
         );
 
         // récupère les taps et les garderies de chaque enfants

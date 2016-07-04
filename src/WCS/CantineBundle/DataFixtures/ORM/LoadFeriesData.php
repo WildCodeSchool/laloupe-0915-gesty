@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use WCS\CantineBundle\Entity\Feries;
 
 
-class LoadFerieData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadFeriesData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
      * @var ContainerInterface

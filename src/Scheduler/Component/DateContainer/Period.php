@@ -42,7 +42,12 @@ class Period implements PeriodInterface
         $this->description  = $description;
 
         if ($this->firstDate > $this->lastDate) {
-            throw new \LogicException('The first date must be lower than the last date');
+            throw new \LogicException(
+                'The first date must be lower than the last date (first date : '
+            .$this->firstDate->format('Y-m-d')
+            .' last date : '
+            .$this->lastDate->format('Y-m-d')
+            );
         }
     }
 

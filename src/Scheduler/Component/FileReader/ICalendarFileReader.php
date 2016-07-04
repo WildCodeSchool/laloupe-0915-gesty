@@ -51,7 +51,7 @@ class ICalendarFileReader implements CalendarFileReaderInterface
     public function loadEvents()
     {
         if (!is_file($this->url)) {
-            throw new Exception\InvalidFileException('Icalendar file', $this->url);
+            throw new Exception\FileNotFoundException($this->url);
         }
 
         try  {
@@ -61,7 +61,7 @@ class ICalendarFileReader implements CalendarFileReaderInterface
             );
         }
         catch(\Exception $e) {
-            throw new Exception\FileNotFoundException($this->url);
+            throw new Exception\InvalidFileException('Icalendar file', $this->url);
         }
 
         if (FALSE === $lines || !\is_array($lines)) {

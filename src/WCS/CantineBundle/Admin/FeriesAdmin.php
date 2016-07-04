@@ -7,11 +7,13 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
+use Scheduler\Component\DateContainer\DateNow;
+
 
 class FeriesAdmin extends Admin
 {
     /**
-     * @var \WCS\CalendrierBundle\Service\DateNow
+     * @var DateNow
      */
     private $date_day_service;
 
@@ -20,9 +22,9 @@ class FeriesAdmin extends Admin
      * @param string $code
      * @param string $class
      * @param string $baseControllerName
-     * @param \WCS\CalendrierBundle\Service\DateNow $date_day_service
+     * @param DateNow $date_day_service
      */
-    public function __construct($code, $class, $baseControllerName, \WCS\CalendrierBundle\Service\DateNow $date_day_service)
+    public function __construct($code, $class, $baseControllerName, DateNow $date_day_service)
     {
         $this->date_day_service = $date_day_service;
         parent::__construct($code, $class, $baseControllerName);

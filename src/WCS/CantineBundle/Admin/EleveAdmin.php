@@ -9,14 +9,17 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 
+use Scheduler\Component\DateContainer\DateNow;
+
+
 class EleveAdmin extends Admin
 {
     /**
-     * @var \WCS\CalendrierBundle\Service\DateNow
+     * @var DateNow
      */
     private $date_now_service;
 
-    public function __construct($code, $class, $baseControllerName, \WCS\CalendrierBundle\Service\DateNow $date_now_service)
+    public function __construct($code, $class, $baseControllerName, DateNow $date_now_service)
     {
         $this->date_now_service = $date_now_service;
         parent::__construct($code, $class, $baseControllerName);
