@@ -2,6 +2,7 @@
 {{ form_widget(form.lunches) }}
 
 {% if calendrier %}
+
 <!-- Année scolaire -->
 <div class="anneescolaire">
     {{ calendrier.yearPeriod.firstDate|date('Y') }}
@@ -139,21 +140,33 @@
 </div>
     Vous pouvez inscrire votre enfant à partir du <strong>{{ first_day_available|date('d/m/Y') }}</strong>
     <br />
+    {% if eleve.canteenSigned %}
+
+        <div id="warning" class="fa fa-exclamation-triangle" aria-hidden="true" style="display:none">
+            <span>Pensez à cliquer sur "Valider" pour enregistrer vos modifications.</span>
+        </div>
+
+    {% endif %}
     <br />
     <br />
 
 
 <script>
     window.addEventListener('load', function(){
-        {#
-        {% set firstDate = calendrier.periodesScolaire.anneeScolaire.debut|date('Y-m-d') %}
-        {% if first_day_available|date('Y-m-d') < firstDate %}
-            var today = new Date('{{ firstDate }}');
-        {% else %}
-            var today = new Date('{{ first_day_available|date('Y-m-d') }}');
-        {% endif %}
-#}
         var today = new Date('{{ first_day_available|date('Y-m-d') }}');
+
+        // ---------------------------------------------------------------------------------------------------
+        // affiche un message d'avertissement
+        // ---------------------------------------------------------------------------------------------------
+        var showWarningText = function()
+        {
+            var item = $('#warning');
+
+            if (item) {
+                item.prop('style', 'display = "block"');
+            }
+
+        };
 
         // ---------------------------------------------------------------------------------------------------
         // affiche le calendrier correspondant au mois donné et masque les autres
@@ -195,10 +208,17 @@
                     el.checked = elementHabitDay.checked;
                 }
             });
-        }
+        };
 
         $('.choix input').on('change', function() {
             checkDays(this);
+            showWarningText();
+        });
+
+        $('.calendar-checkbox').click(function(el) {
+            if (!el.disabled) {
+                showWarningText();
+            }
         });
 
         // ---------------------------------------------------------------------------------------------------

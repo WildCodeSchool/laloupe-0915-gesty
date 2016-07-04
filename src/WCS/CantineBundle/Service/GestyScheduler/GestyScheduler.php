@@ -55,14 +55,8 @@ class GestyScheduler
         $schoolYearHolidays = $this->manager->getRepository('WCSCantineBundle:SchoolHoliday')->findAll();
 
         foreach ($schoolYearHolidays as $holiday) {
-            // change the date in case the holiday start a saturday
-            // we need to be sure it start the friday at evening
-
             $dateStart = $holiday->getDateStart();
-            $day = new Day($dateStart);
-            if ($day->getWeekDay()==Day::WEEK_SATURDAY) {
-                $dateStart = $dateStart->sub(new \DateInterval('P1D'));
-            }
+
             $period = new Period($dateStart, $holiday->getDateEnd(), $holiday->getDescription());
             $this->scheduler->addPeriodDayOffs($period);
         }
@@ -71,10 +65,12 @@ class GestyScheduler
          * Add all days off
          * @var \DateTime[] $datesDaysOff
          */
+
         $datesDaysOff = $this->manager->getRepository('WCSCantineBundle:Feries')->findListDatesWithin(
             $this->scheduler->getFirstYearPeriod()->getFirstDate(),
             $this->scheduler->getLastYearPeriod()->getLastDate()
         );
+
         $this->scheduler->addDatesDayOff($datesDaysOff);
         
     }

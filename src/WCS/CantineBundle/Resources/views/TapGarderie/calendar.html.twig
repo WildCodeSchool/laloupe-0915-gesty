@@ -11,7 +11,6 @@
 
 </blockquote>
 <br />
-
 <br />
 <div class="month" id="month4">
     <table>
@@ -43,12 +42,40 @@
 L'inscription ou la modification est effective à partir du
 <strong>{{ period_subscribes.firstDate|date('d/m/Y') }}</strong> inclus.
 <br />
+{% if eleve.tapgarderieSigned %}
+
+    <div id="warning" class="fa fa-exclamation-triangle" aria-hidden="true" style="display:none">
+        <span>Pensez à cliquer sur "Valider" pour enregistrer vos modifications.</span>
+    </div>
+
+{% endif %}
+
+
 <br />
 <br />
 
 
 <script>
     window.addEventListener('load', function(){
+
+        // ---------------------------------------------------------------------------------------------------
+        // affiche un message d'avertissement
+        // ---------------------------------------------------------------------------------------------------
+        var showWarningText = function()
+        {
+            var item = $('#warning');
+
+            if (item) {
+                item.prop('style', 'display = "block"');
+            }
+
+        };
+
+        $('.day_garderie').click(function(el) {
+            if (!el.disabled) {
+                showWarningText();
+            }
+        });
 
         // ---------------------------------------------------------------------------------------------------
         // Coche les dates formattées

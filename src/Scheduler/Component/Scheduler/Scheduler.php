@@ -49,8 +49,11 @@ class Scheduler
         
         if ($lastPeriod) {
             $this->addPeriodDayOffs(
-                new Period($lastPeriod->getLastDate()->add(new \DateInterval('P1D')), $period->getFirstDate())
-                );
+                new Period(
+                    $lastPeriod->getLastDate()->add(new \DateInterval('P1D')),
+                    $period->getFirstDate()->sub(new \DateInterval('P1D'))
+                )
+            );
         }
     }
 

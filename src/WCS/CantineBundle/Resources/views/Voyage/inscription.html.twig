@@ -34,18 +34,26 @@
             {% if form.voyages|length %}
                 <div class="form-group">
                     <blockquote>
-                        {{ form_widget(form.voyages) }}
+                        {{ form_widget(form.voyages, {'attr': {'class':'voy'}}) }}
                     </blockquote>
                 </div>
                 Le premier jour d'inscription est ouvert à partir du <strong>{{ first_day_available|date('d/m/Y') }}</strong>
             {% else %}
                 <div class="form-group">
                     <blockquote>
+                        {{ form_widget(form.voyages, {'attr':{'style': 'display:none'}}) }}
                     Aucun voyage à venir n'est prévu par l'école.
                     </blockquote>
                 </div>
             {% endif %}
             <br />
+            {% if eleve.voyageSigned %}
+
+                <div id="warning" class="fa fa-exclamation-triangle" aria-hidden="true" style="display:none">
+                    <span>Pensez à cliquer sur "Valider" pour enregistrer vos modifications.</span>
+                </div>
+
+            {% endif %}
             <br />
             <br />
         </div>
@@ -97,6 +105,30 @@
     </div>
 
     {{ form_end(form) }}
+<script>
+    window.addEventListener('load', function(){
+        // ---------------------------------------------------------------------------------------------------
+        // affiche un message d'avertissement
+        // ---------------------------------------------------------------------------------------------------
+        var showWarningText = function()
+        {
+            var item = $('#warning');
+
+            if (item) {
+                item.prop('style', 'display = "block"');
+            }
+
+        };
+
+        $('.voy').click(function(el) {
+            if (!el.disabled) {
+                showWarningText();
+            }
+        });
+
+
+    });
+</script>
 {% endblock %}
 
 
