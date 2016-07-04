@@ -19,9 +19,9 @@
             </tr>
         </thead>
         <tbody>
-            {% include '@WCSCantine/TapGarderie/week_activity.html.twig' with { 'label': 'Garderie matin',  'name': 'dates_garderie[]', 'value_suffix': '-1',   'week': usual_dayoff[ constant('WCS\\CantineBundle\\Entity\\ActivityType::GARDERIE_MORNING') ] } %}
-            {% include '@WCSCantine/TapGarderie/week_activity.html.twig' with { 'label': 'TAP',             'name': 'dates_tap[]',      'value_suffix': '',     'week': usual_dayoff[ constant('WCS\\CantineBundle\\Entity\\ActivityType::TAP')] } %}
-            {% include '@WCSCantine/TapGarderie/week_activity.html.twig' with { 'label': 'Garderie soir',   'name': 'dates_garderie[]', 'value_suffix': '-2',   'week': usual_dayoff[ constant('WCS\\CantineBundle\\Entity\\ActivityType::GARDERIE_EVENING') ] } %}
+            {% include '@WCSCantine/TapGarderie/week_activity.html.twig' with { 'label': 'Garderie matin',  'name': 'dates_garderie[]', 'value_suffix': '-1',   'week': usual_dayoff[ constant('WCS\\CantineBundle\\Service\\GestyScheduler\\ActivityType::GARDERIE_MORNING') ] } %}
+            {% include '@WCSCantine/TapGarderie/week_activity.html.twig' with { 'label': 'TAP',             'name': 'dates_tap[]',      'value_suffix': '',     'week': usual_dayoff[ constant('WCS\\CantineBundle\\Service\\GestyScheduler\\ActivityType::TAP')] } %}
+            {% include '@WCSCantine/TapGarderie/week_activity.html.twig' with { 'label': 'Garderie soir',   'name': 'dates_garderie[]', 'value_suffix': '-2',   'week': usual_dayoff[ constant('WCS\\CantineBundle\\Service\\GestyScheduler\\ActivityType::GARDERIE_EVENING') ] } %}
         </tbody>
     </table>
 </div>

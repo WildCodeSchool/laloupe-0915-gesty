@@ -190,9 +190,9 @@
             day_week = parseInt(day_week.substr(day_week.lastIndexOf('_')+1));
             day_week += (day_week <= 1)?1:2;
 
-            $('.day'+day_week).each(function(i){
-                if (!$(this).disabled) {
-                    $(this).checked = elementHabitDay.checked;
+            $('.day'+day_week).each(function(i, el){
+                if (!el.disabled) {
+                    el.checked = elementHabitDay.checked;
                 }
             });
         }
