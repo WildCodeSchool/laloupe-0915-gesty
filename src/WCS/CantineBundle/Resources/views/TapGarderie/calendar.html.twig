@@ -2,9 +2,16 @@
 {{ form_widget(form.taps) }}
 {{ form_widget(form.garderies) }}
 
-<div class="anneescolaire">
-    Du {{ periode_tap.firstDate|date('d/m/Y') }} au {{ periode_tap.lastDate|date('d/m/Y') }}
-</div>
+<blockquote>
+    La facturation sera pour la période
+    du {{ period_invoices.firstDate|date('d/m/Y') }}
+    au {{ period_invoices.lastDate|date('d/m/Y') }}.
+
+    <br />
+
+</blockquote>
+<br />
+
 <br />
 <div class="month" id="month4">
     <table>
@@ -33,7 +40,8 @@
         </div>
     </div>
 </div>
-Le premier jour d'inscription est ouvert à partir du <strong>{{ first_day_available|date('d/m/Y') }}</strong>
+L'inscription ou la modification est effective à partir du
+<strong>{{ period_subscribes.firstDate|date('d/m/Y') }}</strong> inclus.
 <br />
 <br />
 <br />
@@ -57,7 +65,8 @@ Le premier jour d'inscription est ouvert à partir du <strong>{{ first_day_avail
                     obj.checked = true;
                 }
             });
-        }
+        };
+
         unserializeDatesAndCheck('#WCS_cantinebundle_tapgarderie_taps');
         unserializeDatesAndCheck('#WCS_cantinebundle_tapgarderie_garderies');
 
@@ -79,7 +88,7 @@ Le premier jour d'inscription est ouvert à partir du <strong>{{ first_day_avail
             });
             $('#WCS_cantinebundle_tapgarderie_garderies').val(dates_garderies.join(";"));
             $('#WCS_cantinebundle_tapgarderie_taps').val(dates_taps.join(";"));
-        }
+        };
 
 
         $('.calendar-checkbox').on('change', function() {

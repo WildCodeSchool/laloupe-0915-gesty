@@ -26,6 +26,9 @@ WCS\CantineBundle\Entity\Garderie:
             nullable: false
             options:
                 default: false
+        subscribed_by_parent:
+            type: boolean
+            nullable: false
 
     lifecycleCallbacks: {  }
 

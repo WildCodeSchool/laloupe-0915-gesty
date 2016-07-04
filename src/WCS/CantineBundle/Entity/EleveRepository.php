@@ -239,23 +239,28 @@ class EleveRepository extends EntityRepository
      *
      * @param Eleve $eleve
      * @param Period $periode
+     * @param boolean $subscribed_by_parent_only
      * @return ArrayCollection
      */
-    public function findAllTapsForPeriode(Eleve $eleve, Period $periode)
+    public function findAllTapsForPeriode(Eleve $eleve, Period $periode, $subscribed_by_parent_only)
     {
         $em = $this->getEntityManager();
-        $query = $em->createQuery(
-            'SELECT t
-                FROM WCSCantineBundle:Tap t
-                WHERE t.eleve = :eleve
-                    AND t.date >= :dateDebut
-                    AND t.date <= :dateFin
-                ORDER BY t.date ASC'
-        )
-            ->setParameter(':eleve', $eleve)
+        $query = $em->createQueryBuilder()
+            ->select('t')
+            ->from('WCSCantineBundle:Tap', 't')
+            ->where('t.eleve = :eleve')
+            ->andWhere('t.date >= :dateDebut')
+            ->andWhere('t.date <= :dateFin')
+            ->orderBy('t.date', 'ASC');
+
+        if ($subscribed_by_parent_only) {
+            $query->andWhere('t.subscribed_by_parent = TRUE');
+        }
+
+        $query ->setParameter(':eleve', $eleve)
             ->setParameter(':dateDebut', $periode->getFirstDate())
             ->setParameter(':dateFin', $periode->getLastDate());
-        return $query->getResult();
+        return $query->getQuery()->getResult();
     }
 
     /**
@@ -263,23 +268,28 @@ class EleveRepository extends EntityRepository
      *
      * @param Eleve $eleve
      * @param Period $periode
+     * @param boolean $subscribed_by_parent_only
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function findAllGarderiesForPeriode(Eleve $eleve, Period $periode)
+    public function findAllGarderiesForPeriode(Eleve $eleve, Period $periode, $subscribed_by_parent_only)
     {
         $em = $this->getEntityManager();
-        $query = $em->createQuery(
-            'SELECT g
-                FROM WCSCantineBundle:Garderie g
-                WHERE g.eleve = :eleve
-                    AND g.date >= :dateDebut
-                    AND g.date <= :dateFin
-                ORDER BY g.date ASC'
-        )
-            ->setParameter(':eleve', $eleve)
+        $query = $em->createQueryBuilder()
+            ->select('t')
+            ->from('WCSCantineBundle:Garderie', 't')
+            ->where('t.eleve = :eleve')
+            ->andWhere('t.date >= :dateDebut')
+            ->andWhere('t.date <= :dateFin')
+            ->orderBy('t.date', 'ASC');
+
+        if ($subscribed_by_parent_only) {
+            $query->andWhere('t.subscribed_by_parent = TRUE');
+        }
+
+        $query ->setParameter(':eleve', $eleve)
             ->setParameter(':dateDebut', $periode->getFirstDate())
             ->setParameter(':dateFin', $periode->getLastDate());
-        return $query->getResult();
+        return $query->getQuery()->getResult();
     }
 
 

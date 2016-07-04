@@ -44,39 +44,12 @@ class DaysOfWeeks
     /**
      * DaysOfWeeks constructor.
      * @param Period $periode
-     * @param AdditionalDayOffList $dayOffList
-     */
-    /*
-    public function __construct(Period $periode, AdditionalDayOffList $dayOffList)
-    {
-        $this->periode  = $periode;
-        $dayOffArray    = $dayOffList->findDatesWithin($periode);
-
-        foreach ($this->periode->getDayIterator() as $currentDay) {
-
-            $d = new Day($currentDay);
-
-            $index = array_search($currentDay, $dayOffArray);
-            if ($index===FALSE) {
-                if (!ActivityType::isDayOff(ActivityType::TAP, $currentDay)) {
-                    $this->list_jours_tap[$d->getWeekDay()][] = $currentDay->format('Y-m-d');
-                }
-                if (!ActivityType::isDayOff(ActivityType::GARDERIE_MORNING, $currentDay)) {
-                    $this->list_jours_garderie[$d->getWeekDay() . '-1'][] = $currentDay->format('Y-m-d');
-                }
-                if (!ActivityType::isDayOff(ActivityType::GARDERIE_EVENING, $currentDay)) {
-                    $this->list_jours_garderie[$d->getWeekDay() . '-2'][] = $currentDay->format('Y-m-d');
-                }
-            }
-        }
-    }
-    */
-    /**
-     * DaysOfWeeks constructor.
-     * @param Period $periode
      * @param GestyScheduler $scheduler
      */
-    public function __construct(Period $periode, GestyScheduler $scheduler)
+    public function __construct(
+        Period $periode,
+        GestyScheduler $scheduler
+        )
     {
         $this->periode  = $periode;
 
@@ -103,11 +76,14 @@ class DaysOfWeeks
     public function getTapSelectionToArray(Collection $taps)
     {
         $tmp = array();
+
         foreach($taps as $tap) {
-            foreach ($this->list_jours_tap as $dayOfWeek => $dates) {
-                $date  = $tap->getDate()->format('Y-m-d');
-                if (in_array($date, $dates)) {
-                    $tmp[$dayOfWeek] = 1;
+            if ($tap->getSubscribedByParent()) {
+                foreach ($this->list_jours_tap as $dayOfWeek => $dates) {
+                    $date = $tap->getDate()->format('Y-m-d');
+                    if (in_array($date, $dates)) {
+                        $tmp[$dayOfWeek] = 1;
+                    }
                 }
             }
         }
@@ -127,21 +103,24 @@ class DaysOfWeeks
     public function getGarderieSelectionToArray(Collection $garderies)
     {
         $tmp = array();
+
         foreach($garderies as $garderie) {
-            foreach ($this->list_jours_garderie as $dayOfWeek => $dates) {
+            if ($garderie->getSubscribedByParent()) {
+                foreach ($this->list_jours_garderie as $dayOfWeek => $dates) {
 
-                $date  = $garderie->getDate()->format('Y-m-d');
-                if (substr($dayOfWeek, -2)=='-1' && $garderie->isEnableMorning()) {
-                    if (in_array($date, $dates)) {
-                        $tmp[$dayOfWeek] = 1;
+                    $date  = $garderie->getDate()->format('Y-m-d');
+                    if (substr($dayOfWeek, -2)=='-1' && $garderie->isEnableMorning()) {
+                        if (in_array($date, $dates)) {
+                            $tmp[$dayOfWeek] = 1;
+                        }
                     }
-                }
-                if (substr($dayOfWeek, -2)=='-2' && $garderie->isEnableEvening()) {
-                    if (in_array($date, $dates)) {
-                        $tmp[$dayOfWeek] = 1;
+                    if (substr($dayOfWeek, -2)=='-2' && $garderie->isEnableEvening()) {
+                        if (in_array($date, $dates)) {
+                            $tmp[$dayOfWeek] = 1;
+                        }
                     }
-                }
 
+                }
             }
         }
 

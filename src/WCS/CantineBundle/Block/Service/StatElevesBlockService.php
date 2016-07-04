@@ -119,11 +119,10 @@ class StatElevesBlockService extends BaseBlockService
             'currentWeekMealsNoPork'    => $currentWeekMealsNoPork,
             'nextWeekMeals'             => $nextWeekMeals,
             'nextWeekMealsNoPork'       => $nextWeekMealsNoPork,
-            'tots'                      => $tots
+            'tots'                      => $tots,
 
         ), $response);
     }
-
 
     /**
      * {@inheritdoc}

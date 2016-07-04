@@ -2,11 +2,13 @@
 namespace WCS\CantineBundle\Service\GestyScheduler;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+
 use Scheduler\Component\DateContainer\Day;
 use Scheduler\Component\DateContainer\Period;
 use Scheduler\Component\Scheduler\Scheduler;
 use Scheduler\Component\Scheduler\YearCalendar;
-use Symfony\Component\VarDumper\VarDumper;
+
+
 
 class GestyScheduler
 {
@@ -26,6 +28,17 @@ class GestyScheduler
     private function init()
     {
         /**
+         * Add all usual days off during weeks
+         */
+        $allUsualDaysOff = ActivityType::getAllUsualDaysOffAsDayConst();
+        foreach ($allUsualDaysOff as $activityConstType => $weekDay) {
+            $this->scheduler->addWeekUsualDaysOff(
+                $weekDay,
+                array('index' => $activityConstType)
+            );
+        }
+
+        /**
          * Add all school years
          * @var \WCS\CantineBundle\Entity\SchoolYear $schoolYear
          */
@@ -42,7 +55,15 @@ class GestyScheduler
         $schoolYearHolidays = $this->manager->getRepository('WCSCantineBundle:SchoolHoliday')->findAll();
 
         foreach ($schoolYearHolidays as $holiday) {
-            $period = new Period($holiday->getDateStart(), $holiday->getDateEnd(), $holiday->getDescription());
+            // change the date in case the holiday start a saturday
+            // we need to be sure it start the friday at evening
+
+            $dateStart = $holiday->getDateStart();
+            $day = new Day($dateStart);
+            if ($day->getWeekDay()==Day::WEEK_SATURDAY) {
+                $dateStart = $dateStart->sub(new \DateInterval('P1D'));
+            }
+            $period = new Period($dateStart, $holiday->getDateEnd(), $holiday->getDescription());
             $this->scheduler->addPeriodDayOffs($period);
         }
 
@@ -56,16 +77,6 @@ class GestyScheduler
         );
         $this->scheduler->addDatesDayOff($datesDaysOff);
         
-        /**
-         * Add all usual days off during weeks
-         */
-        $allUsualDaysOff = ActivityType::getAllUsualDaysOffAsDayConst();
-        foreach ($allUsualDaysOff as $activityConstType => $weekDay) {
-            $this->scheduler->addWeekUsualDaysOff(
-                $weekDay,
-                array('index' => $activityConstType)
-            );
-        }
     }
 
     /**

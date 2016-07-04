@@ -395,6 +395,27 @@ class Eleve
     {
         return $this->taps;
     }
+
+    /**
+     * Get taps subscribe by parents
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTapsSubscribeByParents()
+    {
+        $filtered = [];
+        $list = $this->getTaps();
+        /**
+         * @var \WCS\CantineBundle\Entity\Tap $item
+         */
+        foreach($list as $item) {
+            if ($item->getSubscribedByParent()) {
+                $filtered[] = $item;
+            }
+        }
+        return $filtered;
+    }
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
@@ -434,6 +455,27 @@ class Eleve
     {
         return $this->garderies;
     }
+
+    /**
+     * Get garderies subscribe by parents
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGarderiesSubscribeByParents()
+    {
+        $garderies_filtered = [];
+        $garderies = $this->getGarderies();
+        /**
+         * @var \WCS\CantineBundle\Entity\Garderie $item
+         */
+        foreach($garderies as $item) {
+            if ($item->getSubscribedByParent()) {
+                $garderies_filtered[] = $item;
+            }
+        }
+        return $garderies_filtered;
+    }
+
 
 
     /**

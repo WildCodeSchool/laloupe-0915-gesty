@@ -53,7 +53,9 @@ class GarderieToStringTransformer implements DataTransformerInterface
         $garderies_periode   = $this->daysOfWeek->getListJoursGarderie();
         $garderies_eleve     = $this->manager->getRepository('WCSCantineBundle:Eleve')->findAllGarderiesForPeriode(
             $this->eleve,
-            $this->daysOfWeek->getPeriode());
+            $this->daysOfWeek->getPeriode(),
+            true
+        );
 
         $garderies = array();
         foreach ($daysOfWeek as $dayOfWeek)
@@ -91,6 +93,7 @@ class GarderieToStringTransformer implements DataTransformerInterface
                     if (substr($dayOfWeek, -2)=='-2') {
                         $garderie->setEnableEvening(true);
                     }
+                    $garderie->setSubscribedByParent(true);
 
                     $this->manager->persist($garderie);
                 }

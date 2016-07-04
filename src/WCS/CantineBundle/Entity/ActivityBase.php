@@ -31,6 +31,10 @@ class ActivityBase
      */
     protected $eleve;
 
+    /**
+     * @var boolean
+     */
+    protected $subscribed_by_parent = false;
 
     /**
      * ActivityBase constructor.
@@ -132,4 +136,23 @@ class ActivityBase
     {
         return $this->eleve;
     }
+
+    /**
+     * @return boolean
+     */
+    public function getSubscribedByParent()
+    {
+        return $this->subscribed_by_parent;
+    }
+
+    /**
+     * @param boolean $subscribed_by_parent
+     * @return $this
+     */
+    public function setSubscribedByParent($subscribed_by_parent)
+    {
+        $this->subscribed_by_parent = $subscribed_by_parent;
+        return $this;
+    }
+
 }

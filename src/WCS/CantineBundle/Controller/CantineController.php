@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Form;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use Symfony\Component\VarDumper\VarDumper;
 use WCS\CantineBundle\Service\GestyScheduler\ActivityType;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Form\Type\CantineType;

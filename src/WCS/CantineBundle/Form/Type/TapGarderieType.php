@@ -9,26 +9,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use WCS\CantineBundle\Form\DataTransformer\TapToStringTransformer;
 use WCS\CantineBundle\Form\DataTransformer\GarderieToStringTransformer;
 
-use WCS\CantineBundle\Service\GestyScheduler\DaysOfWeeks;
 
-
-class TapType extends AbstractType
+class TapGarderieType extends AbstractType
 {
-    private $manager;
-    private $daysOfWeek;
-
-    /**
-     * TapType constructor.
-     * @param \Doctrine\Common\Persistence\ObjectManager $manager
-     * @param DaysOfWeeks $daysOfWeek
-     */
-    public function __construct(\Doctrine\Common\Persistence\ObjectManager $manager, DaysOfWeeks $daysOfWeek)
-    {
-        $this->manager = $manager;
-        $this->daysOfWeek = $daysOfWeek;
-    }
-
-
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -45,10 +28,14 @@ class TapType extends AbstractType
         ;
 
         $builder->get('taps')
-            ->addModelTransformer( new TapToStringTransformer($this->manager, $builder->getData(), $this->daysOfWeek) );
+            ->addModelTransformer(
+                new TapToStringTransformer($options['manager'], $builder->getData(), $options['days_of_week'])
+            );
 
         $builder->get('garderies')
-            ->addModelTransformer( new GarderieToStringTransformer($this->manager, $builder->getData(), $this->daysOfWeek) );
+            ->addModelTransformer(
+                new GarderieToStringTransformer($options['manager'], $builder->getData(), $options['days_of_week'])
+            );
         /**
          * @var \WCS\CantineBundle\Entity\Eleve $entity
          */
@@ -66,6 +53,11 @@ class TapType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        $resolver->setDefined(array(
+            'data_class',
+            'manager',
+            'days_of_week'
+        ));
         $resolver->setDefaults(array(
             'data_class' => 'WCS\CantineBundle\Entity\Eleve'
         ));

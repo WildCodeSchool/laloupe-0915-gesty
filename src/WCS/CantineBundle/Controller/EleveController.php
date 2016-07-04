@@ -10,8 +10,8 @@ use Application\Sonata\UserBundle\Entity\User;
 
 use Scheduler\Component\DateContainer\Period;
 
-use Symfony\Component\VarDumper\VarDumper;
 use WCS\CantineBundle\Entity\Eleve;
+use WCS\CantineBundle\Service\GestyScheduler\ActivityType;
 use WCS\CantineBundle\Service\GestyScheduler\DaysOfWeeks;
 use WCS\CantineBundle\Form\Handler\EleveHandler;
 use WCS\CantineBundle\Form\FormEntity\EleveFormEntity;
@@ -159,36 +159,37 @@ class EleveController extends Controller
             $user,
             $this->get('wcs.datenow')->getDate()
         );
-/*
+
         // periodes TAP/Garderie
-        $periodesScolaires = $this->get("wcs.calendrierscolaire")->getPeriodesAnneeRentreeScolaire();
-        $periode_tap = $periodesScolaires->getCurrentOrNextPeriodeEnClasse();
-*/
+
         $current_date = $this->get('wcs.datenow')->getDate();
         $scheduler = $this->get('wcs.gesty.scheduler');
-        $periode_tap = $scheduler->getCurrentOrNextSchoolPeriod( $current_date );
+        $firstDate = $scheduler->getFirstAvailableDate($current_date, ActivityType::TAP);
+        $period_subscriptions = $scheduler->getCurrentOrNextSchoolPeriod( $firstDate );
 
-        // récupère les days of week sélectionnés
+        // traitera la liste des taps, garderie
+        // pour la période en cours
         $daysOfWeek = new DaysOfWeeks(
-            new Period($this->get("wcs.datenow")->getDate(), $periode_tap->getLastDate()),
+            $period_subscriptions,
             $this->get('wcs.gesty.scheduler')
         );
 
-        // récupère les taps et les garderies de chaque enfants
         /**
+         * récupère les taps et les garderies de chaque enfants
+         * uniquement si le total de taps + garderie > nb inscriptions pour la période
          * @var Eleve $child
          */
         $children_activities = array();
         foreach ($children as $child) {
-            $children_activities[$child->getId()]["taps"]         = $daysOfWeek->getTapSelectionToArray($child->getTaps());
-            $children_activities[$child->getId()]["garderies"]    = $daysOfWeek->getGarderieSelectionToArray($child->getGarderies());
+            $array["taps"]      = $daysOfWeek->getTapSelectionToArray($child->getTaps());
+            $array["garderies"] = $daysOfWeek->getGarderieSelectionToArray($child->getGarderies());
+            $children_activities[$child->getId()] = $array;
         }
 
         return $this->render('WCSCantineBundle:Eleve:dashboard.html.twig', array(
             'user'                      => $user,
             'children'                  => $children,
             'files'                     => $this->getFiles($user, $nbChildrenVoyageInscrits),
-            'periode_tap'               => $periode_tap,
             'children_activities'       => $children_activities,
             'nbChildrenVoyageInscrits'  => $nbChildrenVoyageInscrits
         ));

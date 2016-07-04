@@ -16,7 +16,9 @@ WCS\CantineBundle\Entity\Tap:
             type: integer
             length: 1
             nullable: true
-
+        subscribed_by_parent:
+            type: boolean
+            nullable: false
     lifecycleCallbacks: {  }
 
     manyToOne:

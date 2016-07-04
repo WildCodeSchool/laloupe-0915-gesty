@@ -1,6 +1,6 @@
 parameters:
 
-    wcs.datenow.date: '2016-06-21'
+    wcs.datenow.date: ''
 
 services:
 
@@ -27,13 +27,8 @@ services:
 
     wcs.datenow:
         class: Scheduler\Component\DateContainer\DateNow
-#        class: DateTimeImmutable
         arguments: ['%wcs.datenow.date%']
 
-
-#    wcs.daysoff:
-#        class: WCS\CantineBundle\Service\GestyScheduler\AdditionalDayOffList
-#        arguments: ['@doctrine.orm.entity_manager']
 
 
     wcs.gesty.scheduler:

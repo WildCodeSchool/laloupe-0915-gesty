@@ -53,7 +53,9 @@ class TapToStringTransformer implements DataTransformerInterface
         $taps_periode   = $this->daysOfWeek->getListJoursTap();
         $taps_eleve     = $this->manager->getRepository('WCSCantineBundle:Eleve')->findAllTapsForPeriode(
             $this->eleve,
-            $this->daysOfWeek->getPeriode());
+            $this->daysOfWeek->getPeriode(),
+            true
+        );
         $taps = array();
         foreach ($daysOfWeek as $dayOfWeek)
         {
@@ -77,6 +79,7 @@ class TapToStringTransformer implements DataTransformerInterface
                     $tap = new Tap();
                     $tap->setEleve($this->eleve);
                     $tap->setDate($dateT);
+                    $tap->setSubscribedByParent(true);
 
                     $this->manager->persist($tap);
                 }

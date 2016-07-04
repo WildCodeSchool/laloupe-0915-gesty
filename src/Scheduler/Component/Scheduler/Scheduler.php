@@ -5,7 +5,6 @@ namespace Scheduler\Component\Scheduler;
 use Scheduler\Component\DateContainer\Day;
 use Scheduler\Component\DateContainer\Period;
 use Scheduler\Component\DateContainer\PeriodInterface;
-use Symfony\Component\VarDumper\VarDumper;
 
 
 class Scheduler
