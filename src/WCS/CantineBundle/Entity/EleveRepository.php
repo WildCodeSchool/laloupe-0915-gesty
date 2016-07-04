@@ -10,8 +10,10 @@ namespace WCS\CantineBundle\Entity;
 
 use Application\Sonata\UserBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use WCS\CalendrierBundle\Service\Periode\Periode;
+
 
 class EleveRepository extends EntityRepository
 {
@@ -310,68 +312,84 @@ class EleveRepository extends EntityRepository
             ->orderBy('e.nom');
 
 
-        return $qb;
+        return $qb ;
     }
 
+    /**
+     * @param Eleve $eleve
+     * @param \DateTimeInterface $dateStart
+     * @param \DateTimeInterface $dateEnd
+     * @return mixed
+     */
     public function findTotalCantineFor(
         Eleve $eleve,
         \DateTimeInterface $dateStart,
         \DateTimeInterface $dateEnd
     )
+
     {
-        $em = $this->getEntityManager();
 
-        // récupère les repas
-        $query = $em->createQuery(
-            ' SELECT COUNT(l)
-              FROM WCSCantineBundle:Lunch l
-              WHERE (l.date >= :dateStart AND l.date <= :dateEnd)
-              AND l.eleve = :eleve'
-        )
-        ->setParameter(':dateStart', $dateStart->format('Y-m-d'))
-        ->setParameter(':dateEnd', $dateEnd->format('Y-m-d'))
-        ->setParameter(':eleve', $eleve);
-        $total = $query->getOneOrNullResult();
 
-        return $total?$total[1]:0;
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('COUNT(l)')
+            ->from('WCSCantineBundle:Lunch', 'l')
+            ->where('l.eleve = :eleve')
+            ->andWhere('l.date >= :dateStart')
+            ->andWhere('l.date <=:dateEnd')
+
+            ->setParameter(':dateStart', $dateStart->format('Y-m-d'))
+            ->setParameter(':dateEnd', $dateEnd->format('Y-m-d'))
+            ->setParameter(':eleve',$eleve);
+        
+        $total = $query->getQuery()->getSingleScalarResult();
+
+        
+        return $total;
     }
 
+    /**
+     * @param Eleve $eleve
+     * @param \DateTimeInterface $dateStart
+     * @param \DateTimeInterface $dateEnd
+     * @return mixed
+     */
     public function findTotalTapGarderieFor(
         Eleve $eleve,
         \DateTimeInterface $dateStart,
         \DateTimeInterface $dateEnd
     )
     {
-        $em = $this->getEntityManager();
 
-        // récupère les garderies
-        $query = $em->createQuery(
-            ' SELECT COUNT(g)
-              FROM WCSCantineBundle:Garderie g
-              WHERE (g.date >= :dateStart AND g.date <= :dateEnd)
-              AND g.eleve = :eleve'
-        )
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('COUNT(g)')
+            ->from('WCSCantineBundle:Garderie', 'g')
+            ->where('g.eleve = :eleve')
+            ->andWhere('g.date >= :dateStart')
+            ->andWhere('g.date <=:dateEnd')
+
             ->setParameter(':dateStart', $dateStart->format('Y-m-d'))
             ->setParameter(':dateEnd', $dateEnd->format('Y-m-d'))
-            ->setParameter(':eleve', $eleve);
-        $totalGarderie = $query->getOneOrNullResult();
-        $totalGarderie = $totalGarderie?$totalGarderie[1]:0;
+            ->setParameter(':eleve',$eleve);
+        
+        $totalGarderie = $query->getQuery()->getSingleScalarResult();
 
-        $query = $em->createQuery(
-            ' SELECT COUNT(t)
-              FROM WCSCantineBundle:Tap t
-              WHERE (t.date >= :dateStart AND t.date <= :dateEnd)
-              AND t.eleve = :eleve'
-        )
+
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('COUNT(t)')
+            ->from('WCSCantineBundle:Tap', 't')
+            ->where('t.eleve = :eleve')
+            ->andWhere('t.date >= :dateStart')
+            ->andWhere('t.date <=:dateEnd')
+
             ->setParameter(':dateStart', $dateStart->format('Y-m-d'))
             ->setParameter(':dateEnd', $dateEnd->format('Y-m-d'))
-            ->setParameter(':eleve', $eleve);
-        $totalTaps = $query->getOneOrNullResult();
-        $totalTaps = $totalTaps?$totalTaps[1]:0;
+            ->setParameter(':eleve',$eleve);
+        
+        $totalTaps = $query->getQuery()->getSingleScalarResult();
 
 
         if ($totalGarderie < $totalTaps) {
-            $total= $totalGarderie;
+            $total = $totalGarderie;
         }
         else {
             $total = $totalTaps;
@@ -380,8 +398,15 @@ class EleveRepository extends EntityRepository
         return $total;
     }
 
+    /**
+     * override the EntityRepository:findAll
+     * @return array
+     */
     public function findAll()
     {
         return $this->findBy(array(), array('nom'=>'ASC', 'prenom'=>'ASC'));
     }
+
+
+
 }
