@@ -4,8 +4,8 @@ services:
         tags:
            - { name: form.type, alias: application_sonata_user_registration }
         arguments:
-           - %fos_user.model.user.class%
-           - %sonata.user.registration.form.options%
+           - '%fos_user.model.user.class%'
+           - '%sonata.user.registration.form.options%'
 
     wcs.userupload.listener:
         class: Application\Sonata\UserBundle\EventListener\UserUploadListener

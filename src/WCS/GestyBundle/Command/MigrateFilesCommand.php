@@ -489,7 +489,7 @@ class MigrateFilesCommand extends ContainerAwareCommand
             if (!empty($filename) &&
                 !preg_match('/^'.(self::FILENAME_PREFIX).'/', $filename) &&
                 is_file($this->path_target."/".$filename)) {
-                    return;
+                    return '';
             }
 
             // build the original path

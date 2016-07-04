@@ -169,7 +169,7 @@
                         </div>
 
                         <div class="panel-body-1 fiche_eleve" id="eleve_body_{{ child.id }}">
-                            <div>Né(e) le {{ child.dateDeNaissance|date('d-m-Y') }}</div></br>
+                            <div>Né(e) le {{ child.dateDeNaissance|date('d-m-Y') }}</div><br />
                             <div><strong>Classe:</strong> {{ child.division }}</div><br/>
 
                             <a href="{{ path('eleve_edit', { 'id': child.id })}}"><input type="button" value="Modifier"class="btn btn-primary" style="margin:0"></a><br/>
@@ -253,7 +253,7 @@
 
                                 {% if child.division.school.activeTap or child.division.school.activeGarderie %}
                                     <div>
-                                        <p>Semaine type : du <span>{{ periode_tap.debut|date('d/m/Y') }}</span> au <span>{{ periode_tap.fin|date('d/m/Y') }}</span></p><br/>
+                                        <p>Semaine type : du <span>{{ periode_tap.firstDate|date('d/m/Y') }}</span> au <span>{{ periode_tap.lastDate|date('d/m/Y') }}</span></p><br/>
 
                                         <div class="btn-group btn-group-justified" role="group">
                                             <a href="#" type="button" class="btn disabled btn-default">&nbsp;</a>

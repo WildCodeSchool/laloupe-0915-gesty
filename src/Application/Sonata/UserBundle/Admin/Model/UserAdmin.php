@@ -20,6 +20,10 @@ use FOS\UserBundle\Model\UserManagerInterface;
 
 class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
 {
+    /**
+     * @var UserManagerInterface
+     */
+    private $userManager;
 
     /**
      * {@inheritdoc}

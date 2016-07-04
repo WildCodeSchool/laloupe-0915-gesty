@@ -5,6 +5,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Entity\Tap;
+use WCS\CantineBundle\Service\GestyScheduler\DaysOfWeeks;
 
 class TapToStringTransformer implements DataTransformerInterface
 {
@@ -13,7 +14,7 @@ class TapToStringTransformer implements DataTransformerInterface
     private $eleve;
 
     /**
-     * @var \WCS\CantineBundle\Form\DataTransformer\DaysOfWeeks
+     * @var DaysOfWeeks
      */
     private $daysOfWeek;
 

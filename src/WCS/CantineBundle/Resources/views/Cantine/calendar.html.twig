@@ -4,8 +4,8 @@
 {% if calendrier %}
 <!-- Année scolaire -->
 <div class="anneescolaire">
-    {{ calendrier.periodesAnneeScolaire.anneeScolaire.debut|date('Y') }}
-    / {{ calendrier.periodesAnneeScolaire.anneeScolaire.fin|date('Y') }}
+    {{ calendrier.yearPeriod.firstDate|date('Y') }}
+    / {{ calendrier.yearPeriod.lastDate|date('Y') }}
 </div>
 
 <!-- Jours habituels d'inscription à la cantine -->
@@ -39,7 +39,7 @@
     <!-- page du mois -->
 <div class="">
 
-        {% for month in calendrier.periodesAnneeScolaire.months %}
+        {% for month in calendrier.yearPeriod.monthIterator %}
             <div class="month" id="month{{ month|date('m') }}" style="display:none;">
                 <table>
                     <thead>
@@ -63,8 +63,8 @@
                             {#
                                 on affiche des cellules vides si le mois commence au cours de la semaine.
                             #}
-                            {% if jour.day == 1 and jour.dayOfWeek != 1 %}
-                                <td colspan="{{ jour.dayOfWeek - 1 }}"></td>
+                            {% if jour.day == 1 and jour.weekDay != 1 %}
+                                <td colspan="{{ jour.weekDay - 1 }}"></td>
                             {% endif %}
 
                             {#
@@ -81,9 +81,9 @@
 
                                 <td class="calendar-reservation-over">
                                 {% if isReserved %}
-                                    <input disabled="disabled" class="calendar-checkbox day{{ jour.dayOfWeek }}" type="checkbox" value="{{ jour }}" name="dates[]">
+                                    <input disabled="disabled" class="calendar-checkbox day{{ jour.weekDay }}" type="checkbox" title="{{ jour }}" value="{{ jour }}" name="dates[]">
                                 {% else %}
-                                    <input disabled="disabled" class="calendar-checkbox day{{ jour.dayOfWeek }}" type="checkbox" value="" name="dates[]">
+                                    <input disabled="disabled" class="calendar-checkbox day{{ jour.weekDay }}" type="checkbox" title="{{ jour }}" value="" name="dates[]">
                                 {% endif %}
 
                             {% else %}
@@ -93,7 +93,7 @@
                                 {% else %}
                                 <td>
                                 {% endif %}
-                                 <input class="calendar-checkbox day{{ jour.dayOfWeek }}" type="checkbox" value="{{ jour }}" name="dates[]">
+                                 <input class="calendar-checkbox day{{ jour.weekDay }}" type="checkbox" title="{{ jour }}" value="{{ jour }}" name="dates[]">
                             {% endif %}
 
                             {#
@@ -105,7 +105,7 @@
                             {#
                                 On passe à la semaine suivante
                             #}
-                            {% if (jour.dayOfWeek == 7) %}
+                            {% if (jour.weekDay == 7) %}
                             </tr><tr>
                             {% endif %}
 
@@ -190,9 +190,9 @@
             day_week = parseInt(day_week.substr(day_week.lastIndexOf('_')+1));
             day_week += (day_week <= 1)?1:2;
 
-            $('.day'+day_week).each(function(e){
-                if (!this.disabled) {
-                    this.checked = elementHabitDay.checked;
+            $('.day'+day_week).each(function(i){
+                if (!$(this).disabled) {
+                    $(this).checked = elementHabitDay.checked;
                 }
             });
         }

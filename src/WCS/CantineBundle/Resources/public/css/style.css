@@ -80,7 +80,7 @@
     border-top-width: 0;
 }
 label {
-    font-family: 'Open Sans';
+    font-family: 'Open Sans', sans-serif;
     display: inline-block;
     max-width: 80%;
     margin-bottom: 5px;
@@ -147,23 +147,18 @@ input[type=checkbox] {
 }
 
 p{
-    diplay:block;
     text-align: left;
     color: dimgrey;
-
 }
 .container {
-    margin-left: auto;
-    margin-right: auto;
     padding-left: 15px;
     padding-right: 15px;
-    margin-bottom: 10px;
     width: 1170px;
     margin: 80px auto;
     font-size: 18px;
 }
 .welcome {
-    font-family: 'Carter One';
+    font-family: 'Carter One', sans-serif;
     margin: 90px auto;
     text-align: center;
     color: #7A2903;
@@ -303,7 +298,7 @@ button em
 }
 
 .eleveAjoute {
-    font-family: 'Carter One';
+    font-family: 'Carter One', sans-serif;
     text-align: center;
     color: #5CAB18;
 }
@@ -366,7 +361,7 @@ button em
     display:table-cell;
     font-style: italic;
     color:#5CAB18;
-    margin:0px auto;
+    margin:0 auto;
 }
 .TODO {
     font-family: 'Carter One', cursive;
@@ -396,9 +391,9 @@ button em
     display: inline-block;
     position:absolute;
     right:20px;
-    top:0px;
+    top:0;
 
-    font-family: 'Open Sans';
+    font-family: 'Open Sans', sans-serif;
     font-weight: normal;
 
     text-align: right;

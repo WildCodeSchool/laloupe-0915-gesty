@@ -10,8 +10,9 @@ namespace WCS\CantineBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use WCS\CantineBundle\Entity\ActivityType;
+
 use WCS\CantineBundle\Entity\Eleve;
+use WCS\CantineBundle\Service\GestyScheduler\ActivityType;
 use WCS\CantineBundle\Form\Type\VoyageType;
 
 
@@ -23,10 +24,16 @@ class VoyageController extends Controller
         // inscriptions possible à partir de la date du jour + un délai de N jours
         // pour les voyages
         //------------------------------------------------------------------------
+        /*
         $first_day_available = ActivityType::getFirstDayAvailable(
             ActivityType::TRAVEL,
-            $this->get('wcs.datenow')
+            $this->get('wcs.datenow')->getDate()
         );
+        */
+        $first_day_available = $this->get('wcs.gesty.scheduler')->getFirstAvailableDate(
+            $this->get('wcs.datenow')->getDate(),
+            ActivityType::TRAVEL
+            );
 
         // créer une instance d'un formulaire
         $options = array(

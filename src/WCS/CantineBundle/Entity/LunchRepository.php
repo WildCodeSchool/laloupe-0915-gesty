@@ -2,9 +2,9 @@
 
 namespace WCS\CantineBundle\Entity;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use WCS\CalendrierBundle\Service\Calendrier\Day;
-use WCS\CalendrierBundle\Service\Periode\Periode;
-use WCS\CalendrierBundle\Utils\WeekStats;
+use Scheduler\Component\DateContainer\Day;
+use Scheduler\Component\DateContainer\Period;
+use Scheduler\Component\DateContainer\WeekStats;
 
 /**
  * LunchRepository
@@ -95,11 +95,11 @@ class LunchRepository extends ActivityRepositoryAbstract
         $firstDay   = new \DateTimeImmutable( $options['date_day']->format('Y-m-d') . $firstDayFormat );
         $lastDay    = new \DateTimeImmutable( $firstDay->format('Y-m-d') . $lastDayFormat );
 
-        $periode = new Periode($firstDay, $lastDay);
+        $periode = new Period($firstDay, $lastDay);
         $days = [];
         foreach($periode->getDayIterator() as $date) {
 
-            if (false === \in_array(Day::getDayOfWeekFrom($date), $options['days_ofweek_off'])
+            if (false === \in_array(Day::getWeekDayFrom($date), $options['days_ofweek_off'])
                 && false === \in_array($date, $options['dates_off'])
             ) {
                 $days[] = $date;
@@ -133,8 +133,6 @@ class LunchRepository extends ActivityRepositoryAbstract
     {
         $dates = $this->getWeekDates($options);
 
-        $em = $this->getEntityManager();
-
         $statsLunch = new WeekStats();
 
         foreach($dates['days'] as $day) {
@@ -154,7 +152,7 @@ class LunchRepository extends ActivityRepositoryAbstract
 
             $totalCurrentDay = $query->getQuery()->getSingleScalarResult();
 
-            $statsLunch->setTotalDay(Day::getDayOfWeekFrom($day), $totalCurrentDay);
+            $statsLunch->setTotalDay(Day::getWeekDayFrom($day), $totalCurrentDay);
         }
 
         return $statsLunch;

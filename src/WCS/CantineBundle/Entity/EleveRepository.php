@@ -11,7 +11,9 @@ namespace WCS\CantineBundle\Entity;
 use Application\Sonata\UserBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use WCS\CalendrierBundle\Service\Periode\Periode;
+use Scheduler\Component\DateContainer\Period;
+use Doctrine\Common\Collections\ArrayCollection;
+use WCS\CantineBundle\Service\GestyScheduler\ActivityType;
 
 class EleveRepository extends EntityRepository
 {
@@ -235,10 +237,10 @@ class EleveRepository extends EntityRepository
      * Return all "taps" registered for a given pupil and period.
      *
      * @param Eleve $eleve
-     * @param Periode $periode
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @param Period $periode
+     * @return ArrayCollection
      */
-    public function findAllTapsForPeriode(Eleve $eleve, Periode $periode)
+    public function findAllTapsForPeriode(Eleve $eleve, Period $periode)
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery(
@@ -250,19 +252,19 @@ class EleveRepository extends EntityRepository
                 ORDER BY t.date ASC'
         )
             ->setParameter(':eleve', $eleve)
-            ->setParameter(':dateDebut', $periode->getDebut())
-            ->setParameter(':dateFin', $periode->getFin());
-        return new \Doctrine\Common\Collections\ArrayCollection($query->getResult());
+            ->setParameter(':dateDebut', $periode->getFirstDate())
+            ->setParameter(':dateFin', $periode->getLastDate());
+        return $query->getResult();
     }
 
     /**
      * Return all "garderies" registered for a given pupil and period.
      *
      * @param Eleve $eleve
-     * @param Periode $periode
+     * @param Period $periode
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function findAllGarderiesForPeriode(Eleve $eleve, Periode $periode)
+    public function findAllGarderiesForPeriode(Eleve $eleve, Period $periode)
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery(
@@ -274,8 +276,8 @@ class EleveRepository extends EntityRepository
                 ORDER BY g.date ASC'
         )
             ->setParameter(':eleve', $eleve)
-            ->setParameter(':dateDebut', $periode->getDebut())
-            ->setParameter(':dateFin', $periode->getFin());
+            ->setParameter(':dateDebut', $periode->getFirstDate())
+            ->setParameter(':dateFin', $periode->getLastDate());
         return $query->getResult();
     }
 

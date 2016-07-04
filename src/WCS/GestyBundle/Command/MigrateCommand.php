@@ -63,7 +63,7 @@ class MigrateCommand extends ContainerAwareCommand
         $userAdmin->setFirstname('Romain');
         $userAdmin->setLastname('Coeur');
         $userAdmin->setPhone('0628974930');
-        $userManager->updateUser($userAdmin, true);
+        $userManager->updateUser($userAdmin);
 
         $users = array('admin' => $userAdmin);
 
@@ -79,7 +79,7 @@ class MigrateCommand extends ContainerAwareCommand
             $entity->setEnabled(true);
             $entity->setPlainPassword('wild1234');
             $entity->setPassword('9908e42e69c19bc0e6c0ce1bf05b381fbc94ca10aa7e6b648815d676248f8a3fe2ee124f7d9d375e9f909036e45cc9e766e3c9369655c1db1f331e71c17bc2c9');
-            $userManager->updateUser($entity, true);
+            $userManager->updateUser($entity);
             $users[$data[0]] = $entity;
         }
 

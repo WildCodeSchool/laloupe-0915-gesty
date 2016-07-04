@@ -10,6 +10,9 @@
          beStrictAboutOutputDuringTests="true"
          beStrictAboutTestsThatDoNotTestAnything="true"
          beStrictAboutCoversAnnotation="true"
+
+         stopOnError="true"
+         stopOnFailure="false"
 >
     <testsuites>
 

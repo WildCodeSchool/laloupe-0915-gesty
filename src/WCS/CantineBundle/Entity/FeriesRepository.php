@@ -14,7 +14,7 @@ class FeriesRepository extends \Doctrine\ORM\EntityRepository
     /**
      * @param \DateTimeInterface $dateStart
      * @param \DateTimeInterface $dateEnd
-     * @return array
+     * @return \DateTime[]
      */
     public function findListDatesWithin(\DateTimeInterface $dateStart, \DateTimeInterface $dateEnd)
     {

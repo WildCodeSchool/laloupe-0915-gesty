@@ -43,7 +43,7 @@ class TapMapper implements ActivityMapperInterface
      */
     public function getActivityType()
     {
-        return \WCS\CantineBundle\Entity\ActivityType::TAP;
+        return \WCS\CantineBundle\Service\GestyScheduler\ActivityType::TAP;
     }
 
 }

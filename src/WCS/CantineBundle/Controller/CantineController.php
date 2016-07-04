@@ -7,7 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Form;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use WCS\CantineBundle\Entity\ActivityType;
+use Symfony\Component\VarDumper\VarDumper;
+use WCS\CantineBundle\Service\GestyScheduler\ActivityType;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Form\Type\CantineType;
 
@@ -25,20 +26,13 @@ class CantineController extends Controller
     {
         // récupère les instances de Doctrine et de Calendrier pour l'année en cours
         $em             = $this->getDoctrine()->getManager();
-        $calendrier     = $this->get("wcs.calendrierscolaire")->getCalendrierRentreeScolaire();
 
-        // inscriptions possible à partir d'un délai de N jours pour la cantine
-        $first_day_available = ActivityType::getFirstDayAvailable(
-            ActivityType::CANTEEN,
-            $this->get('wcs.datenow')
-        );
+        $current_date = $this->get('wcs.datenow')->getDate();
+        $scheduler = $this->get("wcs.gesty.scheduler");
 
-        if ($calendrier) {
-            $datedebutAnnee = $calendrier->getPeriodesAnneeScolaire()->getAnneeScolaire()->getDebut();
-            if ($first_day_available < $datedebutAnnee) {
-                $first_day_available = $datedebutAnnee;
-            }
-        }
+        $first_day_available = $scheduler->getFirstAvailableDate($current_date, ActivityType::CANTEEN);
+
+        $calendrier = $scheduler->buildCanteenCalendar($first_day_available);
 
         // créé le formulaire associé à l'élève
         $form = $this->createForm(new CantineType( $em ), $eleve, array(

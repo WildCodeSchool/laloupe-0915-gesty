@@ -5,7 +5,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Entity\Garderie;
-
+use WCS\CantineBundle\Service\GestyScheduler\DaysOfWeeks;
 
 class GarderieToStringTransformer implements DataTransformerInterface
 {
@@ -14,7 +14,7 @@ class GarderieToStringTransformer implements DataTransformerInterface
     private $eleve;
 
     /**
-     * @var \WCS\CantineBundle\Form\DataTransformer\DaysOfWeeks
+     * @var DaysOfWeeks
      */
     private $daysOfWeek;
 

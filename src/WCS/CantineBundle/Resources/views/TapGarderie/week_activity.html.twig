@@ -3,7 +3,7 @@
 
                 {% if not week.totalMonday %}
                     <td>
-                        <input type="checkbox" class="calendar-checkbox day_garderie" type="checkbox" value="1{{ value_suffix }}" name="{{ name }}" />
+                        <input type="checkbox" class="calendar-checkbox day_garderie" title="lundi" value="1{{ value_suffix }}" name="{{ name }}" />
                     </td>
                 {% else %}
                     <td class="inactif">
@@ -12,7 +12,7 @@
 
                 {% if not week.totalTuesday %}
                     <td>
-                        <input type="checkbox" class="calendar-checkbox day_garderie" type="checkbox" value="2{{ value_suffix }}" name="{{ name }}" />
+                        <input type="checkbox" class="calendar-checkbox day_garderie" title="mardi" value="2{{ value_suffix }}" name="{{ name }}" />
                     </td>
                 {% else %}
                     <td class="inactif">
@@ -21,7 +21,7 @@
 
                 {% if not week.totalWednesday %}
                     <td>
-                        <input type="checkbox" class="calendar-checkbox day_garderie" type="checkbox" value="3{{ value_suffix }}" name="{{ name }}" />
+                        <input type="checkbox" class="calendar-checkbox day_garderie" title="mercredi" value="3{{ value_suffix }}" name="{{ name }}" />
                     </td>
                 {% else %}
                     <td class="inactif">
@@ -30,7 +30,7 @@
 
                 {% if not week.totalThursday %}
                     <td>
-                        <input type="checkbox" class="calendar-checkbox day_garderie" type="checkbox" value="4{{ value_suffix }}" name="{{ name }}" />
+                        <input type="checkbox" class="calendar-checkbox day_garderie" title="jeudi" value="4{{ value_suffix }}" name="{{ name }}" />
                     </td>
                 {% else %}
                     <td class="inactif">
@@ -39,7 +39,7 @@
 
                 {% if not week.totalFriday %}
                     <td>
-                        <input type="checkbox" class="calendar-checkbox day_garderie" type="checkbox" value="5{{ value_suffix }}" name="{{ name }}" />
+                        <input type="checkbox" class="calendar-checkbox day_garderie" title="vendredi" value="5{{ value_suffix }}" name="{{ name }}" />
                     </td>
                 {% else %}
                     <td class="inactif">

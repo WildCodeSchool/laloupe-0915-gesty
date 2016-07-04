@@ -10,6 +10,9 @@ use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use WCS\CantineBundle\Entity\DivisionRepository;
 use WCS\CantineBundle\Entity\VoyageRepository;
 
+use Scheduler\Component\DateContainer\DateNow;
+
+
 class InscriptionVoyageAdmin extends Admin
 {
 
@@ -17,7 +20,7 @@ class InscriptionVoyageAdmin extends Admin
     protected $baseRoutePattern = 'voyage_inscription';
 
     /**
-     * @var \WCS\CalendrierBundle\Service\DateNow
+     * @var DateNow
      */
     private $date_now_service;
 
@@ -39,7 +42,7 @@ class InscriptionVoyageAdmin extends Admin
 
     }
     
-    public function __construct($code, $class, $baseControllerName, \WCS\CalendrierBundle\Service\DateNow $date_now_service)
+    public function __construct($code, $class, $baseControllerName, DateNow $date_now_service)
     {
         $this->date_now_service = $date_now_service;
         parent::__construct($code, $class, $baseControllerName);

@@ -49,6 +49,6 @@ class LunchMapper implements ActivityMapperInterface
      */
     public function getActivityType()
     {
-        return \WCS\CantineBundle\Entity\ActivityType::CANTEEN;
+        return \WCS\CantineBundle\Service\GestyScheduler\ActivityType::CANTEEN;
     }
 }

@@ -1,5 +1,5 @@
 h1, h3 {
-    font-family: 'Carter One';
+    font-family: 'Carter One', sans-serif;
     color: #7A2903; /*marron*/
     margin-top: 30px;
 }
@@ -20,7 +20,7 @@ div.container div.datepicker-days > table > tbody > td.disabled {
     margin-right: 5px;
 }
 .navbar-inverse .navbar-brand {
-    font-family: 'Carter One';
+    font-family: 'Carter One', sans-serif;
     color: #fff;
 }
 .navbar-inverse .navbar-nav > li > a {
@@ -39,7 +39,7 @@ nav, nav a.navbar-brand {
 
 h2 .label {
     margin-left: 10px;
-    font-family: 'Open Sans';
+    font-family: 'Open Sans', sans-serif;
     font-weight: 800;
 }
 h4{

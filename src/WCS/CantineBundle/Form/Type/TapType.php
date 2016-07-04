@@ -5,9 +5,11 @@ namespace WCS\CantineBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use WCS\CantineBundle\Form\DataTransformer\DaysOfWeeks;
+
 use WCS\CantineBundle\Form\DataTransformer\TapToStringTransformer;
 use WCS\CantineBundle\Form\DataTransformer\GarderieToStringTransformer;
+
+use WCS\CantineBundle\Service\GestyScheduler\DaysOfWeeks;
 
 
 class TapType extends AbstractType
@@ -15,6 +17,11 @@ class TapType extends AbstractType
     private $manager;
     private $daysOfWeek;
 
+    /**
+     * TapType constructor.
+     * @param \Doctrine\Common\Persistence\ObjectManager $manager
+     * @param DaysOfWeeks $daysOfWeek
+     */
     public function __construct(\Doctrine\Common\Persistence\ObjectManager $manager, DaysOfWeeks $daysOfWeek)
     {
         $this->manager = $manager;
