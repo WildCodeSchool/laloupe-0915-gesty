@@ -209,12 +209,12 @@ class ArchiveStat
     /**
      * @var string
      */
-    private $parent_nom = '';
+    private $parent_nom;
 
     /**
      * @var string
      */
-    private $parent_prenom = '';
+    private $parent_prenom;
 
     /**
      * @var string
@@ -232,9 +232,14 @@ class ArchiveStat
     private $ecole;
 
     /**
+     * @var integer
+     */
+    private $ecole_division_id_backup;
+
+    /**
      * @var string
      */
-    private $instit = '';
+    private $instit;
 
 
     /**
@@ -294,7 +299,7 @@ class ArchiveStat
      */
     public function setParentNom($parentNom)
     {
-        $this->parent_nom = is_null($parentNom)?'':$parentNom;
+        $this->parent_nom = $parentNom;
 
         return $this;
     }
@@ -318,7 +323,7 @@ class ArchiveStat
      */
     public function setParentPrenom($parentPrenom)
     {
-        $this->parent_prenom = is_null($parentPrenom)?'':$parentPrenom;
+        $this->parent_prenom = $parentPrenom;
 
         return $this;
     }
@@ -405,6 +410,29 @@ class ArchiveStat
         return $this->ecole;
     }
 
+    /**
+     * Set ecoleDivisionIdBackup
+     *
+     * @param integer $ecoleDivisionIdBackup
+     *
+     * @return ArchiveStat
+     */
+    public function setEcoleDivisionIdBackup($ecoleDivisionIdBackup)
+    {
+        $this->ecole_division_id_backup = $ecoleDivisionIdBackup;
+
+        return $this;
+    }
+
+    /**
+     * Get ecoleDivisionIdBackup
+     *
+     * @return integer
+     */
+    public function getEcoleDivisionIdBackup()
+    {
+        return $this->ecole_division_id_backup;
+    }
 
     /**
      * Set instit
@@ -415,7 +443,7 @@ class ArchiveStat
      */
     public function setInstit($instit)
     {
-        $this->instit = is_null($instit)?'':$instit;
+        $this->instit = $instit;
 
         return $this;
     }
@@ -428,34 +456,5 @@ class ArchiveStat
     public function getInstit()
     {
         return $this->instit;
-    }
-    /**
-     * @var integer
-     */
-    private $classe_division_id_backup;
-
-
-    /**
-     * Set classeDivisionIdBackup
-     *
-     * @param integer $classeDivisionIdBackup
-     *
-     * @return ArchiveStat
-     */
-    public function setClasseDivisionIdBackup($classeDivisionIdBackup)
-    {
-        $this->classe_division_id_backup = $classeDivisionIdBackup;
-
-        return $this;
-    }
-
-    /**
-     * Get classeDivisionIdBackup
-     *
-     * @return integer
-     */
-    public function getClasseDivisionIdBackup()
-    {
-        return $this->classe_division_id_backup;
     }
 }

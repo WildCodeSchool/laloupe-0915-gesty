@@ -10,4 +10,100 @@ namespace WCS\CantineBundle\Entity;
  */
 class ArchiveStatRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function getStatsFromRepository($month)
+    {
+        $stats = array();
+
+        $dateStart  = new \DateTime($month.'-01');
+        $dateEnd    = new \DateTime($month.'-01 last day of this month');
+
+        // récupère les repositories
+        $repoEleve      = $this->getEntityManager()->getRepository('WCSCantineBundle:Eleve');
+        $repoArchive    = $this->getEntityManager()->getRepository('WCSCantineBundle:ArchiveStat');
+
+        // récupère les stats archivées pour la date sélectionnée
+        $archiveStats = $repoArchive->findBy(
+            array('dateMois'=>$dateStart),
+            array('ecole'=>'ASC', 'classe'=>'ASC', 'nom'=>'ASC')
+        );
+
+        // construit les stats si pas de stats
+        if (empty($archiveStats)){
+
+            $liste_eleves = $repoEleve->findAll();
+
+            foreach ($liste_eleves as $eleve) {
+
+                // archive les stats pour l'élève donné
+                $archiveStat = new ArchiveStat();
+
+                $archiveStat->setParentUserIdBackup( $eleve->getUser()->getId() );
+                $archiveStat->setParentNom(  $eleve->getUser()->getLastname() );
+                $archiveStat->setParentPrenom( $eleve->getUser()->getFirstname() );
+                $archiveStat->setParentEmail( $eleve->getUser()->getEmail() );
+                
+                $archiveStat->setEleveIdBackup( $eleve->getId() );
+                $archiveStat->setNom( $eleve->getNom() );
+                $archiveStat->setPrenom( $eleve->getPrenom() );
+                
+                $archiveStat->setEcoleSchoolIdBackup( $eleve->getDivision()->getSchool()->getId() );
+                $archiveStat->setEcole( $eleve->getDivision()->getSchool()->getName() );
+                
+                $archiveStat->setClasseDivisionIdBackup( $eleve->getDivision()->getId() );
+                $archiveStat->setClasse( $eleve->getDivision()->getGrade() );
+                $archiveStat->setInstit( $eleve->getDivision()->getHeadTeacher() );
+
+                $archiveStat->setTotalGarderieTap( $repoEleve->findTotalTapGarderieFor(
+                    $eleve,
+                    $dateStart,
+                    $dateEnd
+                )
+                );
+                $archiveStat->setTotalCantine(  $repoEleve->findTotalCantineFor(
+                    $eleve,
+                    $dateStart,
+                    $dateEnd
+                )
+                );
+                $archiveStat->setDateMois( $dateStart );
+
+                $this->getEntityManager()->persist($archiveStat);
+                $this->getEntityManager()->flush();
+
+                // récupère les stats
+                $stats[] = $this->archiveStatEntityToArray($archiveStat);
+            }
+        }
+        else
+        {
+            foreach($archiveStats as $archiveStat) {
+                $stats[] = $this->archiveStatEntityToArray($archiveStat);
+            }
+        }
+
+        return $stats;
+    }
+
+    /**
+     * @param ArchiveStat $archiveStat
+     * @return array
+     */
+    private function archiveStatEntityToArray( ArchiveStat $archiveStat )
+    {
+        $tmp['parent_nom']          = $archiveStat->getParentNom();
+        $tmp['parent_prenom']       = $archiveStat->getParentPrenom();
+        $tmp['parent_email']        = $archiveStat->getParentEmail();
+
+        $tmp['eleve_nom']           = strtoupper($archiveStat->getNom());
+        $tmp['eleve_prenom']        = ucfirst($archiveStat->getPrenom());
+        $tmp['ecole']               = $archiveStat->getEcole();
+        $tmp['classe']               = $archiveStat->getClasse();
+        $tmp['instit']               = $archiveStat->getInstit();
+        $tmp['total_tapgarderie']   = $archiveStat ->getTotalGarderieTap();
+        $tmp['total_cantine']       = $archiveStat ->getTotalCantine();
+        $tmp['date_mois']           = $archiveStat ->getDateMois();
+
+        return $tmp;
+    }
 }

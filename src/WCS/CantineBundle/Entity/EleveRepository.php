@@ -340,18 +340,37 @@ class EleveRepository extends EntityRepository
     )
 
     {
+        $query = $this->getEntityManager()->createQueryBuilder();
 
+        // recupère le total des repas :
+        // - pour un élève donné
+        // - dont la date est dans une période donnée
 
-        $query = $this->getEntityManager()->createQueryBuilder()
-            ->select('COUNT(l)')
+        $query  ->select('COUNT(l)')
+                ->from('WCSCantineBundle:Lunch', 'l')
+                ->where('l.eleve = :eleve')
+                ->andWhere('l.date >= :dateStart')
+                ->andWhere('l.date <=:dateEnd');
+
+/*
+        // récupère la liste de repas dont la date n'est
+        // pas dans l'intervalle de dates d'un voyage non annulé
+        $query = $this->getEntityManager()->createQueryBuilder();
+        $query->select('COUNT(l)')
             ->from('WCSCantineBundle:Lunch', 'l')
+            ->join('l.eleve', 'e')
+            ->join('e.voyages', 'v')
             ->where('l.eleve = :eleve')
+            ->andWhere('(l.date < v.date_debut OR v.date_fin < l.date )')
+            ->andWhere('v.estAnnule = FALSE')
+            ->andWhere('v.estSortieScolaire = FALSE')
             ->andWhere('l.date >= :dateStart')
-            ->andWhere('l.date <=:dateEnd')
-
-            ->setParameter(':dateStart', $dateStart->format('Y-m-d'))
-            ->setParameter(':dateEnd', $dateEnd->format('Y-m-d'))
-            ->setParameter(':eleve',$eleve);
+            ->andWhere('l.date <=:dateEnd');
+        ;
+*/
+        $query ->setParameter(':dateStart', $dateStart->format('Y-m-d'))
+                ->setParameter(':dateEnd', $dateEnd->format('Y-m-d'))
+                ->setParameter(':eleve',$eleve);
         
         $total = $query->getQuery()->getSingleScalarResult();
 

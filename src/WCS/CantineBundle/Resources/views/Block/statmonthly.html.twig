@@ -22,9 +22,9 @@
     <table id="userTable" class="table table-hover tablesorter table-bordered">
         <thead>
          <tr class="success">
-            <th>Nom</th>
-            <th>Prenom</th>
             <th>Classe</th>
+            <th>Eleve</th>
+            <th>Parent</th>
             <th>Tap/Garderie</th>
             <th>Cantine</th>
          </tr>
@@ -32,13 +32,13 @@
         </thead>
 
         <tbody>
-        {% for eleve in eleves %}
+        {% for stat in stats %}
         <tr>
-            <td>{{ eleve['eleve_nom'] | upper }}</td>
-            <td>{{ eleve['eleve_prenom'] }}</td>
-            <td>{{ eleve['division'] }}</td>
-            <td>{{ eleve['total_tapgarderie'] }}</td>
-            <td>{{ eleve['total_cantine'] }}</td>
+            <td>{{ stat['ecole'] }} - {{ stat['classe'] }}</td>
+            <td>{{ stat['eleve_nom'] }} {{ stat['eleve_prenom'] }}</td>
+            <td>{{ stat['parent_nom'] == '' ? stat['parent_email'] : stat['parent_nom'] ~ stat['parent_prenom'] }}</td>
+            <td>{{ stat['total_tapgarderie'] }}</td>
+            <td>{{ stat['total_cantine'] }}</td>
         </tr>
         {% endfor %}
         </tbody>

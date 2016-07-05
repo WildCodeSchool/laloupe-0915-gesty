@@ -9,15 +9,46 @@ WCS\CantineBundle\Entity\ArchiveStat:
             generator:
                 strategy: AUTO
     fields:
+        eleve_id_backup:
+            type: integer
         nom:
             type: string
             length: 255
         prenom:
             type: string
             length: 255
+
+
+        parent_user_id_backup:
+            type: integer
+        parent_nom:
+            type: string
+            length: 255
+        parent_prenom:
+            type: string
+            length: 255
+        parent_email:
+            type: string
+            length: 255
+
+
+        ecole_school_id_backup:
+            type: integer
+        ecole:
+            type: string
+            length: 255
+
+
+        classe_division_id_backup:
+            type: integer
         classe:
             type: string
             length: 255
+        instit:
+            type: string
+            length: 255
+
+
         totalGarderieTap:
             type: integer
         totalCantine:
