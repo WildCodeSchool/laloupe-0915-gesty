@@ -1,0 +1,27 @@
+WCS\CantineBundle\Entity\archiveStat:
+    type: entity
+    table: null
+    repositoryClass: WCS\CantineBundle\Entity\archiveStatRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        nom:
+            type: string
+            length: 255
+        prenom:
+            type: string
+            length: 255
+        classe:
+            type: string
+            length: 255
+        totalGarderieTap:
+            type: integer
+        totalCantine:
+            type: integer
+        dateMois:
+            type: datetime
+    lifecycleCallbacks: {  }

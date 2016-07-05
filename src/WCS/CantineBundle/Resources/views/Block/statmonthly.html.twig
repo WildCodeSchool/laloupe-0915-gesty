@@ -8,6 +8,17 @@
     </a>
 
     <h3><i class="fa fa-cutlery">&nbsp;</i>Pour facturation mensuelle</h3>
+
+    <form method="POST" action="{{ path('stat') }}" name="form_months">
+
+        <select id="month_selected" name="month_selected" title="Sélection du mois de facturation">
+            {% for month in list_months %}
+            <option value="{{ month|date('Y-m') }}" {{ month_selected == month|date('Y-m') ? 'selected = "selected" ':'' }}>{{ month|date('m/Y') }}</option>
+            {% endfor %}
+        </select>
+
+    </form>
+
     <table id="userTable" class="table table-hover tablesorter table-bordered">
         <thead>
          <tr class="success">
@@ -32,4 +43,16 @@
         {% endfor %}
         </tbody>
     </table>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        window.addEventListener('load', function() {
+
+
+            document.getElementById('month_selected').addEventListener('change', function() {
+                document.forms['form_months'].submit();
+            });
+
+        });
+    </script>
 {% endblock %}
