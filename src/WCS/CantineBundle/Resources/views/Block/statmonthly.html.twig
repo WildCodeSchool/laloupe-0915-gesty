@@ -34,9 +34,9 @@
         <tbody>
         {% for eleve in eleves %}
         <tr>
-            <td>{{ eleve['eleve'].nom | upper }}</td>
-            <td>{{ eleve['eleve'].prenom }}</td>
-            <td>{{ eleve['eleve'].division.grade }}</td>
+            <td>{{ eleve['eleve_nom'] | upper }}</td>
+            <td>{{ eleve['eleve_prenom'] }}</td>
+            <td>{{ eleve['division'] }}</td>
             <td>{{ eleve['total_tapgarderie'] }}</td>
             <td>{{ eleve['total_cantine'] }}</td>
         </tr>
