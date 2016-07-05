@@ -3,9 +3,9 @@
 namespace WCS\CantineBundle\Entity;
 
 /**
- * archiveStat
+ * ArchiveStat
  */
-class archiveStat
+class ArchiveStat
 {
     /**
      * @var integer

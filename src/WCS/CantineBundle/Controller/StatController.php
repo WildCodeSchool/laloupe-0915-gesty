@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\VarDumper\VarDumper;
 use WCS\CantineBundle\Entity\User;
 use WCS\CantineBundle\Entity\Eleve;
+use WCS\CantineBundle\Entity\ArchiveStat;
 
 class StatController extends Controller
 {
@@ -49,32 +50,70 @@ class StatController extends Controller
 
     private function loadStatsFromRepository($month)
     {
+
         $repo = $this->getDoctrine()->getManager()->getRepository('WCSCantineBundle:Eleve');
         
         $eleves=array();
         $dateStart = new \DateTime($month.'-01');
         $dateEnd = new \DateTime($month.'-01 last day of this month');
 
-        
-        $liste_eleves = $repo->findAll();
-        
-        foreach ($liste_eleves as $eleve){
+        $repoArchive = $this->getDoctrine()->getManager()->getRepository('WCSCantineBundle:ArchiveStat');
 
-            $tmp['eleve'] = $eleve;
-            $tmp['total_cantine'] = $repo->findTotalCantineFor(
-                $eleve,
-                $dateStart,
-                $dateEnd
-            );
+        $archiveStats = $repoArchive->findBy(array('dateMois'=>$dateStart));
 
-            $tmp['total_tapgarderie'] = $repo->findTotalTapGarderieFor(
-                $eleve,
-                $dateStart,
-                $dateEnd
-            );
-            $eleves[] = $tmp;
-            
+        if (empty($archiveStats)){
+
+            $liste_eleves = $repo->findAll();
+        
+            foreach ($liste_eleves as $eleve) {
+
+                $tmp['eleve_nom'] = $eleve->getNom();
+                $tmp['eleve_prenom'] = $eleve->getPrenom();
+                $tmp['division'] = $eleve->getDivision();
+
+                $tmp['total_cantine'] = $repo->findTotalCantineFor(
+                    $eleve,
+                    $dateStart,
+                    $dateEnd
+                );
+
+                $tmp['total_tapgarderie'] = $repo->findTotalTapGarderieFor(
+                    $eleve,
+                    $dateStart,
+                    $dateEnd
+                );
+                $eleves[] = $tmp;
+
+                $archiveStat = new ArchiveStat();
+
+                $archiveStat->setNom($eleve->getNom());
+                $archiveStat->setPrenom($eleve->getPrenom());
+                $archiveStat->setClasse($eleve->getDivision());
+                $archiveStat->setTotalGarderieTap($tmp['total_tapgarderie']);
+                $archiveStat->setTotalCantine($tmp['total_cantine']);
+                $archiveStat->setDateMois($dateStart);
+
+
+                $this->getDoctrine()->getManager()->persist($archiveStat);
+
+                $this->getDoctrine()->getManager()->flush();
+
+            }
         }
+        else
+        {
+            foreach($archiveStats as $archiveStat) {
+                $tmp['eleve_nom'] = $archiveStat->getNom();
+                $tmp['eleve_prenom'] = $archiveStat->getPrenom();
+                $tmp['division'] = $archiveStat->getClasse();
+                $tmp['total_tapgarderie'] = $archiveStat ->getTotalGarderieTap();
+                $tmp['total_cantine'] = $archiveStat ->getTotalCantine();
+                $tmp['date_mois'] = $archiveStat ->getDateMois();
+
+                $eleves[] = $tmp;
+            }
+        }
+
         return $eleves;
     }
 

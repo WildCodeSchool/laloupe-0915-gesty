@@ -1,7 +1,7 @@
-WCS\CantineBundle\Entity\archiveStat:
+WCS\CantineBundle\Entity\ArchiveStat:
     type: entity
     table: null
-    repositoryClass: WCS\CantineBundle\Entity\archiveStatRepository
+    repositoryClass: WCS\CantineBundle\Entity\ArchiveStatRepository
     id:
         id:
             type: integer
