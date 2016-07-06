@@ -4,17 +4,16 @@ namespace WCS\CantineBundle\Controller;
 use Scheduler\Component\DateContainer\Period;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use WCS\CantineBundle\Entity\ArchiveStat;
 
 class StatController extends Controller
 {
 
     public function countAction(Request $request)
     {
-        $period = $this->getSelectedMonth($request);
+        $periodForViewList = $this->getSelectedMonth($request);
 
         // le dernier mois sera celui sélectionné par défaut dans le formulaire
-        $month_selected = $period->getLastDate()->format('Y-m');
+        $month_selected = $periodForViewList->getLastDate()->format('Y-m');
 
         // change le mois sélectionné si une autre sélection a été postée depuis
         // le formulaire
@@ -32,7 +31,7 @@ class StatController extends Controller
         return $this->render('WCSCantineBundle:Block:statmonthly.html.twig', array(
             'admin_pool'        => $this->get('sonata.admin.pool'),
             'stats'             => $stats,
-            'list_months'       => $period->getMonthIterator(),
+            'list_months'       => $periodForViewList->getMonthIterator(),
             'month_selected'    => $month_selected
         ));
 

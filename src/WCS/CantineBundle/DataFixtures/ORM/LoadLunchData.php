@@ -34,7 +34,18 @@ class LoadLunchData extends AbstractFixture implements OrderedFixtureInterface, 
             ['2016-06-21', 'Veron-Matheos'],
             ['2016-06-21', 'Veron-Kevin'],
             ['2016-06-21', 'Batista-Jean'],
-            
+
+            ['2016-06-19', 'Dupontel-Jean-Kevin'],
+            ['2016-06-19', 'Dupontel-Kevina'],
+            ['2016-06-19', 'Dupontel-Mathilde'],
+            ['2016-06-19', 'Robert-Mickael'],
+            ['2016-06-19', 'Larissa-Viviane'],
+            ['2016-06-19', 'Larissa-Gaelle'],
+            ['2016-06-19', 'Larissa-Melina'],
+            ['2016-06-19', 'Larissa-Astrid'],
+            ['2016-06-19', 'Veron-Matheos'],
+            ['2016-06-19', 'Veron-Kevin'],
+            ['2016-06-19', 'Batista-Jean'],
         ];
         foreach ($inscs as $insc) {
             $entity = new Lunch();

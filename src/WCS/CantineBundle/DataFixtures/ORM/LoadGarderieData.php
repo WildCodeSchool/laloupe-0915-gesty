@@ -22,6 +22,7 @@ class LoadGarderieData extends AbstractFixture implements OrderedFixtureInterfac
     public function load(ObjectManager $manager)
     {
         $inscs  = [
+            ['2016-06-21', 'Bouteiller-Isabelle', true, true],
             ['2016-06-21', 'Dupontel-Jean-Kevin', true, true],
             ['2016-06-21', 'Dupontel-Kevina', true, true],
             ['2016-06-21', 'Dupontel-Mathilde', true, true],
@@ -33,6 +34,18 @@ class LoadGarderieData extends AbstractFixture implements OrderedFixtureInterfac
             ['2016-06-21', 'Veron-Matheos', false, true],
             ['2016-06-21', 'Veron-Kevin', false, true],
             ['2016-06-21', 'Batista-Jean', true, true],
+
+            ['2016-06-22', 'Dupontel-Jean-Kevin', true, true],
+            ['2016-06-22', 'Dupontel-Kevina', true, true],
+            ['2016-06-22', 'Dupontel-Mathilde', true, true],
+            ['2016-06-22', 'Robert-Mickael', true, false],
+            ['2016-06-22', 'Larissa-Viviane', true, true],
+            ['2016-06-22', 'Larissa-Gaelle', false, true],
+            ['2016-06-22', 'Larissa-Melina', false, true],
+            ['2016-06-22', 'Larissa-Astrid', false, true],
+            ['2016-06-22', 'Veron-Matheos', false, true],
+            ['2016-06-22', 'Veron-Kevin', false, true],
+            ['2016-06-22', 'Batista-Jean', true, true],
 
         ];
         foreach ($inscs as $insc) {

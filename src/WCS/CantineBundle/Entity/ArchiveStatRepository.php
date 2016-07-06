@@ -1,6 +1,7 @@
 <?php
 
 namespace WCS\CantineBundle\Entity;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * ArchiveStatRepository
@@ -31,7 +32,9 @@ class ArchiveStatRepository extends \Doctrine\ORM\EntityRepository
         // construit les stats si pas de stats
         if (empty($archiveStats)){
 
-            $liste_eleves = $repoEleve->findAll();
+            $liste_eleves = $repoEleve->findBy(array(),
+                array('division' => 'ASC', 'nom' => 'ASC', 'prenom' => 'ASC')
+                );
 
             foreach ($liste_eleves as $eleve) {
 
@@ -68,8 +71,8 @@ class ArchiveStatRepository extends \Doctrine\ORM\EntityRepository
                 );
                 $archiveStat->setDateMois( $dateStart );
 
-                $this->getEntityManager()->persist($archiveStat);
-                $this->getEntityManager()->flush();
+                //$this->getEntityManager()->persist($archiveStat);
+                //$this->getEntityManager()->flush();
 
                 // récupère les stats
                 $stats[] = $this->archiveStatEntityToArray($archiveStat);

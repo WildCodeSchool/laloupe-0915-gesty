@@ -15,6 +15,7 @@ class ActivityAdmin extends Admin
     {
         $datagridMapper
             ->add('eleve', null, array('admin_code'=>'sonata.admin.eleve'))
+            ->add('eleve.division')
             ->add('date', 'doctrine_orm_date_range', array(
                 'widget' => 'single_text',
                 'format' => 'yyyy/MM/dd',
