@@ -36,7 +36,7 @@
         <tr>
             <td>{{ stat['ecole'] }} - {{ stat['classe'] }}</td>
             <td>{{ stat['eleve_nom'] }} {{ stat['eleve_prenom'] }}</td>
-            <td>{{ stat['parent_nom'] == '' ? stat['parent_email'] : stat['parent_nom'] ~ stat['parent_prenom'] }}</td>
+            <td>{{ stat['parent_nom'] == '' ? stat['parent_email'] : stat['parent_nom'] ~ ' ' ~ stat['parent_prenom'] }}</td>
             <td>{{ stat['total_tapgarderie'] }}</td>
             <td>{{ stat['total_cantine'] }}</td>
         </tr>
@@ -45,11 +45,11 @@
     </table>
 {% endblock %}
 {% block javascripts %}
+    {{ parent() }}
     <script>
-        window.addEventListener('load', function() {
 
-
-            document.getElementById('month_selected').addEventListener('change', function() {
+        $(window).ready(function() {
+            $('#month_selected').on('change', function() {
                 document.forms['form_months'].submit();
             });
 

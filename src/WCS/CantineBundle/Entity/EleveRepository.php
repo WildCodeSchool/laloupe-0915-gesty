@@ -340,42 +340,27 @@ class EleveRepository extends EntityRepository
     )
 
     {
-        $query = $this->getEntityManager()->createQueryBuilder();
+        $queryLunch = $this->getEntityManager()->createQuery(
+            "SELECT COUNT(DISTINCT l.date)
+                FROM WCSCantineBundle:Lunch l
+                WHERE l.eleve = :eleve
+                AND (DATE(l.date) BETWEEN :dateStart AND :dateEnd)
+                AND l.date NOT IN ("
 
-        // recupère le total des repas :
-        // - pour un élève donné
-        // - dont la date est dans une période donnée
+            . $this->getQueryStringDatesVoyages("WCSCantineBundle:Lunch")
 
-        $query  ->select('COUNT(l)')
-                ->from('WCSCantineBundle:Lunch', 'l')
-                ->where('l.eleve = :eleve')
-                ->andWhere('l.date >= :dateStart')
-                ->andWhere('l.date <=:dateEnd');
+            . ")
+                AND l.date NOT IN ("
 
-/*
-        // récupère la liste de repas dont la date n'est
-        // pas dans l'intervalle de dates d'un voyage non annulé
-        $query = $this->getEntityManager()->createQueryBuilder();
-        $query->select('COUNT(l)')
-            ->from('WCSCantineBundle:Lunch', 'l')
-            ->join('l.eleve', 'e')
-            ->join('e.voyages', 'v')
-            ->where('l.eleve = :eleve')
-            ->andWhere('(l.date < v.date_debut OR v.date_fin < l.date )')
-            ->andWhere('v.estAnnule = FALSE')
-            ->andWhere('v.estSortieScolaire = FALSE')
-            ->andWhere('l.date >= :dateStart')
-            ->andWhere('l.date <=:dateEnd');
-        ;
-*/
-        $query ->setParameter(':dateStart', $dateStart->format('Y-m-d'))
-                ->setParameter(':dateEnd', $dateEnd->format('Y-m-d'))
-                ->setParameter(':eleve',$eleve);
-        
-        $total = $query->getQuery()->getSingleScalarResult();
+            . $this->getQueryStringDatesSortiesScolaires("WCSCantineBundle:Lunch")
 
-        
-        return $total;
+            . ")"
+        );
+        $queryLunch ->setParameter(':dateStart', $dateStart->format('Y-m-d'))
+            ->setParameter(':dateEnd', $dateEnd->format('Y-m-d'))
+            ->setParameter(':eleve',$eleve);
+
+        return $queryLunch->getSingleScalarResult();
     }
 
     /**
@@ -390,43 +375,108 @@ class EleveRepository extends EntityRepository
         \DateTimeInterface $dateEnd
     )
     {
+        $queryTap = $this->getEntityManager()->createQuery(
+            " SELECT COUNT(t.date)
+              FROM WCSCantineBundle:Tap t
+              WHERE t.eleve = :eleve
+                AND (DATE(t.date) BETWEEN :dateStart AND :dateEnd)
+                AND t.date NOT IN (
+                    SELECT DISTINCT g.date
+                    FROM WCSCantineBundle:Garderie g
+                    WHERE g.eleve = :eleve
+                    AND (DATE(g.date) BETWEEN :dateStart AND :dateEnd)
+                )
+                AND t.date NOT IN ("
 
-        $query = $this->getEntityManager()->createQueryBuilder()
-            ->select('COUNT(g)')
-            ->from('WCSCantineBundle:Garderie', 'g')
-            ->where('g.eleve = :eleve')
-            ->andWhere('g.date >= :dateStart')
-            ->andWhere('g.date <=:dateEnd')
+            . $this->getQueryStringDatesVoyages("WCSCantineBundle:Tap")
 
-            ->setParameter(':dateStart', $dateStart->format('Y-m-d'))
+            . ")
+                AND t.date NOT IN ("
+
+            . $this->getQueryStringDatesSortiesScolaires("WCSCantineBundle:Tap")
+
+            . ")"
+        );
+        $queryTap ->setParameter(':dateStart', $dateStart->format('Y-m-d'))
             ->setParameter(':dateEnd', $dateEnd->format('Y-m-d'))
             ->setParameter(':eleve',$eleve);
-        
-        $totalGarderie = $query->getQuery()->getSingleScalarResult();
+
+        $totalTaps = $queryTap->getSingleScalarResult();
 
 
-        $query = $this->getEntityManager()->createQueryBuilder()
-            ->select('COUNT(t)')
-            ->from('WCSCantineBundle:Tap', 't')
-            ->where('t.eleve = :eleve')
-            ->andWhere('t.date >= :dateStart')
-            ->andWhere('t.date <=:dateEnd')
+        $queryGarderies = $this->getEntityManager()->createQuery(
+            "SELECT COUNT(DISTINCT g.date)
+                FROM WCSCantineBundle:Garderie g
+                WHERE g.eleve = :eleve
+                AND (DATE(g.date) BETWEEN :dateStart AND :dateEnd)
+                AND g.date NOT IN ("
 
-            ->setParameter(':dateStart', $dateStart->format('Y-m-d'))
+            . $this->getQueryStringDatesVoyages("WCSCantineBundle:Garderie")
+
+            . ")
+                AND g.date NOT IN ("
+
+            . $this->getQueryStringDatesSortiesScolaires("WCSCantineBundle:Garderie")
+
+            . ")"
+        );
+        $queryGarderies ->setParameter(':dateStart', $dateStart->format('Y-m-d'))
             ->setParameter(':dateEnd', $dateEnd->format('Y-m-d'))
             ->setParameter(':eleve',$eleve);
-        
-        $totalTaps = $query->getQuery()->getSingleScalarResult();
 
+        $totalGarderies = $queryGarderies->getSingleScalarResult();
 
-        if ($totalGarderie < $totalTaps) {
-            $total = $totalGarderie;
-        }
-        else {
-            $total = $totalTaps;
-        }
+        return $totalTaps + $totalGarderies;
+    }
 
-        return $total;
+    /**
+     * Renvoit la requete DQL.
+     * Pour être exécutée, nécessite l'ajout des paramètres :
+     * - :eleve
+     * @param string $activityClass ex : "WCSCantineBundle:Tap"
+     * @return string requete DQL
+     */
+    private function getQueryStringDatesVoyages(
+        $activityClass
+    )
+    {
+        return "
+            SELECT l2.date
+            FROM ".$activityClass." l2
+            JOIN l2.eleve e2 
+            JOIN e2.voyages v2
+            
+            WHERE l2.eleve = :eleve
+            AND v2.estSortieScolaire = FALSE
+            AND v2.estAnnule = FALSE
+            AND ( DATE(l2.date) BETWEEN DATE(v2.date_debut) AND DATE(v2.date_fin) )
+           ";
+    }
+
+    /**
+     * Renvoit la requete DQL.
+     * Pour être exécutée, nécessite l'ajout des paramètres :
+     * - :eleve
+     * @param string $activityClass ex : "WCSCantineBundle:Tap"
+     * @return string requete DQL
+     */
+    private function getQueryStringDatesSortiesScolaires(
+        $activityClass
+    )
+
+    {
+        return "
+            SELECT l3.date
+            FROM ".$activityClass." l3
+            JOIN l3.eleve e3 
+            JOIN e3.division d3
+            JOIN d3.voyages v3
+            
+            WHERE l3.eleve = :eleve
+            AND v3.estSortieScolaire = TRUE
+            AND v3.estAnnule = FALSE
+            AND ( DATE(l3.date) BETWEEN DATE(v3.date_debut) AND DATE(v3.date_fin) )
+           ";
     }
 
     /**

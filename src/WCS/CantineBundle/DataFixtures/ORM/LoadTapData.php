@@ -34,6 +34,29 @@ class LoadTapData extends AbstractFixture implements OrderedFixtureInterface, Co
             ['2016-06-21', 'Veron-Kevin'],
             ['2016-06-21', 'Batista-Jean'],
 
+            ['2016-06-23', 'Dupontel-Jean-Kevin'],
+            ['2016-06-23', 'Dupontel-Kevina'],
+            ['2016-06-23', 'Dupontel-Mathilde'],
+            ['2016-06-23', 'Robert-Mickael'],
+            ['2016-06-23', 'Larissa-Viviane'],
+            ['2016-06-23', 'Larissa-Gaelle'],
+            ['2016-06-23', 'Larissa-Melina'],
+            ['2016-06-23', 'Larissa-Astrid'],
+            ['2016-06-23', 'Veron-Matheos'],
+            ['2016-06-23', 'Veron-Kevin'],
+            ['2016-06-23', 'Batista-Jean'],
+
+            ['2016-06-28', 'Dupontel-Jean-Kevin'],
+            ['2016-06-28', 'Dupontel-Kevina'],
+            ['2016-06-28', 'Dupontel-Mathilde'],
+            ['2016-06-28', 'Robert-Mickael'],
+            ['2016-06-28', 'Larissa-Viviane'],
+            ['2016-06-28', 'Larissa-Gaelle'],
+            ['2016-06-28', 'Larissa-Melina'],
+            ['2016-06-28', 'Larissa-Astrid'],
+            ['2016-06-28', 'Veron-Matheos'],
+            ['2016-06-28', 'Veron-Kevin'],
+            ['2016-06-28', 'Batista-Jean'],
         ];
         foreach ($inscs as $insc) {
             $entity = new Tap();
