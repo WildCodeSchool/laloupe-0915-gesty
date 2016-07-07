@@ -65,6 +65,14 @@ class MigrateFilesCommandTest extends KernelTestCase
         $this->path_old_uploads     = $testpath.'/old_uploads/';
         $this->path_new_uploads     = $testpath.'/new_uploads/';
 
+        if (!\is_dir($this->path_old_uploads)) {
+            @mkdir($this->path_old_uploads);
+        }
+
+        if (!\is_dir($this->path_new_uploads)) {
+            @mkdir($this->path_new_uploads);
+        }
+
         // copy all fake old uploads to the old upload folder that will be moved by the migrate files command
         foreach (glob($testpath.'fake_old_uploads/*') as $current_file_path) {
             $filename = pathinfo($current_file_path, PATHINFO_BASENAME);
