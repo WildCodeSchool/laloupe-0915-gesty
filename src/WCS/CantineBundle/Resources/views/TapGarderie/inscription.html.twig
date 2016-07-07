@@ -28,7 +28,7 @@
 
             <div class="col-md-12"><!-- TAP/Garderie -->
 
-                <h3 class="titre">Semaine type</h3>
+                <h3 class="titre">Période du {{ period_inclass.firstDate|date('d/m/Y') }} au {{ period_inclass.lastDate|date('d/m/Y') }}</h3>
 
                 {% include '@WCSCantine/TapGarderie/calendar.html.twig' %}
             </div>

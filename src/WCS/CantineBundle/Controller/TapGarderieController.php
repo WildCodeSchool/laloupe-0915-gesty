@@ -19,9 +19,9 @@ class TapGarderieController extends Controller
         $current_date        = $this->get('wcs.datenow')->getDate();
         $scheduler           = $this->get('wcs.gesty.scheduler');
         $period_school_year  = $scheduler->getCurrentOrNextSchoolYear($current_date);
-        $period_invoices     = $scheduler->getCurrentOrNextSchoolPeriod( $current_date );
+       // $period_invoices     = $scheduler->getCurrentOrNextSchoolPeriod( $current_date );
         $first_day_available = $scheduler->getFirstAvailableDate( $current_date, ActivityType::GARDERIE_MORNING );
-
+        $period_inclass      = $scheduler->getCurrentOrNextSchoolPeriod( $first_day_available );
         // pour les inscriptions :
         // prépare la période à partir de "demain" jusqu'au dernier jour de l'année scolaire
         $period_subscribes = new Period(
@@ -52,7 +52,7 @@ class TapGarderieController extends Controller
             'WCSCantineBundle:TapGarderie:inscription.html.twig',
             array(
                 "eleve" => $eleve,
-                "period_invoices" => $period_invoices,
+                "period_inclass" => $period_inclass,
                 "period_subscribes" => $period_subscribes,
                 "usual_dayoff" => ActivityType::getAllUsualDaysOff(),
                 "form" => $form->createView()

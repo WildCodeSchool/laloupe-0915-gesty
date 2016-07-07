@@ -191,7 +191,8 @@ class EleveController extends Controller
             'children'                  => $children,
             'files'                     => $this->getFiles($user, $nbChildrenVoyageInscrits),
             'children_activities'       => $children_activities,
-            'nbChildrenVoyageInscrits'  => $nbChildrenVoyageInscrits
+            'nbChildrenVoyageInscrits'  => $nbChildrenVoyageInscrits,
+            'period_subscriptions'      => $period_subscriptions
         ));
     }
 

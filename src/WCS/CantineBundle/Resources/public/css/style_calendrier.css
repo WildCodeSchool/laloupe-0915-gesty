@@ -153,9 +153,7 @@ input[type=checkbox].calendar-checkbox {
 	font-style: italic;
 }
 
-.calendar-checkbox {
-	transform: scale(2)
-}
+
 input [type='checkbox']:disabled {
 	background-color: grey;
 }

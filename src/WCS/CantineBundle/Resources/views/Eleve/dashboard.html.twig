@@ -253,7 +253,7 @@
 
                                 {% if child.division.school.activeTap or child.division.school.activeGarderie %}
                                     <div>
-                                        <p>Semaine type</p><br/>
+                                        <p>Période du {{ period_subscriptions.firstDate|date('d/m/Y') }} au {{ period_subscriptions.lastDate|date('d/m/Y') }}</p><br/>
 
                                         <div class="btn-group btn-group-justified" role="group">
                                             <a href="#" type="button" class="btn disabled btn-default">&nbsp;</a>
@@ -294,7 +294,7 @@
                                         </div>
                                         {% endif %}
 
-                                        <a href="{{ path('tapgarderie_inscription', {'id':child.id}) }}" class="btn btn-primary">Inscrire ou modifier la semaine type</a>
+                                        <a href="{{ path('tapgarderie_inscription', {'id':child.id}) }}" class="btn btn-primary">Inscrire ou modifier l'inscription</a>
                                     </div>
                                 {% else %}
                                     <div>
