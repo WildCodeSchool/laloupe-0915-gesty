@@ -163,17 +163,35 @@
         // ---------------------------------------------------------------------------------------------------
         // coche/décoche une case
         // ---------------------------------------------------------------------------------------------------
+        var checkOn = function(el, disabledAllowed) {
+            if (undefined == disabledAllowed && undefined != el.attr('disabled') ) {
+                return;
+            }
+            var cssclass = el.prop('class');
+            el.attr('class', cssclass.replace(/boxunchecked/g, 'boxchecked'));
+        };
+
+        var checkOff = function(el) {
+            if (undefined != el.attr('disabled')) {
+                return false;
+            }
+            var cssclass = el.prop('class');
+            el.prop('class', cssclass.replace(/boxchecked/g, 'boxunchecked'));
+            return true;
+        };
+
         var check_toggle = function(el) {
 
             var cssclass = el.prop('class');
 
-            if (undefined == el.prop('disabled')) {
-                if (cssclass.indexOf('boxchecked')>0) {
-                    el.prop('class', cssclass.replace(/boxchecked/g, 'boxunchecked'));
-                }
-                else {
-                    el.attr('class', cssclass.replace(/boxunchecked/g, 'boxchecked'));
-                }
+            if (undefined != el.attr('disabled')) {
+                return;
+            }
+            if (cssclass.indexOf('boxchecked')>0) {
+                checkOff(el);
+            }
+            else {
+                checkOn(el);
             }
         };
 
@@ -226,8 +244,11 @@
             day_week += (day_week <= 1)?1:2;
 
             $('.day'+day_week).each(function(i, el){
-                if (!el.disabled) {
-                    el.checked = elementHabitDay.checked;
+                if (elementHabitDay.checked) {
+                    checkOn($(el));
+                }
+                else {
+                    checkOff($(el));
                 }
             });
         };
@@ -259,14 +280,13 @@
         var unserializeDatesAndCheck = function()
         {
             var str = $('#WCS_cantinebundle_cantine_lunches').val();
-
             var dates = str.split(';');
 
             $('.calendar-checkbox').each(function(){
                 var obj = this;
 
-                if (dates.find( function(e) {return e==obj.value;} )) {
-                    obj.checked = true;
+                if (dates.find( function(e) {return e==$(obj).attr('value');} )) {
+                    checkOn($(obj), true);
                 }
             });
         };
@@ -278,13 +298,13 @@
         var serializeDatesChecked = function()
         {
             var dates = [];
-            $('.calendar-checkbox:checked').each(function(){
-                if (this.value) {
-                    dates.push(this.value);
+            $('.boxchecked').each(function(){
+                if ($(this).attr('value')!='') {
+                    dates.push($(this).attr('value'));
                 }
             });
             $('#WCS_cantinebundle_cantine_lunches').val(dates.join(";"));
-        }
+        };
 
         $('form[name="WCS_cantinebundle_cantine"]').submit(function(e){
             e.preventDefault();
@@ -293,8 +313,9 @@
         });
 
         $(".box")
-                .map(function() { $(this).css('cursor', 'pointer');})
-                .click(function(el){
+                .map(function() { $(this).css('cursor', 'pointer');});
+
+        $(".box").click(function(el){
                     check_toggle($(this));
                 });
 

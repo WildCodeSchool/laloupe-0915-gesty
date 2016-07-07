@@ -51,6 +51,9 @@
 
 .active {
 	color:  #5CAB18!important;
+	border: 2px solid #5CAB18!important;
+	border-radius: 4px;
+	padding: 0 10px;
 }
 
 .moisecole {
@@ -130,10 +133,10 @@ input[type=checkbox].calendar-checkbox {
 }
 
 .calendar-legend-square {
-    border: solid black 2px;
-    width: 15px;
-    height: 15px;
-    margin: 0 10px;
+    border: solid black 1px;
+    width: 25px;
+    height: 25px;
+    margin: 12px 10px 0 10px;
     display: inline-block;
 }
 
@@ -164,7 +167,7 @@ input [type='checkbox']:disabled {
 }
 .boxchecked:before {
 	content: '☑';
-	font-size:26pt;
+	font-size:24pt;
 	padding-right:10px;
 	color:#5CAB18;
 	font-style:normal;
@@ -172,7 +175,7 @@ input [type='checkbox']:disabled {
 }
 .boxunchecked:before {
 	content: '☐';
-	font-size:26pt;
+	font-size:24pt;
 	padding-right:10px;
 	color:#5CAB18;
 	font-style:normal;
@@ -180,7 +183,7 @@ input [type='checkbox']:disabled {
 }
 .boxchecked[disabled='disabled']:before {
 	content: '☑';
-	font-size:26pt;
+	font-size:24pt;
 	padding-right:10px;
 	color:#e4000c;
 	font-style:normal;
@@ -188,7 +191,7 @@ input [type='checkbox']:disabled {
 .legend_boxdisabled:before,
 .boxunchecked[disabled='disabled']:before {
 	content: '☐';
-	font-size:26pt;
+	font-size:24pt;
 	padding-right:10px;
 	color:#e4000c;
 	font-style:normal;
