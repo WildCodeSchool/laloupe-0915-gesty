@@ -10,12 +10,20 @@ class Lunch
 
     public function __toString()
     {
-        return (string) $this->getEleve();
+        //return (string) $this->getEleve();
+        return $this->date->format('Y-m-d');
     }
+
+    public function getStringDate()
+    {
+        return $this->date->format('Y-m-d');
+    }
+
+
     // GENERATED CODE
 
 
- 
+
     /**
      * @var integer
      */
@@ -35,6 +43,7 @@ class Lunch
      * @var \WCS\CantineBundle\Entity\Eleve
      */
     private $eleve;
+
 
 
     /**
@@ -118,4 +127,5 @@ class Lunch
     {
         return $this->eleve;
     }
+
 }

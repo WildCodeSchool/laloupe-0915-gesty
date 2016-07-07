@@ -15,7 +15,7 @@ file that was distributed with this source code.
 
 
 
-    <h2 class="welcome">Simplifiez vous l'accès aux services locaux</h2>
+    <h2 class="welcome">Simplifiez vous la vie !</h2>
 
     <img class="img-responsive center-block img-thumbnail enfants" src="{{ asset('bundles/wcscantine/images/enfants.jpg') }}" alt="Dessin d'enfants">
        <div class="row">
@@ -23,6 +23,7 @@ file that was distributed with this source code.
                 {% for mess in app.session.flashBag.get('fos_user_success') %}
                     <div class="alert alert-success">
                         {{ mess }}
+                    </div>
                 {% endfor %}
             </div>
         </div>
@@ -47,7 +48,7 @@ file that was distributed with this source code.
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
 
                     <div class="form-group">
-                        <label for="email"
+                        <label for="username"
                                class="col-lg-5 col-sm-5 control-label">Adresse e-mail</label>
 
                         <div class="col-lg-7 col-sm-7"><input type="text" class="form-control" id="username"

@@ -1,0 +1,39 @@
+                <h3><i class="fa fa-cutlery"></i> {{ weekTitle }}</h3>
+                <table id="userTable" class="table table-hover tablesorter table-bordered">
+                    <thead>
+                    <tr class="success">
+                        <th></th>
+                        <th>lundi</th>
+                        <th>mardi</th>
+                        <th>jeudi</th>
+                        <th>vendredi</th>
+                        <th>Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Repas sans porc</td>
+                            <td>{{ weekMealsNoPork.totalMonday }}</td>
+                            <td>{{ weekMealsNoPork.totalTuesday }}</td>
+                            <td>{{ weekMealsNoPork.totalThursday }}</td>
+                            <td>{{ weekMealsNoPork.totalFriday }}</td>
+                            <td>{{ weekMealsNoPork.total }}</td>
+                        </tr>
+                        <tr>
+                            <td>Repas avec porc</td>
+                            <td>{{ weekMeals.totalMonday }}</td>
+                            <td>{{ weekMeals.totalTuesday }}</td>
+                            <td>{{ weekMeals.totalThursday }}</td>
+                            <td>{{ weekMeals.totalFriday }}</td>
+                            <td>{{ weekMeals.total }}</td>
+                        </tr>
+                        <tr>
+                            <td>Repas </td>
+                            <td>{{ weekMealsNoPork.totalMonday      + weekMeals.totalMonday }}</td>
+                            <td>{{ weekMealsNoPork.totalTuesday     + weekMeals.totalTuesday }}</td>
+                            <td>{{ weekMealsNoPork.totalThursday    + weekMeals.totalThursday }}</td>
+                            <td>{{ weekMealsNoPork.totalFriday      + weekMeals.totalFriday }}</td>
+                            <td>{{ weekMealsNoPork.total            + weekMeals.total }}</td>
+                        </tr>
+                    </tbody>
+                </table>

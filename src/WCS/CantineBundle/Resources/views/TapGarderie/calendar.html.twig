@@ -1,0 +1,129 @@
+<!-- champ caché destiné à recevoir les dates de réservation -->
+{{ form_widget(form.taps) }}
+{{ form_widget(form.garderies) }}
+
+<br />
+<blockquote>
+    Inscrivez votre enfant en TAP et/ou en Garderie pour la période entière.
+    <br />La facturation sera pour la période entière
+
+</blockquote>
+
+<br />
+<div class="month" id="month4">
+    <table>
+        <thead>
+            <tr>
+                <th class="jourecole">&nbsp;</th>
+                <th class="jourecole">Lun</th>
+                <th class="jourecole">Mar</th>
+                <th class="jourecole">Mer</th>
+                <th class="jourecole">Jeu</th>
+                <th class="jourecole">Ven</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% include '@WCSCantine/TapGarderie/week_activity.html.twig' with { 'label': 'Garderie matin',  'name': 'dates_garderie[]', 'value_suffix': '-1',   'week': usual_dayoff[ constant('WCS\\CantineBundle\\Service\\GestyScheduler\\ActivityType::GARDERIE_MORNING') ] } %}
+            {% include '@WCSCantine/TapGarderie/week_activity.html.twig' with { 'label': 'TAP',             'name': 'dates_tap[]',      'value_suffix': '',     'week': usual_dayoff[ constant('WCS\\CantineBundle\\Service\\GestyScheduler\\ActivityType::TAP')] } %}
+            {% include '@WCSCantine/TapGarderie/week_activity.html.twig' with { 'label': 'Garderie soir',   'name': 'dates_garderie[]', 'value_suffix': '-2',   'week': usual_dayoff[ constant('WCS\\CantineBundle\\Service\\GestyScheduler\\ActivityType::GARDERIE_EVENING') ] } %}
+        </tbody>
+    </table>
+</div>
+<div class="calendar-legend">
+    <div class="row">
+        <div class="col-md-8">
+            <span class="calendar-legend-square inactif"></span>
+            Pas de TAP ou de Garderie
+        </div>
+    </div>
+</div>
+L'inscription ou la modification est effective à partir du
+<strong>{{ period_subscribes.firstDate|date('d/m/Y') }}</strong> inclus.
+<br />
+{% if eleve.tapgarderieSigned %}
+
+    <div id="warning" class="fa fa-exclamation-triangle" aria-hidden="true" style="display:none">
+        <span>Pensez à cliquer sur "Valider" pour enregistrer vos modifications.</span>
+    </div>
+
+{% endif %}
+
+
+<br />
+<br />
+
+
+<script>
+    window.addEventListener('load', function(){
+
+        // ---------------------------------------------------------------------------------------------------
+        // affiche un message d'avertissement
+        // ---------------------------------------------------------------------------------------------------
+        var showWarningText = function()
+        {
+            var item = $('#warning');
+
+            if (item) {
+                item.prop('style', 'display = "block"');
+            }
+
+        };
+
+        $('.day_garderie').click(function(el) {
+            if (!el.disabled) {
+                showWarningText();
+            }
+        });
+
+        // ---------------------------------------------------------------------------------------------------
+        // Coche les dates formattées
+        // ---------------------------------------------------------------------------------------------------
+        var unserializeDatesAndCheck = function(id)
+        {
+            var str = $(id).val();
+            var dates = str.split(';');
+
+            $('.calendar-checkbox').each(function(){
+                var obj = this;
+
+                if (dates.find( function(e) {return e==obj.value;} )) {
+                    obj.checked = true;
+                }
+            });
+        };
+
+        unserializeDatesAndCheck('#WCS_cantinebundle_tapgarderie_taps');
+        unserializeDatesAndCheck('#WCS_cantinebundle_tapgarderie_garderies');
+
+        // ---------------------------------------------------------------------------------------------------
+        // Formatte les dates cochées lorsque l'on valide le formulaire
+        // ---------------------------------------------------------------------------------------------------
+        var serializeDatesChecked = function()
+        {
+            var dates_garderies = [];
+            var dates_taps = [];
+
+            $('.calendar-checkbox:checked').each(function(){
+                if (this.value && this.name=='dates_garderie[]') {
+                    dates_garderies.push(this.value);
+                }
+                if (this.value && this.name=='dates_tap[]') {
+                    dates_taps.push(this.value);
+                }
+            });
+            $('#WCS_cantinebundle_tapgarderie_garderies').val(dates_garderies.join(";"));
+            $('#WCS_cantinebundle_tapgarderie_taps').val(dates_taps.join(";"));
+        };
+
+
+        $('.calendar-checkbox').on('change', function() {
+            serializeDatesChecked();
+        });
+
+        $('form[name="WCS_cantinebundle_tapgarderie"]').submit(function(e){
+            e.preventDefault();
+            serializeDatesChecked();
+            this.submit();
+        });
+    });
+</script>

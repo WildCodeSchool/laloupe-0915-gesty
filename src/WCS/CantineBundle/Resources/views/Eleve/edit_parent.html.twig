@@ -1,0 +1,222 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+{% extends "::base.html.twig" %}
+{% block title %}Enregistrement{% endblock %}
+
+  {% block body %}
+      {% block retour %}
+          <a href="{{ path('wcs_cantine_dashboard') }}">Retour</a>
+      {% endblock %}
+      <div class='container' role='main'>
+
+        <div class="row">
+            <div class="">
+          <center><h1>Les informations concernant mon foyer</h1></center>
+
+            </div>
+        </div>
+              <blockquote>
+                  <h5>
+                      Toute modification de vos informations ne sera mise en place qu'aprés vérification et validation par le service administratif.
+                  </h5>
+              </blockquote>
+
+          {{ form_start(form) }}
+          <div class="row">
+              <!--<form class="edit_home" id="edit_home_181" enctype="multipart/form-data" action="/homes/181" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" /><input type="hidden" name="authenticity_token" value="aQFRfA7WoIAqNrHnChqwC0c9ZItQKix1Hp7z05hpFf/dg/CfHidnJIsw63yeElcDN8/qlTkN1yAypVsN+hVqbA==" /> -->
+              <div class="col-md-offset-1 col-md-4">
+                  <div class="form-group">
+                      <label for="home_gender">Sexe</label>
+                      {{ form_widget(form.gender) }}
+                  </div>
+                  <div class="form-group">
+                      <label for="home_lastname">Nom *</label>
+                      {{ form_errors(form.lastname) }}
+                      {{ form_widget(form.lastname) }} <br/>
+                      <!--<input class="form-control" type="text" value="Wcs" name="home[lastname]" id="home_lastname" /> -->
+                  </div>
+                  <div class="form-group">
+                      <label for="home_firstname">Prénom *</label>
+                      {{ form_errors(form.firstname) }}
+                      {{ form_widget(form.firstname) }} <br/>
+                  </div>
+                  <div class="form-group">
+                      <label for="home_address_street">Adresse *</label>
+                      {{ form_errors(form.adresse) }}
+                      {{ form_widget(form.adresse) }} <br/>
+                  </div>
+                  <div class="form-group">
+                      <label for="home_address_postcode">Code postal *</label>
+                      {{ form_errors(form.codePostal) }}
+                      {{ form_widget(form.codePostal) }} <br/>
+                  </div>
+                  <div class="form-group">
+                      <label for="home_address_city">Commune *</label>
+                      {{ form_errors(form.commune) }}
+                      {{ form_widget(form.commune) }} <br/>
+                  </div>
+                  <div class="form-group">
+                      <label for="home_phone">Téléphone *</label>
+                      {{ form_errors(form.phone) }}
+                      {{ form_widget(form.phone) }}<br/>
+                  </div>
+                  <div class="form-group">
+                      <label for="home_phone_2">Téléphone secondaire (optionnel)</label>
+                      {{ form_errors(form.telephoneSecondaire) }}
+                      {{ form_widget(form.telephoneSecondaire) }} <br/>
+                  </div>
+              </div>
+
+              <div class="col-md-offset-1 col-md-5">
+                  <div class="form-group">
+                      <label for="home_caf">Numéro d&#39;allocataire CAF</label>
+                      {{ form_errors(form.caf) }}
+                      {{ form_widget(form.caf) }} <br/>
+                  </div>
+
+                  <label for="home_payment_method">Mode de paiement *</label>
+                  {{ form_errors(form.modeDePaiement) }}
+                  {{ form_widget(form.modeDePaiement) }}
+
+                  <div class="well">Si paiement par prélèvement :
+                      <div class="form-group">
+                          <label for="home_rib">Numéro IBAN du compte </label>
+                          {{ form_errors(form.numeroIban) }}
+                          {{ form_widget(form.numeroIban) }} <br/>
+                      </div>
+                      <div class="form-group">
+                          {{ form_errors(form.mandatActif) }}
+                          {{ form_widget(form.mandatActif) }}
+                          <label for="home_active_transfer">J&#39;ai déjà un mandat de prélèvement actif avec la Mairie</label>
+                      </div>
+                      <p>OU</p>
+
+                      <a target="_blank" href="{{ asset('bundles/wcscantine/règlement/Mandat_SEPA_mairie_la_loupe.pdf') }}">Je télécharge l&#39;autorisation de prélèvement</a> à retourner remplie et signée à la Mairie.
+
+                  </div>
+
+                  <h3>Déposez vos pièces justificatives</h3>
+                  <blockquote>Seules les images au format JPEG ou les fichiers .pdf sont acceptés</blockquote>
+                  <div class="form-group">
+                      <br>
+                        {{ form_label(form.file_prestations) }}
+                      <blockquote>datée de moins de 3 mois.</blockquote>
+                        {{ form_errors(form.file_prestations) }}
+                        {{ form_widget(form.file_prestations) }}
+                      <br />
+                      {% if entity.absolutePathPrestations %}
+                          <a href="{{ path('gesty_parent_download', {'type_file':constant('Application\\Sonata\\UserBundle\\Entity\\User::TYPE_PRESTATIONS')} ) }}" target="_blank">Consultez le document que vous avez déposé</a>
+                      {% else %}
+                          <em>Vous n'avez pas encore déposé de justificatif.</em>
+                      {% endif %}
+                  </div>
+
+                  <div class="form-group">
+                      <br>
+                      {{ form_label(form.file_domicile) }}
+                      <blockquote>Joindre un justificatif récent. À défaut le tarif hors commune sera appliqué.</blockquote>
+                      {{ form_errors(form.file_domicile) }}
+                      {{ form_widget(form.file_domicile) }}
+                      <br />
+                      {% if entity.absolutePathDomicile %}
+                          <a href="{{ path('gesty_parent_download', {'type_file':constant('Application\\Sonata\\UserBundle\\Entity\\User::TYPE_DOMICILE')} ) }}" target="_blank">Consultez le document que vous avez déposé</a>
+                      {% else %}
+                          <em>Vous n'avez pas encore déposé de justificatif.</em>
+                      {% endif %}
+                  </div>
+
+                  <div class="form-group">
+                      <br>
+                      {{ form_label(form.file_salaire_1) }}
+                      <blockquote>Joindre l'attestation des employeurs ou les 3 derniers bulletins de salaire des parents ou du parent isolé.</blockquote>
+
+                      {{ form_errors(form.file_salaire_1) }}
+                      {{ form_widget(form.file_salaire_1) }}
+                      <br />
+                      {% if entity.absolutePathSalaire1 %}
+                          <a href="{{ path('gesty_parent_download', {'type_file':constant('Application\\Sonata\\UserBundle\\Entity\\User::TYPE_SALAIRE1')} ) }}" target="_blank">Consultez le document que vous avez déposé</a>
+                      {% else %}
+                          <em>Vous n'avez pas encore déposé de justificatif.</em>
+                      {% endif %}
+                        <br />
+                        <br />
+
+                      {{ form_label(form.file_salaire_2) }}
+                      {{ form_errors(form.file_salaire_2) }}
+                      {{ form_widget(form.file_salaire_2) }}
+                      <br />
+                      {% if entity.absolutePathSalaire2 %}
+                          <a href="{{ path('gesty_parent_download', {'type_file':constant('Application\\Sonata\\UserBundle\\Entity\\User::TYPE_SALAIRE2')} ) }}" target="_blank">Consultez le document que vous avez déposé</a>
+                      {% else %}
+                          <em>Vous n'avez pas encore déposé de justificatif.</em>
+                      {% endif %}
+                        <br />
+                        <br />
+
+                      {{ form_label(form.file_salaire_3) }}
+                      {{ form_errors(form.file_salaire_3) }}
+                      {{ form_widget(form.file_salaire_3) }}
+                      <br />
+                      {% if entity.absolutePathSalaire3 %}
+                          <a href="{{ path('gesty_parent_download', {'type_file':constant('Application\\Sonata\\UserBundle\\Entity\\User::TYPE_SALAIRE3')} ) }}" target="_blank">Consultez le document que vous avez déposé</a>
+                      {% else %}
+                          <em>Vous n'avez pas encore déposé de justificatif.</em>
+                      {% endif %}
+
+                  </div>
+
+
+                  <div class="form-group" {{ nbChildrenVoyageInscrits?'':'style="display:none"' }}>
+                      <br>
+                      {{ form_label(form.file_impots) }}
+                      <blockquote>Un de vos enfants est inscrit à un voyage scolaire, veuillez joindre votre dernier avis d'imposition.</blockquote>
+                      {{ form_errors(form.file_impots) }}
+                      {{ form_widget(form.file_impots) }}
+                      <br />
+                      {% if entity.absolutePathImpot %}
+                          <a href="{{ path('gesty_parent_download', {'type_file':constant('Application\\Sonata\\UserBundle\\Entity\\User::TYPE_IMPOTS')} ) }}" target="_blank">Consultez le document que vous avez déposé</a>
+                      {% else %}
+                          <em>Vous n'avez pas encore déposé de justificatif.</em>
+                      {% endif %}
+                  </div>
+              </div>
+          </div>
+
+
+
+          <div class="col-md-6 col-md-offset-3">
+              <h6 id="champs">* champs obligatoire</h6><br>
+
+
+              {% if app.session.flashBag.has('success1') %}
+                  <div class="alert alert-danger">
+                      {% for msg in app.session.flashBag.get('success1') %}
+                          {{ msg }}
+                      {% endfor %}
+                  </div>
+              {% endif %}
+              <input id="informations_envoyer" type="submit" name="commit" value="Enregistrer" class="btn btn-primary btn-lg btn-block">
+              <div class="hidden">{{ form_widget(form.envoyer) }}</div> <br/>
+
+              ou
+              <!-- <a href="/homes/181">Annuler</a> -->
+
+              <blockquote>
+
+                  Après avoir enregistré, laisser la page ouverte tant que vous n'avez pas été redirigé pour permettre le chargement des pièces jointes</blockquote>
+          </div>
+
+          {{ form_end(form) }}
+          <!-- </form> -->
+
+      </div>
+  {% endblock %}
+

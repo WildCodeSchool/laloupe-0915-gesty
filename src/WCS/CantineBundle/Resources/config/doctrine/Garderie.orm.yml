@@ -1,0 +1,38 @@
+WCS\CantineBundle\Entity\Garderie:
+    type: entity
+    table: null
+    repositoryClass: WCS\CantineBundle\Entity\GarderieRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        date:
+            type: date
+            nullable: true
+        status:
+            type: integer
+            length: 1
+            nullable: true
+        enable_morning:
+            type: boolean
+            nullable: false
+            options:
+                default: false
+        enable_evening:
+            type: boolean
+            nullable: false
+            options:
+                default: false
+        subscribed_by_parent:
+            type: boolean
+            nullable: false
+
+    lifecycleCallbacks: {  }
+
+    manyToOne:
+        eleve:
+            targetEntity: WCS\CantineBundle\Entity\Eleve
+            inversedBy: garderies

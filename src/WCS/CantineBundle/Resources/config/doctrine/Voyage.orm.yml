@@ -1,0 +1,42 @@
+WCS\CantineBundle\Entity\Voyage:
+    type: entity
+    table: null
+    repositoryClass: WCS\CantineBundle\Entity\VoyageRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        libelle:
+            type: string
+            length: 255
+        date_debut:
+            type: datetime
+            nullable: false
+        date_fin:
+            type: datetime
+            nullable: false
+        estAnnule:
+            type: boolean
+            column: est_annule
+            nullable: false
+        estSortieScolaire:
+            type: boolean
+            column: est_sortie_scolaire
+            nullable: false
+            options:
+                default: false
+
+    lifecycleCallbacks: {  }
+
+    manyToMany:
+        eleves:
+            targetEntity: WCS\CantineBundle\Entity\Eleve
+            mappedBy: voyages
+        divisions:
+            targetEntity: WCS\CantineBundle\Entity\Division
+            inversedBy: voyages
+            joinTable:
+                name: division_voyage

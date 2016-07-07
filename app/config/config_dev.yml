@@ -1,11 +1,17 @@
 imports:
     - { resource: config.yml }
 
+parameters:
+
+    wcs.datenow.date: '2016-06-21'
+
 framework:
     router:
         resource: "%kernel.root_dir%/config/routing_dev.yml"
         strict_requirements: true
     profiler: { only_exceptions: false }
+    session:
+        gc_probability: 0
 
 web_profiler:
     toolbar: true
@@ -46,3 +52,4 @@ assetic:
 
 #swiftmailer:
 #    delivery_address: me@example.com
+# Swiftmailer Configuration

@@ -12,10 +12,31 @@ WCS\CantineBundle\Entity\Feries:
         annee:
             type: string
             length: 4
+        jour_an:
+            type: date
         paques:
+            type: date
+        fete_travail:
+            type: date
+        huit_mai:
             type: date
         ascension:
             type: date
+        vendredi_ascension:
+            type: date
         pentecote:
             type: date
-    lifecycleCallbacks: {  }
+        fete_national:
+            type: date
+        assomption:
+            type: date
+        toussaint:
+            type: date
+        armistice:
+            type: date
+        noel:
+            type: date
+
+    lifecycleCallbacks:
+        prePersist: [ onPreChangeFixedDays ]
+        preUpdate: [ onPreChangeFixedDays ]

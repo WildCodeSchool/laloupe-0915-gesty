@@ -1,0 +1,58 @@
+{% extends 'WCSCantineBundle:Admin:standard_layout.html.twig' %}
+
+
+{% block content %}
+    <a class="btn btn-sm btn-default edit_link" title="Retour" href="{{ path('sonata_admin_dashboard') }}">
+        <i class="glyphicon glyphicon-edit"></i>
+        Retour
+    </a>
+
+    <h3><i class="fa fa-cutlery">&nbsp;</i>Pour facturation mensuelle</h3>
+
+    <form method="POST" action="{{ path('stat') }}" name="form_months">
+
+        <select id="month_selected" name="month_selected" title="Sélection du mois de facturation">
+            {% for month in list_months %}
+            <option value="{{ month|date('Y-m') }}" {{ month_selected == month|date('Y-m') ? 'selected = "selected" ':'' }}>{{ month|date('m/Y') }}</option>
+            {% endfor %}
+        </select>
+
+    </form>
+
+    <table id="userTable" class="table table-hover tablesorter table-bordered">
+        <thead>
+         <tr class="success">
+            <th>Classe</th>
+            <th>Eleve</th>
+            <th>Parent</th>
+            <th>Tap/Garderie</th>
+            <th>Cantine</th>
+         </tr>
+
+        </thead>
+
+        <tbody>
+        {% for stat in stats %}
+        <tr>
+            <td>{{ stat['ecole'] }} - {{ stat['classe'] }}</td>
+            <td>{{ stat['eleve_nom'] }} {{ stat['eleve_prenom'] }}</td>
+            <td>{{ stat['parent_nom'] == '' ? stat['parent_email'] : stat['parent_nom'] ~ ' ' ~ stat['parent_prenom'] }}</td>
+            <td>{{ stat['total_tapgarderie'] }}</td>
+            <td>{{ stat['total_cantine'] }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+
+        $(window).ready(function() {
+            $('#month_selected').on('change', function() {
+                document.forms['form_months'].submit();
+            });
+
+        });
+    </script>
+{% endblock %}

@@ -9,7 +9,6 @@ class Division
 {
     public function __toString(){
         return ucwords($this->headTeacher).' - '.$this->school. ' - ' .$this->grade;
-        //return '';
     }
 
 
@@ -41,11 +40,17 @@ class Division
     private $school;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $voyages;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->eleves = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->voyages = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -162,5 +167,39 @@ class Division
     public function getSchool()
     {
         return $this->school;
+    }
+
+    /**
+     * Add voyage
+     *
+     * @param \WCS\CantineBundle\Entity\Voyage $voyage
+     *
+     * @return Division
+     */
+    public function addVoyage(\WCS\CantineBundle\Entity\Voyage $voyage)
+    {
+        $this->voyages[] = $voyage;
+
+        return $this;
+    }
+
+    /**
+     * Remove voyage
+     *
+     * @param \WCS\CantineBundle\Entity\Voyage $voyage
+     */
+    public function removeVoyage(\WCS\CantineBundle\Entity\Voyage $voyage)
+    {
+        $this->voyages->removeElement($voyage);
+    }
+
+    /**
+     * Get voyages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getVoyages()
+    {
+        return $this->voyages;
     }
 }

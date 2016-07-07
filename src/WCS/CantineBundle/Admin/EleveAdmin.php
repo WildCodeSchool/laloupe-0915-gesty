@@ -6,30 +6,42 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-use Symfony\Component\Validator\Constraints\DateTime;
-use WCS\CantineBundle\Entity\EleveRepository;
-use WCS\CantineBundle\Entity\LunchRepository;
-use WCS\CantineBundle\Entity\Eleve;
+use Scheduler\Component\DateContainer\DateNow;
+
 
 class EleveAdmin extends Admin
 {
+    /**
+     * @var DateNow
+     */
+    private $date_now_service;
+
+    public function __construct($code, $class, $baseControllerName, DateNow $date_now_service)
+    {
+        $this->date_now_service = $date_now_service;
+        parent::__construct($code, $class, $baseControllerName);
+    }
 
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $year = $this->date_now_service->getDate()->format('Y');
+
         $formMapper
             ->add('user',null,array('label'=>'Email des parents'))
             ->add('nom','text')
             ->add('prenom', 'text')
             ->add('dateDeNaissance', 'date', array(
                 'format' => 'dd-MM-yyyy',
-                'years' =>  range(\date("Y") - 11, \date("Y") - 2),))
+                'years' =>  range($year - 11, $year - 2),))
             ->add('regimeSansPorc', null, array('required' => false))
             ->add('allergie',null ,array('required' => false))
             ->add('division', 'entity', array(
                 'class' => 'WCSCantineBundle:Division',
+                'label' => 'Classe',
                 'required'=>true ))
         ;
     }
@@ -49,20 +61,21 @@ class EleveAdmin extends Admin
 
     protected function configureShowFields(ShowMapper $datagridMapper)
     {
+        $year = $this->date_now_service->getDate()->format('Y');
+
         $datagridMapper
             ->add('user',null,array('label'=>'Email des parents'))
             ->add('nom','text')
             ->add('prenom', 'text')
             ->add('dateDeNaissance', 'date', array(
                 'format' => 'd-M-Y',
-                'years' =>  range(\date("Y") - 11, \date("Y") - 2),))
+                'years' =>  range($year - 11, $year - 2),))
             ->add('regimeSansPorc', null, array('required' => false))
             ->add('allergie',null ,array('required' => false))
             ->add('division', 'entity', array(
                 'class' => 'WCSCantineBundle:Division',
                 'required'=>true,
                 'label' => 'classe'))
-            //->add('habits')
         ;
 
     }
@@ -71,21 +84,21 @@ class EleveAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('id')
             ->add('nom', 'text')
             ->add('prenom', 'text')
             ->add('dateDeNaissance', 'date', array('format' => 'd/m/Y',))
             ->add('division','choice', array('label'=>'Classe'))
             ->add('user',null, array('label'=>'Email des parents'))
-            ->add('_action', 'actions', array('actions' => array(
-                'edit' => array(),
-                'delete' => array(),
-            )))
             ->add('allergie', 'text')
             ->add('regimeSansPorc', 'boolean')
+            ->add('_action', 'actions',
+                array('actions' => array(
+
+                    'edit' => array(),
+                    'delete' => array(),
+            )))
 
         ;
     }
-
 
 }

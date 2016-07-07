@@ -24,6 +24,13 @@ use Sonata\UserBundle\Entity\BaseUser as BaseUser;
  */
 class User extends BaseUser
 {
+    const TYPE_DOMICILE     = 1;
+    const TYPE_PRESTATIONS  = 2;
+    const TYPE_SALAIRE1     = 3;
+    const TYPE_SALAIRE2     = 4;
+    const TYPE_SALAIRE3     = 5;
+    const TYPE_IMPOTS       = 6;
+
     public function setEmail($email){
         parent::setEmail($email);
         parent::setUsername($email);
@@ -35,23 +42,60 @@ class User extends BaseUser
         $this->enabled = false;
         if ($id) $this->id = $id;
     }
+
     //Gestion des uploads
 
-    public $file_domicile;
-    public $file_prestations;
-    public $file_salaire_1;
-    public $file_salaire_2;
-    public $file_salaire_3;
+    /**
+     * @var \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
 
+    public $file_domicile;
+    /**
+     * @var \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
+
+    public $file_prestations;
+    /**
+     * @var \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
+
+    public $file_salaire_1;
+    /**
+     * @var \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
+
+    public $file_salaire_2;
+    /**
+     * @var \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
+
+    public $file_salaire_3;
+    /**
+     * @var \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
+    public $file_impots;
+
+    private $upload_absolute_path;
+    private $upload_folder;
+
+    public function setUploadFolder($folder)
+    {
+        $this->upload_folder = $folder;
+    }
+
+    public function setUploadAbsolutePath($absolutePath)
+    {
+        $this->upload_absolute_path = $absolutePath;
+    }
 
     protected function getUploadDir()
     {
-        return 'uploads';
+        return $this->upload_folder;
     }
 
     protected function getUploadRootDir()
     {
-        return __DIR__.'/../../../../../web/bundles/wcscantine/'.$this->getUploadDir();
+        return $this->upload_absolute_path;
     }
 
     public function getWebPathDomicile()
@@ -91,6 +135,7 @@ class User extends BaseUser
     {
         return null === $this->path_salaire_2 ? null : $this->getUploadRootDir().'/'.$this->path_salaire_2;
     }
+
     public function getWebPathSalaire3()
     {
         return null === $this->path_salaire_3 ? null : $this->getUploadDir().'/'.$this->path_salaire_3;
@@ -99,6 +144,16 @@ class User extends BaseUser
     public function getAbsolutePathSalaire3()
     {
         return null === $this->path_salaire_3 ? null : $this->getUploadRootDir().'/'.$this->path_salaire_3;
+    }
+
+    public function getWebPathImpot()
+    {
+        return null === $this->path_impots ? null : $this->getUploadDir().'/'.$this->path_impots;
+    }
+
+    public function getAbsolutePathImpot()
+    {
+        return null === $this->path_impots ? null : $this->getUploadRootDir().'/'.$this->path_impots;
     }
 
 
@@ -125,33 +180,40 @@ class User extends BaseUser
             // do whatever you want to generate a unique name
             $this->path_salaire_3 = uniqid().'.'.$this->file_salaire_3->guessExtension();
         }
+        if  (null !== $this->file_impots) {
+            // do whatever you want to generate a unique name
+            $this->path_impots = uniqid().'.'.$this->file_impots->guessExtension();
+        }
 
     }
 
     public function upload()
     {
-        if (null != $this->file_domicile) {
+        if (!is_null($this->file_domicile)) {
             $this->file_domicile->move($this->getUploadRootDir(), $this->path_domicile);
             unset($this->file_domicile);
         }
 
-        if (null != $this->file_prestations) {
+        if (!is_null($this->file_prestations)) {
             $this->file_prestations->move($this->getUploadRootDir(), $this->path_prestations);
             unset($this->file_prestations);
         }
-        if (null != $this->file_salaire_1) {
+        if (!is_null($this->file_salaire_1)) {
             $this->file_salaire_1->move($this->getUploadRootDir(), $this->path_salaire_1);
             unset($this->file_salaire_1);
         }
-        if (null != $this->file_salaire_2) {
+        if (!is_null($this->file_salaire_2)) {
             $this->file_salaire_2->move($this->getUploadRootDir(), $this->path_salaire_2);
             unset($this->file_salaire_2);
         }
-        if (null != $this->file_salaire_3) {
+        if (!is_null($this->file_salaire_3)) {
             $this->file_salaire_3->move($this->getUploadRootDir(), $this->path_salaire_3);
             unset($this->file_salaire_3);
         }
-
+        if (!is_null($this->file_impots)) {
+            $this->file_impots->move($this->getUploadRootDir(), $this->path_impots);
+            unset($this->file_impots);
+        }
     }
 
 
@@ -170,6 +232,9 @@ class User extends BaseUser
             unlink($file);
         }
         if ($file = $this->getAbsolutePathSalaire3()) {
+            unlink($file);
+        }
+        if ($file = $this->getAbsolutePathImpot()) {
             unlink($file);
         }
     }
@@ -248,10 +313,14 @@ class User extends BaseUser
     private $path_salaire_3;
 
     /**
+     * @var string
+     */
+    private $path_impots;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $eleves;
-
 
     /**
      * Set adresse
@@ -590,13 +659,37 @@ class User extends BaseUser
     }
 
     /**
+     * Set pathImpots
+     *
+     * @param string $pathImpots
+     *
+     * @return User
+     */
+    public function setPathImpots($pathImpots)
+    {
+        $this->path_impots = $pathImpots;
+
+        return $this;
+    }
+
+    /**
+     * Get pathImpots
+     *
+     * @return string
+     */
+    public function getPathImpots()
+    {
+        return $this->path_impots;
+    }
+
+    /**
      * Add elefe
      *
      * @param \WCS\CantineBundle\Entity\Eleve $elefe
      *
      * @return User
      */
-    public function addElefe(\WCS\CantineBundle\Entity\Eleve $elefe)
+    public function addElefe($elefe)
     {
         $this->eleves[] = $elefe;
 
@@ -608,7 +701,7 @@ class User extends BaseUser
      *
      * @param \WCS\CantineBundle\Entity\Eleve $elefe
      */
-    public function removeElefe(\WCS\CantineBundle\Entity\Eleve $elefe)
+    public function removeElefe($elefe)
     {
         $this->eleves->removeElement($elefe);
     }

@@ -20,6 +20,10 @@ use FOS\UserBundle\Model\UserManagerInterface;
 
 class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
 {
+    /**
+     * @var UserManagerInterface
+     */
+    private $userManager;
 
     /**
      * {@inheritdoc}
@@ -67,10 +71,17 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                 'label'=>'moyen de paiement'),array(
                 'Cheque' => 'Chèque',
                 'Especes' => 'Espèces',
-                'Prelevements' => 'Prélèvements'
+                'Prelevements' => 'Prélèvements',
+                'Carte Bancaire' => 'Carte Bancaire',
+
+
+
             ))
-            ->add('path_domicile', null, array('label' => 'Pièces jointes','template' => 'WCSCantineBundle:User:files_list.html.twig'))
-            ->add('eleves',null,array('label'=>'Nom enfant(s)'))
+            ->add('path_domicile',
+                null,
+                array('label' => 'Pièces jointes','template' => 'WCSCantineBundle:User:files_list.html.twig')
+            )
+            ->add('eleves',null,array('label'=>'Nom enfant(s)', 'admin_code'=>'sonata.admin.eleve'))
             ->add('enabled', null, array('editable' => true))
             ->add('_action', 'actions', array('label'=>'Action','actions' => array(
                 'edit' => array(),
@@ -90,16 +101,14 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
     {
         $filterMapper
 
-            ->add('username',null,array('label'=>'email'))
-            ->add('lastname')
-            ->add('firstname')
-            ->add('modeDePaiement','doctrine_orm_choice', array('label'=>'mode de paiement'),'choice' , array('placeholder'=>'Sélectionnez',
-                'choices' => array('Cheque' => 'Chèque', 'Especes' => 'Especes', 'Prelevements' => 'Prélèvements')))
 
-
-
-
-        ;
+            ->add('username',null,array('label'=>'Email'))
+            ->add('lastname',null,array('label'=>'Nom'))
+            ->add('firstname',null,array('label'=>'Prénom'))
+            ->add('modeDePaiement', 'doctrine_orm_choice', array('label'=>'Mode de paiement'),
+                'choice' ,
+                array(
+                    'choices' => array('Cheque' => 'Chèque', 'Especes' => 'Especes', 'Prélèvements' => 'Prélèvements', 'Carte Bancaire' => 'Carte Bancaire')));
     }
 
     /**
@@ -159,8 +168,9 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
                 'label'=>'mode de paiement',
                 'required'=>false,
                 'choices'=>array(
-                    ''=>'Sélectionnez','Cheque'=>'Chèque','Especes'=>'Espèces','Prelevements'=>'Prélèvements'
-                )
+
+                    ''=>'Sélectionnez','Cheque'=>'Chèque','Especes'=>'Espèces','Prélèvements'=>'Prélèvements','Carte Bancaire'=>'Carte Bancaire'
+              )
             ))
             ->add('validation',null, array('label'=>'Validation du compte', 'required'=>false))
             ->end()

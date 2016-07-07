@@ -8,17 +8,26 @@ class DashboardController extends Controller
 {
     public function indexAction()
     {
+        $role = $this->get('security.authorization_checker');
 
         $user = $this->getUser();
         if (!$user)
         {
-            return $this->redirect($this->generateUrl('sonata_user_security_login'));
+            return $this->redirectToRoute('sonata_user_security_login');
         }
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
+/*
+        if ($role->isGranted('ROLE_SONATA_ADMIN')) {
+            return $this->redirectToRoute('_sonata_admin');
+        }
+*/
+        if ($role->isGranted('ROLE_ADMIN') ||
+            $role->isGranted('ROLE_CANTINE') ||
+            $role->isGranted('ROLE_TAP') ||
+            $role->isGranted('ROLE_GARDERIE'))
         {
-            return $this->redirect($this->generateUrl('wcs_gesty_ecoles'));
+            return $this->redirectToRoute('wcs_employee_home');
         }
-        return $this->render('WCSGestyBundle:Dashboard:index.html.twig');
 
+        return $this->redirectToRoute('wcs_cantine_dashboard');
     }
 }

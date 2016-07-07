@@ -1,5 +1,6 @@
 WCS\CantineBundle\Entity\Division:
     type: entity
+    repositoryClass: WCS\CantineBundle\Entity\DivisionRepository
     id:
         id:
             type: integer
@@ -27,3 +28,9 @@ WCS\CantineBundle\Entity\Division:
             targetEntity: WCS\CantineBundle\Entity\Eleve
             mappedBy: division
             cascade: {persist, remove}
+    manyToMany:
+        voyages:
+            targetEntity: Voyage
+            mappedBy: divisions
+
+

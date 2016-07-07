@@ -41,6 +41,26 @@ class School
     private $phone;
 
     /**
+     * @var boolean
+     */
+    private $active_cantine;
+
+    /**
+     * @var boolean
+     */
+    private $active_tap;
+
+    /**
+     * @var boolean
+     */
+    private $active_garderie;
+
+    /**
+     * @var boolean
+     */
+    private $active_voyage;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $divisions;
@@ -51,6 +71,10 @@ class School
     public function __construct()
     {
         $this->divisions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->active_cantine = true;
+        $this->active_tap = false;
+        $this->active_garderie = false;
+        $this->active_voyage = false;
     }
 
     /**
@@ -133,6 +157,103 @@ class School
     public function getPhone()
     {
         return $this->phone;
+    }
+
+
+    /**
+     * Set active cantine
+     *
+     * @param bool $active
+     *
+     * @return School
+     */
+    public function setActiveCantine($active)
+    {
+        $this->active_cantine = $active;
+
+        return $this;
+    }
+
+    /**
+     * Is cantine active
+     *
+     * @return bool
+     */
+    public function getActiveCantine()
+    {
+        return $this->active_cantine;
+    }
+
+    /**
+     * Set active tap
+     *
+     * @param bool $active
+     *
+     * @return School
+     */
+    public function setActiveTap($active)
+    {
+        $this->active_tap = $active;
+
+        return $this;
+    }
+
+    /**
+     * Is tap active
+     *
+     * @return bool
+     */
+    public function getActiveTap()
+    {
+        return $this->active_tap;
+    }
+
+    /**
+     * Set active garderie
+     *
+     * @param bool $active
+     *
+     * @return School
+     */
+    public function setActiveGarderie($active)
+    {
+        $this->active_garderie = $active;
+
+        return $this;
+    }
+
+    /**
+     * Is garderie active
+     *
+     * @return bool
+     */
+    public function getActiveGarderie()
+    {
+        return $this->active_garderie;
+    }
+
+    /**
+     * Set active voyage
+     *
+     * @param bool $active
+     *
+     * @return School
+     */
+    public function setActiveVoyage($active)
+    {
+        $this->active_voyage = $active;
+
+        return $this;
+    }
+
+    /**
+     * Is voyage active
+     *
+     * @return bool
+     */
+    public function getActiveVoyage()
+    {
+        return $this->active_voyage;
     }
 
     /**

@@ -11,7 +11,6 @@
 
 namespace Application\Sonata\UserBundle\Controller;
 
-use FOS\UserBundle\Controller\ResettingController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 

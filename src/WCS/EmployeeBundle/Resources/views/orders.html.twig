@@ -1,0 +1,30 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
+        <a href="{{ path('wcs_employee_schools', {'activity': 'cantine'}) }}" class="btn__retour">Retour</a>
+        <center><h1>Restaurant scolaire : Récapitulatifs</h1></center>
+    </div>
+
+
+    <div class="container-fluid">
+        <div class="table-responsive">
+            {% include 'WCSCantineBundle:Block:statsweek.html.twig' with
+            {   'weekTitle': 'Repas de la semaine',
+            'weekMealsNoPork': statsWeek['currentWeekMealsNoPork'],
+            'weekMeals': statsWeek['currentWeekMealsRegular']
+            }
+            %}
+        </div>
+
+        <div class="table-responsive">
+            {% include 'WCSCantineBundle:Block:statsweek.html.twig' with
+            {   'weekTitle': 'Repas de la semaine prochaine',
+            'weekMealsNoPork': statsWeek['nextWeekMealsNoPork'],
+            'weekMeals': statsWeek['nextWeekMealsRegular']
+            }
+            %}
+        </div>
+
+    </div>
+{% endblock %}

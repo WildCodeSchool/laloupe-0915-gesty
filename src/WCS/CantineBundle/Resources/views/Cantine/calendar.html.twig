@@ -1,0 +1,326 @@
+<!-- champ caché destiné à recevoir les dates de réservation -->
+{{ form_widget(form.lunches) }}
+
+{% if calendrier %}
+
+<!-- Année scolaire -->
+<div class="anneescolaire">
+    {{ calendrier.yearPeriod.firstDate|date('Y') }}
+    / {{ calendrier.yearPeriod.lastDate|date('Y') }}
+</div>
+
+<!-- Jours habituels d'inscription à la cantine -->
+
+<div class="semaine">
+    {% for jour_habituel in form.habits %}
+        <div class="choix">
+            {{ form_widget(jour_habituel) }}
+            {{ form_label(jour_habituel) }}
+        </div>
+    {% endfor %}
+</div>
+
+<!-- selection du mois à afficher -->
+
+<div class="months text-center">
+    <a class="moisecole" href="#" id="linkMonth09">Sep</a>
+    <a class="moisecole" href="#" id="linkMonth10">Oct</a>
+    <a class="moisecole" href="#" id="linkMonth11">Nov</a>
+    <a class="moisecole" href="#" id="linkMonth12">Déc</a>
+    <a class="moisecole" href="#" id="linkMonth01">Jan</a>
+    <a class="moisecole" href="#" id="linkMonth02">Fév</a>
+    <a class="moisecole" href="#" id="linkMonth03">Mar</a>
+    <a class="moisecole" href="#" id="linkMonth04">Avr</a>
+    <a class="moisecole" href="#" id="linkMonth05">Mai</a>
+    <a class="moisecole" href="#" id="linkMonth06">Juin</a>
+    <a class="moisecole" href="#" id="linkMonth07">Juil</a>
+</div>
+
+
+    <!-- page du mois -->
+<div class="">
+
+        {% for month in calendrier.yearPeriod.monthIterator %}
+            <div class="month" id="month{{ month|date('m') }}" style="display:none;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="jourecole">Lun</th>
+                            <th class="jourecole">Mar</th>
+                            <th class="jourecole">Mer</th>
+                            <th class="jourecole">Jeu</th>
+                            <th class="jourecole">Ven</th>
+                            <th class="jourecole">Sam</th>
+                            <th class="jourecole">Dim</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {#
+                            une ligne du tableau = une semaine dans le mois
+                        #}
+                        <tr>
+                        {% for jour in calendrier.days(month|date('m')) %}
+                            {#
+                                on affiche des cellules vides si le mois commence au cours de la semaine.
+                            #}
+                            {% if jour.day == 1 and jour.weekDay != 1 %}
+                                <td colspan="{{ jour.weekDay - 1 }}"></td>
+                            {% endif %}
+
+                            {#
+                                selon les particularités de la journée, la cellule est affichée différemment
+                            #}
+
+                            {% set isReserved = eleve.dateInLunches(jour.dateString) %}
+
+                            {% if jour.isOff %}
+                                <td class="inactif">
+
+                            {% elseif jour.dateString < first_day_available|date('Y-m-d') %}
+                                {% set disabled='disabled="disabled"' %}
+
+                                <td class="calendar-reservation-over">
+                                {% if isReserved %}
+                                    <!--
+                                    <input disabled="disabled" class="calendar-checkbox day{{ jour.weekDay }}" type="checkbox" title="{{ jour }}" value="{{ jour }}" name="dates[]">
+                                    -->
+                                    <i disabled="disabled" class="box boxunchecked calendar-checkbox day{{ jour.weekDay }}" title="{{ jour }}" value="{{ jour }}" name="dates[]"> </i>
+                                {% else %}
+                                    <!--
+                                    <input disabled="disabled" class="calendar-checkbox day{{ jour.weekDay }}" type="checkbox" title="{{ jour }}" value="" name="dates[]">
+                                    -->
+                                    <i disabled="disabled" class="box boxunchecked calendar-checkbox day{{ jour.weekDay }}" title="{{ jour }}" value="{{ jour }}" name="dates[]"> </i>
+                                {% endif %}
+
+                            {% else %}
+
+                                <td>
+                                    <!--
+                                     <input class="calendar-checkbox day{{ jour.weekDay }}" type="checkbox" title="{{ jour }}" value="{{ jour }}" name="dates[]">
+                                     -->
+                                    <i class="box boxunchecked calendar-checkbox day{{ jour.weekDay }}" title="{{ jour }}" value="{{ jour }}" name="dates[]"> </i>
+                            {% endif %}
+
+                            {#
+                                Affiche le numéro du jour dans le mois
+                            #}
+                            {{ jour.day }}
+                                </td>
+
+                            {#
+                                On passe à la semaine suivante
+                            #}
+                            {% if (jour.weekDay == 7) %}
+                            </tr><tr>
+                            {% endif %}
+
+                        {% endfor %}
+                        </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+        {% endfor %}
+</div>
+
+<br />
+
+<div class="calendar-legend text-center col-md-12">
+    <div class="row">
+        <div class="col-md-3">
+            <span class="boxunchecked"></span>
+            Réservable
+        </div>
+        <div class="col-md-3">
+            <span class="legend_boxdisabled"></span>
+            Non réservable
+        </div>
+        <div class="col-md-4">
+            <span class="calendar-legend-square inactif"></span>
+            Pas de cantine ce jour
+        </div>
+    </div>
+</div>
+    Vous pouvez inscrire votre enfant à partir du <strong>{{ first_day_available|date('d/m/Y') }}</strong>
+    <br />
+    {% if eleve.canteenSigned %}
+
+        <div id="warning" class="fa fa-exclamation-triangle" aria-hidden="true" style="display:none">
+            <span>Pensez à cliquer sur "Valider" pour enregistrer vos modifications.</span>
+        </div>
+
+    {% endif %}
+    <br />
+    <br />
+
+
+<script>
+    window.addEventListener('load', function(){
+        var today = new Date('{{ first_day_available|date('Y-m-d') }}');
+
+        // ---------------------------------------------------------------------------------------------------
+        // coche/décoche une case
+        // ---------------------------------------------------------------------------------------------------
+        var checkOn = function(el, disabledAllowed) {
+            if (undefined == disabledAllowed && undefined != el.attr('disabled') ) {
+                return;
+            }
+            var cssclass = el.prop('class');
+            el.attr('class', cssclass.replace(/boxunchecked/g, 'boxchecked'));
+        };
+
+        var checkOff = function(el) {
+            if (undefined != el.attr('disabled')) {
+                return false;
+            }
+            var cssclass = el.prop('class');
+            el.prop('class', cssclass.replace(/boxchecked/g, 'boxunchecked'));
+            return true;
+        };
+
+        var check_toggle = function(el) {
+
+            var cssclass = el.prop('class');
+
+            if (undefined != el.attr('disabled')) {
+                return;
+            }
+            if (cssclass.indexOf('boxchecked')>0) {
+                checkOff(el);
+            }
+            else {
+                checkOn(el);
+            }
+        };
+
+        // ---------------------------------------------------------------------------------------------------
+        // affiche un message d'avertissement
+        // ---------------------------------------------------------------------------------------------------
+        var showWarningText = function()
+        {
+            var item = $('#warning');
+
+            if (item) {
+                item.prop('style', 'display = "block"');
+            }
+
+        };
+
+        // ---------------------------------------------------------------------------------------------------
+        // affiche le calendrier correspondant au mois donné et masque les autres
+        // ---------------------------------------------------------------------------------------------------
+        var showCalendrier = function(month)
+        {
+            // masque tous les calendriers
+            $('.month').hide();
+            $('.months a').removeClass('active');
+
+            // affiche celui sélectionné
+            $('.months a#linkMonth'+month).addClass('active');
+            $('.month#month'+month).show();
+        };
+
+        // ---------------------------------------------------------------------------------------------------
+        // affiche le calendrier en fonction du mois sur lequel l'utilisateur a cliqué.
+        // ---------------------------------------------------------------------------------------------------
+        $('.months a').click(function(){
+            var month   = $(this).attr('id').replace('linkMonth', '');
+            var current = $('.months a.active').attr('id').replace('linkMonth', '');
+            if (month != current){
+                showCalendrier(month);
+            }
+            return false;
+        });
+
+        // ---------------------------------------------------------------------------------------------------
+        // Coche tous les jours de l'année scolaire si le jour habituel est coché
+        // ---------------------------------------------------------------------------------------------------
+        var checkDays = function(elementHabitDay)
+        {
+            var day_week = elementHabitDay.id;
+            day_week = parseInt(day_week.substr(day_week.lastIndexOf('_')+1));
+            day_week += (day_week <= 1)?1:2;
+
+            $('.day'+day_week).each(function(i, el){
+                if (elementHabitDay.checked) {
+                    checkOn($(el));
+                }
+                else {
+                    checkOff($(el));
+                }
+            });
+        };
+
+        $('.choix input').on('change', function() {
+            checkDays(this);
+            showWarningText();
+        });
+
+        $('.calendar-checkbox').click(function(el) {
+            if (!el.disabled) {
+                showWarningText();
+            }
+        });
+
+        // ---------------------------------------------------------------------------------------------------
+        // Initialise la page
+        // ---------------------------------------------------------------------------------------------------
+
+        // affiche le calendrier pour la date en cours
+        var currentMonth = today.getMonth()+1;
+        if (currentMonth<10) currentMonth = '0'+currentMonth;
+        showCalendrier(currentMonth);
+
+
+        // ---------------------------------------------------------------------------------------------------
+        // Coche les dates formattées
+        // ---------------------------------------------------------------------------------------------------
+        var unserializeDatesAndCheck = function()
+        {
+            var str = $('#WCS_cantinebundle_cantine_lunches').val();
+            var dates = str.split(';');
+
+            $('.calendar-checkbox').each(function(){
+                var obj = this;
+
+                if (dates.find( function(e) {return e==$(obj).attr('value');} )) {
+                    checkOn($(obj), true);
+                }
+            });
+        };
+        unserializeDatesAndCheck();
+
+        // ---------------------------------------------------------------------------------------------------
+        // Formatte les dates cochées lorsque l'on valide le formulaire
+        // ---------------------------------------------------------------------------------------------------
+        var serializeDatesChecked = function()
+        {
+            var dates = [];
+            $('.boxchecked').each(function(){
+                if ($(this).attr('value')!='') {
+                    dates.push($(this).attr('value'));
+                }
+            });
+            $('#WCS_cantinebundle_cantine_lunches').val(dates.join(";"));
+        };
+
+        $('form[name="WCS_cantinebundle_cantine"]').submit(function(e){
+            e.preventDefault();
+            serializeDatesChecked();
+            this.submit();
+        });
+
+        $(".box")
+                .map(function() { $(this).css('cursor', 'pointer');});
+
+        $(".box").click(function(el){
+                    check_toggle($(this));
+                });
+
+    });
+</script>
+{% else %}
+    Il n'y a aucun calendrier disponible pour cette période
+{% endif %}

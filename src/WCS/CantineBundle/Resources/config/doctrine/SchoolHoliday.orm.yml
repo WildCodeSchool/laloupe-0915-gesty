@@ -1,0 +1,30 @@
+WCS\CantineBundle\Entity\SchoolHoliday:
+    type: entity
+    table: null
+    repositoryClass: WCS\CantineBundle\Entity\SchoolHolidayRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        dateStart:
+            type: date
+            column: date_start
+        dateEnd:
+            type: date
+            column: date_end
+        description:
+            type: string
+            length: 255
+
+    manyToOne:
+        schoolYear:
+            targetEntity: WCS\CantineBundle\Entity\SchoolYear
+            inversedBy: schoolHolidays
+            joinColumn:
+                nullable: false
+                onDelete: cascade
+
+    lifecycleCallbacks: {  }

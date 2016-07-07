@@ -19,7 +19,10 @@ class DivisionAdmin extends Admin
         $formMapper
             ->add('grade','text',(array('label'=>'Classe')))
             ->add('headTeacher','text',(array('label'=>'Instituteur')))
-            ->add('school',null,(array('label'=>'Ecole')));
+            ->add('school',null,(array('label'=>'Ecole')))
+            ;
+
+
     }
 
     // Fields to be shown on filter forms
@@ -39,7 +42,7 @@ class DivisionAdmin extends Admin
             ->add('grade',null,(array('label'=>'Classe')))
             ->add('headTeacher',null,(array('label'=>'Instituteur')))
             ->add('school',null,(array('label'=>'Ecole')))
-            ->add('eleves')
+            ->add('eleves', null, array('admin_code'=>'sonata.admin.eleve'))
         ;
 
     }
@@ -48,7 +51,6 @@ class DivisionAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('id')
             ->add('grade', 'text',(array('label'=>'Classe')))
             ->add('headTeacher', 'text',(array('label'=>'Instituteur')))
             ->add('school',null,(array('label'=>'Ecole')))

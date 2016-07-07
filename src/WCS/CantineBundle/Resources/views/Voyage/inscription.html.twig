@@ -1,0 +1,136 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+
+    {% block retour %}
+        <a href="{{ path('wcs_cantine_dashboard') }}">Retour</a>
+    {% endblock %}
+
+    {{ form_start(form) }}
+
+
+    <div class='container' role='main' xmlns="http://www.w3.org/1999/html">
+        <center><h1>Voyages scolaires</h1></center>
+        <center>
+            <h4>
+                Inscription de mon enfant
+            </h4>
+        </center>
+        <hr>
+
+
+
+        <div class="col-md-12">
+            <h3 class="titre">{{eleve }}</h3>
+            <strong>Né(e) le:</strong> {{ eleve.dateDeNaissance | date('d/m/Y') }}<br />
+            <strong>Classe/Ecole: </strong> {{ eleve.division }}<br />
+        </div>
+
+        {# ------------------------Liste des Voyages------------------------- #}
+        <div class="col-md-12">
+            <h3>Les voyages scolaires</h3>
+            {% if form.voyages|length %}
+                <div class="form-group">
+                    <blockquote>
+                        {{ form_widget(form.voyages, {'attr': {'class':'voy'}}) }}
+                    </blockquote>
+                </div>
+                Le premier jour d'inscription est ouvert à partir du <strong>{{ first_day_available|date('d/m/Y') }}</strong>
+            {% else %}
+                <div class="form-group">
+                    <blockquote>
+                        {{ form_widget(form.voyages, {'attr':{'style': 'display:none'}}) }}
+                    Aucun voyage à venir n'est prévu par l'école.
+                    </blockquote>
+                </div>
+            {% endif %}
+            <br />
+            {% if eleve.voyageSigned %}
+
+                <div id="warning" class="fa fa-exclamation-triangle" aria-hidden="true" style="display:none">
+                    <span>Pensez à cliquer sur "Valider" pour enregistrer vos modifications.</span>
+                </div>
+
+            {% endif %}
+            <br />
+            <br />
+        </div>
+
+
+
+      {#----------------------------------Signatures et validation-------------------------#}
+        <div class="col-md-12">
+
+            {% if not eleve.voyageSigned %}
+
+            <h3>Signatures</h3>
+            <div class="form-group">
+                {{ form_widget(form.voyage_autorise) }}
+                <label for="autorise" style="display:inline">J'autorise le responsable du voyage scolaire ou son représentant à prendre toutes mesures d'urgence nécessaires en cas d'accident survenant à mon enfant *</label>
+                <blockquote>
+                    A savoir :
+                    <ul>
+                        <li>appel du S.A.M.U</li>
+                        <li>transfert à l'hôpital (ou à la clinique) le (la) plus proche</li>
+                    </ul>
+                </blockquote>
+            </div>
+
+
+            <div class="form-group">
+
+               {{ form_widget(form.voyage_certifie) }}
+                <label for="atteste" style="display:inline">Je certifie sur l’honneur l’exactitude de tous les renseignements saisis sur cette application concernant mon enfant ainsi que mon foyer *</label>
+            </div>
+
+            <div class="col-md-offset-1 col-md-9">
+                <div class="col-md-6 col-md-offset-3">
+                    <h6 id="champs">* champs obligatoire</h6><br>
+                </div>
+
+            </div>
+
+            {% endif %}
+
+            <div class="col-md-offset-1 col-md-9">
+                <div class="col-md-6 col-md-offset-3">
+                    <input type="submit" name="commit" value="Valider" class="btn btn-primary btn-lg btn-block">
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    {{ form_end(form) }}
+<script>
+    window.addEventListener('load', function(){
+        // ---------------------------------------------------------------------------------------------------
+        // affiche un message d'avertissement
+        // ---------------------------------------------------------------------------------------------------
+        var showWarningText = function()
+        {
+            var item = $('#warning');
+
+            if (item) {
+                item.prop('style', 'display = "block"');
+            }
+
+        };
+
+        $('.voy').click(function(el) {
+            if (!el.disabled) {
+                showWarningText();
+            }
+        });
+
+
+    });
+</script>
+{% endblock %}
+
+
+
+

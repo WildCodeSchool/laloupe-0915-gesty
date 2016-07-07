@@ -36,9 +36,7 @@
     color:#5CAB18;
     font-family: 'Carter One', cursive;
     background-color: inherit;
-    margin-bottom: -10px !important;
-
-
+    margin-bottom: -20px !important;
 }
 .panel  {
     border: transparent;
@@ -78,19 +76,21 @@
     padding:15px;
     margin-top: 20px;
     box-shadow: 10px 10px 5px 0px #cfcfcf;
-
-
-
+    border: 1px solid #F5F5F5;
+    border-top-width: 0;
 }
 label {
-    font-family: 'Open Sans';
+    font-family: 'Open Sans', sans-serif;
     display: inline-block;
-    max-width: 100%;
+    max-width: 80%;
     margin-bottom: 5px;
     font-weight: bold;
     font-size: 18px;
     line-height: 1.42857143;
     color: #333333;
+}
+input[type=checkbox] {
+    margin-right:10px;
 }
 .btn {
     display: inline-block;
@@ -109,10 +109,12 @@ label {
     background-color: #5CAB18;
     border-color: #509515;
     -webkit-appearance: textfield;
-    padding: 10px;
+    padding: 9px;
     margin-top: 20px;
 
 }
+
+
 .btn-primary:hover {
    background-color:  #335f0d;
 
@@ -125,24 +127,38 @@ label {
 .btn-success:hover{
     background-color:  #335f0d;
 }
+
+.btn-carte {
+    position: relative;
+    left: 67px;
+    bottom: -11px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #5CAB18;
+    border-color: #509515;
+    -webkit-appearance: textfield;
+    padding: 7px;
+    margin-top: 19px;
+    border: 1px solid transparent;
+}
+
+.btn-carte:hover{
+    background-color: #335f0d;
+}
+
 p{
-    diplay:block;
     text-align: left;
     color: dimgrey;
-
 }
 .container {
-    margin-left: auto;
-    margin-right: auto;
     padding-left: 15px;
     padding-right: 15px;
-    margin-bottom: 10px;
     width: 1170px;
     margin: 80px auto;
     font-size: 18px;
 }
 .welcome {
-    font-family: 'Carter One';
+    font-family: 'Carter One', sans-serif;
     margin: 90px auto;
     text-align: center;
     color: #7A2903;
@@ -177,6 +193,23 @@ p{
     margin-bottom: 20px;
     box-shadow: 0 0 1px 1px rgba(255,255,255,.8) inset, 0 1px 0 ;
 }
+
+.school .school-isdayoff
+{
+    border-radius: 1px;
+    padding:40px;
+    width:350px;
+    height:130px;
+    overflow:visible;
+    text-align:center;
+    white-space:nowrap;
+    margin-bottom: 20px;
+    background-color: #AAAAAA;
+    box-shadow: 0 0 1px 1px rgba(255,255,255,.8) inset, 0 1px 0 ;
+    font-style: italic;
+    color:white;
+}
+
 /*
 .school{
     width:350px;
@@ -265,7 +298,7 @@ button em
 }
 
 .eleveAjoute {
-    font-family: 'Carter One';
+    font-family: 'Carter One', sans-serif;
     text-align: center;
     color: #5CAB18;
 }
@@ -293,4 +326,85 @@ button em
     -moz-transform: scale(2); /* FF */
     -webkit-transform: scale(2); /* Safari and Chrome */
     -o-transform: scale(2); /* Opera */
+}
+
+.eleve_tabs {
+    padding:0;
+    margin:0;
+    margin-top:20px;
+    text-align: left;
+    border-bottom:1px solid #DDD;
+    height:40px;
+}
+
+.eleve_tabs LI {
+    display:inline-block;
+    width:175px;
+    border:1px solid #DDD;
+    padding:4px 12px;
+    background-color: #F5F5F5;
+    height:inherit;
+    text-align: center;
+}
+.eleve_tabs LI.toggle_active {
+    border-bottom:1px solid white;
+    background-color:white;
+}
+.eleve_tabs_body {
+    padding:20px;
+    border:1px solid #DDD;
+    border-top-width: 0px;
+    /*height:420px;*/
+    display:block;
+}
+.eleve_tabs_body EM {
+    display:table-cell;
+    font-style: italic;
+    color:#5CAB18;
+    margin:0 auto;
+}
+.TODO {
+    font-family: 'Carter One', cursive;
+    color:red;
+    font-weight:bold;
+    font-size:20px;
+}
+
+.panel-eleve {
+    position:relative;
+    font-family: 'Carter One', cursive;
+
+    color:#5CAB18;
+    background-color: #F5F5F5;
+    border-color: #DDD;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+
+    margin-top:20px;
+    margin-bottom: 10px !important;
+    margin-right:10px !important;
+    padding: 10px 15px;
+    height:80px;
+}
+.panel-eleve div {
+    display: inline-block;
+    position:absolute;
+    right:20px;
+    top:0;
+
+    font-family: 'Open Sans', sans-serif;
+    font-weight: normal;
+
+    text-align: right;
+    width:150px;
+}
+.panel-eleve span {
+    display:table-cell;
+    height:60px;
+    width:300px;
+    vertical-align: middle;
+}
+.error {
+    color:red;
 }

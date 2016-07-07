@@ -1,15 +1,14 @@
 <?php
-// src/WCS/CantineBundle/Form/DataTransformer/LunchToStringTransformer.php
 namespace WCS\CantineBundle\Form\DataTransformer;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Exception\TransformationFailedException;
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Entity\Lunch;
 
 class LunchToStringTransformer implements DataTransformerInterface
 {
+
     private $manager;
     private $eleve;
 
@@ -20,9 +19,11 @@ class LunchToStringTransformer implements DataTransformerInterface
     }
 
     /**
-     * Transforms an object (lunch) to a string (dates).
+     * transforme recoit une liste de "lunch" de l'élève
+     * récupère la date de chacun, puis renvoit une chaine
+     * contenant uniquement les dates, formattées (Y-m-d) et séparées par un ";"
      *
-     * @param  Lunch|null $lunches
+     * @param  array $lunches
      * @return string
      */
     public function transform($lunches)
@@ -30,45 +31,55 @@ class LunchToStringTransformer implements DataTransformerInterface
         if (null === $lunches) {
             return '';
         }
-        else
-        {
-            $dates = '';
-            foreach ($lunches as $lunch) {
-                $dates .= date_format($lunch->getDate(), ('Y-m-d')).';';
-            }
-            return $dates;
+
+        $tmp = array();
+        foreach ($lunches as $lunch) {
+            $tmp[] = $lunch->getDate()->format('Y-m-d');
         }
+        $datesString = implode(";", $tmp);
+
+        return $datesString;
     }
 
     /**
-     * Transforms a string (dates) to an array (lunches).
+     * Récupère une chaine de dates formattées (Y-m-d) séparées par un ";"
+     * et renvoit une liste de "lunch" pour l'élève pour chacune des dates.
      *
-     * @param  string $dates
-     * @return Lunch|null
+     * @param  string $datesString dates formattée Y-m-d séparées par un ";"
+     * @return array Lunch renvoit une liste d'entité "Lunch" pour cet élève ou une liste vide
      */
-    public function reverseTransform($dates)
+    public function reverseTransform($datesString)
     {
+        if (empty($datesString)) {
+            return array();
+        }
+
         $lunches = array();
-        foreach (explode(';', $dates) as $date)
+        $dates = explode(';', $datesString);
+
+        $lunchCurrents = $this->manager->getRepository("WCSCantineBundle:Lunch")->findByEleve($this->eleve);
+        foreach ($dates as $date)
         {
-            if ($date != '') {
-                $lunch = $this->manager
-                    ->getRepository('WCSCantineBundle:Lunch')
-                    ->findByDateAndEleve($date, $this->eleve)
-                ;
-                if ($lunch)
-                {
-                    $lunches[] = $lunch[0];
-                }
-                else
-                {
-                    $lunch = new Lunch();
-                    $lunch->setDate(new \DateTime($date));
-                    $lunch->setEleve($this->eleve);
-                    $this->manager->persist($lunch);
-                    $lunches[] = $lunch;
+            // si la réservation est déjà présente,
+            // on se contente de l'ajouter dans la liste
+            // sinon on créé une nouvelle réservation
+            $lunch = null;
+            $dateT = new \DateTime($date);
+            $found = false;
+            foreach($lunchCurrents as $current) {
+                if ($current->getDate()==$dateT) {
+                    $lunch = $current;
+                    $found = true;
                 }
             }
+            if (!$found) {
+                $lunch = new Lunch();
+                $lunch->setEleve($this->eleve);
+                $lunch->setDate($dateT);
+                $lunch->setStatus('0');
+                $this->manager->persist($lunch);
+            }
+            $lunches[] = $lunch;
         }
 
         return $lunches;

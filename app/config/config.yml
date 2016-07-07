@@ -2,12 +2,16 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: '@WCSCantineBundle/Resources/config/services.yml' }
 
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: fr
+    locale:                   fr
+    security.exception_listener.class: WCS\GestyBundle\Security\Firewall\ExceptionListener
+    wcs_upload_folder:        'uploads'
+    wcs_upload_absolute_path: '%kernel.root_dir%/%wcs_upload_folder%/'
 
 framework:
     #esi:             ~
@@ -29,6 +33,7 @@ framework:
     session:
         # handler_id set to null will use default session handler from php.ini
         handler_id:  ~
+        name: ge216675wt7
     fragments:       ~
     http_method_override: true
 
@@ -39,6 +44,8 @@ twig:
     form:
         resources:
             - 'SonataCoreBundle:Form:datepicker.html.twig'
+    form_theme:
+        'WCSCantineBundle:Form:form_errors.html.twig'
 
 # Assetic Configuration
 assetic:
@@ -51,10 +58,10 @@ assetic:
         less:
             node: /usr/local/bin/node
             node_paths: [/usr/local/lib/node_modules]
-            apply_to: "\.less$"
+            apply_to: ".less$"
         lessphp:
             file: %kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php
-            apply_to: "\.less$"
+            apply_to: ".less$"
     assets:
         bootstrap_css:
             inputs:
@@ -93,6 +100,8 @@ doctrine:
         charset:  UTF8
         types:
             json: Sonata\Doctrine\Types\JsonType
+        server_version: 5.6
+
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
@@ -104,6 +113,9 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+        dql:
+            datetime_functions:
+                DATE: 'WCS\CantineBundle\DQL\MysqlDateFunction'
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -174,10 +186,11 @@ fos_user:
                 # Nom de l'expediteur
                 sender_name: Gesty
                 # Permet de définir le template de l'email à envoyer (en html)
-            template: WCSCantineBundle:User:registrationEmail.html.twig
+            template: WCSCantineBundle:User:registrationemail.html.twig
     resetting:
         email:
-            template: emails/changePassewordMail.html.twig
+#            template: emails/changePassewordMail.html.twig
+            template: Emails/changepassewordmail.html.twig
 
 sonata_admin:
     title: Gesty Admin
@@ -216,10 +229,28 @@ sonata_admin:
             wcs.group.lunches:
                 icon: '<i class="fa fa-cutlery"></i>'
                 label: Cantine
-            wcs.group.feries:
+
+
+            wcs.group.voyage:
+                icon: '<i class="fa fa-plane"></i>'
+                label: Voyages
+                items:
+                    - sonata.admin.voyage
+                    - sonata.admin.voyage.inscription
+
+            wcs.group.tapgarderie:
+                icon: '<i class="fa fa-tag"></i>'
+                label: TAP-Garderie
+                items:
+                    - sonata.admin.tap
+                    - sonata.admin.garderie
+
+            wcs.group.parameters:
                 icon: '<i class="fa fa-cogs"></i>'
                 label: Paramètres
-
+                items:
+                    - sonata.admin.schoolyear
+                    - sonata.admin.feries
 
 braincrafted_bootstrap:
     output_dir:

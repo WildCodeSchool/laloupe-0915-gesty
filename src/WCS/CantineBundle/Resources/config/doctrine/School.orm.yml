@@ -18,6 +18,22 @@ WCS\CantineBundle\Entity\School:
             type: string
             length: 255
             nullable: true
+        active_cantine:
+            type: boolean
+            options:
+                default: true
+        active_tap:
+            type: boolean
+            options:
+                default: true
+        active_garderie:
+            type: boolean
+            options:
+                default: true
+        active_voyage:
+            type: boolean
+            options:
+                default: true
     lifecycleCallbacks: {  }
 
     oneToMany:

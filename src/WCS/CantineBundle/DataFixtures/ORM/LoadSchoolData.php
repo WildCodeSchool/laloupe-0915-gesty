@@ -3,42 +3,43 @@
 
 namespace WCS\CantineBundle\DataFixtures\ORM;
 
-
-use Application\Sonata\UserBundle\Entity\User;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Entity\School;
 
 
 class LoadSchoolData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
-        $entity1 = new School();
-        $entity1->setName("Les écureuils");
-        $entity1->setAdress("La Loupe");
-        $manager->persist($entity1);
-        $this->setReference('school-ecureuils', $entity1);
+        $schools  = [
+            ['Les écureuils',           'La Loupe', true, true,  true,  false, 'school-ecureuils'],
+            ['Notre Dame des Fleurs',   'La Loupe', true, false, false, false, 'school-nddf'],
+            ['Roland-Garros',           'La Loupe', true, true,  true,  true,  'school-rg']
+        ];
+        foreach ($schools as $school) {
 
-        $entity2 = new School();
-        $entity2->setName("Notre Dame des Fleurs");
-        $entity2->setAdress("La Loupe");
-        $manager->persist($entity2);
-        $this->setReference('school-nddf', $entity2);
-
-        $entity3 = new School();
-        $entity3->setName("Roland-Garros");
-        $entity3->setAdress("La Loupe");
-        $manager->persist($entity3);
-        $this->setReference('school-rg', $entity3);
+            $entity = new School();
+            $entity->setName($school[0]);
+            $entity->setAdress($school[1]);
+            $entity->setActiveCantine($school[2]);
+            $entity->setActiveGarderie($school[3]);
+            $entity->setActiveTap($school[4]);
+            $entity->setActiveVoyage($school[5]);
+            $manager->persist($entity);
+            $this->setReference($school[6], $entity);
+        }
 
         $manager->flush();
     }

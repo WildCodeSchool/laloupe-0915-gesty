@@ -4,11 +4,9 @@
 namespace WCS\CantineBundle\DataFixtures\ORM;
 
 
-use Application\Sonata\UserBundle\Entity\User;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use WCS\CantineBundle\Entity\Eleve;
@@ -17,55 +15,50 @@ use WCS\CantineBundle\Entity\Eleve;
 class LoadEleveData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
-        $entity1 = new Eleve();
-        $entity1->setUser($this->getReference('user'));
-        $entity1->setNom('Robert');
-        $entity1->setPrenom('Robert');
-        $entity1->setDateDeNaissance(new \DateTime('2004-02-08'));
-        $entity1->setRegimeSansPorc(false);
-        $entity1->setDivision($this->getReference('division-lemoue'));
-        $manager->persist($entity1);
+        $eleves = [
+            ['Dupontel', 'Dupontel', 'Jean-Kevin', '2007-01-01', false, '', 'division-catteeu'],
+            ['Dupontel', 'Dupontel', 'Kevina', '2008-08-15', false, '', 'division-catteeu'],
+            ['Dupontel', 'Dupontel', 'Mathilde', '2009-08-15', false, '', 'division-catteeu'],
+            ['Robert', 'Robert', 'Mickael', '2010-08-15', false, 'gluten', 'division-pichodo'],
+            ['Robert', 'Robert', 'Franck', '2007-08-15', false, 'gluten', 'division-lucien'],
+            ['Larissa', 'Larissa', 'Viviane', '2008-08-15', true, '', 'division-nouaille'],
+            ['Larissa', 'Larissa', 'Gaelle', '2007-08-15', true, '', 'division-lucien'],
+            ['Larissa', 'Larissa', 'Melina', '2010-08-15', true, '', 'division-pichodo'],
+            ['Larissa', 'Larissa', 'Astrid', '2010-08-15', true, 'poivre', 'division-pichodo'],
+            ['Veron', 'Veron', 'Matheos', '2010-08-15', false, '', 'division-pichodo'],
+            ['Veron', 'Veron', 'Kevin', '2010-08-15', false, '', 'division-pichodo'],
+            ['Bouteiller', 'Bouteiller', 'Thomas', '2007-08-15', false, '', 'division-lucien'],
+            ['Bouteiller', 'Bouteiller', 'Isabelle', '2008-08-15', false, '', 'division-nouaille'],
+            ['Butin', 'Butin', 'Arnold', '2008-08-15', false, '', 'division-nouaille'],
+            ['Butin', 'Butin', 'Willy', '2010-08-15', false, '', 'division-pichodo'],
+            ['Dorel', 'Dorel', 'Maelis', '2009-08-15', false, '', 'division-nouaille'],
+            ['Batista', 'Batista', 'Jean', '2010-08-15', false, '', 'division-pichodo'],
+            ['Nelon', 'Nelon', 'Aurianne', '2009-08-15', false, '', 'division-lemoue'],
+            ['Nelon', 'Nelon', 'Enora', '2010-08-10', false, '', 'division-pichodo'],
 
-        $entity2 = new Eleve();
-        $entity2->setUser($this->getReference('user'));
-        $entity2->setNom('Donatello');
-        $entity2->setPrenom('Arabella');
-        $entity2->setDateDeNaissance(new \DateTime('2006-06-15'));
-        $entity2->setRegimeSansPorc(false);
-        $entity2->setDivision($this->getReference('division-catteeu'));
-        $manager->persist($entity2);
+        ];
 
-        $entity3 = new Eleve();
-        $entity3->setUser($this->getReference('user'));
-        $entity3->setNom('Sylvestre');
-        $entity3->setPrenom('Coralie');
-        $entity3->setDateDeNaissance(new \DateTime('2011-09-21'));
-        $entity3->setRegimeSansPorc(false);
-        $entity3->setDivision($this->getReference('division-nouaille'));
-        $manager->persist($entity3);
-
-        $entity4 = new Eleve();
-        $entity4->setUser($this->getReference('user'));
-        $entity4->setNom('Vaillant');
-        $entity4->setPrenom('Eliott');
-        $entity4->setDateDeNaissance(new \DateTime('2010-07-28'));
-        $entity4->setRegimeSansPorc(false);
-        $entity4->setDivision($this->getReference('division-pichodo'));
-        $manager->persist($entity4);
-
-        $entity5 = new Eleve();
-        $entity5->setUser($this->getReference('user'));
-        $entity5->setNom('Truite');
-        $entity5->setPrenom('Marine');
-        $entity5->setDateDeNaissance(new \DateTime('2009-10-18'));
-        $entity5->setRegimeSansPorc(false);
-        $entity5->setDivision($this->getReference('division-pichodo'));
-        $manager->persist($entity5);
-
+        foreach ($eleves as $eleve) {
+            $entity = new Eleve();
+            $entity->setUser($this->getReference($eleve[0]));
+            $entity->setNom($eleve[1]);
+            $entity->setPrenom($eleve[2]);
+            $entity->setDateDeNaissance(new \DateTime($eleve[3]));
+            $entity->setRegimeSansPorc($eleve[4]);
+            $entity->setAllergie($eleve[5]);
+            $entity->setDivision($this->getReference($eleve[6]));
+            $manager->persist($entity);
+            $this->setReference($eleve[1]."-".$eleve[2], $entity);
+        }
 
         $manager->flush();
     }
@@ -77,6 +70,6 @@ class LoadEleveData extends AbstractFixture implements OrderedFixtureInterface, 
 
     public function getOrder()
     {
-        return 4; // ordre d'appel
+        return 5; // ordre d'appel
     }
 }

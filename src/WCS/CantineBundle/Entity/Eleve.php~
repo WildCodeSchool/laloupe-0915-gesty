@@ -13,46 +13,17 @@ class Eleve
 
     public function __toString()
     {
-        return $this->nom;
+        return $this->getPrenom().' '.$this->getNom();
 
     }
 
     public function __construct()
     {
         $this->habits = array();
-
-
     }
-
-
-    public static function getHabitDays()
-    {
-        return array(
-            'lundi' => 'lundi',
-            'mardi' => 'mardi',
-            'jeudi' => 'jeudi',
-            'vendredi' => 'vendredi',
-        );
-    }
-
-    public static function getHabitDaysLabels()
-    {
-        $result = array();
-        foreach (Eleve::getHabitDays() as $key => $day) {
-            $result[$key] = 'Tous les ' . $day . 's';
-        }
-        return $result;
-    }
-
-    public static function getHabitDaysValues()
-    {
-        return array_keys(self::getHabitDays());
-    }
-
 
 
     // GENERATED CODE
-    
 
     /**
      * @var integer
@@ -103,6 +74,11 @@ class Eleve
      * @var \WCS\CantineBundle\Entity\Division
      */
     private $division;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $voyages;
 
 
     /**
@@ -318,6 +294,15 @@ class Eleve
     }
 
     /**
+     * @param \Application\Sonata\UserBundle\Entity\User $user
+     * @return bool
+     */
+    public function isCorrectParentConnected(\Application\Sonata\UserBundle\Entity\User $userParent)
+    {
+        return $this->user->getId()==$userParent->getId();
+    }
+
+    /**
      * Set division
      *
      * @param \WCS\CantineBundle\Entity\Division $division
@@ -358,4 +343,147 @@ class Eleve
 
 
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $taps;
+
+
+    /**
+     * Add tap
+     *
+     * @param \WCS\cantineBundle\Entity\Tap $tap
+     *
+     * @return Eleve
+     */
+    public function addTap(\WCS\cantineBundle\Entity\Tap $tap)
+    {
+        $this->taps[] = $tap;
+
+        return $this;
+    }
+
+    /**
+     * Remove tap
+     *
+     * @param \WCS\cantineBundle\Entity\Tap $tap
+     */
+    public function removeTap(\WCS\cantineBundle\Entity\Tap $tap)
+    {
+        $this->taps->removeElement($tap);
+    }
+
+    /**
+     * Get taps
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTaps()
+    {
+        return $this->taps;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $garderies;
+
+
+    /**
+     * Add gardery
+     *
+     * @param \WCS\CantineBundle\Entity\Garderie $gardery
+     *
+     * @return Eleve
+     */
+    public function addGardery(\WCS\CantineBundle\Entity\Garderie $gardery)
+    {
+        $this->garderies[] = $gardery;
+
+        return $this;
+    }
+
+    /**
+     * Remove gardery
+     *
+     * @param \WCS\CantineBundle\Entity\Garderie $gardery
+     */
+    public function removeGardery(\WCS\CantineBundle\Entity\Garderie $gardery)
+    {
+        $this->garderies->removeElement($gardery);
+    }
+
+    /**
+     * Get garderies
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGarderies()
+    {
+        return $this->garderies;
+    }
+
+
+    /**
+     * Add voyage
+     *
+     * @param \WCS\CantineBundle\Entity\Voyage $voyage
+     *
+     * @return Eleve
+     */
+    public function addVoyage(\WCS\CantineBundle\Entity\Voyage $voyage)
+    {
+        $this->voyages[] = $voyage;
+
+        return $this;
+    }
+
+    /**
+     * Remove voyage
+     *
+     * @param \WCS\CantineBundle\Entity\Voyage $voyage
+     */
+    public function removeVoyage(\WCS\CantineBundle\Entity\Voyage $voyage)
+    {
+        $this->voyages->removeElement($voyage);
+    }
+
+    /**
+     * Get voyages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getVoyages()
+    {
+        return $this->voyages;
+    }
+
+
+    public static function getHabitDays()
+    {
+        return array(
+            'lundi' => 'lundi',
+            'mardi' => 'mardi',
+            'jeudi' => 'jeudi',
+            'vendredi' => 'vendredi',
+        );
+    }
+
+    public static function getHabitDaysLabels()
+    {
+        $result = array();
+        foreach (Eleve::getHabitDays() as $key => $day) {
+            $result[$key] = 'Tous les ' . $day . 's';
+        }
+        return $result;
+    }
+
+    public static function getHabitDaysValues()
+    {
+        return array_keys(self::getHabitDays());
+    }
+
+    public function getNombreDeRepasParMois()
+    {
+
+    }
 }

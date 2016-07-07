@@ -1,3 +1,5 @@
 wcs_gesty_homepage:
     path:     /
-    defaults: { _controller: WCSGestyBundle:Dashboard:index }
+    defaults: { _controller: 'WCSGestyBundle:Dashboard:index' }
+    methods: [GET, POST]
+

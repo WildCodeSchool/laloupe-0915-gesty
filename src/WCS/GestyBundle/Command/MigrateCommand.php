@@ -2,14 +2,12 @@
 // src/WCS/GestyBundle/Command/MigrateCommand.php
 namespace WCS\GestyBundle\Command;
 
-use Application\Sonata\UserBundle\Entity\User;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Sonata\UserBundle\Model\UserManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use WCS\CantineBundle\Entity\Division;
@@ -65,7 +63,7 @@ class MigrateCommand extends ContainerAwareCommand
         $userAdmin->setFirstname('Romain');
         $userAdmin->setLastname('Coeur');
         $userAdmin->setPhone('0628974930');
-        $userManager->updateUser($userAdmin, true);
+        $userManager->updateUser($userAdmin);
 
         $users = array('admin' => $userAdmin);
 
@@ -81,7 +79,7 @@ class MigrateCommand extends ContainerAwareCommand
             $entity->setEnabled(true);
             $entity->setPlainPassword('wild1234');
             $entity->setPassword('9908e42e69c19bc0e6c0ce1bf05b381fbc94ca10aa7e6b648815d676248f8a3fe2ee124f7d9d375e9f909036e45cc9e766e3c9369655c1db1f331e71c17bc2c9');
-            $userManager->updateUser($entity, true);
+            $userManager->updateUser($entity);
             $users[$data[0]] = $entity;
         }
 
@@ -168,7 +166,6 @@ class MigrateCommand extends ContainerAwareCommand
         $nb=0;
         while ($line = fgets($stream)) {
             $data = explode('	', $line);
-            //var_dump($nb.' - '.$data[0].' - '.$data[11]);
             if ($data[0] == "\\.\n") break;
             if ($data[5] == '\\N') continue;
             $entity = new Eleve();
@@ -210,7 +207,7 @@ class MigrateCommand extends ContainerAwareCommand
         if (!class_exists('Symfony\Component\Console\Question\ConfirmationQuestion')) {
             $dialog = $this->getHelperSet()->get('dialog');
 
-            return $dialog->askConfirmation($output, $question, $default);
+            return $dialog->askConfirmation($output, $question, false);
         }
 
         $questionHelper = $this->getHelperSet()->get('question');

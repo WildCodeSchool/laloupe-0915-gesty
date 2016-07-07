@@ -2,6 +2,7 @@
 
 namespace WCS\CantineBundle\Entity;
 
+
 /**
  * FeriesRepository
  *
@@ -10,4 +11,68 @@ namespace WCS\CantineBundle\Entity;
  */
 class FeriesRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param \DateTimeInterface $dateStart
+     * @param \DateTimeInterface $dateEnd
+     * @return \DateTime[]
+     */
+    public function findListDatesWithin(\DateTimeInterface $dateStart, \DateTimeInterface $dateEnd)
+    {
+        $yearStart   = $dateStart->format('Y-m-d');
+        $yearEnd     = $dateEnd->format('Y-m-d');
+
+        $dayStart   = $dateStart->format('Y-m-d');
+        $dayEnd     = $dateEnd->format('Y-m-d');
+
+        $qb = $this->createQueryBuilder('f')
+            ->where("f.annee >= :yearStart AND f.annee <= :yearEnd")
+            ->orderBy("f.annee");
+
+        $qb ->setParameter(':yearStart', $yearStart)
+            ->setParameter(':yearEnd', $yearEnd);
+
+        $rows = $qb->getQuery()->getResult();
+        if (is_null($rows)) {
+            return array();
+        }
+
+        /**
+         * @var \WCS\CantineBundle\Entity\Feries $dayOff
+         */
+        $result = [];
+        foreach($rows as $dayOff) {
+            // the order is important !
+            $this->pushDateIfWithin($dayStart, $dayEnd, $dayOff, 'getJourAn', $result);
+            $this->pushDateIfWithin($dayStart, $dayEnd, $dayOff, 'getPaques', $result);
+            $this->pushDateIfWithin($dayStart, $dayEnd, $dayOff, 'getFeteTravail', $result);
+            $this->pushDateIfWithin($dayStart, $dayEnd, $dayOff, 'getHuitMai', $result);
+            $this->pushDateIfWithin($dayStart, $dayEnd, $dayOff, 'getAscension', $result);
+            $this->pushDateIfWithin($dayStart, $dayEnd, $dayOff, 'getVendrediAscension', $result);
+            $this->pushDateIfWithin($dayStart, $dayEnd, $dayOff, 'getPentecote', $result);
+            $this->pushDateIfWithin($dayStart, $dayEnd, $dayOff, 'getFeteNational', $result);
+            $this->pushDateIfWithin($dayStart, $dayEnd, $dayOff, 'getAssomption', $result);
+            $this->pushDateIfWithin($dayStart, $dayEnd, $dayOff, 'getToussaint', $result);
+            $this->pushDateIfWithin($dayStart, $dayEnd, $dayOff, 'getArmistice', $result);
+            $this->pushDateIfWithin($dayStart, $dayEnd, $dayOff, 'getNoel', $result);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param $dayStart
+     * @param $dayEnd
+     * @param Feries $dayOff
+     * @param $callMethod
+     * @param $array
+     */
+    private function pushDateIfWithin($dayStart, $dayEnd, Feries $dayOff, $callMethod, &$array) {
+        /**
+         * @var \DateTime $date
+         */
+        $date = $dayOff->{$callMethod}();
+        if ($dayStart <= $date->format('Y-m-d')  && $date->format('Y-m-d') <= $dayEnd) {
+            $array[] = $date;
+        }
+    }
 }

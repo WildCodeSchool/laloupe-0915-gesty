@@ -1,6 +1,7 @@
 <?php
 
 namespace WCS\CantineBundle\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Eleve
@@ -13,51 +14,19 @@ class Eleve
 
     public function __toString()
     {
-        return (string) $this->getPrenom().' '.$this->getNom();
+        return $this->getPrenom().' '.strtoupper($this->getNom());
 
     }
 
     public function __construct()
     {
         $this->habits = array();
-
-
+        $this->voyages = new ArrayCollection();
+        $this->regimeSansPorc = false;
     }
-
-
-    public static function getHabitDays()
-    {
-        return array(
-            'lundi' => 'lundi',
-            'mardi' => 'mardi',
-            'jeudi' => 'jeudi',
-            'vendredi' => 'vendredi',
-        );
-    }
-
-    public static function getHabitDaysLabels()
-    {
-        $result = array();
-        foreach (Eleve::getHabitDays() as $key => $day) {
-            $result[$key] = 'Tous les ' . $day . 's';
-        }
-        return $result;
-    }
-
-    public static function getHabitDaysValues()
-    {
-        return array_keys(self::getHabitDays());
-    }
-
-    public function getNombreDeRepasParMois()
-    {
-
-    }
-
 
 
     // GENERATED CODE
-    
 
     /**
      * @var integer
@@ -108,6 +77,11 @@ class Eleve
      * @var \WCS\CantineBundle\Entity\Division
      */
     private $division;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $voyages;
 
 
     /**
@@ -299,6 +273,23 @@ class Eleve
     }
 
     /**
+     * @param string $dateStr date in format 'Y-m-d'
+     * @return bool True if lunches contains the date
+     */
+    public function isDateInLunches($dateStr)
+    {
+        /**
+         * @var \WCS\CantineBundle\Entity\Lunch $lunch
+         */
+        foreach($this->lunches as $lunch) {
+            if ($lunch->getDate()->format('Y-m-d') === $dateStr) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Set user
      *
      * @param \Application\Sonata\UserBundle\Entity\User $user
@@ -347,6 +338,8 @@ class Eleve
     }
 
     /**
+     * Attribut utilisé par les forms types suivants
+     * - WCSEmployeeBundle:ActivityEleveType
      * @var \WCS\CantineBundle\Entity\Lunch
      */
     private $date;
@@ -356,11 +349,261 @@ class Eleve
      *
      * @return \Application\Sonata\UserBundle\Entity\User
      */
-    public function getdate()
+    public function getDate()
     {
         return $this->date;
+    }
+    
+
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $taps;
+
+
+    /**
+     * Add tap
+     *
+     * @param \WCS\cantineBundle\Entity\Tap $tap
+     *
+     * @return Eleve
+     */
+    public function addTap(\WCS\cantineBundle\Entity\Tap $tap)
+    {
+        $this->taps[] = $tap;
+
+        return $this;
+    }
+
+    /**
+     * Remove tap
+     *
+     * @param \WCS\cantineBundle\Entity\Tap $tap
+     */
+    public function removeTap(\WCS\cantineBundle\Entity\Tap $tap)
+    {
+        $this->taps->removeElement($tap);
+    }
+
+    /**
+     * Get taps
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTaps()
+    {
+        return $this->taps;
+    }
+
+    /**
+     * Get taps subscribe by parents
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTapsSubscribeByParents()
+    {
+        $filtered = [];
+        $list = $this->getTaps();
+        /**
+         * @var \WCS\CantineBundle\Entity\Tap $item
+         */
+        foreach($list as $item) {
+            if ($item->getSubscribedByParent()) {
+                $filtered[] = $item;
+            }
+        }
+        return $filtered;
+    }
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $garderies;
+
+
+    /**
+     * Add gardery
+     *
+     * @param \WCS\CantineBundle\Entity\Garderie $gardery
+     *
+     * @return Eleve
+     */
+    public function addGardery(\WCS\CantineBundle\Entity\Garderie $gardery)
+    {
+        $this->garderies[] = $gardery;
+
+        return $this;
+    }
+
+    /**
+     * Remove gardery
+     *
+     * @param \WCS\CantineBundle\Entity\Garderie $gardery
+     */
+    public function removeGardery(\WCS\CantineBundle\Entity\Garderie $gardery)
+    {
+        $this->garderies->removeElement($gardery);
+    }
+
+    /**
+     * Get garderies
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGarderies()
+    {
+        return $this->garderies;
+    }
+
+    /**
+     * Get garderies subscribe by parents
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGarderiesSubscribeByParents()
+    {
+        $garderies_filtered = [];
+        $garderies = $this->getGarderies();
+        /**
+         * @var \WCS\CantineBundle\Entity\Garderie $item
+         */
+        foreach($garderies as $item) {
+            if ($item->getSubscribedByParent()) {
+                $garderies_filtered[] = $item;
+            }
+        }
+        return $garderies_filtered;
     }
 
 
 
+    /**
+     * Add voyage
+     *
+     * @param \WCS\CantineBundle\Entity\Voyage $voyage
+     *
+     * @return Eleve
+     */
+    public function addVoyage(\WCS\CantineBundle\Entity\Voyage $voyage)
+    {
+        $this->voyages[] = $voyage;
+
+        return $this;
+    }
+
+    /**
+     * Remove voyage
+     *
+     * @param \WCS\CantineBundle\Entity\Voyage $voyage
+     */
+    public function removeVoyage(\WCS\CantineBundle\Entity\Voyage $voyage)
+    {
+        $this->voyages->removeElement($voyage);
+    }
+
+    /**
+     * Get voyages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getVoyages()
+    {
+        return $this->voyages;
+    }
+
+
+    public static function getHabitDays()
+    {
+        return array(
+            'lundi' => 'lundi',
+            'mardi' => 'mardi',
+            'jeudi' => 'jeudi',
+            'vendredi' => 'vendredi',
+        );
+    }
+
+    public static function getHabitDaysLabels()
+    {
+        $result = array();
+        foreach (Eleve::getHabitDays() as $key => $day) {
+            $result[$key] = 'Tous les ' . $day . 's';
+        }
+        return $result;
+    }
+
+    public static function getHabitDaysValues()
+    {
+        return array_keys(self::getHabitDays());
+    }
+
+    /**
+     * @var bool
+     */
+    private $canteen_signed = false;
+
+    /**
+     * @var bool
+     */
+    private $tapgarderie_signed = false;
+
+    /**
+     * @var bool
+     */
+    private $voyage_signed = false;
+
+
+    /**
+     * @return boolean
+     */
+    public function isCanteenSigned()
+    {
+        return $this->canteen_signed;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isTapgarderieSigned()
+    {
+        return $this->tapgarderie_signed;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isVoyageSigned()
+    {
+        return $this->voyage_signed;
+    }
+
+    /**
+     * @param boolean $canteen_signed
+     * @return Eleve
+     */
+    public function setCanteenSigned($canteen_signed)
+    {
+        $this->canteen_signed = $canteen_signed;
+        return $this;
+    }
+
+    /**
+     * @param boolean $tapgarderie_signed
+     * @return Eleve
+     */
+    public function setTapgarderieSigned($tapgarderie_signed)
+    {
+        $this->tapgarderie_signed = $tapgarderie_signed;
+        return $this;
+    }
+
+    /**
+     * @param boolean $voyage_signed
+     * @return Eleve
+     */
+    public function setVoyageSigned($voyage_signed)
+    {
+        $this->voyage_signed = $voyage_signed;
+        return $this;
+    }
 }

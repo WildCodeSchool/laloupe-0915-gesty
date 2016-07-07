@@ -6,9 +6,16 @@ wcs_cantine:
     resource: "@WCSCantineBundle/Resources/config/routing.yml"
     prefix:   /
 
+wcs_employee:
+    resource: "@WCSEmployeeBundle/Resources/config/routing.yml"
+    prefix:   /manager
+
+
 admin:
     resource: "@SonataAdminBundle/Resources/config/routing/sonata_admin.xml"
     prefix: /admin
+
+
 
 
 _sonata_admin:

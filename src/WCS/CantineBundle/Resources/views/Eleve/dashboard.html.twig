@@ -1,9 +1,7 @@
 {% extends '::base.html.twig' %}
-
 {% block body %}
-
-    {% if presentChildren == null %}
-        <div class="modal fade" tabindex="-1" data-backdrop="show" role="dialog"id="myModal">
+    {% if children == null %}
+        <div class="modal fade" tabindex="-1" data-backdrop="show" role="dialog" id="myModal">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -13,7 +11,7 @@
                     <div class="modal-body">
                         <p style="color:red;">En cas de 1ère inscription merci de ne pas oublier d'enregistrer votre(vos) enfant(s) en cliquant sur le bouton suivant :
                             <a href="{{ path('eleve_create') }}" class="btn btn-primary">
-                                Inscrire mon enfant
+                                Enregistrer mon(mes) enfant(s)
                             </a>
                         </p>
                     </div>
@@ -26,79 +24,112 @@
     {% endif %}
 
 
-    <div class="col-md-8 col-md-offset-2">
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    <!--
+    =======================================================================
+    INFORMATION PARENT D'ELEVE
+    =======================================================================
+    -->
+    <div class="col-md-10 col-md-offset-1">
         <div class="informations__familles">
-            <p>Bonjour :
-                {% if app.user.gender == 'm' %}
-                    M.
-                {% else %}
-                    Mme
-                {% endif %}
-                {{ app.user.lastname }}  {{ app.user.firstname }} </p>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <p>Bonjour :
+                    {% if app.user.gender == 'm' %}
+                        M.
+                    {% else %}
+                        Mme
+                    {% endif %}
+                    {{ app.user.lastname }}  {{ app.user.firstname }}
+                </p>
             {% endif %}
 
 
-            <div class="my-home col-md-7">
+            <div class="my-home col-md-6">
                 <h1>Mon Foyer <span class="created__at">(Créé le {{ app.user.createdAt|date('d-m-Y') }})</span></h1>
-                {% if app.user.validation == 0 %}
-                    <h3 class="validation"><span class="label label-warning">En attente de validation</span></h3></br>
-                {% else %}
-                    <h3 class="validation"><span class="label label-success"> Validé</span></h3></br>
-                {% endif %}
 
-                <p> {{ app.user }} </p><br/>
-
-
-                <tr>
-                    {% if user.phone %}
-                        <td><i class="fa fa-phone"></i>{{ user.phone }}</td><br/>
+                Etat de votre inscription :
+                <h3 class="validation">
+                    {% if app.user.validation == 0 %}
+                        <span class="label label-warning">En attente de validation</span>
                     {% else %}
-                        <td><i class="fa fa-phone"></i>Aucun numéro de téléphone renseigné</td><br/>
+                        <span class="label label-success"> Validée</span>
                     {% endif %}
+                </h3>
+                <br />
+
+                <p> {{ user.email }} </p><br/>
+
+
+                    {% if user.phone %}
+                        <i class="fa fa-phone"></i>{{ user.phone }}<br/>
+                    {% else %}
+                        <i class="fa fa-phone"></i>Aucun numéro de téléphone renseigné<br/>
+                    {% endif %}
+
                     <blockquote>
                         {% if user.adresse %}
-                            <td>{{ user.adresse }}</td><br/>
+                            {{ user.adresse }}
                         {% else %}
-                            <td>Aucune adresse renseignée</td><br/>
+                            Aucune adresse renseignée
                         {% endif %}
+                        <br />
+
                         {% if user.codePostal%}
-                            <td>{{ user.codePostal }}</td><br/>
+                            {{ user.codePostal }}
                         {% else %}
-                            <td>Aucun code postal renseigné</td><br/>
+                            Aucun code postal renseigné
                         {% endif %}
+                        <br />
+
                         {% if user.commune%}
-                            <td>{{ user.commune }}</td><br/>
+                            {{ user.commune }}
                         {% else %}
-                            <td>Aucune commune renseignée</td><br/>
+                            Aucune commune renseignée
                         {% endif %}
                     </blockquote>
-                    {% if  modeDePaiement == 'Cheque' %}
-                        <td>Paiement par chèque</td>
-                    {% elseif modeDePaiement == 'Especes' %}
-                        <td>Paiement par espèces</td>
-                    {% elseif modeDePaiement == 'Prelevements' %}
-                        <td>Paiement par prélèvement</td>
-                    {% else  %}
-                        <td>Aucun moyen de paiement renseigné</td>
+
+                    {% if  user.modeDePaiement == 'Cheque' %}
+                        Paiement par chèque
+
+                    {% elseif  user.modeDePaiement == 'Prelevements' %}
+                        Paiement par prélèvements
+
+                    {% elseif  user.modeDePaiement == 'Especes' %}
+                        Paiement en espèces
+
+                    {% elseif  user.modeDePaiement == 'Carte Bancaire' %}
+                        Paiement par carte bancaire
+
+                    {% else %}
+                        Aucun moyen de paiement renseigné
                     {% endif %}
-                </tr><br/>
+                    <br/>
             </div>
 
 
             <div class="row">
                 <div class="col-md-5">
                     <h3>Mes justificatifs</h3>
-                    <td>
-                        {% for key,array in files %}
-                            {% for justificatifs,link in array %}
-                                {% if justificatifs and link%}
-                                    <a href="{{ asset("bundles/wcscantine/uploads/" ~ link ) }}" target="_blank">{{ justificatifs }}</a></br>
+                        <ul>
+                        {% for type_file, infos in files %}
+                            {% if infos.exists %}
+                                <li>
+                            <a href="{{ path('gesty_parent_download', {'type_file':type_file} ) }}" target="_blank">{{infos.libelle_justif }}</a>
+                                    <br />&nbsp;
+                                </li>
+                            {% else %}
+                                <li  class="fa fa-exclamation" aria-hidden="true">
+                                {% if type_file == constant('Application\\Sonata\\UserBundle\\Entity\\User::TYPE_IMPOTS') %}
+                                    Vous avez {{nbChildrenVoyageInscrits}} enfant{{ nbChildrenVoyageInscrits>1?'s':'' }} inscrit{{ nbChildrenVoyageInscrits>1?'s':'' }} à au moins 1 voyage scolaire :<br /> n'oubliez pas de fournir
+                                    votre dernier avis d'imposition.
+                                {% else %}
+                                    Fournir : {{ infos.libelle_justif }}
                                 {% endif %}
-                            {% endfor %}
-                        {% endfor %}
+                                    <br />&nbsp;
+                                </li>
+                            {% endif %}
 
-                    </td>
+                        {% endfor %}
+                        </ul>
                 </div>
             </div>
 
@@ -109,61 +140,363 @@
                     {% endfor %}
                 </div>
             {% endif %}
-            <a href="{{ path('sonata_user_profile_show') }}"><input type="button" value="Modifier mes informations"class="btn btn-primary"></a>
-            <a href="{{ path('eleve_create') }}" class="btn btn-primary">Inscrire mon enfant</a>
+
+            <a href="{{ path('wcs_cantine_profil') }}"><input type="button" value="Modifier mes informations" class="btn btn-primary"></a>
+            <a href="{{ path('eleve_create') }}" class="btn btn-primary">Enregistrer mon(mes) enfant(s)</a>
+            {% if user.modeDePaiement != 'Prelevements' %}
+            <a href="https://www.tipi.budget.gouv.fr/tpa/accueilportail.web" target="_blank"><input type="button" value="Paiement Carte Bleue via plateforme sécurisée" class="btn-carte"> </a>
+            {% endif %}
+
         </div>
+
+
+        <!--
+        =======================================================================
+        LISTE DES ENFANTS
+        =======================================================================
+        -->
         <div class="children-list">
             <h3>Mes enfants</h3>
 
+            {% if children == null %}
+                <div>
+                    Vous n'avez pas encore enregistré votre(vos) enfant(s).
+                </div>
+            {% endif %}
+
+            <div class="panel panel-default">
             {% for child in children %}
-                <tr>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <td>{{ child.nom }}</td>
-                            <td>{{ child.prenom }}</td><br/>
+
+
+                        <!--
+                        Information enfant
+                        -->
+
+                        <div class="panel-eleve" id="eleve_{{ child.id }}">
+                            <span>{{ child.prenom }}</span>
+                            <div>
+                               <input type="button" value="Voir le détail" id="show_eleve_{{ child.id }}" class="show_eleve btn btn-primary"><br/>
+
+                            </div>
                         </div>
-                        <div class="panel-body-1">
-                            <td>Né(é) le {{ child.dateDeNaissance|date('d-m-Y') }}</td></br>
-                            <td><strong>Classe:</strong> {{ child.division }}</td><br/>
 
-                            {% if child.allergie %}
-                            <td>Allergie: {{ child.allergie }}</td>
-                        {% else %}
-                            <td>Aucune allergie alimentaire renseignée</td>
-                            {% endif %}<br/>
-                            {% if child.regimeSansPorc %}
-                            <td>Regime sans porc </td>
-                            {% else %}
+                        <div class="panel-body-1 fiche_eleve" id="eleve_body_{{ child.id }}">
+                            <div>Né(e) le {{ child.dateDeNaissance|date('d-m-Y') }}</div><br />
+                            <div><strong>Classe:</strong> {{ child.division }}</div><br/>
 
-                            {% endif %}<br/>
+                            <a href="{{ path('eleve_edit', { 'id': child.id })}}"><input type="button" value="Modifier" class="btn btn-primary" style="margin:0"></a><br/>
 
 
-                            <p>Mange habituellement le :</p><br/>
+                            <!--
+                            Onglets "Cantine, TAP, Voyages"
+                            -->
 
-                            <div class="btn-group btn-group-justified" role="group">
-                                {% for key,day in child.HabitDays %}
-                                    <a href="#" type="button" class="btn disabled {% if key in child.habits %}btn-success{% else %}btn-default{% endif %}">{{ day }}</a>
-                                {% endfor %}
+                            <ul class="eleve_tabs">
+                                {% if child.division.school.activeCantine %}
+                                <li class="eleve_tab tab_cantine">Cantine</li>
+                                {% endif %}
+
+                                {% if child.division.school.activeTap and child.division.school.activeGarderie %}
+                                    <li class="eleve_tab tab_garderie">TAP et Garderie</li>
+                                {% elseif child.division.school.activeTap %}
+                                    <li class="eleve_tab tab_garderie">TAP</li>
+                                {% elseif child.division.school.activeGarderie %}
+                                    <li class="eleve_tab tab_garderie">Garderie</li>
+                                {% endif %}
+
+                                {% if child.division.school.activeVoyage %}
+                                <li class="eleve_tab tab_voyages">Voyages</li>
+                                {% endif %}
+                            </ul>
+
+
+                            <!--
+                            Page "Cantine"
+                            -->
+                            <div class="eleve_tabs_body tab_cantine" style="display:none">
+
+                                {% if child.division.school.activeCantine %}
+                                    <div>
+                                        <div>
+                                            {% if child.allergie %}
+                                                Allergie: {{ child.allergie }}
+                                            {% else %}
+                                                Aucune allergie alimentaire renseignée
+                                            {% endif %}
+                                        </div>
+
+                                        {% if child.regimeSansPorc %}
+                                        <div>Regime sans porc </div>
+                                        {% endif %}<br/>
+
+                                        <p>Mange habituellement le :</p><br/>
+
+                                        <div class="btn-group btn-group-justified" role="group">
+                                            {% for key,day in child.HabitDays %}
+                                                <a href="#" type="button" class="btn disabled {% if key in child.habits %}btn-success{% else %}btn-default{% endif %}">{{ day }}</a>
+                                            {% endfor %}
+                                        </div>
+
+                                        <a href="{{ path('cantine_inscription', { 'id': child.id }) }}" class="btn btn-primary">Inscrire ou modifier le calendrier</a>
+                                        <br />
+                                        <br />
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <ul>
+                                                    <li><a target="_blank" href="{{ asset('bundles/wcscantine/règlement/Reglement_interieur_cantine.pdf') }}">Télécharger le règlement intérieur</a></li>
+                                                    <li><a target="_blank" href="{{ asset('bundles/wcscantine/règlement/Les_10_regles_d_or_de_la_cantine.pdf') }}">Télécharger les 10 règles d'or de la cantine</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div>
+                                        <em>Pour inscrire votre enfant au restaurant scolaire<br /> renseignez-vous auprès de son école.</em>
+                                    </div>
+                                {% endif %}
                             </div>
 
-                            <a href="{{ path('eleve_edit', { 'id': child.id })}}"><input type="button" value="Modifier"class="btn btn-primary"></a><br/>
+
+                            <!--
+                            Page "TAP/Garderie"
+                            -->
+
+                            <div class="eleve_tabs_body tab_garderie" style="display:none">
+
+                                {% if child.division.school.activeTap or child.division.school.activeGarderie %}
+                                    <div>
+                                        <p>Période du {{ period_subscriptions.firstDate|date('d/m/Y') }} au {{ period_subscriptions.lastDate|date('d/m/Y') }}</p><br/>
+
+                                        <div class="btn-group btn-group-justified" role="group">
+                                            <a href="#" type="button" class="btn disabled btn-default">&nbsp;</a>
+                                            <a href="#" type="button" class="btn disabled btn-default">Lun</a>
+                                            <a href="#" type="button" class="btn disabled btn-default">Mar</a>
+                                            <a href="#" type="button" class="btn disabled btn-default">Mer</a>
+                                            <a href="#" type="button" class="btn disabled btn-default">Jeu</a>
+                                            <a href="#" type="button" class="btn disabled btn-default">Ven</a>
+                                        </div>
+                                        {% if child.division.school.activeGarderie %}
+                                        <div class="btn-group btn-group-justified" role="group">
+                                            <a href="#" type="button" class="btn disabled btn-default">Garderie <br />matin</a>
+                                            <a href="#" type="button" class="btn disabled {% if '1-1' in children_activities[child.id]['garderies'] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '2-1' in children_activities[child.id]['garderies'] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '3-1' in children_activities[child.id]['garderies'] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '4-1' in children_activities[child.id]['garderies'] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '5-1' in children_activities[child.id]['garderies'] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                        </div>
+                                        {% endif %}
+                                        {% if child.division.school.activeTap %}
+                                        <div class="btn-group btn-group-justified" role="group">
+                                            <a href="#" type="button" class="btn disabled btn-default">TAP<br />&nbsp;</a>
+                                            <a href="#" type="button" class="btn disabled btn-default"></a>
+                                            <a href="#" type="button" class="btn disabled  {% if '2' in children_activities[child.id]['taps'] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled btn-default"></a>
+                                            <a href="#" type="button" class="btn disabled  {% if '4' in children_activities[child.id]['taps'] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled btn-default"></a>
+                                        </div>
+                                        {% endif %}
+                                        {% if child.division.school.activeGarderie %}
+                                        <div class="btn-group btn-group-justified" role="group">
+                                            <a href="#" type="button" class="btn disabled btn-default">Garderie<br />soir</a>
+                                            <a href="#" type="button" class="btn disabled {% if '1-2' in children_activities[child.id]['garderies'] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '2-2' in children_activities[child.id]['garderies'] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled btn-default"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '4-2' in children_activities[child.id]['garderies'] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                            <a href="#" type="button" class="btn disabled {% if '5-2' in children_activities[child.id]['garderies'] %}btn-success{% else %}btn-default{% endif %}"></a>
+                                        </div>
+                                        {% endif %}
+
+                                        <a href="{{ path('tapgarderie_inscription', {'id':child.id}) }}" class="btn btn-primary">Inscrire ou modifier l'inscription</a>
+                                    </div>
+                                {% else %}
+                                    <div>
+                                        <em>Pour inscrire votre enfant en TAP ou en Garderie<br /> renseignez-vous auprès de son école.</em>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!--
+                            Page "Voyages"
+                            -->
+
+                            <div class="eleve_tabs_body tab_voyages" style="display:none">
+
+                                {% if child.division.school.activeVoyage %}
+                                    <div>
+                                        {% if child.voyages.count %}
+
+                                            <ul>
+                                                {% for voyage in child.voyages %}
+                                                <li>{{ voyage }}</li>
+                                                {% endfor %}
+                                            </ul>
+
+                                            <br />
+
+                                            {%  if user.pathImpots %}
+                                                <br />Télécharger votre :
+                                                <a href="{{ path("gesty_parent_download", {'type_file': constant('Application\\Sonata\\UserBundle\\Entity\\User::TYPE_IMPOTS')} ) }}" target="_blank">Justificatif d'imposition</a>
+                                            {%  else %}
+                                                <br /><em>Pensez à déposer votre dernier avis d'imposition lors de l'inscription de votre enfant</em>
+                                            {%  endif  %}
+                                            <br />
+
+                                        {% else %}
+                                            Votre enfant n'est inscrit à aucun voyage.
+                                        {% endif %}
+
+                                        <a href="{{ path('voyage_inscription', {'id':child.id}) }}" class="btn btn-primary">Inscrire ou modifier les inscriptions</a>
+                                    </div>
+                                {% else %}
+                                    <div>
+                                        <em>Pour inscrire votre enfant à un voyage scolaire prévu<br /> renseignez-vous auprès de son école.</em>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+
                         </div>
-                    </div>
-
-
-                </tr>
             {% endfor %}
-
+            </div>
         </div>
 
-
-        <blockquote>
-            <ul>
-                <li><a target="_blank" href="{{ asset('bundles/wcscantine/règlement/Reglement_interieur_cantine.pdf') }}">Télécharger le règlement intérieur</a></li>
-                <li><a target="_blank"href="{{ asset('bundles/wcscantine/règlement/Les_10_regles_d_or_de_la_cantine.pdf') }}">Télécharger les 10 règles d'or de la cantine</a></li>
-            </ul>
-        </blockquote>
     </div>
 
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+
+        //-----------------------------------------------------------------------------------------
+        // Gestion des onglets "Cantine, TAP/Garderie, Voyages" dans la liste d'enfants.
+        //-----------------------------------------------------------------------------------------
+        window.addEventListener('load', function() {
+
+            //#########################################################################################
+            // Helpers
+            //#########################################################################################
+            var get = function(id)
+            {
+                return document.getElementById(id);
+            };
+
+            //-----------------------------------------------------------------------------------------
+            // Renvoit un 'array' d'objets HTML ayant un "classname" dans l'attribut "class"
+            //-----------------------------------------------------------------------------------------
+            var getNodes = function(classname)
+            {
+                var nodeList = document.getElementsByClassName(classname);
+                return [].map.call(nodeList, function(item) { return item; })
+            };
+
+            var addClick = function(item, callback) {
+                if (item.addEventListener) {
+                    item.addEventListener('click', function() {
+                        callback(item);
+                    });
+                }
+                else if (item.attachEvent) {
+                    item.attachEvent('click', function() {
+                        // Probleme avec "this" qui référence le document et non l'objet
+                        callback(item);
+                    });
+                }
+            };
+
+            //#########################################################################################
+            // Gestion des onglets / pages pour un élève donné
+            //#########################################################################################
+            //-----------------------------------------------------------------------------------------
+            // Sélectionne l'onglet ayant "classname" dans l'attribut "class"
+            //-----------------------------------------------------------------------------------------
+            var toggle = function(classname)
+            {
+                // si l'objet est déjà sélectionné, on passe, sinon on met à jour
+                if (classname.indexOf("toggle_active")==-1) {
+
+                    // on récupère la classname commençant par "tag_"
+                    // dans l'onglet à sélectionner et on affiche la page correspondante
+                    var selected = '';
+
+                    classname.split(' ').find(function(value) {
+                        if (value.indexOf("tab_")!=-1) {
+                            selected = value;
+                        }
+                    });
+
+                    // affiche uniquement la "page" sélectionnée
+                    getNodes("eleve_tabs_body").map(function (item) {
+                        item.style.display = (item.className.indexOf(selected)!=-1)?'block':'none';
+                    });
+
+                    // désélectionne tous les onglets
+                    getNodes("eleve_tab").map(function (item) {
+                        item.className = item.className.replace(" toggle_active", "");
+                        item.style.cursor = 'pointer';
+                    });
+
+                    // sélectionne l'onglet voulu
+                    getNodes(classname).map(function (item) {
+                        item.className = item.className + ' toggle_active';
+                        item.style.cursor = 'default';
+                    });
+
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------
+            // Initialise le document HTML
+            //-----------------------------------------------------------------------------------------
+            getNodes("eleve_tab").map(function(item) {
+                addClick(item, function(item){ toggle(item.className); });
+            });
+
+            toggle("tab_cantine");
+
+
+            //#########################################################################################
+            // Gestion de la liste des élèves
+            //#########################################################################################
+            var toggleEleve = function(item)
+            {
+                var id = item.id.substr(item.id.indexOf("_")+1);
+                var s = get("eleve_body_"+id).style;
+
+                // masque tout
+                getNodes('fiche_eleve').map(function(e) {
+                    if (e.id != 'eleve_body_'+id) {
+                        e.style.display = 'none';
+                    }
+                });
+
+                getNodes('show_eleve').map(function(e) {
+                    e.value = 'Voir le détail';
+                });
+
+
+                // affiche ou masque les infos de l'élève sélectionné
+                if (s.display == 'none') {
+                    get("eleve_body_"+id).style.display = 'block';
+                    get("show_eleve_"+id).value = 'Masquer';
+                }
+                else {
+                    get("eleve_body_"+id).style.display = 'none';
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------
+            // Définit l'évènement on click
+            //-----------------------------------------------------------------------------------------
+            {% for child in children %}
+                addClick(get('eleve_{{ child.id }}'), toggleEleve);
+                get('eleve_{{ child.id }}').style.cursor = 'pointer';
+                get('eleve_body_{{ child.id }}').style.display = 'none';
+            {% endfor %}
+
+        });
+
+    </script>
 {% endblock %}

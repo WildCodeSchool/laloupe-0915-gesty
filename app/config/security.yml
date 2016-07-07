@@ -23,6 +23,8 @@ security:
                 use_forward:    false
                 check_path:     /admin/login_check
                 failure_path:   null
+                require_previous_session: false
+                default_target_path: /admin/
             logout:
                 path:           /admin/logout
                 target:         /admin/login
@@ -44,6 +46,7 @@ security:
                 use_forward:    false
                 check_path:     /login_check
                 failure_path:   null
+                require_previous_session: false
             logout:             true
             anonymous:          true
             remember_me:
@@ -58,30 +61,38 @@ security:
         connection: default
 
     role_hierarchy:
+        ROLE_CANTINE:     [ROLE_CANTINE]
+        ROLE_TAP:         [ROLE_TAP]
+        ROLE_GARDERIE:    [ROLE_GARDERIE]
         ROLE_USER:        [ROLE_USER]
-        ROLE_ADMIN:       [ROLE_ADMIN]
-        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_SONATA_ADMIN]
+        ROLE_ADMIN:       [ROLE_ADMIN, ROLE_CANTINE, ROLE_TAP, ROLE_GARDERIE]
+        ROLE_SUPER_ADMIN: [ROLE_SONATA_ADMIN]
 
         #SONATA:
            # - ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT  # if you are using acl then this line must be commented
             
     access_control:
-            # URL of FOSUserBundle which need to be available to anonymous users
-            - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-            - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-            - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-
             # Admin login page needs to be access without credential
             - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
             - { path: ^/admin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
             - { path: ^/admin/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
 
 
+            # URL of FOSUserBundle which need to be available to anonymous users
+            - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+            - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+            - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+
             # Secured part of the site
             # This config requires being logged for the whole site and having the admin role for the admin part.
             # Change these rules to adapt them to your needs
-            - { path: ^/admin/, role: [ROLE_ADMIN, ROLE_SONATA_ADMIN] }
-            - { path: ^/canteenManager/, role: [ROLE_ADMIN] }
+            - { path: ^/admin/, role: [ROLE_SONATA_ADMIN] }
+            - { path: ^/manager/cantine/, role: [ROLE_ADMIN, ROLE_CANTINE] }
+            - { path: ^/manager/tap/, role: [ROLE_ADMIN, ROLE_TAP] }
+            - { path: ^/manager/garderie_matin/, role: [ROLE_ADMIN, ROLE_GARDERIE] }
+            - { path: ^/manager/garderie_soir/, role: [ROLE_ADMIN, ROLE_GARDERIE] }
+            - { path: ^/manager/, role: [ROLE_ADMIN, ROLE_CANTINE, ROLE_TAP, ROLE_GARDERIE] }
             - { path: ^/*, role: [IS_AUTHENTICATED, ROLE_USER] }
 
 

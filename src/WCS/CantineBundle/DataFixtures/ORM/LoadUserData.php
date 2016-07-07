@@ -16,101 +16,143 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
+        /**
+         * @var \Application\Sonata\UserBundle\Entity\User $user
+         */
         // Get our userManager, you must implement `ContainerAwareInterface`
         $userManager = $this->getUserManager();
 
         // Creation du User admin
-        $user1 = $userManager->createUser();
-        $user1->setPlainPassword('admin');
-        $user1->setEnabled(true);
-        $user1->setEmail('admin1@email.com');
-        $user1->setRoles(array('ROLE_SUPER_ADMIN'));
-        $user1->setFirstname('Admin');
-        $user1->setLastname('Admin');
-        $user1->setPhone('0768298272');
-        $userManager->updateUser($user1, true);
-        $this->addReference('superAdmin', $user1);
+        $user = $userManager->createUser();
+        $user->setPlainPassword('admin');
+        $user->setEnabled(true);
+        $user->setEmail('admin1@email.com');
+        $user->setRoles(array('ROLE_SUPER_ADMIN'));
+        $user->setFirstname('Admin');
+        $user->setLastname('Admin');
+        $user->setPhone('0768298272');
+        $userManager->updateUser($user);
+        $this->addReference('superAdmin', $user);
 
-        // Creation du User aaa
-        $user2 = $userManager->createUser();
-        $user2->setPlainPassword('aaa');
-        $user2->setEnabled(true);
-        $user2->setEmail('aaa@email.com');
-        $user2->setRoles(array('ROLE_USER'));
-        $user2->setFirstname('Aaa');
-        $user2->setLastname('Aaa');
-        $user2->setPhone('0768298272');
-        $user2->setModeDePaiement('Cheque');
-        $user2->setValidation(true);
-        $userManager->updateUser($user2, true);
-        $this->addReference('user', $user1);
+        $parents = [
+          
+            ['aaa', 'true', 'dupontel@email.fr',    'm', 'Michel', 'Dupontel','rue de la gare', '28240', 'La Loupe', 'true'],
+            ['aaa', 'true', 'robert@email.fr',      'f', 'Valerie', 'Robert','rue de la place', '28240', 'La Loupe', 'true'],
+            ['aaa', 'true', 'larissa@email.fr',     'm', 'Antoine', 'Larissa','rue du puit', '28240', 'La Loupe', 'true'],
+            ['aaa', 'true', 'veron@email.fr',       'm', 'Thomas', 'Veron','rue de la potence', '28240', 'La Loupe', 'true'],
+            ['aaa', 'true', 'batista@email.fr',     'f', 'Laurine', 'Batista','rue des vergers', '28240', 'La Loupe',  'true'],
+            ['aaa', 'true', 'bouteiller@email.fr',  'm', 'André', 'Bouteiller','lieu dit des noyers', '28240', 'La Loupe', 'true'],
+            ['aaa', 'true', 'butin@email.fr',       'm', 'Gregory', 'Butin','rue des artistes', '28240', 'La Loupe', 'true'],
+            ['aaa', 'true', 'dorel@email.fr',       'm', 'Louis', 'Dorel','rue du pont', '28240', 'La Loupe', 'true'],
+            ['aaa', 'true', 'nelon@email.fr',       'm', 'Maurice', 'Nelon','rue de la gare', '28240', 'La Loupe', 'true'],
+            
 
-        // Creation du User damedecantine
-        $user3 = $userManager->createUser();
-        $user3->setPlainPassword('aaa');
-        $user3->setEnabled(true);
-        $user3->setEmail('damedecantine@email.com');
-        $user3->setRoles(array('ROLE_ADMIN'));
-        $user3->setFirstname('Aaa');
-        $user3->setLastname('Aaa');
-        $user3->setPhone('0768298272');
-        $userManager->updateUser($user3, true);
-        $this->addReference('dameCantine', $user1);
+        ];
 
-        $user4 = $userManager->createUser();
-        $user4->setPlainPassword('laloupe');
-        $user4->setEnabled(true);
-        $user4->setEmail('bruno@email.com');
-        $user4->setRoles(array('ROLE_USER'));
-        $user4->setFirstname('Bruno');
-        $user4->setLastname('Bob');
-        $user4->setPhone('0778909843');
-        $userManager->updateUser($user4, true);
-        $this->addReference('user2', $user1);
+        foreach ($parents as $parent) {
+            $user = $userManager->createUser();
+            $user->setPlainPassword($parent[0]);
+            $user->setEnabled($parent[1]);
+            $user->setEmail($parent[2]);
+            $user->setRoles(array('ROLE_USER'));
+            $user->setGender($parent[3]);
+            $user->setFirstname($parent[4]);
+            $user->setLastname($parent[5]);
+            $user->setPhone('0201010101');
+            $user->setAdresse($parent[6]);
+            $user->setCodePostal($parent[7]);
+            $user->setCommune($parent[8]);
+            $user->setModeDePaiement('Cheque');
+            $user->setValidation(true);
+            $userManager->updateUser($user);
+            $this->addReference($parent[5], $user);
 
-        $user5 = $userManager->createUser();
-        $user5->setPlainPassword('jecode');
-        $user5->setEnabled(true);
-        $user5->setEmail('twig@email.com');
-        $user5->setRoles(array('ROLE_USER'));
-        $user5->setFirstname('Marine');
-        $user5->setLastname('Twig');
-        $user5->setPhone('0678434578');
-        $userManager->updateUser($user5, true);
-        $this->addReference('user3', $user1);
+        }
 
-        $user6 = $userManager->createUser();
-        $user6->setPlainPassword('ttt');
-        $user6->setEnabled(true);
-        $user6->setEmail('tata@email.com');
-        $user6->setRoles(array('ROLE_USER'));
-        $user6->setFirstname('Tony');
-        $user6->setLastname('Donatello');
-        $user6->setPhone('0678434556');
-        $userManager->updateUser($user6, true);
-        $this->addReference('user4', $user1);
+        
+        // Creation du User employe de service
+        $user = $userManager->createUser();
+        $user->setPlainPassword('aaa');
+        $user->setEnabled(true);
+        $user->setEmail('employe@email.com');
+        $user->setRoles(array('ROLE_ADMIN'));
+        $user->setFirstname('Aaa');
+        $user->setLastname('Aaa');
+        $user->setPhone('0768298272');
+        $userManager->updateUser($user);
+        $this->addReference('employe', $user);
 
-        $user7 = $userManager->createUser();
-        $user7->setPlainPassword('uuu');
-        $user7->setEnabled(true);
-        $user7->setEmail('tanguy@email.com');
-        $user7->setRoles(array('ROLE_USER'));
-        $user7->setFirstname('Eric');
-        $user7->setLastname('Tanguy');
-        $user7->setPhone('0678434853');
-        $userManager->updateUser($user7, true);
-        $this->addReference('user5', $user1);
+        // Creation du User employe CANTINE seule
+        $user = $userManager->createUser();
+        $user->setPlainPassword('aaa');
+        $user->setEnabled(true);
+        $user->setEmail('cantine@email.com');
+        $user->setRoles(array('ROLE_CANTINE'));
+        $user->setFirstname('Aaa');
+        $user->setLastname('Aaa');
+        $user->setPhone('0768298272');
+        $userManager->updateUser($user);
+        $this->addReference('employeCantine', $user);
+
+        // Creation du User employe TAP seul
+        $user = $userManager->createUser();
+        $user->setPlainPassword('aaa');
+        $user->setEnabled(true);
+        $user->setEmail('tap@email.com');
+        $user->setRoles(array('ROLE_TAP'));
+        $user->setFirstname('Aaa');
+        $user->setLastname('Aaa');
+        $user->setPhone('0768298272');
+        $userManager->updateUser($user);
+        $this->addReference('employeTap', $user);
+
+        // Creation du User employe GARDERIE seul
+        $user = $userManager->createUser();
+        $user->setPlainPassword('aaa');
+        $user->setEnabled(true);
+        $user->setEmail('garderie@email.com');
+        $user->setRoles(array('ROLE_GARDERIE'));
+        $user->setFirstname('Aaa');
+        $user->setLastname('Aaa');
+        $user->setPhone('0768298272');
+        $userManager->updateUser($user);
+        $this->addReference('employeGarderie', $user);
+
+
+        // Creation du User employe TAP/GARDERIE seul
+        $user = $userManager->createUser();
+        $user->setPlainPassword('aaa');
+        $user->setEnabled(true);
+        $user->setEmail('tapgarderie@email.com');
+        $user->setRoles(array('ROLE_TAP', 'ROLE_GARDERIE'));
+        $user->setFirstname('Aaa');
+        $user->setLastname('Aaa');
+        $user->setPhone('0768298272');
+        $userManager->updateUser($user);
+        $this->addReference('employeTapGarderie', $user);
+
     }
 
+    /**
+     * @return mixed
+     */
     public function getSecurityManager()
     {
         return $this->container->get('security.encoder_factory');
     }
 
+    /**
+     * @param ContainerInterface|null $container
+     */
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
