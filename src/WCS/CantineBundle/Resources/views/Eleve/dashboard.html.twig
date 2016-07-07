@@ -163,7 +163,7 @@
                         <div class="panel-eleve" id="eleve_{{ child.id }}">
                             <span>{{ child.prenom }}</span>
                             <div>
-                               <input type="button" value="Voir le détail" class="btn btn-primary"><br/>
+                               <input type="button" value="Voir le détail" id="show_eleve_{{ child.id }}" class="show_eleve btn btn-primary"><br/>
 
                             </div>
                         </div>
@@ -450,7 +450,6 @@
             //#########################################################################################
             var toggleEleve = function(item)
             {
-                console.log("toggleEleve " + item.id);
                 var id = item.id.substr(item.id.indexOf("_")+1);
                 var s = get("eleve_body_"+id).style;
 
@@ -461,8 +460,19 @@
                     }
                 });
 
+                getNodes('show_eleve').map(function(e) {
+                    e.value = 'Voir le détail';
+                });
+
+
                 // affiche ou masque les infos de l'élève sélectionné
-                get("eleve_body_"+id).style.display = (s.display == 'none')?'block':'none';
+                if (s.display == 'none') {
+                    get("eleve_body_"+id).style.display = 'block';
+                    get("show_eleve_"+id).value = 'Masquer';
+                }
+                else {
+                    get("eleve_body_"+id).style.display = 'none';
+                }
             };
 
             //-----------------------------------------------------------------------------------------
@@ -473,7 +483,6 @@
                 get('eleve_{{ child.id }}').style.cursor = 'pointer';
                 get('eleve_body_{{ child.id }}').style.display = 'none';
             {% endfor %}
-            document.getElementsByClassName('fiche_eleve')[0].style.display = 'block';
 
         });
 
