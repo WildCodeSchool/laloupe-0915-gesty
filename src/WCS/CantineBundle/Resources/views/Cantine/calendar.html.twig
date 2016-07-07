@@ -82,15 +82,24 @@
 
                                 <td class="calendar-reservation-over">
                                 {% if isReserved %}
+                                    <!--
                                     <input disabled="disabled" class="calendar-checkbox day{{ jour.weekDay }}" type="checkbox" title="{{ jour }}" value="{{ jour }}" name="dates[]">
+                                    -->
+                                    <i disabled="disabled" class="box boxunchecked calendar-checkbox day{{ jour.weekDay }}" title="{{ jour }}" value="{{ jour }}" name="dates[]"> </i>
                                 {% else %}
+                                    <!--
                                     <input disabled="disabled" class="calendar-checkbox day{{ jour.weekDay }}" type="checkbox" title="{{ jour }}" value="" name="dates[]">
+                                    -->
+                                    <i disabled="disabled" class="box boxunchecked calendar-checkbox day{{ jour.weekDay }}" title="{{ jour }}" value="{{ jour }}" name="dates[]"> </i>
                                 {% endif %}
 
                             {% else %}
 
-                                <td class="calendar-reserved">
-                                 <input class="calendar-checkbox day{{ jour.weekDay }}" type="checkbox" title="{{ jour }}" value="{{ jour }}" name="dates[]">
+                                <td>
+                                    <!--
+                                     <input class="calendar-checkbox day{{ jour.weekDay }}" type="checkbox" title="{{ jour }}" value="{{ jour }}" name="dates[]">
+                                     -->
+                                    <i class="box boxunchecked calendar-checkbox day{{ jour.weekDay }}" title="{{ jour }}" value="{{ jour }}" name="dates[]"> </i>
                             {% endif %}
 
                             {#
@@ -121,11 +130,11 @@
 <div class="calendar-legend text-center col-md-12">
     <div class="row">
         <div class="col-md-3">
-            <span class="calendar-legend-square calendar-reserved"></span>
+            <span class="boxunchecked"></span>
             Réservable
         </div>
         <div class="col-md-3">
-            <span class="calendar-legend-square calendar-reservation-over"></span>
+            <span class="legend_boxdisabled"></span>
             Non réservable
         </div>
         <div class="col-md-4">
@@ -152,6 +161,23 @@
         var today = new Date('{{ first_day_available|date('Y-m-d') }}');
 
         // ---------------------------------------------------------------------------------------------------
+        // coche/décoche une case
+        // ---------------------------------------------------------------------------------------------------
+        var check_toggle = function(el) {
+
+            var cssclass = el.prop('class');
+
+            if (undefined == el.prop('disabled')) {
+                if (cssclass.indexOf('boxchecked')>0) {
+                    el.prop('class', cssclass.replace(/boxchecked/g, 'boxunchecked'));
+                }
+                else {
+                    el.attr('class', cssclass.replace(/boxunchecked/g, 'boxchecked'));
+                }
+            }
+        };
+
+        // ---------------------------------------------------------------------------------------------------
         // affiche un message d'avertissement
         // ---------------------------------------------------------------------------------------------------
         var showWarningText = function()
@@ -176,7 +202,7 @@
             // affiche celui sélectionné
             $('.months a#linkMonth'+month).addClass('active');
             $('.month#month'+month).show();
-        }
+        };
 
         // ---------------------------------------------------------------------------------------------------
         // affiche le calendrier en fonction du mois sur lequel l'utilisateur a cliqué.
@@ -243,7 +269,7 @@
                     obj.checked = true;
                 }
             });
-        }
+        };
         unserializeDatesAndCheck();
 
         // ---------------------------------------------------------------------------------------------------
@@ -265,6 +291,13 @@
             serializeDatesChecked();
             this.submit();
         });
+
+        $(".box")
+                .map(function() { $(this).css('cursor', 'pointer');})
+                .click(function(el){
+                    check_toggle($(this));
+                });
+
     });
 </script>
 {% else %}

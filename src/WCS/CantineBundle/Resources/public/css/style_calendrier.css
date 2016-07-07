@@ -156,3 +156,42 @@ input[type=checkbox].calendar-checkbox {
 input [type='checkbox']:disabled {
 	background-color: grey;
 }
+
+.boxchecked,
+.boxunchecked {
+	width:150px;
+	color:black;
+}
+.boxchecked:before {
+	content: '☑';
+	font-size:26pt;
+	padding-right:10px;
+	color:#5CAB18;
+	font-style:normal;
+	font-weight: bold;
+}
+.boxunchecked:before {
+	content: '☐';
+	font-size:26pt;
+	padding-right:10px;
+	color:#5CAB18;
+	font-style:normal;
+	font-weight: bold;
+}
+.boxchecked[disabled='disabled']:before {
+	content: '☑';
+	font-size:26pt;
+	padding-right:10px;
+	color:#e4000c;
+	font-style:normal;
+}
+.legend_boxdisabled:before,
+.boxunchecked[disabled='disabled']:before {
+	content: '☐';
+	font-size:26pt;
+	padding-right:10px;
+	color:#e4000c;
+	font-style:normal;
+	background-color: transparent;
+
+}
