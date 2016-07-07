@@ -14,9 +14,7 @@
         </testsuite>
 
         <testsuite name="WCS_Test_Suite">
-            <directory>../src/Application/Sonata/AdminBundle/Tests</directory>
-            <directory>../src/Application/Sonata/UserBundle/Tests</directory>
-            <directory>../src/WCS/CalendrierBundle/Tests</directory>
+            <directory>../src/Scheduler/Tests</directory>
             <directory>../src/WCS/CantineBundle/Tests</directory>
             <directory>../src/WCS/EmployeeBundle/Tests</directory>
             <directory>../src/WCS/GestyBundle/Tests</directory>
@@ -26,6 +24,7 @@
     <!--
         <server name="KERNEL_DIR" value="/path/to/your/app/" />
     -->
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
     </php>
 
     <filter>

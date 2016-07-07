@@ -1,6 +1,10 @@
 imports:
     - { resource: config_dev.yml }
 
+parameters:
+
+    wcs.datenow.date: '2016-06-21'
+
 framework:
     test: ~
     session:
@@ -22,3 +26,11 @@ doctrine:
             default:
                 driver:   pdo_sqlite
                 path:     %kernel.cache_dir%/test.db
+security:
+    firewalls:
+        main:
+            http_basic: ~
+        admin:
+            http_basic: ~
+
+liip_functional_test: ~

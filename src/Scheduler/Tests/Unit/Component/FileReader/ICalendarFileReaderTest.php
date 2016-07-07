@@ -82,6 +82,7 @@ class ICalendarFileReaderTest extends \PHPUnit_Framework_TestCase
             [ '2018-07-07', '2018-07-07', "Vacances d'été", 20],
 
             // dates différentes
+            [ '2015-10-17', '2015-11-01', "Vacances de la Toussaint", 2],
             [ '2016-02-06', '2016-02-21', "Vacances d'hiver", 4],
             [ '2016-10-19', '2016-11-02', 'Vacances de la Toussaint', 9]
         );

@@ -7,6 +7,6 @@ class SchedulerTest extends \PHPUnit_Framework_TestCase
 {
     public function testIncomplete()
     {
-        $this->markTestIncomplete('SCHEDULER TO TEST');
+        $this->markTestIncomplete('SCHEDULER TO TEST - Functionaly tested in WCSCantineBundle / Service / GestyScheduler');
     }
 }

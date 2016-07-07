@@ -138,7 +138,7 @@ class RouteTest extends WebTestCase
 
             ['/manager/tap/[id_school_notredame]/daylist',
                 [
-                    [200, $credentials['employe'] ],
+                    [404, $credentials['employe'] ],
                     [403, $credentials['cantine'] ],
                     [404, $credentials['tap'] ],
                     [403, $credentials['garderie'] ],
@@ -182,7 +182,7 @@ class RouteTest extends WebTestCase
 
             ['/manager/garderie_matin/[id_school_notredame]/daylist',
                 [
-                    [200, $credentials['employe'] ],
+                    [404, $credentials['employe'] ],
                     [403, $credentials['cantine'] ],
                     [403, $credentials['tap'] ],
                     [404, $credentials['garderie'] ],
@@ -226,7 +226,7 @@ class RouteTest extends WebTestCase
 
             ['/manager/garderie_soir/[id_school_notredame]/daylist',
                 [
-                    [200, $credentials['employe'] ],
+                    [404, $credentials['employe'] ],
                     [403, $credentials['cantine'] ],
                     [403, $credentials['tap'] ],
                     [404, $credentials['garderie'] ],

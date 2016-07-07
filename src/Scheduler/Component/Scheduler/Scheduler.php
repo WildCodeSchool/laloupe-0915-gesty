@@ -5,6 +5,7 @@ namespace Scheduler\Component\Scheduler;
 use Scheduler\Component\DateContainer\Day;
 use Scheduler\Component\DateContainer\Period;
 use Scheduler\Component\DateContainer\PeriodInterface;
+use Symfony\Component\VarDumper\VarDumper;
 
 
 class Scheduler
@@ -29,6 +30,11 @@ class Scheduler
      */
     private $datesDayOff = [];
 
+    /**
+     * @var bool
+     */
+    private $saturdayOff = true;
+
 
     /*===============================================================
         Year period
@@ -43,14 +49,14 @@ class Scheduler
         $lastIndex = count($this->yearPeriods);
         if ($lastIndex) {
             $lastPeriod = $this->yearPeriods[$lastIndex-1];
-
         }
+
         $this->yearPeriods[] = $period;
         
         if ($lastPeriod) {
             $this->addPeriodDayOffs(
                 new Period(
-                    $lastPeriod->getLastDate()->add(new \DateInterval('P1D')),
+                    $lastPeriod->getLastDate(),
                     $period->getFirstDate()->sub(new \DateInterval('P1D'))
                 )
             );
@@ -98,11 +104,34 @@ class Scheduler
      */
     public function addPeriodDayOffs(PeriodInterface $period)
     {
-        $this->periodsDayOff[] = $period;
+        $d = new Day($period->getFirstDate());
+        if ($this->saturdayOff &&
+            $d->equalsWeekDay(Day::WEEK_SATURDAY)) {
+            $firstDate = $period->getFirstDate();
+        }
+        else {
+            $firstDate = $period->getFirstDate()->add(new \DateInterval('P1D'));
+        }
+
+        $newPeriod = new Period(
+            $firstDate,
+            $period->getLastDate(),
+            $period->getDescription()
+        );
+
+        $this->periodsDayOff[] = $newPeriod;
 
         \usort($this->periodsDayOff, function(PeriodInterface $periodA, PeriodInterface $periodB) {
            return $periodA->getFirstDate() > $periodB->getFirstDate() ? +1 : -1;
         });
+    }
+
+    /**
+     * @return \Scheduler\Component\DateContainer\Period[]
+     */
+    public function getPeriodsDayOff()
+    {
+        return $this->periodsDayOff;
     }
 
 
@@ -148,6 +177,7 @@ class Scheduler
                 return true;
             }
         }
+
         if (isset($options['index'])) {
             $index = $options['index'];
             $d = new Day($date);
@@ -186,6 +216,13 @@ class Scheduler
         return $this->weekUsualDaysOff[$options['index']];
     }
 
+    /**
+     * @param mixed $saturdayOff
+     */
+    public function setSaturdayOff($saturdayOff)
+    {
+        $this->saturdayOff = $saturdayOff;
+    }
 
 
     /*===============================================================
@@ -207,7 +244,7 @@ class Scheduler
 
             $periods[] = new Period(
                 $lastDayOffDate,
-                $periodDayOff->getFirstDate()
+                $periodDayOff->getFirstDate()->sub($oneDay)
             );
 
             $lastDayOffPeriod = $periodDayOff;

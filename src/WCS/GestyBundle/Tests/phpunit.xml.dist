@@ -11,11 +11,12 @@
     <testsuites>
 
         <testsuite name="migration">
-            <directory>../Tests/Functional/</directory>
+            <directory>../Tests/Func/</directory>
         </testsuite>
 
     </testsuites>
     <php>
         <server name="KERNEL_DIR" value="../../../../app/" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
     </php>
 </phpunit>

@@ -6,16 +6,27 @@
          backupGlobals="false"
          colors="true"
          bootstrap="../../../../app/tests.bootstrap.php"
-         beStrictAboutOutputDuringTests="true"
+
+         beStrictAboutOutputDuringTests="false"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         beStrictAboutCoversAnnotation="true"
+
+         stopOnError="false"
+         stopOnFailure="false"
 >
     <testsuites>
 
-        <testsuite name="employee">
-            <directory>../Tests/*/</directory>
+        <testsuite name="integration">
+            <directory>./Integration/</directory>
+        </testsuite>
+
+        <testsuite name="functional">
+            <directory>./Func/</directory>
         </testsuite>
 
     </testsuites>
     <php>
         <server name="KERNEL_DIR" value="../../../../app/" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
     </php>
 </phpunit>

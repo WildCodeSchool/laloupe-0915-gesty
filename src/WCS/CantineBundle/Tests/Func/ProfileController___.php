@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 //lien http://brentertainment.com/other/docs/book/testing.html
 
-Class ProfileControllerTest extends WebTestCase
+Class ProfileController____ extends WebTestCase
 {
     /**
      * @var \Symfony\Bundle\FrameworkBundle\Client

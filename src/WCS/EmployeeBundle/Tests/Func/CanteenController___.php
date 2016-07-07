@@ -1,10 +1,10 @@
 <?php
-/*
+
 namespace WCS\EmployeeBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
-class EmployeeControllerTest extends WebTestCase
+class EmployeeController___ extends WebTestCase
 {
     public function testEmployeeManager()
     {
@@ -161,4 +161,4 @@ class EmployeeControllerTest extends WebTestCase
 
     }
 }
-*/
+

@@ -6,11 +6,12 @@ use Scheduler\Component\DateContainer\WeekStats;
 
 class ActivityType
 {
-    const CANTEEN           = 1;
-    const TAP               = 2;
-    const GARDERIE_MORNING  = 3;
-    const GARDERIE_EVENING  = 4;
-    const TRAVEL            = 5;
+    const SCHOOL_USUALDAYOFF = 0;
+    const CANTEEN            = 1;
+    const TAP                = 2;
+    const GARDERIE_MORNING   = 3;
+    const GARDERIE_EVENING   = 4;
+    const TRAVEL             = 5;
 
     private static $nbDaysUntilSubscribe = [
         'canteen'       => 8,
@@ -19,11 +20,12 @@ class ActivityType
     ];
 
     private static $daysOfWeekOff = [
+        self::SCHOOL_USUALDAYOFF    => [Day::WEEK_SATURDAY, Day::WEEK_SUNDAY],
         self::CANTEEN               => [Day::WEEK_WEDNESDAY, Day::WEEK_SATURDAY, Day::WEEK_SUNDAY],
         self::TAP                   => [Day::WEEK_MONDAY, Day::WEEK_WEDNESDAY, Day::WEEK_FRIDAY, Day::WEEK_SATURDAY, Day::WEEK_SUNDAY],
         self::GARDERIE_MORNING      => [Day::WEEK_SATURDAY, Day::WEEK_SUNDAY],
         self::GARDERIE_EVENING      => [Day::WEEK_WEDNESDAY, Day::WEEK_SATURDAY, Day::WEEK_SUNDAY],
-        self::TRAVEL                => [Day::WEEK_SATURDAY, Day::WEEK_SUNDAY]
+        self::TRAVEL                => [Day::WEEK_SATURDAY, Day::WEEK_SUNDAY],
     ];
 
     private static $keyDates = [
@@ -33,21 +35,6 @@ class ActivityType
         self::GARDERIE_EVENING      => 'tap_garderie',
         self::TRAVEL                => 'travel'
     ];
-
-    /**
-     * Return the list of the usual days off in a week
-     *
-     * @param
-     *      CANTEEN|TAP|GARDERIE_MORNING|GARDERIE_EVENING
-     *      $activityTypeConstant
-     * @return array of
-     */
-    /*
-    public static function getDaysOfWeekOff($activityTypeConstant)
-    {
-        return self::$daysOfWeekOff[$activityTypeConstant];
-    }
-    */
 
     /**
      * @param $activityTypeConstant
@@ -67,7 +54,7 @@ class ActivityType
 
     /**
      * @param $activityTypeConstant
-     * @return mixed
+     * @return WeekStats
      */
     public static function getUsualDaysOff($activityTypeConstant)
     {

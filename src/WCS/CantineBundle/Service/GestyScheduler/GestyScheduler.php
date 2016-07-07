@@ -30,13 +30,23 @@ class GestyScheduler
         /**
          * Add all usual days off during weeks
          */
+
         $allUsualDaysOff = ActivityType::getAllUsualDaysOffAsDayConst();
         foreach ($allUsualDaysOff as $activityConstType => $weekDay) {
-            $this->scheduler->addWeekUsualDaysOff(
-                $weekDay,
-                array('index' => $activityConstType)
-            );
+            if ($activityConstType == ActivityType::SCHOOL_USUALDAYOFF) {
+                if ($weekDay == Day::WEEK_SATURDAY) {
+
+                    //$this->scheduler->setSaturdayOff(false);
+                }
+            }
+            else {
+                $this->scheduler->addWeekUsualDaysOff(
+                    $weekDay,
+                    array('index' => $activityConstType)
+                );
+            }
         }
+
 
         /**
          * Add all school years
@@ -72,7 +82,15 @@ class GestyScheduler
         );
 
         $this->scheduler->addDatesDayOff($datesDaysOff);
-        
+
+    }
+
+    /**
+     * @return Scheduler
+     */
+    public function getScheduler()
+    {
+        return $this->scheduler;
     }
 
     /**

@@ -3,6 +3,7 @@ namespace WCS\EmployeeBundle\Controller;
 
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use WCS\CantineBundle\Entity\School;
 use WCS\EmployeeBundle\Controller\Mapper\ActivityMapperInterface;
 use WCS\EmployeeBundle\Controller\ViewBuilder\ListViewBuilder;
@@ -19,6 +20,12 @@ class DaylistController extends ActivityControllerBase
      */
     public function showAction(Request $request, School $school, $activity)
     {
+        // ensure the school has the activity
+
+        if (!$this->isActivityEnabled($school, $activity)) {
+            throw new NotFoundHttpException();
+        }
+
         // ensure the current day is not off
 
         if ($this->isDayOff($activity)) {

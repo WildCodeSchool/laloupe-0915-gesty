@@ -9,7 +9,7 @@
          colors="true"
          bootstrap="../../../../app/tests.bootstrap.php"
 
-         beStrictAboutOutputDuringTests="false"
+         beStrictAboutOutputDuringTests="true"
          beStrictAboutTestsThatDoNotTestAnything="false"
          beStrictAboutCoversAnnotation="false"
          stopOnError="true"

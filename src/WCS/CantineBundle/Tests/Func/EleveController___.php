@@ -6,7 +6,7 @@ namespace WCS\CantineBundle\Tests\Controller;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 
-class EleveControllerTest extends WebTestCase
+class EleveController____ extends WebTestCase
 {
     /**
      * @var \Doctrine\Common\DataFixtures\Executor\AbstractExecutor

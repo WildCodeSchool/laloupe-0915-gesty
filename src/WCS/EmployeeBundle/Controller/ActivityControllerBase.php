@@ -11,6 +11,7 @@ namespace WCS\EmployeeBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use WCS\CantineBundle\Entity\School;
 use WCS\CantineBundle\Service\GestyScheduler\ActivityType;
 
 class ActivityControllerBase extends Controller
@@ -61,4 +62,25 @@ class ActivityControllerBase extends Controller
         return $this->container->get('wcs.datenow')->getDate();
     }
 
+    /**
+     * @param School $school
+     * @param string $activity
+     * @return boolean true if the activity is enabled for the school
+     */
+    protected function isActivityEnabled(School $school, $activity)
+    {
+        if ($activity == 'cantine' && $school->getActiveCantine()) {
+            return true;
+        }
+        if ($activity == 'tap' && $school->getActiveTap()) {
+            return true;
+        }
+        if ($activity == 'garderie_matin' && $school->getActiveGarderie()) {
+            return true;
+        }
+        if ($activity == 'garderie_soir' && $school->getActiveGarderie()) {
+            return true;
+        }
+        return false;
+    }
 }
