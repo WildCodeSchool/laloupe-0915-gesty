@@ -20,6 +20,7 @@ class VoyageRepository extends EntityRepository
 
             ->join('v.divisions', 'd')
             ->where("v.estAnnule = FALSE")
+            ->andWhere("v.estSortieScolaire = FALSE")
             ->andWhere("d = :division")
             ->orderBy('v.date_debut')
             ->setParameter(':division', $division);

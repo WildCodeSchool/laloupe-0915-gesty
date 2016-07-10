@@ -6,6 +6,11 @@
                     Gesty
                 </div>
             </div>
+            {% if app.user and ('ROLE_ADMIN' not in app.user.getRoles) %}
+                <div class="navbar-brand">
+                    <a href="{{ asset('bundles/wcscantine/guides/guide_espace_parent.pdf') }}" target="_blank">Aide</a>
+                </div>
+            {% endif %}
             {% if app.user %}
                 <a href="{{ path('fos_user_security_logout') }}" id="logout">
                     <i class="fa fa-power-off"></i>

@@ -12,6 +12,22 @@ use Symfony\Component\VarDumper\VarDumper;
 class ArchiveStatRepository extends \Doctrine\ORM\EntityRepository
 {
 
+    /**
+     * TODO : to finish.
+     *
+     * archivestats is meant to store all computations
+     * but, the code that saves all results is in comment (yes, it is bad !)
+     * as this algorithm must be think more thorougly.
+     * One of the issue : what if any changes must be done by the user
+     * after this method is called. There is no way to correct one of the stats
+     * (adding or suppressing a pupil subscribing, cancelling a travel...)
+     *
+     * That is why the persist code is currently commented.
+     *
+     *
+     * @param $month
+     * @return array
+     */
     public function getStatsFromRepository($month)
     {
         $stats = array();

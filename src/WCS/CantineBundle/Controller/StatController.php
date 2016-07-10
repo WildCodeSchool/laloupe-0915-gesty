@@ -53,9 +53,7 @@ class StatController extends Controller
             $last_month = new \DateTime($current_date.' last month');
         }
 
-        $period = new Period($first_month, $last_month);
-        return $period;
-        //return new \DatePeriod($first_month, new \DateInterval('P1M'), $last_month);
+        return new Period($first_month, $last_month);
     }
     
 }
