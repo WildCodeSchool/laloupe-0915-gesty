@@ -6,9 +6,36 @@
     <div class="lien">
     <p> Bonjour {{ user.lastname }}  {{ user.firstname }} !</p><br/>
 
-        <p>Merci de valider votre inscription en cliquant sur le lien suivant : {{ confirmationUrl }}</p><br/>
+        <p>
+            Merci de valider votre inscription en cliquant sur le lien suivant : <br />
+            <br />
+            <a href="{{ confirmationUrl }}">{{ confirmationUrl }}</a>
+        </p>
+        <p>
+            Si vous ne parvenez pas à cliquer sur ce lien, copiez ce lien et collez-le dans la barre d'adresse
+            de votre navigateur pour y accéder.
+        </p>
+
+        <p>
+        <strong>Préparez vos pièces justificatives</strong>
+        </p>
+        <p>
+        Grâce au lien ci-dessus, vous accéderez à un formulaire vous permettant
+            de compléter vos informations.
+            Vous pouvez dès maintenant ajouter les pièces justificatives demandées ou les déposer plus tard.
+            Afin de vous aider, voici la liste des pièces demandées :
+        </p>
+        <ul>
+            <li>Votre dernière notification de prestations CAF-MSA datée de moins de 3 mois</li>
+            <li>Un justificatif de domicile daté de moins de 3 mois. Si vous n'en fournissez pas, le tarif hors commune sera appliqué à toutes les factures</li>
+            <li>Vos trois derniers justificatifs de revenus (salaires, traitements, ou attestations employeurs)</li>
+        </ul>
+        <p>
+            Ces documents sont à numériser au format image (JPEG, PNG) ou au format PDF.
+        </p>
 
     </div>
+    <br />
 
 
     l'Administrateur de Gesty

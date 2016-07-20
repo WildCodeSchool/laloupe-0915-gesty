@@ -26,6 +26,7 @@ doctrine:
             default:
                 driver:   pdo_sqlite
                 path:     %kernel.cache_dir%/test.db
+
 security:
     firewalls:
         main:

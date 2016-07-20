@@ -44,10 +44,10 @@ class DateNowTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers ::__construct
+     * @expectedException \InvalidArgumentException
      */
     public function testShouldThrowExceptionWithInvalidDate()
     {
-        $this->expectException(\InvalidArgumentException::class);
         new DateNow('2016-31-31');
     }
 }
