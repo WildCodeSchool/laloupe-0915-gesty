@@ -12,7 +12,7 @@ class EmployeeController___ extends WebTestCase
             'WCS\CantineBundle\DataFixtures\ORM\LoadUserData',
             'WCS\CantineBundle\DataFixtures\ORM\LoadSchoolData'
         );
-        $this->fixtures = $this->loadFixtures($fixtures, null, 'doctrine', true)->getReferenceRepository();
+        $this->fixtures = $this->loadFixtures($fixtures, null, 'doctrine', true);
 
         //test connexion dame cantine
 
@@ -44,7 +44,11 @@ class EmployeeController___ extends WebTestCase
     public function testSchoolButton()
     {
         //test bouton "les écureuils"
-
+        $fixtures = array(
+            'WCS\CantineBundle\DataFixtures\ORM\LoadUserData'
+        );
+        $this->fixtures = $this->loadFixtures($fixtures, null, 'doctrine', true);
+        
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'damedecantine@email.com',
             'PHP_AUTH_PW' => 'aaa',
@@ -138,7 +142,7 @@ class EmployeeController___ extends WebTestCase
             'WCS\CantineBundle\DataFixtures\ORM\LoadUserData',
             'WCS\CantineBundle\DataFixtures\ORM\LoadSchoolData'
         );
-        $this->fixtures = $this->loadFixtures($fixtures, null, 'doctrine', true)->getReferenceRepository();
+        $this->fixtures = $this->loadFixtures($fixtures, null, 'doctrine', true);
 
         //test bouton 'logout'
 

@@ -52,6 +52,11 @@ class EleveController____ extends WebTestCase
     {
         //création client fictif
 
+        $fixtures = array(
+            'WCS\CantineBundle\DataFixtures\ORM\LoadUserData'
+        );
+        $this->fixtures = $this->loadFixtures($fixtures, null, 'doctrine', true);
+
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'aaa@email.com',
             'PHP_AUTH_PW' => 'aaa',
@@ -156,6 +161,11 @@ class EleveController____ extends WebTestCase
     public function testInscription()
     {
         //création client fictif
+
+        $fixtures = array(
+            'WCS\CantineBundle\DataFixtures\ORM\LoadUserData'
+        );
+        $this->fixtures = $this->loadFixtures($fixtures, null, 'doctrine', true);
 
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'aaa@email.com',
