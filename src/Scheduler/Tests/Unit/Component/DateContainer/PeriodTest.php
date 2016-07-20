@@ -53,14 +53,11 @@ class PeriodTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers ::__construct
+     *
+     * @expectedException \LogicException
      */
     public function testConstructorDatesUnsortedThrowException()
     {
-        $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage(
-            'The first date must be lower than the last date'
-        );
-
         new Period(new \DateTime('2015-10-31'), new \DateTime('2015-09-01'));
     }
 

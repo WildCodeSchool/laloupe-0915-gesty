@@ -175,22 +175,21 @@ fos_user:
     service:
         user_manager: sonata.user.orm.user_manager # If you're using doctrine orm (use sonata.user.mongodb.group_manager for mongodb)
         mailer: fos_user.mailer.twig_swift # Permet de définir quel service de mail utiliser
+
+    from_email:
+        address: "%server_mailer_sender_address%"
+        sender_name: "%server_mailer_sender_name%"
+
     registration:
         form:
             type: application_sonata_user_registration
         confirmation:
             enabled: true
-            from_email:
-                # Adresse de l'expediteur
-                address: robot@gesty.fr
-                # Nom de l'expediteur
-                sender_name: Gesty
-                # Permet de définir le template de l'email à envoyer (en html)
-            template: WCSCantineBundle:User:registrationemail.html.twig
+            template: WCSCantineBundle:User:registrationEmail.html.twig
+
     resetting:
         email:
-#            template: emails/changePassewordMail.html.twig
-            template: Emails/changepassewordmail.html.twig
+            template: WCSCantineBundle:User:changePasswordEmail.html.twig
 
 sonata_admin:
     title: Gesty Admin

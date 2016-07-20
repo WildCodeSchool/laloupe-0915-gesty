@@ -19,17 +19,9 @@ class ICalendarFileReaderTest extends \PHPUnit_Framework_TestCase
     /*==================================================================
      * Ensure exceptions are throwns
      ==================================================================*/
-    public function provideException()
-    {
-        return array(
-            [ NoFilenameException::class,   ''],
-            [ FileNotFoundException::class,  'inexistant_file.ics'],
-            [ InvalidFileException::class, self::$file_invalid]
-        );
-    }
 
     /**
-     * @dataProvider provideException
+     * @expectedException \Scheduler\Component\FileReader\Exception\NoFilenameException
      *
      * @covers ::__construct()
      * @covers ::loadEvents()
@@ -37,11 +29,39 @@ class ICalendarFileReaderTest extends \PHPUnit_Framework_TestCase
      * @covers Scheduler\Component\FileReader\Exception\FileNotFoundException
      * @covers Scheduler\Component\FileReader\Exception\InvalidFileException
      */
-    public function testShouldThrow($exception, $filepath)
+    public function testShouldThrowNoFilenameException()
     {
-        $this->expectException($exception);
+        $cal = new ICalendarFileReader('');
+        $cal->loadEvents();
+    }
 
-        $cal = new ICalendarFileReader($filepath);
+    /**
+     * @expectedException \Scheduler\Component\FileReader\Exception\FileNotFoundException
+     *
+     * @covers ::__construct()
+     * @covers ::loadEvents()
+     * @covers Scheduler\Component\FileReader\Exception\NoFilenameException
+     * @covers Scheduler\Component\FileReader\Exception\FileNotFoundException
+     * @covers Scheduler\Component\FileReader\Exception\InvalidFileException
+     */
+    public function testShouldThrowFileNotFoundException()
+    {
+        $cal = new ICalendarFileReader('inexistant_file.ics');
+        $cal->loadEvents();
+    }
+
+    /**
+     * @expectedException \Scheduler\Component\FileReader\Exception\InvalidFileException
+     *
+     * @covers ::__construct()
+     * @covers ::loadEvents()
+     * @covers Scheduler\Component\FileReader\Exception\NoFilenameException
+     * @covers Scheduler\Component\FileReader\Exception\FileNotFoundException
+     * @covers Scheduler\Component\FileReader\Exception\InvalidFileException
+     */
+    public function testShouldThrowInvalidFileException()
+    {
+        $cal = new ICalendarFileReader(self::$file_invalid);
         $cal->loadEvents();
     }
 

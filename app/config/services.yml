@@ -4,6 +4,29 @@ parameters:
 #    parameter_name: value
 
 services:
+
+      #----------------------------------------------------------------------------------------------------------------
+      # overwrite the profile form of sonata/fos user
+      #----------------------------------------------------------------------------------------------------------------
+      sonata.user.profile.form.type:
+            class: WCS\CantineBundle\Form\Type\ProfileType
+            arguments: [ "Application\\Sonata\\UserBundle\\Entity\\User" ]
+            tags:
+                - { name: "form.type", alias: "application_sonata_user_profile"}
+
+      #----------------------------------------------------------------------------------------------------------------
+      # service executed when a parent has modified information from its profile.
+      #----------------------------------------------------------------------------------------------------------------
+      application.sonata_user_listener:
+            class: Application\Sonata\UserBundle\EventListener\EditProfileListener
+            tags:
+                - { name: doctrine.event_listener, event: preUpdate }
+            arguments: ['@mailer', '%server_mailer_sender_address%']
+
+
+      #----------------------------------------------------------------------------------------------------------------
+      # following services meant for sonata admin
+      #----------------------------------------------------------------------------------------------------------------
       sonata.admin.eleve:
            class: WCS\CantineBundle\Admin\EleveAdmin
            tags:
@@ -79,24 +102,6 @@ services:
                 - ~
                 - WCS\CantineBundle\Entity\Garderie
                 - ~
-
-      sonata.user.profile.form.type:
-#            class: Application\Sonata\UserBundle\Form\Type\ProfileType
-            class: WCS\CantineBundle\Form\Type\ProfileType
-            arguments: [ "Application\\Sonata\\UserBundle\\Entity\\User" ]
-            tags:
-                - { name: "form.type", alias: "application_sonata_user_profile"}
-
-      application.sonata_user_listener:
-            class: Application\Sonata\UserBundle\EventListener\EditProfileListener
-            tags:
-                - { name: doctrine.event_listener, event: preUpdate }
-            arguments: ['@mailer']
-
-      application.sonata_mail_listener:
-            class: Application\Sonata\UserBundle\EventListener\EmailListener
-            arguments: ['@mailer']
-
 
       sonata.admin.voyage:
              class: WCS\CantineBundle\Admin\VoyageAdmin

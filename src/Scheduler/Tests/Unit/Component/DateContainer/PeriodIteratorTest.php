@@ -36,17 +36,7 @@ class PeriodIteratorTest extends \PHPUnit_Framework_TestCase
      */
     private function mockPeriodOneMonth()
     {
-        /**
-         * @var \PHPUnit_Framework_MockObject_MockObject
-         */
-        $periodStub = $this->createMock(PeriodInterface::class);
-        $periodStub->method('getFirstDate')
-            ->willReturn(new \DateTimeImmutable('2016-01-01')
-            );
-        $periodStub->method('getLastDate')
-            ->willReturn(new \DateTimeImmutable('2016-01-31')
-            );
-        return $periodStub;
+        return new PeriodOneMonthMock(new \DateTime(), new \DateTime());
     }
 
     /**
@@ -54,17 +44,7 @@ class PeriodIteratorTest extends \PHPUnit_Framework_TestCase
      */
     private function mockPeriodOneYear()
     {
-        /**
-         * @var \PHPUnit_Framework_MockObject_MockObject
-         */
-        $periodStub = $this->createMock(PeriodInterface::class);
-        $periodStub->method('getFirstDate')
-            ->willReturn(new \DateTimeImmutable('2016-01-01')
-            );
-        $periodStub->method('getLastDate')
-            ->willReturn(new \DateTimeImmutable('2016-12-31')
-            );
-        return $periodStub;
+        return new PeriodOneYearMock(new \DateTime(), new \DateTime());
     }
 
     /**

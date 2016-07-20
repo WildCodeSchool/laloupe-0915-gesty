@@ -17,3 +17,8 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            NothingButApplicationGestyRedoneByWCS@June2016
+
+    # Generic sender email address (the following email address is obviously invalid,
+    # replace by a proper one)
+    server_mailer_sender_address:    support.example@email
+    server_mailer_sender_name:       Gesty
