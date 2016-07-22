@@ -1,5 +1,5 @@
 <?php
-namespace WCS\EmployeeBundle\DataFixtures\ORM;
+namespace WCS\CantineBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
