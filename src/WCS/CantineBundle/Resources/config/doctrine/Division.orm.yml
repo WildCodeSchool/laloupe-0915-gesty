@@ -27,7 +27,7 @@ WCS\CantineBundle\Entity\Division:
         eleves:
             targetEntity: WCS\CantineBundle\Entity\Eleve
             mappedBy: division
-            cascade: {persist, remove}
+
     manyToMany:
         voyages:
             targetEntity: Voyage

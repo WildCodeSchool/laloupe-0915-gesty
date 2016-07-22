@@ -48,6 +48,8 @@ WCS\CantineBundle\Entity\Eleve:
         division:
             targetEntity: Division
             inversedBy: eleves
+            joinColumn:
+                onDelete: "SET NULL"
 
     oneToMany:
         lunches:
@@ -56,12 +58,14 @@ WCS\CantineBundle\Entity\Eleve:
             joinColumn:
                 name: date
                 referencedColumnName: date
+            cascade: ["remove"]
         taps:
             targetEntity: WCS\CantineBundle\Entity\Tap
             mappedBy: eleve
             joinColumn:
                 name: date
                 referencedcolumnName: date
+            cascade: ["remove"]
 
         garderies:
             targetEntity: WCS\CantineBundle\Entity\Garderie
@@ -69,6 +73,7 @@ WCS\CantineBundle\Entity\Eleve:
             joinColumn:
                 name: date
                 referencedcolumnName: date
+            cascade: ["remove"]
     manyToMany:
         voyages:
             targetEntity: Voyage

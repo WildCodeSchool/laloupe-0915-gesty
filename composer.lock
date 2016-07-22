@@ -4,13 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
-    "hash": "1ef231d8fccc9603842f098c044f097a",
-    "content-hash": "2c38a92bfdb5f8eb07aabebd79660034",
-=======
-    "hash": "9ca03e6d63831418911484ada59ceb4c",
-    "content-hash": "b367fcc069e2564e22b917223e27788a",
->>>>>>> a7f98cf65856d0109303cf1d04aa423d7de9118c
+    "hash": "3d46cbc80ef75d52f12a3181e00263ff",
+    "content-hash": "cca1fb626f62f5cbcd5672bcf4c720de",
     "packages": [
         {
             "name": "braincrafted/bootstrap-bundle",
@@ -4255,16 +4250,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.8.26",
+            "version": "4.8.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "fc1d8cd5b5de11625979125c5639347896ac2c74"
+                "reference": "c062dddcb68e44b563f66ee319ddae2b5a322a90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/fc1d8cd5b5de11625979125c5639347896ac2c74",
-                "reference": "fc1d8cd5b5de11625979125c5639347896ac2c74",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c062dddcb68e44b563f66ee319ddae2b5a322a90",
+                "reference": "c062dddcb68e44b563f66ee319ddae2b5a322a90",
                 "shasum": ""
             },
             "require": {
@@ -4323,7 +4318,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-05-17 03:09:28"
+            "time": "2016-07-21 06:48:14"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -4865,12 +4860,6 @@
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-<<<<<<< HEAD
     "platform": [],
-=======
-    "platform": {
-        "php": "5.5 - 5.6"
-    },
->>>>>>> a7f98cf65856d0109303cf1d04aa423d7de9118c
     "platform-dev": []
 }
