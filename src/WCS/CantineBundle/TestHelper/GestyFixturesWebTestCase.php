@@ -33,10 +33,10 @@ class GestyFixturesWebTestCase extends \Liip\FunctionalTestBundle\Test\WebTestCa
             self::PSR_PREFIX.'LoadDivisionData',
             self::PSR_PREFIX.'LoadEleveData',
 
-          //  self::PSR_PREFIX.'LoadLunchData',
-          //  self::PSR_PREFIX.'LoadTapData',
-          //  self::PSR_PREFIX.'LoadGarderieData',
-          //  self::PSR_PREFIX.'LoadVoyageData',
+            self::PSR_PREFIX.'LoadLunchData',
+            self::PSR_PREFIX.'LoadTapData',
+            self::PSR_PREFIX.'LoadGarderieData',
+            self::PSR_PREFIX.'LoadVoyageData',
         ));
     }
 

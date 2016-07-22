@@ -7,6 +7,10 @@
          colors="true"
          bootstrap="../../../../app/tests.bootstrap.php"
          beStrictAboutOutputDuringTests="true"
+         beStrictAboutTestsThatDoNotTestAnything="false"
+         beStrictAboutCoversAnnotation="false"
+         stopOnError="true"
+         stopOnFailure="false"
 >
     <testsuites>
 
