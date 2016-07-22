@@ -120,4 +120,3 @@ services:
                - ~
                - WCS\CantineBundle\Entity\Eleve
                - ~
-               - '@wcs.datenow'

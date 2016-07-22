@@ -15,9 +15,6 @@ use Symfony\Component\Console\Tester\CommandTester;
 use WCS\GestyBundle\Command\MigrateCommand;
 use WCS\GestyBundle\Command\MigrateFilesCommand;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Tools\SchemaTool;
-
 class MigrateFilesCommandTest extends KernelTestCase
 {
     private $mg_kernel;

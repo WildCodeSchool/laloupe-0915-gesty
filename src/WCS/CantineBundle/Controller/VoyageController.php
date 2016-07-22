@@ -24,12 +24,6 @@ class VoyageController extends Controller
         // inscriptions possible à partir de la date du jour + un délai de N jours
         // pour les voyages
         //------------------------------------------------------------------------
-        /*
-        $first_day_available = ActivityType::getFirstDayAvailable(
-            ActivityType::TRAVEL,
-            $this->get('wcs.datenow')->getDate()
-        );
-        */
         $first_day_available = $this->get('wcs.gesty.scheduler')->getFirstAvailableDate(
             $this->get('wcs.datenow')->getDate(),
             ActivityType::TRAVEL

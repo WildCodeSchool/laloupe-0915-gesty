@@ -19,7 +19,6 @@ class TapGarderieController extends Controller
         $current_date        = $this->get('wcs.datenow')->getDate();
         $scheduler           = $this->get('wcs.gesty.scheduler');
         $period_school_year  = $scheduler->getCurrentOrNextSchoolYear($current_date);
-       // $period_invoices     = $scheduler->getCurrentOrNextSchoolPeriod( $current_date );
         $first_day_available = $scheduler->getFirstAvailableDate( $current_date, ActivityType::GARDERIE_MORNING );
         $period_inclass      = $scheduler->getCurrentOrNextSchoolPeriod( $first_day_available );
         // pour les inscriptions :

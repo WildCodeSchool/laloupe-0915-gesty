@@ -1,7 +1,7 @@
 <?php
 
 namespace WCS\CantineBundle\Entity;
-use Symfony\Component\VarDumper\VarDumper;
+
 
 /**
  * ArchiveStatRepository
@@ -13,18 +13,6 @@ class ArchiveStatRepository extends \Doctrine\ORM\EntityRepository
 {
 
     /**
-     * TODO : to finish.
-     *
-     * archivestats is meant to store all computations
-     * but, the code that saves all results is in comment (yes, it is bad !)
-     * as this algorithm must be think more thorougly.
-     * One of the issue : what if any changes must be done by the user
-     * after this method is called. There is no way to correct one of the stats
-     * (adding or suppressing a pupil subscribing, cancelling a travel...)
-     *
-     * That is why the persist code is currently commented.
-     *
-     *
      * @param $month
      * @return array
      */
@@ -37,68 +25,49 @@ class ArchiveStatRepository extends \Doctrine\ORM\EntityRepository
 
         // récupère les repositories
         $repoEleve      = $this->getEntityManager()->getRepository('WCSCantineBundle:Eleve');
-        $repoArchive    = $this->getEntityManager()->getRepository('WCSCantineBundle:ArchiveStat');
+        $liste_eleves = $repoEleve->findBy(array(),
+            array('division' => 'ASC', 'nom' => 'ASC', 'prenom' => 'ASC')
+            );
 
-        // récupère les stats archivées pour la date sélectionnée
-        $archiveStats = $repoArchive->findBy(
-            array('dateMois'=>$dateStart),
-            array('ecole'=>'ASC', 'classe'=>'ASC', 'nom'=>'ASC')
-        );
+        foreach ($liste_eleves as $eleve) {
 
-        // construit les stats si pas de stats
-        if (empty($archiveStats)){
+            // archive les stats pour l'élève donné
+            $archiveStat = new ArchiveStat();
 
-            $liste_eleves = $repoEleve->findBy(array(),
-                array('division' => 'ASC', 'nom' => 'ASC', 'prenom' => 'ASC')
-                );
+            $archiveStat->setParentUserIdBackup( $eleve->getUser()->getId() );
+            $archiveStat->setParentNom(  $eleve->getUser()->getLastname() );
+            $archiveStat->setParentPrenom( $eleve->getUser()->getFirstname() );
+            $archiveStat->setParentEmail( $eleve->getUser()->getEmail() );
 
-            foreach ($liste_eleves as $eleve) {
+            $archiveStat->setEleveIdBackup( $eleve->getId() );
+            $archiveStat->setNom( $eleve->getNom() );
+            $archiveStat->setPrenom( $eleve->getPrenom() );
 
-                // archive les stats pour l'élève donné
-                $archiveStat = new ArchiveStat();
+            $archiveStat->setEcoleSchoolIdBackup( $eleve->getDivision()->getSchool()->getId() );
+            $archiveStat->setEcole( $eleve->getDivision()->getSchool()->getName() );
 
-                $archiveStat->setParentUserIdBackup( $eleve->getUser()->getId() );
-                $archiveStat->setParentNom(  $eleve->getUser()->getLastname() );
-                $archiveStat->setParentPrenom( $eleve->getUser()->getFirstname() );
-                $archiveStat->setParentEmail( $eleve->getUser()->getEmail() );
-                
-                $archiveStat->setEleveIdBackup( $eleve->getId() );
-                $archiveStat->setNom( $eleve->getNom() );
-                $archiveStat->setPrenom( $eleve->getPrenom() );
-                
-                $archiveStat->setEcoleSchoolIdBackup( $eleve->getDivision()->getSchool()->getId() );
-                $archiveStat->setEcole( $eleve->getDivision()->getSchool()->getName() );
-                
-                $archiveStat->setClasseDivisionIdBackup( $eleve->getDivision()->getId() );
-                $archiveStat->setClasse( $eleve->getDivision()->getGrade() );
-                $archiveStat->setInstit( $eleve->getDivision()->getHeadTeacher() );
+            $archiveStat->setClasseDivisionIdBackup( $eleve->getDivision()->getId() );
+            $archiveStat->setClasse( $eleve->getDivision()->getGrade() );
+            $archiveStat->setInstit( $eleve->getDivision()->getHeadTeacher() );
 
-                $archiveStat->setTotalGarderieTap( $repoEleve->findTotalTapGarderieFor(
+            $archiveStat->setTotalGarderieTap(
+                $repoEleve->findTotalTapGarderieFor(
                     $eleve,
                     $dateStart,
                     $dateEnd
                 )
-                );
-                $archiveStat->setTotalCantine(  $repoEleve->findTotalCantineFor(
+            );
+            $archiveStat->setTotalCantine(
+                $repoEleve->findTotalCantineFor(
                     $eleve,
                     $dateStart,
                     $dateEnd
                 )
-                );
-                $archiveStat->setDateMois( $dateStart );
+            );
+            $archiveStat->setDateMois( $dateStart );
 
-                //$this->getEntityManager()->persist($archiveStat);
-                //$this->getEntityManager()->flush();
-
-                // récupère les stats
-                $stats[] = $this->archiveStatEntityToArray($archiveStat);
-            }
-        }
-        else
-        {
-            foreach($archiveStats as $archiveStat) {
-                $stats[] = $this->archiveStatEntityToArray($archiveStat);
-            }
+            // récupère les stats
+            $stats[] = $this->archiveStatEntityToArray($archiveStat);
         }
 
         return $stats;
