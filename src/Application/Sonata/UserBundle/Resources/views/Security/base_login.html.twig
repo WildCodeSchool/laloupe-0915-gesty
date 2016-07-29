@@ -11,90 +11,11 @@ file that was distributed with this source code.
 
 {% extends "ApplicationSonataUserBundle::layout.html.twig" %}
 
-{% block fos_user_content %}
+{% block body %}
+    !! SITE EN MAINTENANCE !! </br>
+    </br>
 
+    Merci de compléter le formulaire ci-dessous pour pouvoir inscrire vos enfants
 
-
-    <h2 class="welcome">Simplifiez vous la vie !</h2>
-
-    <img class="img-responsive center-block img-thumbnail enfants" src="{{ asset('bundles/wcscantine/images/enfants.jpg') }}" alt="Dessin d'enfants">
-       <div class="row">
-           <div class="col-md-12">
-                {% for mess in app.session.flashBag.get('fos_user_success') %}
-                    <div class="alert alert-success">
-                        {{ mess }}
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-
-    <div class="col-md-6">
-        <div class="panel panel-info">
-
-            <div class="panel-heading">
-                <h2 class="panel-title">J'ai déjà mon compte</h2>
-            </div>
-
-
-            <div class="panel-body">
-
-                {% if error %}
-                    <div class="alert alert-danger alert-error">{{ error | replace({"Bad credentials." : "Mot de passe invalide."}, 'FOSUserBundle') }}</div>
-                {% endif %}
-
-
-                <form action="{{ path("fos_user_security_check") }}" method="post" role="form"
-                      class="form-horizontal">
-                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
-
-                    <div class="form-group">
-                        <label for="username"
-                               class="col-lg-5 col-sm-5 control-label">Adresse e-mail</label>
-
-                        <div class="col-lg-7 col-sm-7"><input type="text" class="form-control" id="username"
-                                                              name="_username" value="{{ last_username }}"
-                                                              required="required"/></div>
-                    </div>
-
-
-                    <div class="form-group control-group">
-                        <label for="password"
-                               class="col-lg-5 col-sm-5 control-label">Mot de passe</label>
-
-                        <div class="col-lg-7 col-sm-7"><input type="password" class="form-control" id="password"
-                                                              name="_password" required="required"/></div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-9">
-                            <div class="checkbox control-group">
-                                <label for="remember_me">
-                                    <input type="checkbox" id="remember_me" name="_remember_me" value="on"/>
-                                    {{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group control-group">
-                        <div class="controls col-sm-offset-3 col-sm-9">
-                            <a href="{{ path('fos_user_resetting_request') }}">{{ 'forgotten_password'|trans({}, 'SonataUserBundle') }}</a>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-9">
-                            <input type="submit" id="_submit" name="_submit" class="btn btn-primary"
-                                   value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}"/>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-    </div>
-    <div class="col-md-6">
-        {% render controller("SonataUserBundle:RegistrationFOSUser1:register") %}
-    </div>
-
-{% endblock fos_user_content %}
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeR5_xmz1XUHLe268qjkTUZOGJIm5VEM6_X5P-a1eMk348rAw/viewform?usp=send_form" target="_blank"><input type="button" value="Inscritpion de vos enfants" class="btn-carte"> </a>
+{% endblock %}
