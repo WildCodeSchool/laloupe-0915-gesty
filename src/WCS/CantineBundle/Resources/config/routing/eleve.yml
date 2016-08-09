@@ -12,8 +12,3 @@ eleve_update:
     path:     /{id}/update
     defaults: { _controller: "WCSCantineBundle:Eleve:update" }
     methods:  [POST, PUT]
-
-eleve_tipi:
-    path:    /tipi
-    defaults: { _controller: "WCSCantineBundle:Cantine:tipi" }
-    methods:   [GET, POST]

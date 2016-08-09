@@ -99,9 +99,5 @@ class CantineController extends Controller
 
         return false;
     }
-    public function tipiAction()
-    {
 
-        return $this->render('@WCSCantine/Eleve/tipi.html.twig');
-    }
 }

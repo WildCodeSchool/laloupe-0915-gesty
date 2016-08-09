@@ -1,0 +1,54 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+
+    <h1>Télépaiement</h1>
+
+    {% for message in app.session.flashBag.get('alert') %}
+        <p style="color:red;">{{ message }}</p>
+    {% endfor %}
+
+        {{ form_start(form) }}
+
+
+            <div>
+                <label for="date">Exercice <span>(1)</span> :</label>
+            </div>
+            <div>
+                {{ form_errors(form.date) }}
+                {{ form_widget(form.date) }}
+            </div>
+        <div>
+            <label for="montant">Montant <span>(2)</span> :</label>
+        </div>
+            <div>
+                {{ form_errors(form.montant) }}
+                {{ form_widget(form.montant) }}
+            </div>
+        <div>
+            <label for="mel">Votre adresse mail <span>(3)</span> :</label>
+        </div>
+            <div>
+                {{ form_errors(form.mel) }}
+                {{ form_widget(form.mel) }}
+
+            </div>
+        <div>
+            <label for="refdet">Référence Facture <span>(4)</span> :</label>
+        </div>
+            <div>
+                {{ form_errors(form.refdet) }}
+                {{ form_widget(form.refdet) }}
+
+            </div>
+            <div>
+                <input name="annuler" value="Annuler" type="reset">
+                <input style="margin-left:15%;" name="envoyer" value="Envoyer" type="submit">
+            </div>
+        {{ form_end(form) }}
+        <p>* Tous les champs sont obligatoires</p>
+        <p>(1) Saisir l&#146;ann&eacute;e au format AAAA</p>
+        <p>(2) Saisir le montant &agrave; r&eacute;gler sans &euro;</p>
+        <p>(3) Renseigner votre adresse e-mail pour recevoir votre ticket de paiement</p>
+        <p>(4) Renseigner le num&eacute;ro de la facture</p>
+
+{% endblock %}

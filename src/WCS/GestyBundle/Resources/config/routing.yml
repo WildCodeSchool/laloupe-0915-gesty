@@ -3,3 +3,10 @@ wcs_gesty_homepage:
     defaults: { _controller: 'WCSGestyBundle:Dashboard:index' }
     methods: [GET, POST]
 
+
+
+eleve_tipi:
+    path:    /tipi
+    defaults: { _controller: "WCSGestyBundle:Tipi:form" }
+    methods:   [GET, POST]
+
