@@ -144,7 +144,7 @@
             <a href="{{ path('wcs_cantine_profil') }}"><input type="button" value="Modifier mes informations" class="btn btn-primary"></a>
             <a href="{{ path('eleve_create') }}" class="btn btn-primary">Enregistrer mon(mes) enfant(s)</a>
             {% if user.modeDePaiement != 'Prelevements' %}
-            <a href="https://www.tipi.budget.gouv.fr/tpa/accueilportail.web" target="_blank"><input type="button" value="Paiement Carte Bleue via plateforme sécurisée" class="btn-carte"> </a>
+            <a href="{{ path('eleve_tipi') }}" target="_blank"><input type="button" value="Paiement Carte Bleue via plateforme sécurisée" class="btn-carte"> </a>
             {% endif %}
 
         </div>

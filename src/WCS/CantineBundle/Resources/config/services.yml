@@ -11,7 +11,6 @@ services:
             - '@templating'
             - '@sonata.admin.pool'
             - '@doctrine.orm.entity_manager'
-            - '@security.context'
             - '@wcs.datenow'
         tags:
             - { name: sonata.block }

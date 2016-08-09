@@ -10,7 +10,6 @@ namespace WCS\CantineBundle\Entity;
 
 use Application\Sonata\UserBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Scheduler\Component\DateContainer\Period;
 use Doctrine\Common\Collections\ArrayCollection;

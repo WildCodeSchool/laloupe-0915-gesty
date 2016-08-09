@@ -13,7 +13,6 @@ use Sonata\BlockBundle\Model\BlockInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Security\Core\SecurityContext;
 
 use Doctrine\ORM\EntityManager;
 
@@ -26,11 +25,6 @@ class StatElevesBlockService extends BaseBlockService
      * @var Pool
      */
     private $pool;
-
-    /**
-     * @var \Symfony\Component\Security\Core\SecurityContextInterface
-     */
-    private $securityContext;
 
     /**
      * @var EntityManager
@@ -49,7 +43,6 @@ class StatElevesBlockService extends BaseBlockService
      * @param EngineInterface $templating
      * @param Pool $pool
      * @param EntityManager $em
-     * @param SecurityContext $securityContext
      * @param DateNow $dateNow
      */
     public function __construct(
@@ -57,7 +50,6 @@ class StatElevesBlockService extends BaseBlockService
         EngineInterface $templating,
         Pool $pool,
         EntityManager $em,
-        SecurityContext $securityContext,
         DateNow $dateNow
     )
     {
@@ -65,7 +57,6 @@ class StatElevesBlockService extends BaseBlockService
 
         $this->pool             = $pool;
         $this->em               = $em;
-        $this->securityContext  = $securityContext;
         $this->date_now_service = $dateNow;
     }
 

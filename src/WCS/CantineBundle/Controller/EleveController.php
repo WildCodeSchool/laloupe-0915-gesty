@@ -8,8 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Application\Sonata\UserBundle\Entity\User;
 
-use Scheduler\Component\DateContainer\Period;
-
 use WCS\CantineBundle\Entity\Eleve;
 use WCS\CantineBundle\Service\GestyScheduler\ActivityType;
 use WCS\CantineBundle\Service\GestyScheduler\DaysOfWeeks;
@@ -36,7 +34,6 @@ class EleveController extends Controller
             throw $this->createAccessDeniedException();
         }
 
-        //$schoolYear = $this->get('wcs.calendrierscolaire')->getAnneeScolaire();
         $schoolYear = $this->get('wcs.gesty.scheduler')->getCurrentOrNextSchoolYear(
             $this->get('wcs.datenow')->getDate()
         );
@@ -82,7 +79,6 @@ class EleveController extends Controller
     {
         $editForm = $this->createEditForm($eleve);
 
-//        $schoolYear = $this->get('wcs.calendrierscolaire')->getAnneeScolaire();
         $schoolYear = $this->get('wcs.gesty.scheduler')->getCurrentOrNextSchoolYear(
             $this->get('wcs.datenow')->getDate()
         );

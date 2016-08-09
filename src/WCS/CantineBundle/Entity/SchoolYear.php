@@ -10,6 +10,37 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class SchoolYear
 {
+
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     */
+    private $dateStart;
+
+    /**
+     * @var \DateTime
+     */
+    private $dateEnd;
+
+    /**
+     * @var string
+     */
+    private $filenameIcalendar = '';
+
+    /**
+     * @var \DateTime
+     */
+    private $updated;
+
+    /**
+     * @var ArrayCollection
+     */
+    private $schoolHolidays;
+
     /**
      * @var string
      */
@@ -19,6 +50,25 @@ class SchoolYear
      * @var \Symfony\Component\HttpFoundation\File\UploadedFile
      */
     private $file;
+
+
+    /**
+     * SchoolYear constructor.
+     */
+    public function __construct()
+    {
+        $this->urlIcalendar = '';
+        $this->filenameIcalendar = '';
+        $this->schoolHolidays = new ArrayCollection();
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
 
     /**
      * @param string $absolutePath
@@ -96,46 +146,6 @@ class SchoolYear
     public function refreshUpdated()
     {
         $this->setUpdated(new \DateTime());
-    }
-
-    /**
-     * @var integer
-     */
-    private $id;
-
-    /**
-     * @var \DateTime
-     */
-    private $dateStart;
-
-    /**
-     * @var \DateTime
-     */
-    private $dateEnd;
-    
-    /**
-     * @var string
-     */
-    private $filenameIcalendar = '';
-
-    /**
-     * @var \DateTime
-     */
-    private $updated;
-
-    /**
-     * @var ArrayCollection
-     */
-    private $schoolHolidays;
-
-    /**
-     * SchoolYear constructor.
-     */
-    public function __construct()
-    {
-        $this->urlIcalendar = '';
-        $this->filenameIcalendar = '';
-        $this->schoolHolidays = new ArrayCollection();
     }
 
     /**

@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: rod
- * Date: 13/06/16
- * Time: 11:35
- */
-
 namespace WCS\EmployeeBundle\Controller;
 
 
@@ -42,12 +35,6 @@ class ActivityControllerBase extends Controller
      */
     protected function isDayOff($activity)
     {
-        /*
-        return $this->container->get('wcs.calendrierscolaire')->isDayOff(
-            $this->getDateDay(),
-            array('activity_type' => $this->activityTypes[$activity])
-        );
-        */
         return $this->container->get('wcs.gesty.scheduler')->isDayOff(
             $this->getDateDay(),
             $this->activityTypes[$activity]

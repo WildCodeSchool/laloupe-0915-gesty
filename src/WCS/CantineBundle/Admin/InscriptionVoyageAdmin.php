@@ -19,11 +19,6 @@ class InscriptionVoyageAdmin extends Admin
     protected $baseRouteName = 'voyage_inscription';
     protected $baseRoutePattern = 'voyage_inscription';
 
-    /**
-     * @var DateNow
-     */
-    private $date_now_service;
-
     public function createQuery($context = 'list')
     {
         $queryBuilder = $this->getModelManager()->getEntityManager($this->getClass())->createQueryBuilder();
@@ -42,17 +37,14 @@ class InscriptionVoyageAdmin extends Admin
 
     }
     
-    public function __construct($code, $class, $baseControllerName, DateNow $date_now_service)
+    public function __construct($code, $class, $baseControllerName)
     {
-        $this->date_now_service = $date_now_service;
         parent::__construct($code, $class, $baseControllerName);
     }
 
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $year = $this->date_now_service->getDate()->format('Y');
-
         $txt = $this->toString($this->getSubject());
         $formMapper
             ->with($txt)

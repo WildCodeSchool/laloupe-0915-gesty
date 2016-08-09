@@ -5,7 +5,7 @@ namespace Scheduler\Component\Scheduler;
 use Scheduler\Component\DateContainer\Day;
 use Scheduler\Component\DateContainer\Period;
 use Scheduler\Component\DateContainer\PeriodInterface;
-use Symfony\Component\VarDumper\VarDumper;
+
 
 
 class Scheduler
@@ -303,7 +303,7 @@ class Scheduler
         // get the first period after if the date is during a holiday
 
         $period = $this->getFirstAvailablePeriod($this->getAvailablePeriods(), $firstDate);
-        if ($period != null && $firstDate < $period->getFirstDate()) {
+        if ($period !== null && $firstDate < $period->getFirstDate()) {
             $firstDate = $period->getFirstDate();
         }
 
