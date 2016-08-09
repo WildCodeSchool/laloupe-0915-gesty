@@ -61,7 +61,7 @@ Application\Sonata\UserBundle\Entity\User:      # le lien pour la doc, http://sy
                 min: 7
                 max: 7
             - Regex:
-                pattern: '/[A-Z"#{}€@<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²a-z]/'
+                pattern: '/["#{}€@<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²a-z]/'
                 match: false
 
         file_domicile:
