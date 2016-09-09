@@ -408,3 +408,8 @@ button em
 .error {
     color:red;
 }
+
+
+#WCS_cantinebundle_eleve_nom {
+    text-transform: uppercase;
+}

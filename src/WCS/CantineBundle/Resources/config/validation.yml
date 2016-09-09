@@ -4,27 +4,16 @@ WCS\CantineBundle\Entity\Eleve:
            - Length:
                 min: 2
                 max: 20
-           - Regex:
-               pattern: '/["#{}€@<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²0-9]/'
-               match: false
-               message: "le nom ne doit comporter que des lettre alphabétiques"
+
 
         prenom:
             - Length:
                 min: 2
                 max: 20
-            - Regex:
-               pattern: '/["#{}€@<>=+|~&()`_^@°\[%$£\]ø*µ§!?,:;.²0-9]/'
-               match: false
-               message: "le prénom ne doit comporter que des lettre alphabétiques"
 
 
         allergie:
             - Length:
                 min: 1
                 max: 40
-            - Regex:
-               pattern: '/["#{}€@<>=+|~&()`_^@°\[%$£\]ø*µ§!?:;.²0-9]/'
-               match: false
-               message: "le champ allergie ne doit comporter que des lettre alphabétiques"
 

@@ -1,9 +1,13 @@
 <?php
+
 namespace WCS\GestyBundle\Controller;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use WCS\GestyBundle\Form\Model\TipiModel;
 use WCS\GestyBundle\Form\Type\TipiType;
+
+
 class TipiController extends Controller
 {
     public function formAction(Request $request)
