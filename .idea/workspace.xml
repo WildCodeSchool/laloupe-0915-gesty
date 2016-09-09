@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5f8a918d-31f0-401b-899f-2cf7c6c197e0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Application/Sonata/UserBundle/Resources/config/doctrine/User.orm.yml" afterPath="$PROJECT_DIR$/src/Application/Sonata/UserBundle/Resources/config/doctrine/User.orm.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/WCS/GestyBundle/Controller/TipiController.php" afterPath="$PROJECT_DIR$/src/WCS/GestyBundle/Controller/TipiController.php" />
-    </list>
+    <list default="true" id="5f8a918d-31f0-401b-899f-2cf7c6c197e0" name="Default" comment="" />
     <ignored path="projet-gesty.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -63,8 +59,8 @@
       <file leaf-file-name="TipiController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/WCS/GestyBundle/Controller/TipiController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="930">
-              <caret line="62" column="5" selection-start-line="62" selection-start-column="5" selection-end-line="62" selection-end-column="5" />
+            <state relative-caret-position="210">
+              <caret line="14" column="26" selection-start-line="14" selection-start-column="26" selection-end-line="14" selection-end-column="26" />
               <folding>
                 <element signature="e#44#101#0#PHP" expanded="true" />
                 <element signature="e#2710#2742#0#PHP" expanded="true" />
@@ -473,12 +469,12 @@
       <workItem from="1469624349794" duration="32000" />
       <workItem from="1469782816131" duration="12742000" />
       <workItem from="1471610790439" duration="361000" />
-      <workItem from="1473406353174" duration="2377000" />
+      <workItem from="1473406353174" duration="2429000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16724000" />
+    <option name="totallyTimeSpent" value="16776000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1264" height="675" extended-state="0" />
@@ -906,8 +902,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/WCS/GestyBundle/Controller/TipiController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="930">
-          <caret line="62" column="5" selection-start-line="62" selection-start-column="5" selection-end-line="62" selection-end-column="5" />
+        <state relative-caret-position="210">
+          <caret line="14" column="26" selection-start-line="14" selection-start-column="26" selection-end-line="14" selection-end-column="26" />
           <folding>
             <element signature="e#44#101#0#PHP" expanded="true" />
             <element signature="e#2710#2742#0#PHP" expanded="true" />
