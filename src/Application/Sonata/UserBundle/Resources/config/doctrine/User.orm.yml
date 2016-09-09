@@ -23,7 +23,7 @@ Application\Sonata\UserBundle\Entity\User:
             length: 255
             nullable: true
         telephoneSecondaire:
-            type: integer
+            type: string
             column: telephone_secondaire
             nullable: true
         caf:
